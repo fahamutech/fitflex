@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitFlex Af — Business Logic & Rules Document</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap');
+
+  :root {
+    --green: #00875A;
+    --green-light: #E3FCEF;
+    --green-mid: #ABF5D1;
+    --amber: #FF8B00;
+    --amber-light: #FFF7D6;
+    --red: #DE350B;
+    --red-light: #FFEBE6;
+    --blue: #0052CC;
+    --blue-light: #DEEBFF;
+    --text: #172B4D;
+    --text-dim: #5E6C84;
+    --border: #DFE1E6;
+    --bg: #FFFFFF;
+    --bg2: #F4F5F7;
+    --bg3: #EBECF0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* PAGE LAYOUT */
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 48px;
+  }
+
+  /* COVER */
+  .cover {
+    border-bottom: 3px solid var(--green);
+    padding-bottom: 40px;
+    margin-bottom: 48px;
+  }
+  .cover-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .cover-logo-mark {
+    width: 44px; height: 44px;
+    background: var(--green);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+  }
+  .cover-logo-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .cover-logo-text span { color: var(--green); }
+  .cover-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .cover-subtitle {
+    font-size: 16px;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .cover-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .cover-meta-item strong { color: var(--text); }
+
+  /* TOC */
+  .toc {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 48px;
+  }
+  .toc-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+  .toc-list { list-style: none; }
+  .toc-list li {
+    padding: 4px 0;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .toc-list li::before {
+    content: attr(data-num);
+    font-weight: 700;
+    color: var(--green);
+    min-width: 20px;
+  }
+  .toc-list a { color: var(--text); text-decoration: none; }
+  .toc-list a:hover { color: var(--green); }
+  .toc-sub {
+    padding-left: 28px;
+  }
+  .toc-sub li::before {
+    content: attr(data-num);
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 52px;
+    page-break-inside: avoid;
+  }
+  .section-num {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 24px;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 28px 0 12px;
+  }
+  h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 20px 0 8px;
+  }
+  p { margin-bottom: 12px; color: var(--text); }
+
+  /* TABLES */
+  .table-wrap { overflow-x: auto; margin: 16px 0 24px; border-radius: 6px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--bg2); }
+  th {
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-dim);
+    border-bottom: 2px solid var(--border);
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: var(--bg2); }
+  .td-green { color: var(--green); font-weight: 600; }
+  .td-amber { color: var(--amber); font-weight: 600; }
+  .td-red { color: var(--red); font-weight: 600; }
+  .td-bold { font-weight: 600; }
+  .td-center { text-align: center; }
+
+  /* CALLOUT BOXES */
+  .callout {
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 13px;
+  }
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { flex: 1; }
+  .callout-title { font-weight: 700; margin-bottom: 4px; }
+  .callout.info { background: var(--blue-light); border-left: 3px solid var(--blue); }
+  .callout.info .callout-title { color: var(--blue); }
+  .callout.warning { background: var(--amber-light); border-left: 3px solid var(--amber); }
+  .callout.warning .callout-title { color: var(--amber); }
+  .callout.success { background: var(--green-light); border-left: 3px solid var(--green); }
+  .callout.success .callout-title { color: var(--green); }
+  .callout.danger { background: var(--red-light); border-left: 3px solid var(--red); }
+  .callout.danger .callout-title { color: var(--red); }
+
+  /* RULE BLOCKS */
+  .rule-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--green);
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .rule-block .rule-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+
+  /* FORMULA */
+  .formula {
+    background: #1E1E2E;
+    color: #A6E22E;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    padding: 14px 20px;
+    border-radius: 6px;
+    margin: 12px 0;
+    overflow-x: auto;
+  }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .badge-green { background: var(--green-light); color: var(--green); }
+  .badge-amber { background: var(--amber-light); color: var(--amber); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+  .badge-blue { background: var(--blue-light); color: var(--blue); }
+  .badge-grey { background: var(--bg3); color: var(--text-dim); }
+
+  /* UL / OL */
+  ul, ol { padding-left: 20px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; font-size: 14px; }
+  li strong { color: var(--text); }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+  /* PRINT */
+  @media print {
+    .page { padding: 20px; }
+    .section { page-break-inside: avoid; }
+    h1 { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="cover-logo">
+      <div class="cover-logo-mark">FF</div>
+      <div class="cover-logo-text">FitFlex <span>Af</span></div>
+    </div>
+    <div class="cover-title">Business Logic &amp; Rules Document</div>
+    <div class="cover-subtitle">Revenue Model · Subscription Rules · Commission Structure · Payment Logic · Access Control</div>
+    <div class="cover-meta">
+      <div class="cover-meta-item">📅 <strong>Version:</strong> 1.0 — March 2026</div>
+      <div class="cover-meta-item">🌍 <strong>Market:</strong> Tanzania (MVP)</div>
+      <div class="cover-meta-item">💱 <strong>Currency:</strong> Tanzanian Shilling (TZS)</div>
+      <div class="cover-meta-item">📱 <strong>Platform:</strong> iOS · Android · Web</div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ul class="toc-list">
+      <li data-num="1"><a href="#s1">Revenue Streams Overview</a></li>
+      <li data-num="2"><a href="#s2">FitFlex Platform Pass — Tier Structure</a></li>
+      <li data-num="3"><a href="#s3">Direct Gym Subscription</a></li>
+      <li data-num="4"><a href="#s4">Top-Up Roaming Access</a></li>
+      <li data-num="5"><a href="#s5">Trainer Booking Commission</a></li>
+      <li data-num="6"><a href="#s6">Gym Payout Model</a></li>
+      <li data-num="7"><a href="#s7">Subscription Lifecycle & Renewals</a></li>
+      <li data-num="8"><a href="#s8">Visit Counting Rules</a></li>
+      <li data-num="9"><a href="#s9">Payment Processing</a></li>
+      <li data-num="10"><a href="#s10">Access Control & QR Check-In</a></li>
+      <li data-num="11"><a href="#s11">Open Items & TBD Decisions</a></li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section" id="s1">
+    <div class="section-num">Section 1</div>
+    <h1>Revenue Streams Overview</h1>
+    <p>FitFlex Af operates a multi-stream revenue model designed to generate income from all active participants on the platform — gym members, gym owners, and independent trainers — while remaining competitively priced against the existing informal gym market in Tanzania.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Stream</th>
+            <th>Source</th>
+            <th>Mechanism</th>
+            <th>FitFlex Revenue</th>
+            <th>MVP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-bold">FitFlex Platform Pass</td>
+            <td>Gym Members</td>
+            <td>Monthly subscription sold by FitFlex</td>
+            <td class="td-green">Pass fee minus gym payouts</td>
+            <td class="td-center"><span class="badge badge-green">Yes</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Direct Gym Subscription</td>
+            <td>Gym Members</td>
+            <td>% commission on each transaction</td>
+            <td class="td-green">10–15% per transaction</td>
+            <td class="td-center"><span class="badge badge-green">Yes</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Top-Up Roaming Fee</td>
+            <td>Direct Sub Members</td>
+            <td>Differential top-up to unlock multi-gym access</td>
+            <td class="td-green">Margin on top-up fee</td>
+            <td class="td-center"><span class="badge badge-green">Yes</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Trainer Booking Commission</td>
+            <td>Gym Members</td>
+            <td>% of each session fee</td>
+            <td class="td-green">15–20% per session</td>
+            <td class="td-center"><span class="badge badge-green">Yes</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Marketplace Sales</td>
+            <td>Gym Members</td>
+            <td>Product sales margin</td>
+            <td class="td-green">Product margin</td>
+            <td class="td-center"><span class="badge badge-green">Yes</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Gym SaaS License Fee</td>
+            <td>Gym Owners</td>
+            <td>Monthly/quarterly platform fee</td>
+            <td class="td-green">Fixed license fee</td>
+            <td class="td-center"><span class="badge badge-amber">Post-MVP</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">In-App Advertising</td>
+            <td>Fitness brands</td>
+            <td>Ad placements to gym members</td>
+            <td class="td-green">Ad revenue</td>
+            <td class="td-center"><span class="badge badge-amber">Post-MVP</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-title">Note for Developers</div>
+        Every financial transaction on the platform — whether a pass purchase, direct subscription, top-up, or trainer booking — must flow through FitFlex's payment processing layer. No payments should be handled outside the app without explicit owner-side mapping (see Section 3.3).
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section" id="s2">
+    <div class="section-num">Section 2</div>
+    <h1>FitFlex Platform Pass — Tier Structure</h1>
+    <p>The FitFlex Platform Pass is FitFlex Af's flagship product. It gives members access to a network of partner gyms across Tanzania on a monthly rolling basis. Tiers are differentiated by the number of gym visits per month and the tier of gyms accessible.</p>
+
+    <h2>2.1 Tier Definitions</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>Basic</th>
+            <th>Pro</th>
+            <th>Premium</th>
+            <th>Executive</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-bold">Monthly Price</td>
+            <td class="td-green">TZS 60,000</td>
+            <td class="td-green">TZS 120,000</td>
+            <td class="td-green">TZS 200,000</td>
+            <td class="td-green">TZS 350,000</td>
+          </tr>
+          <tr>
+            <td class="td-bold">Visits per Month (Soft Cap)</td>
+            <td>20 visits</td>
+            <td>30 visits</td>
+            <td>40 visits</td>
+            <td>Unlimited</td>
+          </tr>
+          <tr>
+            <td class="td-bold">Gyms per Day</td>
+            <td>1 gym only</td>
+            <td>Multiple</td>
+            <td>Multiple</td>
+            <td>Multiple</td>
+          </tr>
+          <tr>
+            <td class="td-bold">Gym Access Level</td>
+            <td>Standard gyms only</td>
+            <td>Standard + Mid-tier gyms</td>
+            <td>Std + Mid-tier + Premium</td>
+            <td>All gyms incl. Luxury/Executive</td>
+          </tr>
+          <tr>
+            <td class="td-bold">Trainer Discount</td>
+            <td>None</td>
+            <td>10% off booking fee</td>
+            <td>20% off booking fee</td>
+            <td>25% off booking fee</td>
+          </tr>
+          <tr>
+            <td class="td-bold">Marketplace Deals</td>
+            <td>None</td>
+            <td>None</td>
+            <td>Yes</td>
+            <td>Exclusive VIP deals</td>
+          </tr>
+          <tr>
+            <td class="td-bold">Priority Booking</td>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes (trainers + classes)</td>
+            <td>Yes (trainers + classes + spa/wellness)</td>
+          </tr>
+          <tr>
+            <td class="td-bold">QR Code Check-In</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body">
+        <div class="callout-title">Confirmed Pricing (v2.0)</div>
+        The prices above (TZS 60,000 / 120,000 / 200,000 / 350,000) reflect the finalised 4-tier model validated against competitor research and margin analysis. Visit caps are soft caps; 1 visit = unlimited same-gym access for the entire day. Basic tier is restricted to 1 gym per day; Pro and above permit multiple gyms per day.
+      </div>
+    </div>
+
+    <h2>2.2 Gym Tier Classification</h2>
+    <p>Partner gyms are classified into four tiers by FitFlex during onboarding. Classification is based on a standardised assessment of facility quality, equipment, amenities, and pricing.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Gym Tier</th>
+            <th>Criteria</th>
+            <th>Typical Direct Price Range</th>
+            <th>Accessible on Pass</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-grey">Standard</span></td>
+            <td>Basic equipment, minimal amenities, monthly fee ≤ TZS 60,000</td>
+            <td>TZS 2,000/day · TZS 50,000/mo</td>
+            <td>Basic, Pro, Premium, Executive</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-blue">Mid-Tier</span></td>
+            <td>Good equipment, some amenities (showers, AC), monthly fee TZS 60,001–120,000</td>
+            <td>TZS 5,000–8,000/day · TZS 80,000–120,000/mo</td>
+            <td>Pro, Premium, Executive</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-amber">Premium</span></td>
+            <td>Full amenities (pool, sauna, spa), premium equipment, monthly fee TZS 120,001–300,000</td>
+            <td>TZS 10,000–20,000/day · TZS 120,000–250,000/mo</td>
+            <td>Premium, Executive</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-gold">Luxury / Executive</span></td>
+            <td>Spa, branded equipment, personal trainers, saunas, lockers, dryers, complimentary refreshments, monthly fee &gt; TZS 300,000</td>
+            <td>TZS 20,000–40,000/day · TZS 300,000–500,000/mo</td>
+            <td>Executive only</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-001</div>
+      A Basic Pass holder attempting to check in at a Mid-Tier or Premium gym must be shown an upgrade prompt, not an error. The system must surface the upgrade path clearly before denying access.
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section" id="s3">
+    <div class="section-num">Section 3</div>
+    <h1>Direct Gym Subscription</h1>
+    <p>A Direct Gym Subscription is a member's individual membership agreement with a specific gym, processed through the FitFlex app. It is independent of the FitFlex Platform Pass and gives the member access to one gym only.</p>
+
+    <h2>3.1 Pricing Control</h2>
+    <p>Each gym owner sets their own Direct Subscription pricing (daily, weekly, monthly) through the Gym Owner portal. FitFlex does not set or cap these prices. The gym's pricing is displayed transparently to members in the app.</p>
+
+    <h2>3.2 Commission Structure</h2>
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-002</div>
+      For every Direct Gym Subscription paid through the FitFlex app, FitFlex deducts a commission of <strong>10–15%</strong> from the transaction before remitting the remainder to the gym owner. The exact rate within this band is negotiated individually with each gym partner during onboarding.
+    </div>
+
+    <div class="formula">
+Gym Payout = Subscription Fee × (1 − Commission Rate)
+
+Example:  Member pays TZS 50,000 monthly direct sub
+          Commission rate = 12%
+          Gym receives = TZS 50,000 × 0.88 = TZS 44,000
+          FitFlex earns = TZS 6,000
+    </div>
+
+    <h2>3.3 Offline / External Subscriptions</h2>
+    <p>A gym member may hold a direct subscription with a partner gym that was paid outside the FitFlex app (cash, bank transfer, etc.). This is permitted under the following conditions:</p>
+    <ul>
+      <li>The external subscription does <strong>not</strong> automatically appear on the member's FitFlex profile.</li>
+      <li>The gym owner must <strong>manually map</strong> the external subscription to the member's FitFlex account via the Gym Owner portal.</li>
+      <li>Once mapped, the member gains QR check-in access to that gym through FitFlex.</li>
+      <li>FitFlex earns <strong>no commission</strong> on externally-paid subscriptions — they are mapped as a courtesy feature to incentivise gym owners to bring members into the platform.</li>
+    </ul>
+
+    <div class="callout warning">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body">
+        <div class="callout-title">Dev Note — External Mapping</div>
+        The external subscription mapping feature requires a gym owner-side tool: the owner searches for a member by phone/email, selects the subscription type, sets an expiry date, and confirms. The system creates a non-revenue subscription record linked to that member's account. This must be clearly flagged in the database as "external/unmapped" so it is excluded from commission calculations.
+      </div>
+    </div>
+
+    <h2>3.4 Coexistence with FitFlex Pass</h2>
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-003</div>
+      A member may hold both a FitFlex Platform Pass AND a Direct Gym Subscription simultaneously. These are independent products. Holding both does not grant any additional discount or benefit beyond what each product offers individually.
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section" id="s4">
+    <div class="section-num">Section 4</div>
+    <h1>Top-Up Roaming Access</h1>
+    <p>A member who holds only a Direct Gym Subscription (single gym access) may unlock multi-gym roaming — equivalent to Pro Pass access — by paying a top-up fee. This preserves their direct gym relationship while granting them access to the broader FitFlex network.</p>
+
+    <h2>4.1 Top-Up Calculation Logic</h2>
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-004</div>
+      The top-up fee is the difference between the Pro Pass monthly price and the amount the member has already paid for their direct subscription in the current billing period.
+    </div>
+
+    <div class="formula">
+Top-Up Fee = Pro Pass Price − Direct Sub Amount Paid (current period)
+
+Example A:  Pro Pass = TZS 120,000
+            Direct Sub paid = TZS 50,000
+            Top-Up Fee = TZS 120,000 − TZS 50,000 = TZS 70,000
+
+Example B:  Pro Pass = TZS 120,000
+            Direct Sub paid = TZS 130,000 (premium gym)
+            Direct sub ≥ Pro Pass → Special flat activation fee applies (TBD)
+            → Member receives Pro-equivalent roaming access
+    </div>
+
+    <h2>4.2 Top-Up Access Rules</h2>
+    <ul>
+      <li>Top-up unlocks <strong>Pro Pass equivalent</strong> access — Standard and Mid-Tier gyms, up to 30 visits/month across the network, with multi-gym-per-day access (excluding their home gym, visits to which are governed by their direct sub).</li>
+      <li>Top-up access is valid for the <strong>remainder of the current calendar month</strong> only. It does not auto-renew.</li>
+      <li>The member's direct subscription to their home gym <strong>remains active and unaffected</strong> by the top-up.</li>
+      <li>Visits to the member's home gym continue to be governed by their direct sub terms (unlimited if monthly, single-entry if daily).</li>
+      <li>Visits to all other network gyms via roaming count against the 30-visit monthly allowance.</li>
+    </ul>
+
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-005</div>
+      When a direct sub member's monthly fee equals or exceeds the Pro Pass price, the top-up activation fee is a small fixed amount (to be determined — suggested: TZS 5,000–10,000). This compensates FitFlex for network access without penalising the member for already paying a premium gym's rate.
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <div class="callout-title">Upsell Opportunity</div>
+        The top-up mechanic is intentionally designed as a conversion funnel. Members who use top-up roaming 2+ times in a month should be shown a prompt: "You've topped up twice this month. Switching to a Pro Pass would save you TZS X." This nudge should be triggered automatically by the system.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section" id="s5">
+    <div class="section-num">Section 5</div>
+    <h1>Trainer Booking Commission</h1>
+    <p>Independent freelance trainers list their services on FitFlex Af at their own rates. FitFlex earns a commission on every session booked and paid through the platform.</p>
+
+    <h2>5.1 Commission Rate</h2>
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-006</div>
+      FitFlex charges a commission of <strong>15–20%</strong> on every trainer session booked and paid through the app. The exact rate within this band is negotiated individually with each trainer during onboarding. The commission rate is deducted before the trainer receives their payout.
+    </div>
+
+    <div class="formula">
+Trainer Payout = Session Fee × (1 − Commission Rate)
+
+Example:  Member books 1hr session at TZS 25,000
+          Commission rate = 15%
+          Trainer receives = TZS 25,000 × 0.85 = TZS 21,250
+          FitFlex earns = TZS 3,750
+
+With Pro Pass 10% discount:
+          Member pays = TZS 25,000 × 0.90 = TZS 22,500
+          FitFlex commission (15%) = TZS 3,375
+          Trainer receives = TZS 22,500 × 0.85 = TZS 19,125
+    </div>
+
+    <h2>5.2 Trainer Pass Discounts</h2>
+    <p>Pro, Premium, and Executive Pass holders receive a discount on trainer sessions. This discount is absorbed by FitFlex — the trainer always receives their full negotiated rate minus the platform commission only. FitFlex does not pass the discount burden onto the trainer.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Pass Tier</th>
+            <th>Member Discount</th>
+            <th>Who absorbs the discount?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Basic</td>
+            <td>None</td>
+            <td>N/A</td>
+          </tr>
+          <tr>
+            <td>Pro</td>
+            <td>10% off member price</td>
+            <td>FitFlex (reduced commission income)</td>
+          </tr>
+          <tr>
+            <td>Premium</td>
+            <td>20% off member price</td>
+            <td>FitFlex (reduced commission income)</td>
+          </tr>
+          <tr>
+            <td>Executive</td>
+            <td>25% off member price</td>
+            <td>FitFlex (reduced commission income)</td>
+          </tr>
+          <tr>
+            <td>Direct Sub (no pass)</td>
+            <td>None</td>
+            <td>N/A</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout danger">
+      <div class="callout-icon">🚨</div>
+      <div class="callout-body">
+        <div class="callout-title">Critical Dev Note — Trainer Discount Logic</div>
+        The trainer discount must be applied at the member-facing price level, not at the payout level. The system must calculate: (1) discounted member price, (2) FitFlex commission on discounted price, (3) trainer payout = discounted price minus commission. The trainer's agreed base rate is NOT the floor — the payout is always calculated from the discounted member price.
+      </div>
+    </div>
+
+    <h2>5.3 Session Types</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Session Type</th>
+            <th>Location</th>
+            <th>Price Set By</th>
+            <th>Commission Applies?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gym Session</td>
+            <td>At a partner gym</td>
+            <td>Trainer</td>
+            <td><span class="badge badge-green">Yes</span></td>
+          </tr>
+          <tr>
+            <td>Home Visit</td>
+            <td>Member's home/location</td>
+            <td>Trainer</td>
+            <td><span class="badge badge-green">Yes</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section" id="s6">
+    <div class="section-num">Section 6</div>
+    <h1>Gym Payout Model</h1>
+    <p>Gyms earn revenue from FitFlex through two channels: commission payouts from Direct Subscriptions processed in-app, and per-visit payouts from FitFlex Platform Pass members.</p>
+
+    <h2>6.1 Per-Visit Rate (Platform Pass)</h2>
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-007</div>
+      Each partner gym negotiates its own per-visit rate with FitFlex on a case-by-case basis at onboarding. There is no platform-wide fixed rate. However, FitFlex must ensure the negotiated rate allows the Platform Pass to remain financially viable (i.e. total payout obligations must not exceed pass revenue in aggregate).
+    </div>
+
+    <p>Indicative per-visit rate ranges by gym tier:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Gym Tier</th>
+            <th>Indicative Per-Visit Range</th>
+            <th>Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-grey">Standard</span></td>
+            <td class="td-green">TZS 2,000 – 3,500</td>
+            <td>Matches or slightly exceeds their own daily pass rate</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-blue">Mid-Tier</span></td>
+            <td class="td-green">TZS 3,500 – 6,000</td>
+            <td>Discounted vs their daily rate but high volume compensates</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-amber">Premium</span></td>
+            <td class="td-green">TZS 6,000 – 12,000</td>
+            <td>Fully negotiated; must reflect their premium positioning</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>6.2 Payout Timing</h2>
+    <ul>
+      <li>Platform Pass per-visit payouts are calculated and disbursed <strong>monthly</strong>, on the 5th of the following month.</li>
+      <li>Direct Subscription commission payouts are disbursed <strong>weekly</strong>, covering the prior 7-day period.</li>
+      <li>All payouts are made via mobile money (M-Pesa Business, Airtel Business) or direct bank transfer to the gym's registered account.</li>
+    </ul>
+
+    <h2>6.3 Gym Owner Non-Revenue Incentives</h2>
+    <p>Beyond financial payouts, gym owners receive the following platform benefits to incentivise sustained participation:</p>
+    <ul>
+      <li><strong>Real-time visit analytics</strong> — live dashboard showing member check-ins, peak hours, and attendance trends.</li>
+      <li><strong>In-app promotions module</strong> — ability to create and schedule promotional messages broadcast to FitFlex app users, targeted by location, age, gender, and member type.</li>
+      <li><strong>Digital platform presence</strong> — listed on a growing fitness marketplace serving Tanzania's gym-going population and fitness-conscious visitors/expatriates.</li>
+      <li><strong>Member communication tools</strong> — direct messaging to their subscriber base via push notifications, SMS, and in-app messages.</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="section" id="s7">
+    <div class="section-num">Section 7</div>
+    <h1>Subscription Lifecycle &amp; Renewals</h1>
+
+    <h2>7.1 Renewal Model</h2>
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-008</div>
+      All FitFlex Platform Pass subscriptions are <strong>auto-renewing</strong>. The member's registered payment method is charged automatically on the same calendar date each month (e.g. subscribed on the 10th → charged every 10th). Members must receive an advance notification <strong>3 days before</strong> each renewal charge.
+    </div>
+
+    <h2>7.2 Renewal Notification Sequence</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Timing</th>
+            <th>Notification Type</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>T−3 days</td>
+            <td>Push + In-app</td>
+            <td>"Your [Plan] renews in 3 days for TZS [X]. Tap to manage."</td>
+          </tr>
+          <tr>
+            <td>T−1 day</td>
+            <td>Push + SMS</td>
+            <td>"Your [Plan] renews tomorrow. Ensure your M-Pesa balance is sufficient."</td>
+          </tr>
+          <tr>
+            <td>T=0 (Renewal day)</td>
+            <td>Push + Email</td>
+            <td>Confirmation of successful renewal with receipt.</td>
+          </tr>
+          <tr>
+            <td>T=0 (If failed)</td>
+            <td>Push + SMS</td>
+            <td>Payment failure alert with recovery options.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>7.3 Expiry &amp; Grace Period</h2>
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-009</div>
+      When a subscription expires (due to non-renewal or cancellation), the member enters a <strong>24-hour grace period</strong>. During this period, their access remains active but they receive renewal prompts. After 24 hours, gym access is fully revoked until the subscription is renewed or a new plan is purchased.
+    </div>
+
+    <h2>7.4 Cancellation Rules</h2>
+    <ul>
+      <li>Members may cancel at any time via the app. Cancellation takes effect at the <strong>end of the current billing period</strong>.</li>
+      <li>No pro-rata refunds are issued for early cancellation of monthly plans.</li>
+      <li>Daily pass subscriptions are non-refundable once activated.</li>
+      <li>Upon cancellation, the member retains access until the billing period ends, then enters the 24-hour grace period.</li>
+    </ul>
+
+    <h2>7.5 Payment Failure Recovery</h2>
+    <ul>
+      <li>On payment failure, the system retries once after <strong>6 hours</strong>.</li>
+      <li>If the retry fails, the member enters the 24-hour grace period and must manually resolve the payment.</li>
+      <li>The app must surface clear recovery options: retry with same method, switch payment method, or downgrade plan.</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 8 -->
+  <div class="section" id="s8">
+    <div class="section-num">Section 8</div>
+    <h1>Visit Counting Rules</h1>
+
+    <h2>8.1 Definition of a Visit</h2>
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-010</div>
+      A <strong>visit</strong> is defined as access to a single gym for an entire calendar day. One visit = unlimited access to the same gym for the full day. A morning session and an evening session at the same gym on the same day counts as 1 visit only.
+    </div>
+
+    <h2>8.2 Multi-Gym Same-Day Rules</h2>
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-011</div>
+      Visiting a different gym on the same calendar day counts as an additional visit and depletes the monthly cap accordingly. Basic tier members are restricted to 1 gym per day (multi-gym same-day access is blocked). Pro, Premium, and Executive tier members may visit multiple gyms on the same day.
+    </div>
+
+    <div class="formula">
+Example:  Pro Pass member (30 visits/month)
+          Mon: checks in at Gym A at 7am → 29 remaining
+          Mon: checks in at Gym A again at 6pm → still 29 remaining (same gym, same day)
+          Mon: checks in at Gym B at 8pm → 28 remaining (different gym, same day)
+          Tue: checks in at Gym B → 27 remaining
+
+Example:  Basic Pass member (20 visits/month, 1 gym/day)
+          Mon: checks in at Gym A at 7am → 19 remaining
+          Mon: checks in at Gym A at 6pm → still 19 remaining (same gym, same day)
+          Mon: attempts check-in at Gym B → BLOCKED (Basic = 1 gym per day)
+</div>
+
+    <h2>8.3 Visit Counter Reset</h2>
+    <ul>
+      <li>The monthly visit counter resets on the <strong>same calendar date as subscription start</strong>, not on the 1st of each month.</li>
+      <li>Example: Subscribed on 10th March → counter resets on 10th April.</li>
+      <li>Unused visits do <strong>not roll over</strong> to the following month.</li>
+    </ul>
+
+    <h2>8.4 Unlimited Visits (Executive)</h2>
+    <p>Executive Pass holders have no visit count limit. Check-ins are still logged for analytics and gym payout purposes — the system must continue to record every check-in event. Executive members may visit multiple gyms per day with no restriction.</p>
+
+    <h2>8.5 Visit Soft Caps</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Soft Cap (visits/month)</th>
+            <th>Gyms per Day</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Basic</td>
+            <td>20</td>
+            <td>1 gym only</td>
+          </tr>
+          <tr>
+            <td>Pro</td>
+            <td>30</td>
+            <td>Multiple</td>
+          </tr>
+          <tr>
+            <td>Premium</td>
+            <td>40</td>
+            <td>Multiple</td>
+          </tr>
+          <tr>
+            <td>Executive</td>
+            <td>Unlimited</td>
+            <td>Multiple</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>8.5 Direct Subscription Visits</h2>
+    <p>Visits by direct subscription members to their home gym are <strong>not counted</strong> against any visit allowance — their access is governed solely by the terms of their direct subscription (unlimited for monthly, single-entry for daily). These visits are still logged for gym analytics and payout purposes.</p>
+  </div>
+
+  <!-- SECTION 9 -->
+  <div class="section" id="s9">
+    <div class="section-num">Section 9</div>
+    <h1>Payment Processing</h1>
+
+    <h2>9.1 Supported Payment Methods (MVP)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Provider</th>
+            <th>Type</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-bold">M-Pesa</td>
+            <td>Vodacom Tanzania</td>
+            <td>Mobile Money</td>
+            <td><span class="badge badge-green">Primary</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Airtel Money</td>
+            <td>Airtel Tanzania</td>
+            <td>Mobile Money</td>
+            <td><span class="badge badge-green">Primary</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Selcom</td>
+            <td>Selcom Africa</td>
+            <td>Mobile Wallet</td>
+            <td><span class="badge badge-blue">Secondary</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Bank Transfer</td>
+            <td>CRDB, NMB, NBC, Stanbic</td>
+            <td>Bank</td>
+            <td><span class="badge badge-blue">Secondary</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>9.2 Currency</h2>
+    <p>All transactions are processed and displayed in <strong>Tanzanian Shilling (TZS)</strong>. No foreign currency conversion is required at MVP. Future expansion to Kenya (KES) and Uganda (UGX) will require multi-currency support.</p>
+
+    <h2>9.3 Transaction Flow</h2>
+    <ol>
+      <li>Member selects plan/service and taps "Pay".</li>
+      <li>App presents available payment methods.</li>
+      <li>Member selects method and enters phone number (mobile money) or confirms bank details.</li>
+      <li>FitFlex initiates payment request via payment gateway API (e.g. Selcom API, M-Pesa Daraja Tanzania).</li>
+      <li>Member receives STK push or USSD prompt on their phone to confirm payment.</li>
+      <li>On success: subscription/booking is activated immediately. Confirmation sent via push + SMS.</li>
+      <li>On failure: member is shown recovery options and the transaction is not recorded.</li>
+    </ol>
+
+    <div class="callout info">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body">
+        <div class="callout-title">Dev Note — Payment Gateway</div>
+        Selcom's API is the recommended starting point for Tanzania as it aggregates M-Pesa, Airtel Money, Tigo Pesa, and bank payments under a single integration. Vodacom Tanzania's M-Pesa Daraja API is an alternative for direct M-Pesa integration. Both require a Tanzanian business registration and CBT licence compliance.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 10 -->
+  <div class="section" id="s10">
+    <div class="section-num">Section 10</div>
+    <h1>Access Control &amp; QR Check-In</h1>
+
+    <h2>10.1 Check-In Methods</h2>
+    <p>Two check-in modes are supported, both equivalent in validity:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Mode</th>
+            <th>Who Scans</th>
+            <th>What Is Scanned</th>
+            <th>Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-bold">Member Scans Gym</td>
+            <td>Member (phone camera)</td>
+            <td>Gym's static QR code (posted at entrance)</td>
+            <td>Self-service, no staff needed</td>
+          </tr>
+          <tr>
+            <td class="td-bold">Gym Scans Member</td>
+            <td>Gym operator (camera in app)</td>
+            <td>Member's dynamic QR code (in FitFlex app)</td>
+            <td>Staffed gyms, higher security</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>10.2 Check-In Validation Logic</h2>
+    <div class="rule-block">
+      <div class="rule-label">Business Rule BL-012</div>
+      Before confirming a check-in, the system must verify all of the following in sequence:
+    </div>
+    <ol>
+      <li>Is the member's subscription active (not expired, not in grace period with 0 hours remaining)?</li>
+      <li>Does the member's subscription tier grant access to this gym's tier?</li>
+      <li>If on a limited visit plan (Basic/Pro/Premium): does the member have remaining visits for this month? Has the member already visited a different gym today (Basic tier = 1 gym/day restriction)?</li>
+      <li>Is the gym currently within its operating hours?</li>
+    </ol>
+    <p>All four conditions must be TRUE for check-in to succeed. The failure message shown to the member must be specific to which condition failed.</p>
+
+    <h2>10.3 Check-In Failure Messages</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Failure Reason</th>
+            <th>Message to Member</th>
+            <th>Action Prompted</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Subscription expired</td>
+            <td>"Your subscription has expired."</td>
+            <td>Renew Now button</td>
+          </tr>
+          <tr>
+            <td>Gym tier not covered by plan</td>
+            <td>"This gym requires a [Pro/Premium/Executive] Pass."</td>
+            <td>Upgrade Plan button</td>
+          </tr>
+          <tr>
+            <td>No visits remaining</td>
+            <td>"You've used all [X] visits this month."</td>
+            <td>Upgrade Plan or wait for reset</td>
+          </tr>
+          <tr>
+            <td>Gym closed</td>
+            <td>"[Gym Name] is currently closed. Opens at [time]."</td>
+            <td>None</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>10.4 Check-In Data Logged</h2>
+    <p>Every successful check-in must log the following to the database:</p>
+    <ul>
+      <li>Member user ID</li>
+      <li>Gym ID</li>
+      <li>Timestamp (date + time)</li>
+      <li>Check-in method (member-scanned or gym-scanned)</li>
+      <li>Subscription type used (pass tier / direct sub / top-up)</li>
+      <li>Visit number in current billing cycle (for capped plans)</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 11 -->
+  <div class="section" id="s11">
+    <div class="section-num">Section 11</div>
+    <h1>Open Items &amp; TBD Decisions</h1>
+    <p>The following items require a decision before development of the affected features can be finalised.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Context</th>
+            <th>Decision Needed By</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-bold">OI-001</td>
+            <td>Final tier pricing (TZS)</td>
+            <td>Placeholders: 35k / 70k / 130k. Needs validation with first gym partners.</td>
+            <td>Before first gym onboarding</td>
+          </tr>
+          <tr>
+            <td class="td-bold">OI-002</td>
+            <td>Top-up flat fee when direct sub ≥ Pro price</td>
+            <td>Suggested TZS 5,000–10,000. Needs confirmation.</td>
+            <td>Before subscription screen dev</td>
+          </tr>
+          <tr>
+            <td class="td-bold">OI-003</td>
+            <td>Exact commission rates per gym / trainer</td>
+            <td>Bands defined (10–15% gyms, 15–20% trainers). Individual rates set at onboarding.</td>
+            <td>Before payment logic dev</td>
+          </tr>
+          <tr>
+            <td class="td-bold">OI-004</td>
+            <td>Payment gateway partner</td>
+            <td>Selcom recommended. Requires Tanzanian business registration to activate API access.</td>
+            <td>Before payment screen dev</td>
+          </tr>
+          <tr>
+            <td class="td-bold">OI-005</td>
+            <td>Refund policy detail</td>
+            <td>No pro-rata refunds stated. Edge cases (duplicate charge, gym closure) not yet defined.</td>
+            <td>Before launch</td>
+          </tr>
+          <tr>
+            <td class="td-bold">OI-006</td>
+            <td>Gym tier classification criteria (detailed rubric)</td>
+            <td>High-level criteria defined in Section 2.2. Needs a scored rubric for consistent onboarding.</td>
+            <td>Before gym onboarding begins</td>
+          </tr>
+          <tr>
+            <td class="td-bold">OI-007</td>
+            <td>Marketplace commission / margin structure</td>
+            <td>Marketplace is an MVP revenue stream but margin/supplier structure not yet defined.</td>
+            <td>Before marketplace dev</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout success">
+      <div class="callout-icon">✅</div>
+      <div class="callout-body">
+        <div class="callout-title">Document Status</div>
+        This document captures all business logic decisions confirmed as of March 2026. All sections marked TBD or with placeholder values should be updated before the relevant module enters active development. This document should be treated as a living reference and versioned accordingly.
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div style="text-align:center;color:var(--text-dim);font-size:12px;padding:20px 0;">
+    FitFlex Af — Business Logic & Rules Document v1.0 · March 2026 · Confidential
+  </div>
+
+</div>
+</body>
+</html>
