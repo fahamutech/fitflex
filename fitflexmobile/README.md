@@ -1,16 +1,21 @@
 # fitflexmobile
 
-A new Flutter project.
+FitFlex Af Flutter mobile app for members and trainers.
 
-## Getting Started
+## Firebase Google sign-in
 
-This project is a starting point for a Flutter application.
+The app uses Firebase Auth with Google as the pilot sign-in provider. Add the Firebase platform files before running against a real project:
 
-A few resources to get you started if this is your first Flutter project:
+| Platform | File |
+|----------|------|
+| Android | `android/app/google-services.json` |
+| iOS | `ios/Runner/GoogleService-Info.plist` |
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Then run:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter pub get
+flutter run --dart-define=API_BASE=http://localhost:3000
+```
+
+Pass purchases create a pending payment request. The QR code is only shown after FitFlex admin approval.

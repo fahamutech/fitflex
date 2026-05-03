@@ -28,3 +28,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+.env
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist

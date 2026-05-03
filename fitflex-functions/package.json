@@ -1,11 +1,19 @@
 {
-  "name": "functions",
-  "version": "1.0.0",
+  "name": "fitflex-functions",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "test": "echo \"no test\""
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "test": "node --test 'specs/**/*.specs.mjs'",
+    "dev:fs": "bfast fs serve --port 3000",
+    "start:fs": "bfast fs serve --port 3000 --static"
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "@prisma/client": "^7.8.0",
+    "firebase-admin": "^13.8.0",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^7.8.0"
+  },
   "private": true
 }

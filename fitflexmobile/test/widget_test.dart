@@ -1,30 +1,47 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// Smoke test: language screen renders.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:fitflexmobile/main.dart';
+import 'package:fitflexmobile/shared/api_client.dart';
+import 'package:fitflexmobile/shared/auth_state.dart';
+import 'package:fitflexmobile/shared/i18n.dart';
+import 'package:fitflexmobile/shared/design_tokens.dart';
+import 'package:fitflexmobile/app_scope.dart';
+import 'package:fitflexmobile/screens/language_screen.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Language screen offers EN and SW', (WidgetTester tester) async {
+    SharedPreferences.setMockInitialValues({});
+    final api = ApiClient(baseUrl: 'http://localhost:0');
+    final auth = AuthState(api);
+    await auth.hydrate();
+    final locale = FFLocale();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      AppScope(
+        api: api,
+        auth: auth,
+        child: FFLocaleScope(
+          notifier: locale,
+          child: MaterialApp(
+            theme: buildTheme(),
+            supportedLocales: const [Locale('en'), Locale('sw')],
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            home: const LanguageScreen(),
+          ),
+        ),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('English'), findsOneWidget);
+    expect(find.text('Kiswahili'), findsOneWidget);
+    expect(find.text('FitFlex Af'), findsOneWidget);
   });
 }
