@@ -1,0 +1,12 @@
+[submodule "fitflex-functions"]
+	path = fitflex-functions
+	url = https://github.com/fahamutech/fitflex-functions.git
+	branch = main
+[submodule "fitflex-portal"]
+	path = fitflex-portal
+	url = https://github.com/fahamutech/fitflex-portal.git
+	branch = main
+[submodule "fitflexmobile"]
+	path = fitflexmobile
+	url = https://github.com/fahamutech/fitflex-mobile.git
+	branch = main

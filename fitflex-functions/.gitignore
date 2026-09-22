@@ -1,9 +1,0 @@
-node_modules/
-.data/
-logs
-.idea
-.vscode
-.env
-.env.local
-firebase-service-account*.json
-*-firebase-adminsdk-*.json
