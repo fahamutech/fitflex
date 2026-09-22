@@ -30,7 +30,7 @@ jobs:
         run: npm install
 
       - name: Run all tests
-        run: node --test 'specs/**/*.specs.mjs'
+        run: node --test specs/*.specs.mjs
 
       - name: Upload test results
         if: always()

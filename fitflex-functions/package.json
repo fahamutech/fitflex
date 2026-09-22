@@ -5,7 +5,7 @@
   "scripts": {
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "test": "node --test 'specs/**/*.specs.mjs'",
+    "test": "node --test specs/*.specs.mjs",
     "dev:fs": "bfast fs serve --port 3000",
     "start:fs": "bfast fs serve --port 3000 --static"
   },
