@@ -1,9 +1,67 @@
 # FitFlex Identity, Personas & Organisations — Implementation Plan
 
 **Based on:** the read-only identity audit of `origin/main` in all three repos (26 Sep 2026, delivered in chat).
-**Status:** Plan only. Nothing built. Decisions D1–D3 recorded 26 Sep 2026; open decisions O1–O7 are listed at the end.
+**Status:** Plan only. Nothing built. Decisions D1–D3 recorded 26 Sep 2026; O6 is settled by principle P5. Open decisions O1–O5 and O7 are listed at the end.
 **Repos:** `fitflex-functions` (backend, merged first), `fitflexmobile`, `fitflex-portal`.
 **Release rule (existing):** every merge to `main` deploys. Backend PRs merge and are confirmed live before the mobile or portal PRs that call them.
+
+---
+
+## Core principles (binding for every phase)
+
+FitFlex treats **identity**, **persona** and **organisation relationship** as separate concepts.
+
+| # | Principle |
+|---|---|
+| P1 | One person = one FitFlex user identity. Having several roles never requires several accounts. |
+| P2 | Mobile number and email are **identifiers**, not the permanent user ID. A person may have one or both, and **either verified identifier can be used to sign in**. |
+| P3 | One identity can hold several personas (member, trainer, gym owner, vendor). Adding a persona never creates a second identity. |
+| P4 | One identity can hold several organisation relationships (member of Gym A and Gym B, trainer at Gym B, owner of Gym C, employee under Company X's wellness programme). |
+| P5 | **Organisations do not own identities.** A gym or company may invite a person and create, manage, activate or deactivate *the relationship* within its permissions. It never owns or controls the person's credentials, mobile number, email, sign-in methods or personal FitFlex identity. |
+| P6 | Existing users are reused. When an administrator enters a mobile number or email that belongs to an existing FitFlex user, the system creates an invitation or relationship, never a duplicate account. |
+| P7 | Historical data stays with the same user ID. Changing gym, company, persona, mobile or email never creates a new identity or breaks history. |
+| P8 | Existing functionality keeps working throughout. Changes are incremental and backward compatible, each phase is verified against the current code first, and affected functionality is regression-tested. |
+
+### Terminology
+
+- **FitFlex user identity** = `Person` (`psn_…`). This is the permanent user ID of P1, P2 and P7.
+- **Persona record** = an existing `User` row. Its `userType` is the persona, and it holds that persona's history.
+  - The table keeps its name `User` for backward compatibility (~40 references, ~153 uses of `req.user.sub`). In this plan it is never treated as an identity.
+  - Creating a persona record under an existing `Person` (I3) adds a persona, not an identity, which is what P3 requires.
+- **Organisation relationship** = an `OrgMembership` row.
+
+### How the plan meets each principle
+
+| Principle | Where it is delivered |
+|---|---|
+| P1 | I1 creates `Person`. I2 links every persona record that shares a verified identifier (D1). I7 lets a person merge legacy duplicates by verifying the other identifier. |
+| P2 | I1 adds `LoginIdentifier` (email and phone, each with its own verification). I2 resolves sign-in by any verified identifier. I7 adds phone sign-in and changing identifiers with re-verification. |
+| P3 | I2 adds role switching. I3 adds personas under the same `Person` and reuses the Firebase account. |
+| P4 | I4 adds `OrgMembership` for gym, vendor and corporate, with any number per person. I5 authorises from it. |
+| P5 | I0 stops organisations deleting a shared Firebase login. I5 makes gym-level suspension a membership status. I6 removes organisation-set PINs and passwords and stops owners and admins editing a member's phone or email. I7 makes identifiers changeable only by the person, with verification. |
+| P6 | I6 routes every "add a person" path through look-up → invitation, direct add (corporate) or a claimable invitation. No path creates an identity for someone else. |
+| P7 | No persona record or history row is deleted, merged or re-keyed (see "Migration safety"). I1 freezes public IDs. Identifier changes (I7) and organisation changes (I4–I6) only touch `LoginIdentifier` and `OrgMembership`. |
+| P8 | Everything is additive and flag-gated (`IDENTITY_V2`) until I8. The working rules below apply to each phase. |
+
+### Working rules for every phase (P8)
+
+1. **Verify first.** At the start of each phase, re-read the affected code on current `main`, since other work keeps landing. Confirm the audit facts the phase relies on, list the dependencies found, and update this plan before building if anything has changed.
+2. **Document the change.** Record the schema, API and behaviour change in the phase's PR description, and in `IDENTITY_ARCHITECTURE.md` / `IDENTITY_API.md` once I1 starts.
+3. **Backward compatible.** Old mobile and portal builds keep working against each backend PR. New fields are additive; removed request fields return a clear upgrade error rather than failing silently.
+4. **Regression-test.** New specs for the phase, plus the existing suites that cover the touched behaviour (listed per phase below), must pass. Backfills ship with a dry-run report that is reviewed before the real run.
+5. **One phase at a time.** A phase merges and is confirmed live before the next one starts.
+
+### Regression suites per phase
+
+| Phase | Existing suites that must stay green |
+|---|---|
+| I0 | backend: `trainer-email-login`, `owner-trainer-create`, `owner-member-credentials`, `password-credentials`, `gym-staff-roster`, `admin-role-management`, `portal-acl-scopes`, `account-deletion`, `delete-account`, `pilot-auth-payment`, `dev-login`, `role-approvals`; mobile: `register_login_test`, `register_trainer_login_test`, `sign_in_flow_test`, `role_choice_test`; portal: `login.spec`, `admin-ui.spec` |
+| I1 | all backend specs (every creation path gains `ensurePerson`), in particular `member-flow`, `trainer-registration`, `shop`, `corporate-billing`, `challenge-admin-hr` |
+| I2–I3 | the I0 auth suites, plus `social-sharing`, `social-followers` and `notification-service` (per-persona device tokens and inbox), plus mobile `journeys.dart` |
+| I4–I5 | `owner-gym-scoping`, `operator-gym-selection`, `owner-member-management`, `gym-staff-roster`, `trainer-gym-join`, `gym-sharing`, `direct-subscription`, `membership-expiry`, `check-in-service`, `check-in-rules`, `multi-member-scan`, `marketplace-requirements`, `shop`, `partner-kyc-*`, `corporate-billing`, `communications-audience`, `communications-segments`; portal: `owner-management.spec`, `checkin-flow.spec`, `vendor-management.spec`; mobile: `owner_test`, `vendor_marketplace_test` |
+| I6 | the I4–I5 suites, plus `owner-member-credentials` and `owner-trainer-create` (rewritten for invitations), `trainer-clients`, `challenge-admin-hr` |
+| I7 | the I0 auth suites, plus `whatsapp-service` if OTP is delivered over WhatsApp |
+| I8 | the full backend, mobile integration and portal e2e suites |
 
 ---
 
@@ -163,7 +221,8 @@ These are independent of the redesign.
 - The ACL check becomes per membership, per gym.
 - Org context comes from the request (`gymId`, `vendorId` or `corporateId` in the path or body), checked against the caller's memberships (cached), not from token claims.
 - Vendor staff permissions come from the vendor membership. The same person can then be staff at two vendors, which the index blocks today.
-- Gym-level member suspension sets the **membership** status, not the platform-wide `User.accountStatus` (`member-management-service.mjs:587-588`). See O6.
+- Gym-level member suspension sets the **membership** status, not the platform-wide `User.accountStatus` (`member-management-service.mjs:587-588`). Settled by P5 (formerly O6): the gym deactivates the relationship, and the person keeps their identity and other gyms.
+- Owners and staff can no longer change a member's phone or email. `updateMember` currently rewrites `User.phone` (`member-management-service.mjs:562-569`). It will edit only relationship fields (plan, tier, notes); identifiers change only through I7 (P5).
 
 **Portal:**
 - `owner/manage/page.tsx` gets a gym selector instead of `gyms[0]`.
@@ -183,6 +242,7 @@ These are independent of the redesign.
 - `POST /orgs/:orgType/:orgId/people/lookup {phone|email}` matches **verified** identifiers only.
 - It returns `{found, maskedName}` and nothing more.
 - Rate-limited and written to the audit log.
+- **A lookup miss never creates an identity (P6).** The invitation targets the entered identifier. Many existing users have no verified identifier yet (email + PIN sign-ups were never verified), so a match on an unverified identifier routes the invitation to that person without revealing anything. The invitation attaches to their `Person` once they verify the identifier. The same verified identifier can never end up on two identities.
 
 **Flows:**
 
@@ -193,6 +253,7 @@ These are independent of the redesign.
 | Vendor invites staff | Invite and accept. Replaces `shop-service.mjs:330-338` passwords. |
 | Corporate adds an employee (D2) | Direct add: the membership is `active` immediately, the person gets a notification with a "Leave programme" action (membership → `left`). An unknown identifier becomes a claimable record that activates on the person's first verified sign-in with that identifier, still with no acceptance step. Retire the `CorporateEmployee` PIN. |
 | Admin adds an HR admin | Invite and accept for `corporate · hr_admin`, replacing the scrypt password created by the admin (`corporate-service.mjs:440-460`). |
+| FitFlex admin adds an owner, member or trainer | The same look-up. A match adds the persona or relationship to the existing `Person`; a miss creates a claimable invitation. Admin upserts can no longer change a row's `userType` or overwrite another persona's row (`admin-member-service.mjs:89`, `admin-owner-service.mjs:52-77`). |
 | Unknown identifier (gym/vendor) | The invite is delivered by SMS, WhatsApp or email through the existing communication channel adapters, and claimed on sign-up with that verified identifier. |
 
 **Credentials removed:** `initialPassword` and `initialPin` are dropped from `/owner/members`, `/owner/staff` and `/owner/trainers`, and `password` from `/vendor/staff`. Old clients get `400 credentials_not_accepted` with an upgrade message.
@@ -216,6 +277,7 @@ These are independent of the redesign.
 - **Phone login:** the "email or phone" field on `auth_screen.dart` goes to Firebase phone auth when a phone is entered. That fixes the phone-as-email bug (`email_auth_screen.dart:82-92`).
 - **Forgot PIN:** verify any verified identifier (email link or phone code), then `POST /auth/pin/reset` sets `fitflex-pin:<newPin>` through Admin `updateUser`. The PIN-as-password scheme means a plain Firebase reset page can't be used. This wires up the empty handler at `email_auth_screen.dart:234-243` and gives change-PIN to every persona, not only members.
 - **Account recovery:** sign in with any other verified identifier. `firebase_uid` is not required.
+- **Consolidating legacy duplicates (P1):** some people already have two unlinked identities, for example one gym-created with one email and one self-registered with another. When a signed-in person verifies an identifier that belongs to another `Person`, the two are merged with `mergePersons`, which only re-points `personId`. If the result would hold two personas of the same type, it goes to `IdentityConflict` for admin review instead. No history row changes (P7).
 
 ## I8 — Cleanup (after I5–I7 have been live at least two weeks)
 
@@ -263,5 +325,5 @@ Backfill scripts run with a dry-run report reviewed before each real run.
 | O3 | Corporate direct add: what can HR see about an employee (participation only, or activity data)? Tanzania PDPA 2022 consent wording | Participation in company challenges and groups only; activity data needs an explicit opt-in |
 | O4 | Phone verification: Firebase phone auth or backend OTP via Africa's Talking or WhatsApp? | Firebase phone auth (no SMS code to build); revisit on cost |
 | O5 | Do gym trainers, gym staff and vendor staff also have to accept invites? | Yes |
-| O6 | Does a gym suspending a member become membership-level only (the member can still use other gyms)? | Yes |
+| O6 | ~~Does a gym suspending a member become membership-level only?~~ | **Settled by P5: yes** |
 | O7 | Existing uid-less rows (admin-created owners, HR admins): is the "verify your email to continue" step in I0 acceptable for them? | Yes |
