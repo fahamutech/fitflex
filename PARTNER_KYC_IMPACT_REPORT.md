@@ -26,7 +26,9 @@ This supersedes these parts of the report:
 
 Documents still need **private, access-controlled** storage, but D1 now only decides where files are hosted, not how they are encrypted.
 
-**Progress: Phase 1 (data model) is in review as [fahamutech/fitflex-functions#23](https://github.com/fahamutech/fitflex-functions/pull/23).** The target model was mapped onto the existing schema first, and only seven tables were added:
+**Decision D2 (26 Sep): 30-day grace period.** Partners who were approved before KYC keep operating for 30 days from the day the requirement is switched on, with reminders along the way. After that, their **payouts are held** until their case is approved. Listings stay live.
+
+**Progress: Phase 1 (data model) was merged on 26 Sep as [fahamutech/fitflex-functions#23](https://github.com/fahamutech/fitflex-functions/pull/23).** The target model was mapped onto the existing schema first, and only seven tables were added:
 
 | Concept | Where it lives |
 |---|---|
@@ -565,7 +567,7 @@ Each phase is one PR per repo, merged in order: functions, then portal, then mob
 | ID | Decision | Needed by | Recommendation |
 |---|---|---|---|
 | D1 | Document storage: private Zebra access or a private GCS bucket (PDPA data residency); no encryption key, per the 26 Sep decision | P2 | Zebra behind an authenticated proxy, if it is hosted in Tanzania |
-| D2 | Grandfathering: grace period, and what is blocked when it expires | P5 | 30 days, then hold payouts only |
+| D2 | Grandfathering: grace period, and what is blocked when it expires | P5 | **Decided 26 Sep:** 30 days, then hold payouts only |
 | D3 | "Corporate partner" meaning: an employer that pays FitFlex (KYB only) or a reward-funding partner that FitFlex pays (KYB plus settlement) | P1 (requirement sets) | Employers need KYB only; add settlement only if partner-funded rewards are paid out |
 | D4 | What the member-facing "Verified" badge means: profile complete or KYB-approved | P4 | Bind it to KYB and rename the auto flag "Profile complete" |
 | D5 | Which payout calculator is canonical: streak rates or the 5-band engine (F9) | P6 | Business call, outside KYC |
