@@ -130,6 +130,34 @@ The same routes exist under `/owner/communications` (a gym → its direct member
 
 ---
 
+## Templates (M6)
+
+List, get and preview exist under both `/owner/communications` and `/admin/communications`. Create, edit, copy and archive are owner-only.
+
+| Method & path | What it does |
+|---|---|
+| `GET …/templates?group&purpose&gymId` | `{ templates, groups }`: the gym's own first (newest first), then FitFlex's in catalogue order. Archived templates are left out. `403 not_your_gym`. |
+| `GET …/templates/:id` | `{ template }` plus `whatsapp: { ready, byLocale: { en: { ready, reason? } } }`. Another gym's template answers `404 not_found`. |
+| `POST …/templates/:id/preview` | `{ gymId?, values?: { offerName?, discount?, amountTzs? } }` → `{ senderName, sampleMember, byLocale: { en: { in_app: { title, body, ctaLabel, deepLink }, push: { title, body, truncated } }, sw: … }, whatsapp, needsValues }` |
+| `POST …/templates/preview` | Previews an unsaved template: `{ gymId?, name, purpose, group?, deepLink?, bodies, values? }` |
+| `POST /owner/communications/templates` | Saves a gym template: `{ gymId?, name (≤60), purpose, group?, deepLink?, bodies: { en?: { title, body, ctaLabel? }, sw?: … } }`. At least one language is required, and each must pass the content rules (`detail: "sw:missing_value:discount"`). |
+| `PATCH /owner/communications/templates/:id` | Edits a gym template. `403 system_template_read_only`, `409 template_archived`. |
+| `POST /owner/communications/templates/:id/duplicate` | `{ gymId?, name? }` copies a template into the gym's own (`basedOn` = the source). The apps send the name in the owner's language; without one, a FitFlex template's key becomes a readable name ("We miss you"). |
+| `POST /owner/communications/templates/:id/archive` | Hides a gym template. Campaigns keep their own copy of its text. |
+
+**Template fields:** `{ id, key, system, gymId, name, group, purpose, category, deepLink, bodies, variables, channels, status, basedOn, updatedAt }`. `group` is one of membership, payment, marketing, engagement or general. FitFlex templates have ids `tpl_sys_<key>`; the apps show their names from their own translations (`comms.tpl.<key>`).
+
+**Campaigns from a template:** `POST …/campaigns` (and preview) also take `templateId`, `templateValues` and `locale`.
+- With no `content`, the template's text is copied in with `locale` as the main language. `purpose` becomes optional.
+- The campaign keeps `templateId` (it's in the campaign view) and its own copy of the text.
+- Errors: `404 template_not_found` (missing, archived or another gym's). Including `whatsapp` without an approved WhatsApp template gives `400 whatsapp_template_required`.
+
+**Content in two languages:** `content` also takes `locale` (`en`\|`sw`, default `en`) and `translations: { <other>: { title, body, ctaLabel? } }`.
+- Translations are checked like the main text. Errors: `unknown_locale`, `translation_same_as_main`, `bad_translations`, `sw_title_required`, `sw:unknown_variable:x`, ….
+- Each member gets the language in their communication preferences, or else the main one. Ledger rows record which one they got (`locale`).
+
+---
+
 ## Delivery and member endpoints (M5)
 
 | Method & path | Who | What it does |

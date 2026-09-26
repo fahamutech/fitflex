@@ -29,7 +29,7 @@ CommunicationPreference (1 per member)      JobRun (scheduled-job log)
 | `CommunicationCampaign` | `communicationCampaigns` | One send, now or scheduled | `status` starts at `draft`; allowed changes are in `canTransitionCampaign`. `sendRequestId` is unique, so a double-tapped Send is refused. `audience`, `content` and `counts` are jsonb. `channels` is `text[]`. |
 | `CommunicationMessage` | `communicationMessages` | **Delivery ledger and send queue**: one row per member, per channel, per source | Unique `(campaignId, memberId, channel)` and `(automationRunId, channel)`, so a retried job can't message anyone twice. `channel` ∈ in_app/push/whatsapp and `category` ∈ transactional/marketing are CHECK-constrained. Delivery timestamps: sent, delivered, opened, clicked, failed. `failurePermanent` stops retries. |
 | `Notification` (existing, extended) | `notifications` | The member's in-app inbox | New nullable columns: `category`, `gymId`, `campaignId` (set to null if the campaign is deleted) and `clickedAt`. Existing inbox rows and APIs are unchanged. |
-| `CommunicationTemplate` | `communicationTemplates` | FitFlex message templates | `gymId` null = system template. `bodies` = `{ en: {title, body}, sw: {title, body} }`. Keys are unique per gym, and among system templates (partial index). |
+| `CommunicationTemplate` | `communicationTemplates` | FitFlex and gym message templates | `gymId` null = system template. `bodies` = `{ en: {title, body, ctaLabel?}, sw: {…} }`. Keys are unique per gym, and among system templates (partial index). M6 (`20261004090000-communication-template-details.cjs`) adds `group` (membership/payment/marketing/engagement/general), `deepLink` and `basedOn` (the template a copy came from; set to null if that's deleted). |
 | `WhatsAppTemplate` | `whatsappTemplates` | Registry of provider-approved WhatsApp templates | `approvalStatus` pending/approved/rejected/paused. A FitFlex template goes out on WhatsApp only through an **approved** mapping. Deleting a registry row unlinks templates, but doesn't delete them. |
 | `CommunicationPreference` | `communicationPreferences` | Per member; `id` = the member's user id | Defaults: in-app and push marketing on, WhatsApp transactional on, **WhatsApp marketing off**. Consent is recorded (`whatsappMarketingConsentAt/Source`), as is a STOP opt-out (`whatsappOptedOutAt`). `locale` en/sw. |
 | `CommunicationAutomation` | `communicationAutomations` | Lifecycle triggers | Starts `disabled`. `trigger` + `offsetDays` (e.g. `membership_expiring`, 7) is unique per gym, and per platform (partial index). |
@@ -125,3 +125,28 @@ Deletion behaviour: every row cascades from its gym or member. Links to template
   - Before this, the owner bar's bell always showed a dot and a "no notifications" note.
 - **Push taps:** `PushService.onOpen` / `onForeground` use `onMessageOpenedApp`, `getInitialMessage` and `onMessage`. The app root opens the message, or the linked screen for a push with no inbox copy. Member-shell screens are opened with `go`, like the rest of the app.
 - **Settings:** `MemberMessageSettingsPage` is at Privacy & data → Messages & offers.
+
+## 10. Templates (M6)
+
+- **Catalogue:** `src/shared/communication-templates.mjs` defines 18 FitFlex templates in five groups, each with English and Swahili text, a purpose, a screen to open, and the WhatsApp template name it would map to (`fitflex_<key>`).
+  - `templateService.syncSystemTemplates()` upserts them into `CommunicationTemplate` with id `tpl_sys_<key>` and `gymId` null. It runs once per process, before the first template read.
+  - Changing the catalogue in code updates the rows. Gym templates are never touched.
+- **Gym templates:** owners create their own or copy a FitFlex one (`basedOn` records the source), then edit or archive them. FitFlex templates are read-only (`403 system_template_read_only`). Admins can browse, preview and use templates, but only gyms create them.
+- **Starting a message from a template:** the campaign stores `templateId` and **its own copy** of the text. Editing or archiving the template later doesn't change a draft or a sent message.
+  - The owner's language becomes the main text and the other language goes in `content.translations`.
+  - The purpose comes from the template. Offer values (`offerName`, `discount`, `amountTzs`) are passed as `templateValues`.
+- **One message, two languages:** `content = { title, body, ctaLabel?, locale, translations?: { <other>: { title, body, ctaLabel? } } }`. Each language is checked like the main one: variables, lengths, and both title and body present.
+  - When a campaign is sent, `segmentService.localesByMember` reads each member's `CommunicationPreference.locale`. The ledger row is written in that language and records it in `CommunicationMessage.locale`.
+  - Members with no known language get the main text. Plan names are localized (Kila mwezi, …).
+  - The apps save the member's app language to `/me/communication-preferences` on sign-in and whenever it changes.
+- **Preview:** `POST …/templates/:id/preview` (and `…/templates/preview` for an unsaved template) renders every language for a sample member ("Amina", Monthly plan) with the sender's gym name.
+  - It returns the in-app message and the push as the phone would show it: a 65-character title, the body cut at 178 characters, and a `truncated` flag.
+  - Offer values not yet filled in show as `[discount]`, and `needsValues` lists them.
+- **WhatsApp (no integration yet, D2):** every template reports `whatsapp: { ready, byLocale }` from the `WhatsAppTemplate` registry.
+  - A campaign can include the WhatsApp channel only if it started from a template with an **approved** mapping in the needed language (`400 whatsapp_template_required`). This is checked on send, on schedule, and again when a scheduled campaign is released.
+  - Free text never goes to WhatsApp. M7 adds the provider.
+- **Screens:**
+  - **Flutter:** a Templates tab in the Communication Center, filtered by category. It opens `TemplateDetailPage` (preview per language; use, copy, edit, archive) or `TemplateEditorPage`.
+    - Routes: `/owner/communications/templates/new`, `/templates/:templateId` and `/templates/:templateId/edit`.
+    - The composer's message step has "Start from a template" (a bottom-sheet picker listing the message's purpose first) and English/Swahili tabs.
+  - **Portal:** the same in `communication-templates.tsx`: a Templates tab, the detail page, the owner-only editor with a live preview, the picker dialog, and a `BilingualText` field set shared with the composer.

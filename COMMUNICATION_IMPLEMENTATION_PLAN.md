@@ -1,7 +1,7 @@
 # Gym Communication & Member Engagement — Implementation Plan
 
 **Based on:** `COMMUNICATION_IMPLEMENTATION_AUDIT.md` (26 Sep 2026)
-**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built** (see the M3/M4 and M5 results below). M6 is next.
+**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 built** (templates; see the M6 results below). M7 is next.
 **Repos:** `fitflex-functions` (backend, merged first), `fitflexmobile` (owner Communication Center and member inbox), `fitflex-portal` (owner/staff Communication Center on the operator side, and admin platform communications, each gated by role and ACL).
 **Release rule (existing):** every merge to `main` deploys. Backend PRs merge and are confirmed live before the mobile or portal PRs that call them.
 
@@ -181,6 +181,22 @@
 - Owners can clone a system template into a gym template and edit it. System templates are read-only.
 - Each template shows whether a matching approved `WhatsAppTemplate` exists. WhatsApp is offered only for templates that map to one; free text is never sent as WhatsApp.
 - **Endpoints:** `GET /owner/communications/templates`, plus POST, PATCH and archive.
+
+**M6 results** (branch `feat/communication-templates` in all three repos):
+- **Reused:** the existing `CommunicationTemplate` and `WhatsAppTemplate` tables from M1, and the content rules, renderer and preview from M4. One migration adds `group`, `deepLink` and `basedOn` (`20261004090000`).
+- **Built:**
+  - 18 FitFlex templates in English and Swahili, synced from code.
+  - Gym templates: create, copy, edit, archive.
+  - Preview per language and channel.
+  - Starting a campaign from a template.
+  - Messages in two languages, with each member getting theirs.
+  - The WhatsApp template gate.
+- **Apps:** the Templates tab, template picker and editor in Flutter and the portal. The app language is now saved to the server.
+- **Tests:**
+  - Backend: 11 new tests (catalogue, variables in both languages, gym isolation, read-only system templates, preview truncation, the per-member language at send, the WhatsApp gate).
+  - Flutter: 13 new tests (model, composer, the Templates tab, detail, editor, Swahili names).
+  - The portal was checked by hand against a local API in English and Swahili, as owner and as admin.
+- **Not done:** WhatsApp sending (M7). The Swahili template text needs the same native-speaker review as the other strings.
 
 ## M7 — WhatsApp provisioning, plug and play (D2/D3)
 
