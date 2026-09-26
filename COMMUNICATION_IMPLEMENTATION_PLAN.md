@@ -1,7 +1,7 @@
 # Gym Communication & Member Engagement — Implementation Plan
 
 **Based on:** `COMMUNICATION_IMPLEMENTATION_AUDIT.md` (26 Sep 2026)
-**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 built** (templates; see the M6 results below). M7 is next.
+**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 built** (WhatsApp; see the M7 results below). M8 is next.
 **Repos:** `fitflex-functions` (backend, merged first), `fitflexmobile` (owner Communication Center and member inbox), `fitflex-portal` (owner/staff Communication Center on the operator side, and admin platform communications, each gated by role and ACL).
 **Release rule (existing):** every merge to `main` deploys. Backend PRs merge and are confirmed live before the mobile or portal PRs that call them.
 
@@ -222,6 +222,31 @@ There's no WhatsApp Business account yet, so M7 builds everything **except** a r
   - A portal page for WhatsApp status and the template approval registry, behind a new `communications` admin ACL.
   - A global kill switch (`PlatformSettings.communications.whatsappEnabled`).
 - **Pre-flight:** fix audit finding **S2** by adding relationship checks to, or removing, the ad-hoc trainer, operator and vendor WhatsApp routes, and close `/test/whatsapp`.
+
+**M7 results** (branches `feat/whatsapp-provider`, `feat/whatsapp-channel` (mobile) and `feat/whatsapp-admin` (portal)):
+- **Inspected first:** the existing Africa's Talking service and the `fitflex-whatsapp` hook (see architecture §11). Neither is a sound base, so M7 adds the provider seam planned here.
+- **Built:**
+  - the provider contract and registry, with the not-configured and fake providers;
+  - E.164 phone handling;
+  - per-member WhatsApp template payloads;
+  - delivery with last-moment checks;
+  - the webhook with receipts and STOP/ACHA/START/ANZA;
+  - the kill switch;
+  - the admin status and approved-template registry with sync and a test send;
+  - the WhatsApp gate in both composers and the portal's admin WhatsApp tab.
+- **Closed audit S2/S3:** the unguarded "WhatsApp any user" routes and `/test/whatsapp` are removed, and the inbound webhook needs a secret.
+- **Fixed on the way (M6):** a campaign created from a template with edited text and no purpose failed with a database error. It now takes the template's purpose.
+- **Tests:**
+  - Backend: 532/532, with 17 new tests covering provider selection, credentials never shown, the per-member payload, language fallback, approved wording, provider outcomes, last-moment checks, the kill switch across servers, receipts, STOP/START, the webhook secret and the removed routes.
+  - Flutter: 411/411, including 6 new tests.
+  - Portal: `tsc` and `next build` pass.
+  - Checked end to end on a local API with the fake provider: admin sync, test send and pause/resume; the owner's campaign going through the real dispatcher; and the webhook over HTTP.
+- **Go-live** is unchanged from the list above:
+  1. Write the real adapter for the chosen provider and register it.
+  2. Set its credentials, `WHATSAPP_PROVIDER` and `WHATSAPP_WEBHOOK_SECRET`.
+  3. Submit the templates the admin page lists, then register or sync their approvals.
+  4. Do a test send.
+  5. Route the legacy OTP and re-engagement sends through the provider.
 
 ## M8 — Communication history
 

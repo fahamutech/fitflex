@@ -158,6 +158,34 @@ List, get and preview exist under both `/owner/communications` and `/admin/commu
 
 ---
 
+## WhatsApp (M7)
+
+| Method & path | Who | What it does |
+|---|---|---|
+| `GET /admin/communications/whatsapp` | admin (`communications`) | `{ provider: { name, configured, setup?: { reason, wanted, missing: [envVarNames] } }, enabled, available, webhook: { path, secretSet }, members: { withPhone, marketingOptedIn, optedOut }, templates: { pending, approved, rejected, paused }, last7Days: { status: n } }`. Never includes credential values. |
+| `PUT /admin/communications/whatsapp` | admin | Kill switch: `{ enabled: boolean }` (`400 invalid_enabled`). Every server follows within about 30 seconds. |
+| `GET /admin/communications/whatsapp/templates` | admin | `{ provider, templates: [registry rows], expected: [{ templateKey, providerTemplateName, language, category, variables, body, registered: { id, approvalStatus } \| null }] }`. `expected` lists what each FitFlex template needs registered with the provider. |
+| `POST /admin/communications/whatsapp/templates` | admin | Registers or updates `{ providerTemplateName (a–z, 0–9, _), language: en\|sw, category: utility\|marketing\|authentication, variables: [campaign variables, in order], approvalStatus?, provider? }`. Unique on provider + name + language. |
+| `PATCH /admin/communications/whatsapp/templates/:id` | admin | `{ approvalStatus?, category?, variables? }` |
+| `POST /admin/communications/whatsapp/templates/sync` | admin | Pulls approval statuses from the provider (`409 whatsapp_not_configured`). |
+| `POST /admin/communications/whatsapp/test` | admin | `{ phone, templateName, language, parameters: [strings] }` sends one approved template. Errors: `409 whatsapp_not_configured` / `whatsapp_disabled`, `400 invalid_phone` / `whatsapp_template_not_approved`. |
+| `POST /webhooks/whatsapp/status` | provider | Needs `?token=<WHATSAPP_WEBHOOK_SECRET>` or the `x-whatsapp-webhook-token` header (`403` otherwise, and always when unset). The body is parsed by the provider adapter; the fake provider and tests use `{ statuses: [{ id, status: sent\|delivered\|read\|failed, timestamp?, error? }], messages: [{ from, text }] }`. Returns `{ ok, statuses, unknown, optedOut, optedIn, ignored }`. |
+| `GET /webhooks/whatsapp/status` | provider | URL check, for providers that verify with a GET. Same secret. |
+| `POST /whatsapp/webhook` | provider | The old address; same as the POST above, and now needs the secret. |
+
+**Removed (audit S2/S3):** `/trainer/send-message/:memberId`, `/trainer/send-booking-reminder/:bookingId`, `/vendor/send-order-confirmation/:orderId`, `/vendor/send-order-ready/:orderId`, `/operator/send-payment-notification`, `/admin/send-bulk-reengagement` and `/test/whatsapp`.
+
+**Campaigns:** the WhatsApp channel needs a template approved for the provider in use. WhatsApp ledger rows carry `payload: { templateName, language, parameters }`. New skip reasons:
+- when the campaign is sent: `invalid_phone` and `whatsapp_template_not_approved`;
+- at delivery: `whatsapp_disabled`, `whatsapp_opted_out` and `whatsapp_not_configured`.
+
+**Environment:**
+- `WHATSAPP_PROVIDER`: unset = not configured; `fake` for development only.
+- `WHATSAPP_WEBHOOK_SECRET`.
+- A real provider's credential variables are named by its adapter.
+
+---
+
 ## Delivery and member endpoints (M5)
 
 | Method & path | Who | What it does |

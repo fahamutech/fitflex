@@ -150,3 +150,47 @@ Deletion behaviour: every row cascades from its gym or member. Links to template
     - Routes: `/owner/communications/templates/new`, `/templates/:templateId` and `/templates/:templateId/edit`.
     - The composer's message step has "Start from a template" (a bottom-sheet picker listing the message's purpose first) and English/Swahili tabs.
   - **Portal:** the same in `communication-templates.tsx`: a Templates tab, the detail page, the owner-only editor with a live preview, the picker dialog, and a `BilingualText` field set shared with the composer.
+
+## 11. WhatsApp (M7)
+
+There is still no WhatsApp Business account (D2), so WhatsApp is built end to end **except** a real provider adapter. Going live is then configuration.
+
+- **The existing WhatsApp code:**
+  - `whatsapp-service.mjs` (Africa's Talking) has an unverified API contract and reads a phone field that doesn't exist.
+  - The `fitflex-whatsapp` hook is never called.
+  - Neither was reused for campaigns. The legacy service still serves the internal OTP route and admins' re-engagement sends. Routing those through the provider is a go-live step.
+- **Provider seam** (`src/integrations/whatsapp/provider.mjs`):
+  - The contract is `validateRecipient`, `sendTemplate`, `sendMessage`, `getDeliveryStatus`, `listTemplates`, `parseWebhook` and an optional `verifyWebhook`. Results are normalised: `{ ok, providerMessageId }` or `{ ok: false, error, retryable }`.
+  - `WHATSAPP_PROVIDER` picks the provider:
+    - unset → `not_configured` (the default; nothing is sent);
+    - `fake` → development only, refused when `NODE_ENV=production`.
+  - A real adapter is added with `registerWhatsAppProvider(name, create, { requiredEnv })`. Its credentials come only from the environment. If a variable is missing, WhatsApp stays off and the admin page names the variable, never its value. An unknown provider name also leaves WhatsApp off.
+- **Phone numbers:** `src/shared/phone.mjs` turns any way a member typed their number into E.164 (a local number is taken as Tanzanian). The audience count already skips members with no number or an unusable one (`no_phone`, `invalid_phone`).
+- **Sending a campaign:**
+  - A WhatsApp ledger row stores `payload = { templateName, language, parameters }` (new jsonb column). The parameters are the member's values, in the order the provider template numbers them.
+  - The language is the member's own if that version is approved, otherwise one that is.
+  - WhatsApp carries the **approved wording**, not the sender's edits, and the row's title and body record that wording.
+  - Approvals count only for the provider in use.
+- **Delivery** (`whatsapp-channel-service.mjs`, called by the dispatcher): right before sending it checks again that WhatsApp is configured and switched on, the member still allows it, the number is usable, and the template is still approved.
+  - If any check fails, the row is **skipped** with a reason (`whatsapp_disabled`, `whatsapp_opted_out`, `whatsapp_template_not_approved`, …), not failed.
+  - Provider results:
+    - `retryable` errors retry on the M5 schedule;
+    - other errors fail the row for good;
+    - `recipient_opted_out` opts the member out.
+  - Sending is at-least-once, like push. The ledger id is passed as `reference` so a provider that supports it can drop a repeat.
+- **Webhook:** `POST /webhooks/whatsapp/status`. The old inbound URL `/whatsapp/webhook` does the same. Both require `WHATSAPP_WEBHOOK_SECRET` as `?token=` or `x-whatsapp-webhook-token`, and refuse every call when it's unset.
+  - Receipts move ledger rows forward by `providerMessageId`: `sent → delivered → read`. A late `failed` never undoes a delivered message.
+  - **STOP / STOPALL / UNSUBSCRIBE / CANCEL / ACHA / SITISHA** sets `whatsappOptedOutAt` and turns both WhatsApp switches off for every member with that number. Queued WhatsApp rows are skipped, and a confirmation goes back in the member's language.
+  - **START / ANZA / UNSTOP** lifts the opt-out and turns service messages back on. Offers stay off until the member turns them on in the app, which records consent (D3).
+- **Kill switch:** `PlatformSettings.communications.whatsappEnabled` (new jsonb column).
+  - It is read with SQL and cached for 30 seconds, so every server follows it. It is kept out of the settings collection, whose admin save writes back its cached row.
+  - When off, the audience count shows WhatsApp as unavailable and the dispatcher skips WhatsApp rows.
+- **Admin** (`/admin/communications/whatsapp…`, `communications` ACL):
+  - Status: provider, setup reason, missing variable names, kill switch, webhook secret set or not, members opted in or out, template approvals, the last 7 days.
+  - The template registry: what each FitFlex template needs per language (provider name, category, numbered variables). Admins can register it, change its approval status, or sync from the provider.
+  - A test send.
+  - Everything is audit-logged; test sends log a masked phone number.
+- **Security (audit S2/S3):**
+  - Removed `/trainer/send-message/:memberId`, `/trainer/send-booking-reminder/:bookingId`, `/vendor/send-order-confirmation|ready/:orderId`, `/operator/send-payment-notification`, the placeholder `/admin/send-bulk-reengagement` and the open `/test/whatsapp`. They let any trainer, vendor or operator WhatsApp any user, and no app called them.
+  - The inbound webhook is no longer unauthenticated.
+- **Apps:** WhatsApp can be picked only when it's available **and** the message started from a template approved for it. Both composers explain why otherwise. The portal's admin Communication Center has a WhatsApp tab.
