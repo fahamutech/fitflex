@@ -104,7 +104,7 @@ Invitation (org, role, target person or identifier, tokenHash, status)
 
 | # | Item | Blocks |
 |---|---|---|
-| ~~A1~~ | **Waived 28 Sep:** merged without the production dry run. for I0's rehash migration (`20261021090000`). Run on production, read-only: `SELECT "userType", count(*) FROM "User" WHERE "passwordHash" LIKE 'demo:%' GROUP BY 1 ORDER BY 1;`. Production is the `fitflex` database on the host in `backup/pg_download.sh` (SSH as `admin`, then `sudo -u postgres psql -d fitflex`). Not run yet. | Merging #34 |
+| ~~A1~~ | **Waived 28 Sep:** #34 was merged without the production dry run for the rehash migration (`20261021090000`). It converted every remaining `demo:<plaintext>` password to scrypt of the same value, so none stopped working. | — |
 | ~~A2~~ | Done: #34 merged 28 Sep. | — |
 | B1 | **O8 vs Google Play policy.** Play's User Data policy says *"Temporary account deactivation, disabling, or 'freezing' the app account does not qualify as account deletion"* and associated user data must be deleted (retention only for legitimate reasons such as fraud or regulatory compliance, disclosed in the privacy policy). A persona soft-close with no data removal as the store-facing "Delete account" may not comply. Needs a product/legal resolution. | I3 deletion UX (not I0–I2) |
 | C1 | **Technical verification:** the Firebase Console *User account linking* setting (one account per email vs multiple) for project `fitflex-af-pilot` and the actual production project. The repo has no Auth config. Don't change it without approval. | I2 |
