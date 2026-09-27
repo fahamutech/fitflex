@@ -3,7 +3,7 @@
 **Read this first if you are picking up Identity V2.** It records what was decided, what is locked, what is done, and what blocks the next step. The phase-by-phase plan is `IDENTITY_IMPLEMENTATION_PLAN.md`. Where the two differ, **this file wins**: it records the final decisions of 26–27 Sep 2026, made after the plan was written.
 
 **Last updated:** 28 Sep 2026
-**Tracking:** plan PR fahamutech/fitflex#9 · I0 PRs (all draft): backend fahamutech/fitflex-functions#34, mobile fahamutech/fitflex-mobile#29, portal fahamutech/fitflex-portal#15
+**Tracking:** plan PR fahamutech/fitflex#9 · I0 **merged and live 28 Sep 2026**: backend fahamutech/fitflex-functions#34 (cf4b6a6), mobile fahamutech/fitflex-mobile#29 (0e3c012), portal fahamutech/fitflex-portal#15 (f6246a3)
 
 ---
 
@@ -95,17 +95,17 @@ Invitation (org, role, target person or identifier, tokenHash, status)
 | Phase / item | State |
 |---|---|
 | Audit, plan, architecture gate, decision lock | Done (this PR) |
-| **I0 backend** | **Built:** fahamutech/fitflex-functions#34 (draft), branch `fix/identity-i0-security`, one commit on top of `main` b08bcd9. 696/696 specs pass on a fresh CI DB. **Not merged.** |
-| **I0 mobile** | **Built:** fahamutech/fitflex-mobile#29 (draft). `/auth/verify-email` step; `flutter analyze` clean; 444/444 tests. Merge only after #34 is live, then device-check against it. |
-| **I0 portal** | **Built:** fahamutech/fitflex-portal#15 (draft). Verify step on the login page; `tsc` and `next build` clean; new mocked e2e `verify-email.spec.ts` plus `login.spec.ts` 3/3. Merge only after #34 is live. |
+| **I0 backend** | **Live** (functions#34, merge cf4b6a6, 28 Sep). Confirmed on the live API: `/auth/otp/*` → 404, `/me` without a token → 401, a bad Firebase token → 401, health 200. The rehash migration ran on deploy **without a production dry run** (waived by the product owner). |
+| **I0 mobile** | **Live** (mobile#29, 0e3c012). The web deploy serves the verify-email route; the Android tester APK is distributed from the same merge. |
+| **I0 portal** | **Live** (portal#15, f6246a3). The live login bundle contains the verify step. |
 | I1 onwards | Not started. |
 
 ## 7. Open items that block progress
 
 | # | Item | Blocks |
 |---|---|---|
-| A1 | **Production dry run** for I0's rehash migration (`20261021090000`). Run on production, read-only: `SELECT "userType", count(*) FROM "User" WHERE "passwordHash" LIKE 'demo:%' GROUP BY 1 ORDER BY 1;`. Production is the `fitflex` database on the host in `backup/pg_download.sh` (SSH as `admin`, then `sudo -u postgres psql -d fitflex`). Not run yet. | Merging #34 |
-| A2 | Go-ahead to merge #34 (every merge to `main` deploys) | I0 live |
+| ~~A1~~ | **Waived 28 Sep:** merged without the production dry run. for I0's rehash migration (`20261021090000`). Run on production, read-only: `SELECT "userType", count(*) FROM "User" WHERE "passwordHash" LIKE 'demo:%' GROUP BY 1 ORDER BY 1;`. Production is the `fitflex` database on the host in `backup/pg_download.sh` (SSH as `admin`, then `sudo -u postgres psql -d fitflex`). Not run yet. | Merging #34 |
+| ~~A2~~ | Done: #34 merged 28 Sep. | — |
 | B1 | **O8 vs Google Play policy.** Play's User Data policy says *"Temporary account deactivation, disabling, or 'freezing' the app account does not qualify as account deletion"* and associated user data must be deleted (retention only for legitimate reasons such as fraud or regulatory compliance, disclosed in the privacy policy). A persona soft-close with no data removal as the store-facing "Delete account" may not comply. Needs a product/legal resolution. | I3 deletion UX (not I0–I2) |
 | C1 | **Technical verification:** the Firebase Console *User account linking* setting (one account per email vs multiple) for project `fitflex-af-pilot` and the actual production project. The repo has no Auth config. Don't change it without approval. | I2 |
 | C10 | **Technical verification:** portal gym-owner and staff sign-in. The portal always sends `requestedRole: 'admin'` (`fitflex-portal/app/login/page.tsx`, since May). Since `fitflex-functions` `224f160` (14 Sep 2026), the backend finds only admin rows for that and otherwise refuses with `admin_self_registration_not_allowed`. Owners and staff are therefore probably locked out of the portal; vendor staff and HR use `/auth/login` and are unaffected. Confirm in production logs; if confirmed, propose a separate hotfix. | I2 portal work |
@@ -122,5 +122,5 @@ Invitation (org, role, target person or identifier, tokenHash, status)
    ```
    Do **not** run `npm install` in a worktree: `postinstall` runs migrations and the seed against `DATABASE_URL`. Symlink `node_modules` and `.env` from the main checkout instead, and never `git add` the symlinks.
 3. **At the start of each phase:** re-read the affected code on current `main`, confirm the §4 decisions still apply, implement **only** that phase, produce a dry-run report for any migration or backfill, run the phase's regression suites (listed in `IDENTITY_IMPLEMENTATION_PLAN.md`), and merge backend before clients.
-4. **Next permitted work:** A1 → A2 (merge #34 with approval) → once #34 is live, merge mobile#29 and portal#15 (with approval) and device-check → I1. I2 additionally needs C1 and C10 verified.
+4. **Next permitted work:** I1 (Person + LoginIdentifier foundation, no behaviour change). The real 409 → verify → sign-in flow hasn't been exercised live yet; do that with a test account an admin creates (with no Firebase login attached) before relying on it. I2 additionally needs C1 and C10 verified.
 5. **Portal e2e locally:** Playwright's bundled browser may be missing; run with an installed Chrome (`channel: 'chrome'`) via a local config rather than downloading it. New Swahili strings in both client PRs need the usual review.
