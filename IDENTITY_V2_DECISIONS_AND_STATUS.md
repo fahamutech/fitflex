@@ -2,8 +2,8 @@
 
 **Read this first if you are picking up Identity V2.** It records what was decided, what is locked, what is done, and what blocks the next step. The phase-by-phase plan is `IDENTITY_IMPLEMENTATION_PLAN.md`. Where the two differ, **this file wins**: it records the final decisions of 26–27 Sep 2026, made after the plan was written.
 
-**Last updated:** 27 Sep 2026
-**Tracking:** plan PR fahamutech/fitflex#9 · I0 backend PR fahamutech/fitflex-functions#34 (draft)
+**Last updated:** 28 Sep 2026
+**Tracking:** plan PR fahamutech/fitflex#9 · I0 PRs (all draft): backend fahamutech/fitflex-functions#34, mobile fahamutech/fitflex-mobile#29, portal fahamutech/fitflex-portal#15
 
 ---
 
@@ -96,7 +96,8 @@ Invitation (org, role, target person or identifier, tokenHash, status)
 |---|---|
 | Audit, plan, architecture gate, decision lock | Done (this PR) |
 | **I0 backend** | **Built:** fahamutech/fitflex-functions#34 (draft), branch `fix/identity-i0-security`, one commit on top of `main` b08bcd9. 696/696 specs pass on a fresh CI DB. **Not merged.** |
-| I0 mobile + portal (`409 email_verification_required` → Firebase `sendEmailVerification` → retry) | Not started. Merge only after #34 is live. |
+| **I0 mobile** | **Built:** fahamutech/fitflex-mobile#29 (draft). `/auth/verify-email` step; `flutter analyze` clean; 444/444 tests. Merge only after #34 is live, then device-check against it. |
+| **I0 portal** | **Built:** fahamutech/fitflex-portal#15 (draft). Verify step on the login page; `tsc` and `next build` clean; new mocked e2e `verify-email.spec.ts` plus `login.spec.ts` 3/3. Merge only after #34 is live. |
 | I1 onwards | Not started. |
 
 ## 7. Open items that block progress
@@ -121,4 +122,5 @@ Invitation (org, role, target person or identifier, tokenHash, status)
    ```
    Do **not** run `npm install` in a worktree: `postinstall` runs migrations and the seed against `DATABASE_URL`. Symlink `node_modules` and `.env` from the main checkout instead, and never `git add` the symlinks.
 3. **At the start of each phase:** re-read the affected code on current `main`, confirm the §4 decisions still apply, implement **only** that phase, produce a dry-run report for any migration or backfill, run the phase's regression suites (listed in `IDENTITY_IMPLEMENTATION_PLAN.md`), and merge backend before clients.
-4. **Next permitted work:** A1 → A2 (merge #34 with approval) → the I0 client PRs → I1. I2 additionally needs C1 and C10 verified.
+4. **Next permitted work:** A1 → A2 (merge #34 with approval) → once #34 is live, merge mobile#29 and portal#15 (with approval) and device-check → I1. I2 additionally needs C1 and C10 verified.
+5. **Portal e2e locally:** Playwright's bundled browser may be missing; run with an installed Chrome (`channel: 'chrome'`) via a local config rather than downloading it. New Swahili strings in both client PRs need the usual review.
