@@ -1,7 +1,7 @@
 # Gym Communication & Member Engagement — Implementation Plan
 
 **Based on:** `COMMUNICATION_IMPLEMENTATION_AUDIT.md` (26 Sep 2026)
-**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 built** (WhatsApp; see the M7 results below). M8 is next.
+**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 live.** **M8 built** (history; see the M8 results below). M9 is next.
 **Repos:** `fitflex-functions` (backend, merged first), `fitflexmobile` (owner Communication Center and member inbox), `fitflex-portal` (owner/staff Communication Center on the operator side, and admin platform communications, each gated by role and ACL).
 **Release rule (existing):** every merge to `main` deploys. Backend PRs merge and are confirmed live before the mobile or portal PRs that call them.
 
@@ -254,6 +254,30 @@ There's no WhatsApp Business account yet, so M7 builds everything **except** a r
 - `GET /owner/communications/campaigns/:id/recipients`: paginated, filterable by status.
 - **Mobile:** a "Messages" section on the owner member detail page (`CommunicationTimeline`), and a recipients list on campaign detail.
 - **Fix audit finding S1:** scope member payment history to the owner's gyms.
+
+**M8 results** (branch `feat/communication-history` in all three repos):
+- **Reused:**
+  - the M1 ledger, which already had every field the brief lists;
+  - the campaign list and detail, extended rather than duplicated;
+  - the member detail page's history sections: Messages sits next to check-ins and payments.
+- **No migration.**
+- **Added:**
+  - `communication-history-service` (log, message, member timeline, recipients, per-campaign stats, summary for M10);
+  - campaign list filters, paging and stats;
+  - FCM message IDs and error codes kept on push rows;
+  - audit S1 fixed.
+- **Apps:**
+  - Flutter: the member Messages card and timeline, campaign numbers and recipients, and a message detail sheet.
+  - Portal: the History tab, campaign filters, numbers and recipients, member timelines, and a message dialog.
+  - English and Swahili throughout.
+- **Tests:**
+  - Backend: 633/633, including 12 new tests covering filters, campaign history and paging, stats, recipients, member timelines and isolation between gyms, empty history, the message log, one message with its failure and provider reference, the summary, FCM IDs from a real delivery, and S1.
+  - Flutter: 419/419, including 8 new tests.
+  - Portal: `tsc` and `next build` pass.
+  - Checked by hand on a local API with a campaign sent through the real dispatcher: history, recipients, the member timeline, the message dialog, and a push failure waiting to retry.
+- **Left for later:**
+  - The M10 dashboard itself.
+  - Admins see only FitFlex's own messages (D5); support access to gyms' messages would be a separate decision.
 
 ## M9 — Automation engine
 

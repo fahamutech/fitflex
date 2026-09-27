@@ -186,6 +186,32 @@ List, get and preview exist under both `/owner/communications` and `/admin/commu
 
 ---
 
+## History (M8)
+
+The same routes exist under `/owner` (a gym's own messages) and `/admin` (FitFlex's own messages). Scope is enforced server-side.
+
+| Method & path | What it does |
+|---|---|
+| `GET …/communications/campaigns` | Campaign history (extended): `?gymId&status (comma list)&purpose&channel&from&to&search&cursor&limit` → `{ campaigns: [{ …, createdByName, stats }], nextCursor }` |
+| `GET …/communications/campaigns/:id` | Now also returns `stats` and `campaign.createdByName` / `campaign.template` |
+| `GET …/communications/campaigns/:id/recipients` | `?channel&status&search&cursor&limit` → `{ recipients: [{ memberId, memberName, outcome, channels: [message] }], nextCursor }` |
+| `GET …/communications/messages` | The message log: `?memberId&campaignId&channel&category&messageType&status&from&to&search&gymId&cursor&limit` → `{ messages: [message], nextCursor }` |
+| `GET …/communications/messages/:id` | One message in full: `{ message: { …, notificationId, campaign, template, provider: { …, parameters \| failedDevices, errors } } }` |
+| `GET …/communications/summary` | Same filters as the log → `{ messages, byChannel: { ch: { status: n, opened } }, totals, byDay: [{ day, messages }] }`. The raw numbers for M10. |
+| `GET /owner/members/:memberId/communications` | A member's timeline from the owner's gyms: `?channel&category&messageType&status&from&to&gymId&cursor&limit` → `{ memberId, items: [{ key, campaignId, campaignName, messageType, category, title, body, createdAt, outcome, channels: [message] }], nextCursor }`. `403 not_your_member` if the gym has nothing to do with them. |
+| `GET /admin/members/:memberId/communications` | The same, for FitFlex's own messages. |
+
+**A message** is `{ id, campaignId, automationRunId, campaignName, senderType, gymId, memberId, memberName, channel, category, messageType, title, body, locale, deepLink, status, skipReason, failureReason, failurePermanent, attempts, provider: { name: inbox|fcm|whatsapp, messageId, templateName?, language?, devices? }, createdAt, sentAt, deliveredAt, openedAt, clickedAt, failedAt, nextAttemptAt }`.
+
+**Errors and limits:**
+- A bad filter answers `400 invalid_filter` with `detail` naming the field.
+- `limit` defaults to 20, with a maximum of 100.
+- Cursors are opaque.
+
+**Also changed:** `GET /owner/members/:memberId` and `/payments` return only payments at the owner's gyms (audit S1).
+
+---
+
 ## Delivery and member endpoints (M5)
 
 | Method & path | Who | What it does |

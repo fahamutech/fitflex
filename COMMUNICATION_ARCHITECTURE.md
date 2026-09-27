@@ -194,3 +194,58 @@ There is still no WhatsApp Business account (D2), so WhatsApp is built end to en
   - Removed `/trainer/send-message/:memberId`, `/trainer/send-booking-reminder/:bookingId`, `/vendor/send-order-confirmation|ready/:orderId`, `/operator/send-payment-notification`, the placeholder `/admin/send-bulk-reengagement` and the open `/test/whatsapp`. They let any trainer, vendor or operator WhatsApp any user, and no app called them.
   - The inbound webhook is no longer unauthenticated.
 - **Apps:** WhatsApp can be picked only when it's available **and** the message started from a template approved for it. Both composers explain why otherwise. The portal's admin Communication Center has a WhatsApp tab.
+
+## 12. Communication history (M8)
+
+**No second history store.** The `CommunicationMessage` ledger has been the record since M1: one row per member, per channel, per campaign (or automation run). Each row holds status, every timestamp (`createdAt`, `sentAt`, `deliveredAt`, `openedAt`, `clickedAt`, `failedAt`, `nextAttemptAt`), `failureReason`/`failurePermanent`, `skipReason`, `attempts`, the rendered `title`/`body`/`locale`, `notificationId` (the inbox copy), `providerMessageId`, and `payload` (provider details).
+- M8 adds a read layer, `communication-history-service.mjs`, and fills the one gap: **FCM message IDs** were being thrown away.
+- `sendPush` now also returns `messageIds` and `errors`, which is additive; the inbox and `notify()` are unchanged.
+- Push rows store the first FCM ID as `providerMessageId` and `payload.fcm = { messageIds, failed, errors }`.
+- A push FCM refuses still fails as `push_failed`, with FCM's error codes kept in `payload.fcm.errors`.
+
+**Data flow:**
+```
+campaign send ──► ledger rows (queued / skipped + reason)
+dispatcher    ──► sent / delivered / failed (+ reason, provider id, FCM ids, retries)
+inbox read/tap, WhatsApp receipts ──► read / clicked / delivered (openedAt, clickedAt)
+                         │
+history service (SQL, scoped) ──► campaign list & detail stats, recipients,
+                                  member timeline, message log, one message,
+                                  summary (by channel / status / day) ──► M10
+```
+
+**Views:**
+- **Campaign history:** the existing campaign list and detail, extended.
+  - Filters: status (comma list), purpose, channel, created from/to, and a search over name and title.
+  - Keyset paging.
+  - Each campaign gets `createdByName` and live `stats` from the ledger: `targeted` (distinct members), `messages`, `byChannel[status]` and `totals`.
+  - `totals` are: `sent` = sent, delivered, read or clicked; `delivered` = delivered or later; `opened`; `clicked`; `failed`; `skipped`; `pending`.
+  - Push only ever reaches `sent`, because FCM doesn't confirm delivery.
+  - Detail also gets `template`.
+- **Recipients:** one row per member with each channel's row and an `outcome` (`reached` > `pending` > `failed` > `skipped`). Filterable by channel, status and name; paged alphabetically.
+- **Member timeline:** one item per communication (campaign or automation run), newest first, with its channels side by side. Filterable by channel, category, purpose, status and dates.
+- **Message log:** flat rows, newest first. Filters: member, campaign, channel, category, purpose, status (a ledger status, or `pending` | `reached` | `opened`), created from/to (a bare date means the whole day), member-name search and `gymId`. This is the feed M10 reads.
+- **One message:** everything above, plus the campaign, the template, the WhatsApp parameters, and FCM device and error counts.
+- **Summary:** totals by channel and status, and messages per day, for any filter window. These are the raw numbers for M10, not a dashboard.
+- **Paging:** opaque cursors on (createdAt truncated to milliseconds, id), so rows written in the same millisecond are never skipped or repeated.
+
+**Authorisation** (in the service, never the client):
+- **Gym owners and staff** (`requireGymAcl('communications')`) see rows with `senderType = 'gym'` whose `gymId` is one of their gyms. A `gymId` filter must be one of theirs (`403 not_your_gym`).
+- **FitFlex admins** (`requireAcl('communications')`) see `senderType = 'platform'` only.
+- Another gym's campaign or message answers `404 not_found`.
+- A member timeline also requires the gym to know the member (a membership, a visit, or a message from one of its gyms), otherwise `403 not_your_member`. Staff without the communications scope get 403, and the app hides the section.
+- No credentials exist in the ledger, so none can be shown: only provider names and message references.
+
+**Audit S1** is fixed here, as planned. Owner member detail and payment history now show only payments for subscriptions at the owner's gyms, not the member's FitFlex pass, trainer sessions or payments to other gyms.
+
+**Screens:**
+- **Flutter:**
+  - A Messages card on the owner's member detail page (latest three, "View all"), opening a timeline with filters.
+  - Campaign detail shows the numbers, creator and template, and a "See who got it" recipients page.
+  - Any message opens in full in a bottom sheet.
+  - Campaign list rows show sent, opened and failed.
+- **Portal:**
+  - A History tab (the message log) with filters.
+  - The campaign list gets filters and "load more".
+  - Campaign detail gets its numbers and recipients.
+  - Member timelines and a message dialog, reached from the log or the recipients.
