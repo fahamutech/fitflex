@@ -1,0 +1,124 @@
+# FitFlex Identity V2 — Decisions, Contract & Status (handoff)
+
+**Read this first if you are picking up Identity V2.** It records what was decided, what is locked, what is done, and what blocks the next step. The phase-by-phase plan is `IDENTITY_IMPLEMENTATION_PLAN.md`. Where the two differ, **this file wins**: it records the final decisions of 26–27 Sep 2026, made after the plan was written.
+
+**Last updated:** 27 Sep 2026
+**Tracking:** plan PR fahamutech/fitflex#9 · I0 backend PR fahamutech/fitflex-functions#34 (draft)
+
+---
+
+## 1. The problem in one paragraph
+
+FitFlex has no concept of a *person*. A `User` row is one person **in one role**: uniqueness is `(firebaseUid | phone | email, userType)` (`fitflex-functions` migrations `20260904130000`, `20260922130000`). Someone who is both a member and a trainer has two unrelated rows that are matched only by a shared Firebase uid or email at sign-in. There are no person, identifier, org-membership or invitation tables.
+- Owner→gym is stored in `User.gymIds`.
+- A vendor's store *is* its `User` row (`vendorProfile`); there is no Vendor table.
+- Corporate employees (`CorporateEmployee`) are never linked to a user.
+
+Every "add a person" flow (owner adds a member, trainer or staff; HR adds an employee; admin adds users) creates a new row and sets the person's credentials. That breaks the core principles below and produces duplicate accounts. The read-only audit also found security issues; I0 fixes them.
+
+## 2. Core principles (binding) — P1–P8
+
+1. One person = one FitFlex identity.
+2. Mobile and email are **identifiers**, not the user ID; either verified identifier can be used to sign in.
+3. One identity can hold many personas (member, trainer, gym owner, vendor).
+4. One identity can hold many organisation relationships.
+5. **Organisations never own identities**, credentials, phone, email or sign-in methods. They manage only the relationship.
+6. Existing users are reused through invitation or relationship, never duplicated.
+7. History stays attached to the same IDs.
+8. Nothing working breaks. Changes are incremental, backward compatible, verified against current code first, and regression-tested.
+
+## 3. Target model (architecture contract)
+
+```text
+Person (psn_…, permanent)
+ ├── LoginIdentifier  (email | phone | firebase_uid; verifiedAt; revokedAt)
+ ├── User rows = personas (existing ids unchanged; userType = persona; history stays here)
+ └── OrgMembership    (gym | vendor | corporate; role; status; ACL)
+Invitation (org, role, target person or identifier, tokenHash, status)
+```
+
+- **JWT:** `sub` stays the existing `User.id` (the persona). Add `pid` (Person id) and `ver: 2`. Never bulk-switch `req.user.sub` (~153 uses) or the ~216 `requireAuth(role)` guards; migrate them one at a time with tests.
+- **Personas:** `member`, `trainer`, `gym_operator`, `vendor`. The legacy rows `gym_staff`, `vendor_staff` and `corporate_hr` are organisation roles and are created only through memberships. `admin` stays a platform role.
+- **Membership roles:** gym → owner, staff, trainer, member · vendor → owner, staff · corporate → hr_admin, employee.
+- **Membership statuses:** requested, invited, active, declined, left, removed, suspended.
+- **Invitation states:** pending → claimed → accepted | declined | expired | cancelled.
+- **Linking rules:** automatic **only** on a verified identifier, and only for rows whose `firebaseUid` is null or the same uid. These cases create an `IdentityConflict` for admin review and are never merged silently:
+  - a different non-null uid on a row with the same email or phone
+  - the identifier is already verified on another Person
+  - linking would give one Person two personas of the same `userType`
+
+  Every link or merge writes an `IdentityEvent` (previous `personId` per row), so it can be reversed.
+- **Vendor:** `Vendor.id` = the existing vendor `User.id`, so `Product.vendorId`, `MarketplaceEnquiry.vendorId` and `MarketplaceNotification.userId` stay valid.
+- **Trainer history:** keyed by `TrainerProfile.id`; unchanged.
+- **Phase order:** I0 → I1 → I2 → I3 → I4 → I5 → **I6a (identifier verification)** → I6 (invitations) → I7 (change/recovery) → I8 (cleanup). I6a was split out of I7 because invitations, lookups and corporate direct-adds depend on verified identifiers.
+- **Feature flags (approved, C2):** umbrella `IDENTITY_V2` over `V2_FOUNDATION`, `V2_LINKING`, `V2_PERSONAS`, `V2_ADD_PERSONA`, `V2_ORG_WRITE`, `V2_ORG_AUTHZ`, `V2_IDENTIFIERS`, `V2_INVITES`, `V2_RECOVERY`. Security fixes and new-table writes are **not** flagged; reads and behaviour changes are.
+- **Old clients (approved, C3b):** V2-aware clients send `X-FitFlex-Client: identity-v2`. Clients without it keep legacy role resolution and the legacy `user` object, and never see a new `409 profile_role_required`.
+
+## 4. Final decision register (approved 26–27 Sep 2026)
+
+| ID | Decision |
+|---|---|
+| O1 | KYC is **organisation-based for gyms and vendors**, **person-based for trainers**. Existing KYC history stays readable; vendor IDs stay stable. |
+| O2 | Walk-in desk sale: desk payment → invitation (plan + payment reference attached) → person accepts → subscription created with `startedAt` = payment date. No check-in before acceptance. The refund/expiry policy for unaccepted invitations is still to be written. |
+| O3 | HR sees relationship and participation data only: name, the identifier HR entered, department, membership status, joined programme challenges and groups. Steps, runs, workouts, goals, check-ins, activity and body metrics need explicit employee consent. HR never sees the person's other identifiers, gyms, personas or memberships. |
+| O4 | **Firebase Phone Authentication** for phone login, add, change and recovery (`linkWithCredential`). No new backend OTP/SMS system. E.164 with a +255 default; the shared normaliser must handle `0712…`, `712…` and `+255712…`. The current normaliser (`whatsapp-service.mjs`) turns `712…` into `+712…`; that is a bug to fix. |
+| O5 | Trainers and staff invited by gyms or vendors **must accept**. |
+| O6 | Suspension is **membership-level**. Only an explicit FitFlex-level Person suspension suspends the whole identity. |
+| O7 | A uid-less row matched by email needs a **verified email** before it can be claimed. The backend returns `409 email_verification_required`; mobile and portal must provide the verification flow. |
+| O8 | "Delete account" from a persona context closes **that persona**, not the Person. History and counterparty records are kept; soft close only; Firebase deleted only when no live persona needs it; no blanket anonymisation in I3; grace period 30–90 days (**exact value not yet approved; don't hard-code it**). **See open item B1 below: Google Play conflict.** |
+| C2 | Phase sub-flags approved (above). |
+| C3a/b | JWT `sub`/`pid`/`ver` and the old-client header rule approved (above). |
+
+**Out of scope unless separately approved:** co-owned gyms, second or co-owned vendor stores, Apple sign-in, new corporate data-sharing models, new KYC models beyond O1, new payment models beyond O2, new OTP infrastructure, bulk persona merging.
+
+**Decisions an implementer must not make alone** (stop and ask): KYC ownership, deletion and retention, corporate data visibility, phone provider, walk-in semantics, invitation acceptance policy, pricing, compliance, customer communication, merging a disputed identity, any production Firebase configuration change.
+
+## 5. Locked invariants (short form)
+
+1. One human = one Person, whose ID never changes and is never reused.
+2. Every persona row has exactly one Person.
+3. Existing `User`, `TrainerProfile`, `Gym`, `CorporateAccount`, `CorporateEmployee` and vendor IDs never change, and history stays on them.
+4. `sub` = persona, `pid` = Person.
+5. Only verified, non-revoked identifiers authenticate or link. A verified value belongs to one Person. Unverified values never auto-link.
+6. Conflicts are never auto-merged. Merges are audited and reversible.
+7. Organisations never hold credentials or change identifiers.
+8. Memberships and personas are never hard-deleted.
+9. Invitation tokens grant nothing on their own. Accepting requires an authenticated owner of the target.
+10. From I5, organisation authority comes from active memberships, not JWT ACL claims.
+11. At most one live persona per (Person, userType). Public IDs are stored and frozen before linking.
+12. No second or co-owned store until vendor authorisation is membership-based.
+13. Nothing destructive before I8.
+14. Membership or persona suspension never suspends the Person.
+
+## 6. Status
+
+| Phase / item | State |
+|---|---|
+| Audit, plan, architecture gate, decision lock | Done (this PR) |
+| **I0 backend** | **Built:** fahamutech/fitflex-functions#34 (draft), branch `fix/identity-i0-security`, one commit on top of `main` b08bcd9. 696/696 specs pass on a fresh CI DB. **Not merged.** |
+| I0 mobile + portal (`409 email_verification_required` → Firebase `sendEmailVerification` → retry) | Not started. Merge only after #34 is live. |
+| I1 onwards | Not started. |
+
+## 7. Open items that block progress
+
+| # | Item | Blocks |
+|---|---|---|
+| A1 | **Production dry run** for I0's rehash migration (`20261021090000`). Run on production, read-only: `SELECT "userType", count(*) FROM "User" WHERE "passwordHash" LIKE 'demo:%' GROUP BY 1 ORDER BY 1;`. Production is the `fitflex` database on the host in `backup/pg_download.sh` (SSH as `admin`, then `sudo -u postgres psql -d fitflex`). Not run yet. | Merging #34 |
+| A2 | Go-ahead to merge #34 (every merge to `main` deploys) | I0 live |
+| B1 | **O8 vs Google Play policy.** Play's User Data policy says *"Temporary account deactivation, disabling, or 'freezing' the app account does not qualify as account deletion"* and associated user data must be deleted (retention only for legitimate reasons such as fraud or regulatory compliance, disclosed in the privacy policy). A persona soft-close with no data removal as the store-facing "Delete account" may not comply. Needs a product/legal resolution. | I3 deletion UX (not I0–I2) |
+| C1 | **Technical verification:** the Firebase Console *User account linking* setting (one account per email vs multiple) for project `fitflex-af-pilot` and the actual production project. The repo has no Auth config. Don't change it without approval. | I2 |
+| C10 | **Technical verification:** portal gym-owner and staff sign-in. The portal always sends `requestedRole: 'admin'` (`fitflex-portal/app/login/page.tsx`, since May). Since `fitflex-functions` `224f160` (14 Sep 2026), the backend finds only admin rows for that and otherwise refuses with `admin_self_registration_not_allowed`. Owners and staff are therefore probably locked out of the portal; vendor staff and HR use `/auth/login` and are unaffected. Confirm in production logs; if confirmed, propose a separate hotfix. | I2 portal work |
+
+**Noticed outside scope:** `fitflex-functions` commit `224f160` added `backup/fitflex.dump` (removed on 16 Sep, still in git history). If it is a production dump, personal data is in the repo history. Raise with the repo owner.
+
+## 8. How to continue (for the next agent)
+
+1. **Worktrees only.** Other sessions share these checkouts; never switch branches in place.
+2. **Backend tests** need a local Postgres. Use your own CI database so you don't collide with other sessions:
+   ```bash
+   export DATABASE_URL_CI=postgresql://<user>@localhost:5432/fitflex_ci_<yours>
+   npm run db:setup:ci && npm test
+   ```
+   Do **not** run `npm install` in a worktree: `postinstall` runs migrations and the seed against `DATABASE_URL`. Symlink `node_modules` and `.env` from the main checkout instead, and never `git add` the symlinks.
+3. **At the start of each phase:** re-read the affected code on current `main`, confirm the §4 decisions still apply, implement **only** that phase, produce a dry-run report for any migration or backfill, run the phase's regression suites (listed in `IDENTITY_IMPLEMENTATION_PLAN.md`), and merge backend before clients.
+4. **Next permitted work:** A1 → A2 (merge #34 with approval) → the I0 client PRs → I1. I2 additionally needs C1 and C10 verified.

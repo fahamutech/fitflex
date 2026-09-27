@@ -1,7 +1,7 @@
 # FitFlex Identity, Personas & Organisations — Implementation Plan
 
 **Based on:** the read-only identity audit of `origin/main` in all three repos (26 Sep 2026, delivered in chat).
-**Status:** Plan only. Nothing built. Decisions D1–D3 recorded 26 Sep 2026; O6 is settled by principle P5. Open decisions O1–O5 and O7 are listed at the end.
+**Status (27 Sep 2026):** All decisions O1–O8, C2 and C3 are now **final**, and I0's backend is built (fahamutech/fitflex-functions#34). **Read `IDENTITY_V2_DECISIONS_AND_STATUS.md` first:** it holds the final decision register, the architecture contract, current status and open blockers, and takes precedence over this plan where they differ. Notably, I6a (identifier verification) now runs before I6.
 **Repos:** `fitflex-functions` (backend, merged first), `fitflexmobile`, `fitflex-portal`.
 **Release rule (existing):** every merge to `main` deploys. Backend PRs merge and are confirmed live before the mobile or portal PRs that call them.
 
@@ -318,12 +318,4 @@ Backfill scripts run with a dry-run report reviewed before each real run.
 
 ## Open decisions
 
-| # | Question | Default if not decided |
-|---|---|---|
-| O1 | Partner KYC subject: the organisation (gym, vendor) or the person? `PartnerKycCase.userId` points at a persona row today, and KYC D1/D3–D6 are still open. | Move vendor and gym KYC to the organisation; trainer KYC stays per person |
-| O2 | Walk-in desk sale: does a gym-sold subscription start at payment or only when the member accepts the invite? | Starts at payment and is attached to the invite; moves to the person on acceptance |
-| O3 | Corporate direct add: what can HR see about an employee (participation only, or activity data)? Tanzania PDPA 2022 consent wording | Participation in company challenges and groups only; activity data needs an explicit opt-in |
-| O4 | Phone verification: Firebase phone auth or backend OTP via Africa's Talking or WhatsApp? | Firebase phone auth (no SMS code to build); revisit on cost |
-| O5 | Do gym trainers, gym staff and vendor staff also have to accept invites? | Yes |
-| O6 | ~~Does a gym suspending a member become membership-level only?~~ | **Settled by P5: yes** |
-| O7 | Existing uid-less rows (admin-created owners, HR admins): is the "verify your email to continue" step in I0 acceptable for them? | Yes |
+All resolved on 26–27 Sep 2026. See the final decision register in `IDENTITY_V2_DECISIONS_AND_STATUS.md` §4, and its §7 for what still blocks progress (production dry run, O8 vs Google Play, Firebase account setting, portal owner sign-in).
