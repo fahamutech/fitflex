@@ -1,7 +1,7 @@
 # Gym Communication & Member Engagement — Implementation Plan
 
 **Based on:** `COMMUNICATION_IMPLEMENTATION_AUDIT.md` (26 Sep 2026)
-**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 live.** **M8 built** (history; see the M8 results below). M9 is next.
+**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 live.** **M8 live.** **M9 built** (automations; see the M9 results below). M10 is next.
 **Repos:** `fitflex-functions` (backend, merged first), `fitflexmobile` (owner Communication Center and member inbox), `fitflex-portal` (owner/staff Communication Center on the operator side, and admin platform communications, each gated by role and ACL).
 **Release rule (existing):** every merge to `main` deploys. Backend PRs merge and are confirmed live before the mobile or portal PRs that call them.
 
@@ -292,6 +292,37 @@ There's no WhatsApp Business account yet, so M7 builds everything **except** a r
   - At most 1 automation message per member per day per gym.
   - If a run would target more than N members, it's held and logged.
 - **Gym reminders take over from the platform renewal notifier (D4).** For a `direct_sub`, it skips members whose gym has an enabled expiry automation. It keeps sending if the gym has none. The notifier also gets a dedupe key, so a rerun can't send twice.
+
+**M9 results** (branch `feat/communication-automations` in all three repos):
+- **The seven automations from the brief** (welcome; 7, 3 and 1 days before expiry; expired; payment failed; 14 days without a visit) are created per gym, **disabled** (as decided in the audit).
+- **One new FitFlex template**, `membership_final_reminder` (English and Swahili), for the 1-day "final reminder".
+- **Uses existing events:** payment approval and rejection, owner create and renew, and Selcom. An hourly sweep covers anything missed, reading the membership, payment and check-in facts the audiences already compute.
+- **Idempotency:**
+  - unique run keys, checked before inserting;
+  - runs and ledger rows written in one transaction;
+  - per-member locks;
+  - a single-runner lock on the hourly job;
+  - the platform renewal reminder made idempotent.
+- **Guards:** a daily limit per member, catch-up windows, and a runaway pause.
+- **D4 done:** gym expiry reminders replace the platform one for their members.
+- **Tests:**
+  - Backend: 649/649, including 12 new automation tests:
+    - defaults and settings, including isolation between gyms;
+    - trigger windows;
+    - once-only across reruns and overlapping runs;
+    - the daily limit and priority;
+    - the runaway pause;
+    - send hours;
+    - welcome (first membership only), and payment failed by event and by sweep;
+    - Selcom events;
+    - delivery with the template's button;
+    - D4 and the idempotent platform reminder.
+  - Flutter: 424/424, including 5 new tests.
+  - Portal: `tsc` and `next build` pass.
+  - Checked by hand: switched on from the portal, run the engine twice (one send, then "already sent"), and delivered through the real dispatcher.
+- **Left for later:**
+  - FitFlex-wide (platform) automations for pass holders; the platform reminder still covers them.
+  - Per-gym custom automations beyond the seven; the table supports them, but there's no UI to create new ones.
 
 ## M10 — Analytics
 

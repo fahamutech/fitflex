@@ -249,3 +249,48 @@ history service (SQL, scoped) ──► campaign list & detail stats, recipients
   - The campaign list gets filters and "load more".
   - Campaign detail gets its numbers and recipients.
   - Member timelines and a message dialog, reached from the log or the recipients.
+
+## 13. Lifecycle automations (M9)
+
+`automation-service.mjs` uses the M1 tables `CommunicationAutomation` and `AutomationRun`. Migration `20261006090000-communication-automation-controls` adds `pausedReason`, `lastRunAt` and `updatedBy` to automations, and `subscriptionId` and `context` to runs, plus a (gym, member, createdAt) index.
+
+**Defaults.** Every gym has these, created on first look and **switched off** until the owner turns them on. Until then, the platform reminder covers members (D4).
+
+| Automation | Trigger | Template | Due when |
+|---|---|---|---|
+| Welcome new members | `membership_activated` (first membership only) | `welcome_member` | on the event, and swept for 48 hours |
+| Membership ends in 7 / 3 / 1 days | `membership_expiring` 7 / 3 / 1 | `membership_expiring` / `renewal_reminder` / `membership_final_reminder` (new) | 6–7, 2–3 and 1 days left |
+| Membership has ended | `membership_expired` | `membership_expired` | 1–2 days after expiry, if not renewed |
+| Payment didn't go through | `payment_failed` | `payment_failed` (with the amount) | on the event, and swept for 48 hours |
+| No visit for 14 days | `member_inactive` 14 | `we_miss_you` | 14–15 days since the last visit (or since joining) |
+
+Channels default to in-app, push and WhatsApp. Members' preferences, the weekly marketing cap and WhatsApp approval all apply exactly as for campaigns. Rendering is shared with campaigns (`shared/message-render.mjs`).
+
+**Events and the sweep:**
+- **Events fire immediately.** The sources are:
+  - `adminPaymentService` approval (`onSubscriptionActivated`, alongside the existing "Payment confirmed" note) and rejection (`onPaymentRejected`);
+  - `memberManagement.createMember` and `renewMember` (`onMembershipActivated`);
+  - the Selcom webhook: success activates; a failure on a membership still waiting on payment raises `payment_failed`, without changing the subscription.
+  - A hook never breaks the payment or registration it came from.
+- **The `communicationAutomations` job** runs hourly at :10. It re-checks every trigger against the audience facts (`segmentService.gymMemberFacts`, the same status rules the Members list uses), plus the last 48 hours of activations and rejected payments.
+  - So a lost event, a crash or a failed run is caught up on the next run.
+  - Scheduled sends go out only between 08:00 and 20:00 EAT.
+- **Only memberships in force are reminded:** the subscription must be `active`, not cancelled, unpaid or suspended.
+
+**Idempotent and retry-safe:**
+1. Each send inserts `AutomationRun (automationId, memberId, occurrenceKey)`, where that combination is UNIQUE. Examples: `2026-10-14:T-7`, `2026-10-15:expired`, `inactive:2026-09-20`, `payment:pay_123`, `sub_1:activated:2026-09-27`. The occurrence is checked first, then inserted with `ON CONFLICT DO NOTHING`. A rerun, an overlapping server, or an event plus the sweep can never send twice.
+2. The run's ledger rows are inserted **in the same transaction**, so a crash leaves either both or neither. The M5 dispatcher then delivers them with its own retries (SKIP LOCKED).
+3. A per-member advisory transaction lock keeps two senders from both passing the **one automation message per member per gym per day** limit. When several are due, the most urgent wins (payment > expiring > expired > welcome > inactive). The rest wait for a later run while their window lasts.
+4. The hourly run itself takes `pg_try_advisory_xact_lock`, so only one server does it. Each run records a `JobRun`.
+5. **Runaway guard:** an automation due for more than `COMMS_AUTOMATION_MAX_PER_RUN` (default 300) members in one run is paused (`status: 'paused'`, `pausedReason: too_many_members:N`), audited, and shown to the owner. Turning it back on clears the pause. An archived template also pauses it (`template_unavailable`).
+
+**Other jobs:**
+- `renewalNotifier`: each reminder now has an inbox ID `ntf_renew_<sub>_<renewal day>_<T>`. `notify({ id })` finds it on a rerun and sends nothing more.
+- **D4:** it skips gym memberships (`direct_sub`) at gyms with an enabled expiry automation. It still reminds everyone else.
+- `challengeRewardSettler` was already idempotent (awards are unique), and `communicationDispatcher` claims rows with SKIP LOCKED.
+
+**Delivery:** automation messages go to the inbox as type `automation`, with the template's button in the member's language and the gym's name as the sender.
+
+**Screens:**
+- **Flutter:** an Automations tab (switches, numbers, pause notices) and an automation page (when it sends, channels, template, preview, recent firings).
+- **Portal:** the same in `communication-automations.tsx` (owners only).

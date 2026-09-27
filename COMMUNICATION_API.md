@@ -212,6 +212,26 @@ The same routes exist under `/owner` (a gym's own messages) and `/admin` (FitFle
 
 ---
 
+## Automations (M9) — owners and staff with the `communications` scope
+
+| Method & path | What it does |
+|---|---|
+| `GET /owner/communications/automations?gymId` | `{ automations: [{ id, gymId, name, trigger, offsetDays, conditions, channels, status: enabled\|disabled\|paused, pausedReason, template: { id, key, name, system, purpose }, lastRunAt, stats: { fired, skipped, messages, reached, failed, opened } }] }`. `stats` cover the last 30 days. Defaults are created (switched off) on the first call. |
+| `GET /owner/communications/automations/:id` | One automation (`404` if it isn't this gym's). |
+| `PATCH /owner/communications/automations/:id` | `{ status?: enabled\|disabled, channels?: [in_app\|push\|whatsapp], templateId? }`. Turning it on clears an automatic pause. Errors: `400 invalid_status` / `invalid_channels`; `400 template_needs_values` for templates needing offer details, or an amount outside the payment trigger; `404 template_not_found`. |
+| `GET /owner/communications/automations/:id/runs?limit&before` | Recent firings: `{ runs: [{ id, memberId, memberName, occurrenceKey, status: queued\|skipped, context, createdAt, channels: [{ id, channel, status, reason }] }] }` |
+| `POST /owner/communications/automations/:id/preview` | The template preview for a sample member (same shape as M6). |
+
+**Job:** `communicationAutomations`, hourly at :10. Scheduled sends go out 08:00–20:00 EAT. Each run records a `JobRun` with `job: "communication_automations"`.
+
+**Environment:**
+- `COMMS_AUTOMATION_MAX_PER_RUN` (default 300): the runaway guard.
+- `COMMS_MARKETING_WEEKLY_CAP`: shared with campaigns.
+
+**History:** automation messages appear in the message log and member timelines with `automationRunId` set and `campaignId` null.
+
+---
+
 ## Delivery and member endpoints (M5)
 
 | Method & path | Who | What it does |
