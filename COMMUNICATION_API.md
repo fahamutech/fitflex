@@ -7,6 +7,23 @@ Base URL: the fitflex-functions API. Auth is the usual `Authorization: Bearer <F
 | Gym owners, and gym staff with the `communications` scope | `requireAuth('gym_operator','gym_staff')` + `requireGymAcl('communications')` |
 | FitFlex admins; portal staff need the `communications` scope | `requireAuth('admin')` + `requireAcl('communications')` |
 
+**Checked again against the account on every request (M11).** The guards read the token, which lives for up to 7 days. Every communications handler then loads the account as it is now, before doing anything:
+
+| Check | Refusal |
+|---|---|
+| The account still exists | `404 user_not_found` |
+| Its type matches the token's (`gym_operator`, `gym_staff`, `admin`) | `403 forbidden` |
+| It is active | `403 account_suspended` |
+| Gym staff, and portal staff, still hold `communications` on the account | `403 acl_forbidden` (`requiredScope: "communications"`) |
+| Gyms are limited to ones that exist. For staff, they are also limited to gyms an active owner still holds. A `gymId` in the request can only narrow them. | `403 not_your_gym`; `400 owner_has_no_gyms` when none are left |
+
+Another gym's campaign, template, automation, message or member looks like one that doesn't exist (`404 not_found`, or `403 not_your_member` for a member timeline).
+
+**New skip reasons (M11).** These are checked again just before each message is delivered:
+- `account_suspended`: the member was suspended after the message was queued.
+- `member_not_found`: the member's account is gone. Deleting an account also deletes its ledger rows.
+- `not_gym_member`: a gym message to someone with no direct membership at that gym. The dispatcher refuses it. Audiences never produce this; it guards against bugs.
+
 ---
 
 ## Audiences (M2)

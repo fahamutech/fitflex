@@ -52,6 +52,7 @@ Deletion behaviour: every row cascades from its gym or member. Links to template
 
 - Gym staff scope: `communications` has been added to `GYM_STAFF_ACL_SCOPES`. Owners (`gym_operator`) are always allowed.
 - Portal (admin) scope: `communications` has been added to `PORTAL_ACL_SCOPES`.
+- Since M11 the token is not trusted alone. Each request is checked again against the account (see §15).
 - The mobile staff-permission list (`kGymStaffAclScopes`) and the portal Users page scope list are UI, so they change in M3.
 
 ## 5. Channels
@@ -327,3 +328,65 @@ Channels default to in-app, push and WhatsApp. Members' preferences, the weekly 
 - **Flutter:** a "How this campaign did" card on campaign detail, "Last 30 days" on automation detail, and last-30-days results by campaign and automation on the Overview.
 - **Portal:** the same (`communication-results.tsx`), with a 7/30/90-day choice on the Overview.
 - **Both:** English and Swahili, and a note explaining the attribution rule.
+
+## 15. Security and tenant isolation (M11)
+
+A gym owner or staff member must never reach another gym's members. The chain is enforced on the server at every step; the apps' filtering is only for display.
+
+```
+signed token ── requireAuth: valid, right role, not suspended (cached 30 s)
+   │            requireGymAcl / requireAcl: scope in the token
+   ▼
+communicationAccess (src/services/communication-access.mjs), on every request, fresh from the DB:
+   account exists → same type as the token → accountStatus active
+   → owner, or staff/portal staff who still hold `communications`
+   → gyms = the account's gyms that exist (staff: that an active owner still holds)
+   ▼
+services: a request gymId may only narrow those gyms (403 not_your_gym);
+   every read and write is filtered by senderType + gymId in them
+   ▼
+audience: direct members (direct_sub at those gyms), suspended accounts left out
+   ▼
+ledger insert: assertGymRecipients — each gym row's member must have a
+   direct_sub at the row's gym, or the whole transaction rolls back
+   ▼
+dispatcher: before each delivery — member exists, not suspended, and (gym
+   messages) still a direct member of that gym; otherwise skipped with a reason
+```
+
+**Why the fresh check:**
+- A token lasts 7 days in production.
+- Before M11, a staff member whose `communications` permission was removed, or who was reassigned to another gym, kept access until the token expired.
+- Suspension was only cached for 30 seconds.
+- Now each communications request re-reads the account: one user query, plus one gym query (two for staff).
+
+**Suspended and deleted members:**
+- Accounts suspended by FitFlex are dropped from gym and FitFlex audiences and from automations, since they use the same member facts.
+- A membership the gym suspended is different: it still appears under the `suspended` status filter, so a gym can tell those members about it.
+- Deleted accounts: the ledger's `memberId` foreign key uses `ON DELETE CASCADE`.
+- Missing phone or device: skipped with `no_phone`, `invalid_phone` or `no_device`, as before.
+
+**Payload limits:**
+- Title 65, body 1,000, button 25, offer name 60, discount 20.
+- Audience filters: 25 conditions, 3 levels, lists of 50, text of 100.
+- History search: capped.
+- WhatsApp template values are cleaned before they are stored and again before they are sent. New lines, tabs and control characters are removed, runs of spaces collapse to one, and values are capped at 1,024 characters. Providers refuse values with new lines or long space runs, and names and offers are typed by people.
+
+**Also in place from earlier milestones:**
+- Caps: a weekly marketing cap per member, and one automation message per member per gym per day.
+- The large-send confirmation.
+- The WhatsApp kill switch.
+- Consent rules per channel and category.
+- Audit findings S1–S3 were closed in M7 and M8.
+- S4 (a single check-in makes the member visible to that gym's history) stays a design note. A gym can only ever see messages it sent itself.
+
+**Tests** (`specs/communications-security.specs.mjs`) run each route's real guards and handler with a signed token:
+- Owner A calls **every** `/owner/…` communications route (all 35) with gym B's gym, campaign (sent and draft), template, automation, message and member ids. Every call except the shared segment catalogue is refused, nothing of B's comes back, and B's rows are unchanged.
+- Without a gym named, only A's data comes back.
+- Staff whose permission was removed after sign-in are refused, and so are staff assigned to a gym no owner holds.
+- Suspended and deleted accounts are refused; so are tokens for the wrong kind of account and gyms that don't exist. Admin permissions are re-checked too.
+- Suspended members are left out, and skipped if they were suspended after queueing.
+- The ledger guard and dispatcher refuse a gym message to a non-member.
+- Limits.
+- A deliberately broken ownership check fails the suite, naming the route that leaked.
+

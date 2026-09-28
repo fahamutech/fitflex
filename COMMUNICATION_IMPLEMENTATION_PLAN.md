@@ -1,7 +1,7 @@
 # Gym Communication & Member Engagement — Implementation Plan
 
 **Based on:** `COMMUNICATION_IMPLEMENTATION_AUDIT.md` (26 Sep 2026)
-**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 live.** **M8 live.** **M9 live.** **M10 built** (analytics; see the M10 results below). M11 is next.
+**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 live.** **M8 live.** **M9 live.** **M10 built** (analytics; see the M10 results below). **M11 built** (security and tenant isolation; see the M11 results below). M12 is next.
 **Repos:** `fitflex-functions` (backend, merged first), `fitflexmobile` (owner Communication Center and member inbox), `fitflex-portal` (owner/staff Communication Center on the operator side, and admin platform communications, each gated by role and ACL).
 **Release rule (existing):** every merge to `main` deploys. Backend PRs merge and are confirmed live before the mobile or portal PRs that call them.
 
@@ -366,6 +366,26 @@ There's no WhatsApp Business account yet, so M7 builds everything **except** a r
 - Suspended members are excluded. Deleted accounts cascade. Members with no phone or no tokens are skipped with a reason.
 - Also covered: caps, the large-send confirmation, the kill switch, and payload limits (title 65 characters, body 1,000, and the WhatsApp variable limits).
 - Close out audit findings S1–S3 if they haven't already been done.
+
+**M11 results** (branch `feat/communication-security` in all three repos, stacked on M10):
+- **Fresh authorization on every request.** `communicationAccess` re-reads the account behind the token:
+  - it exists, with the same type as the token, and is active;
+  - staff and portal staff still hold `communications`;
+  - gyms are limited to ones that exist (for staff, also held by an active owner).
+  - Every owner and admin communications route uses it, including the segment catalogue, audience preview and the WhatsApp admin routes. A revoked permission or suspension now applies at once; before, it lasted until the 7-day token ran out.
+- **Defence in depth:**
+  - Gym ledger rows are only written for direct members of that gym. Otherwise the transaction rolls back, and a scheduled campaign ends `failed`.
+  - The dispatcher re-checks each member before delivery, with new skip reasons `account_suspended`, `member_not_found` and `not_gym_member`.
+- **Suspended accounts** are left out of all audiences (gym, FitFlex, trainers) and automations. Deleted accounts cascade through the ledger foreign key.
+- **WhatsApp values** are cleaned: no new lines, tabs or control characters, single spaces, capped at 1,024.
+- **Apps:** labels for the new skip reasons and permission errors, in English and Swahili.
+- **Tests:**
+  - Backend: 734/734, including the new `communications-security` suite (13 tests: all 35 owner routes against another gym's ids, plus the account checks, members and limits). The suite was mutation-checked.
+  - Flutter: 479/479.
+  - Portal: `tsc` and `next build` pass.
+- **Unchanged by design:**
+  - S4: one check-in makes a member visible to that gym's history, but only the gym's own messages.
+  - The JWT guards stay in front of the fresh check, for cheap early refusal.
 
 ## M12 — QA and production readiness
 
