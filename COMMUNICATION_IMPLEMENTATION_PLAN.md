@@ -1,7 +1,7 @@
 # Gym Communication & Member Engagement — Implementation Plan
 
 **Based on:** `COMMUNICATION_IMPLEMENTATION_AUDIT.md` (26 Sep 2026)
-**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 live.** **M8 live.** **M9 built** (automations; see the M9 results below). M10 is next.
+**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 live.** **M8 live.** **M9 live.** **M10 built** (analytics; see the M10 results below). M11 is next.
 **Repos:** `fitflex-functions` (backend, merged first), `fitflexmobile` (owner Communication Center and member inbox), `fitflex-portal` (owner/staff Communication Center on the operator side, and admin platform communications, each gated by role and ACL).
 **Release rule (existing):** every merge to `main` deploys. Backend PRs merge and are confirmed live before the mobile or portal PRs that call them.
 
@@ -332,6 +332,32 @@ There's no WhatsApp Business account yet, so M7 builds everything **except** a r
   - **Conversion:** renewed and paid. These are members with an approved `PaymentRequest` for a `direct_sub` at this gym within the attribution window after a click. Attributed revenue is the sum of those `amountTzs`, and is labelled "attributed (last touch, 7 days)".
 - Nothing is estimated. A metric with no data source shows "—".
 - The Overview gets 30-day totals.
+
+**M10 results** (branch `feat/communication-analytics` in all three repos):
+- **Built from existing data, no migration:** the ledger's timestamps (delivered, opened, tapped) and approved `PaymentRequest`s.
+- **Groups:**
+  - Delivery: recipients, sent, delivered, didn't reach, skips with reasons.
+  - Engagement: opened, tapped, and CTA completed, meaning the button's goal was reached within 7 days.
+  - Business: renewed, payments completed, attributed revenue.
+- **Attribution:** last touch, 7 days after a tap, else 3 days after an open. Each payment is credited once. Gyms get membership payments at their gym; FitFlex gets pass payments.
+- **Views:** per campaign, per automation, and an overview by campaign and automation. Apps show "—" where there's no data (e.g. push delivery).
+- **Tests:**
+  - Backend: 721/721, including 7 new analytics tests:
+    - the September-style funnel;
+    - tap vs open windows;
+    - last touch across campaigns;
+    - other gyms and pending payments excluded;
+    - first payment vs renewal, including renewal on the same membership;
+    - gym-visit CTA;
+    - automation period;
+    - overview;
+    - scope and the platform.
+  - Flutter: 478/478, including 6 new tests.
+  - Portal: `tsc` and `next build` pass.
+  - Checked by hand: a campaign sent through the real dispatcher, simulated tap and open, owner renewals through the API, then the results in the portal.
+- **Not done:**
+  - Money that comes in without a `PaymentRequest` (none exists today).
+  - Charts over time; the summary endpoint from M8 has the daily counts for that.
 
 ## M11 — Security and edge cases
 

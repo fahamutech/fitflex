@@ -294,3 +294,36 @@ Channels default to in-app, push and WhatsApp. Members' preferences, the weekly 
 **Screens:**
 - **Flutter:** an Automations tab (switches, numbers, pause notices) and an automation page (when it sends, channels, template, preview, recent firings).
 - **Portal:** the same in `communication-automations.tsx` (owners only).
+
+## 14. Analytics (M10)
+
+`communication-analytics-service.mjs` is read-only and needs no migration. It reads the CommunicationMessage ledger (M1–M9) and approved `PaymentRequest`s.
+
+| Group | Metric (members, not messages) | Source |
+|---|---|---|
+| Delivery | Recipients | distinct members with a ledger row |
+| | Sent | members with a row sent, delivered, read or clicked |
+| | Delivered | members with `deliveredAt`: the in-app inbox write, or a WhatsApp receipt. **Push has no receipt, so push-only delivery is `null` ("—").** |
+| | Didn't reach them | members with no reached row and at least one failed row. Skips are counted per reason. |
+| Engagement | Opened | `openedAt`: inbox read, push opened, WhatsApp read receipt |
+| | Tapped | `clickedAt`: button taps (M5) |
+| | CTA completed | tapped, then did what the button led to within 7 days: approved payment (renewal, membership or payment buttons), or a check-in at the gym (gym button). `null` when no message had such a button. |
+| Business | Renewed / payments completed | credited approved payments. A renewal means there was an earlier membership at the gym, an earlier approved payment on the same membership, or the membership started before the tap or open. |
+| | Attributed revenue | the sum of credited `amountTzs` |
+
+**Attribution** (as decided in the audit):
+- **Last touch:** a payment is credited to the last message the member *tapped* in the 7 days before paying, or failing that, the last one *opened* in the 3 days before.
+- **Every message competes.** Every message the same sender sent that member competes (campaigns and automations), so a payment is credited once only.
+- **What counts as a payment:** a gym's messages are credited with approved payments for memberships at that gym (`direct_sub`); FitFlex's with FitFlex pass payments (`platform_pass`).
+- **Payment time** is `decidedAt`, falling back to `requestedAt`.
+
+**Views:**
+- **Per campaign:** the three groups, per-channel message counts, reasons, and who paid (up to 50).
+- **Per automation:** over `?days` (default 30).
+- **Overview:** over `?days` (7/30/90 in the apps, up to 365). It gives totals, plus each campaign and automation that sent in the period, with recipients, opened, tapped, paid and attributed revenue.
+- **Scope** is as in M8: gyms see their own; admins see FitFlex's.
+
+**Screens:**
+- **Flutter:** a "How this campaign did" card on campaign detail, "Last 30 days" on automation detail, and last-30-days results by campaign and automation on the Overview.
+- **Portal:** the same (`communication-results.tsx`), with a 7/30/90-day choice on the Overview.
+- **Both:** English and Swahili, and a note explaining the attribution rule.

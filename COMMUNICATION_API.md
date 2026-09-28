@@ -232,6 +232,18 @@ The same routes exist under `/owner` (a gym's own messages) and `/admin` (FitFle
 
 ---
 
+## Analytics (M10)
+
+| Method & path | What it does |
+|---|---|
+| `GET …/communications/campaigns/:id/analytics` | Owner and admin. `{ campaign, attribution: { model: 'last_touch', clickWindowDays: 7, openWindowDays: 3 }, members: { recipients, sent, delivered\|null, failed, opened, clicked, ctaCompleted\|null, renewed, paid }, revenue: { currency: 'TZS', attributedTzs, payments }, channels: { ch: { messages, sent, delivered\|null, opened, clicked, failed, skipped, pending } }, reasons: { failed, skipped }, conversions: [{ paymentId, memberId, memberName, amountTzs, paidAt, via: click\|open, touchAt, renewal }] }` |
+| `GET /owner/communications/automations/:id/analytics?days=30` | The same for one automation over the period, with `period`. |
+| `GET …/communications/analytics?days=30&gymId` | Owner and admin. Totals for the period, plus `sources: [{ type: campaign\|automation, id, name, purpose\|trigger, offsetDays, lastSentAt, recipients, sent, opened, clicked, paid, attributedTzs }]`. `400 invalid_days` outside 1–365. |
+
+`null` means there's no data source, never zero: push has no delivery receipt, and a message whose button only opens it has no CTA to complete.
+
+---
+
 ## Delivery and member endpoints (M5)
 
 | Method & path | Who | What it does |
