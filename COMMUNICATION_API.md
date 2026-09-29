@@ -127,6 +127,7 @@ The same routes exist under `/owner/communications` (a gym → its direct member
 | `POST …/campaigns/:id/schedule` | `{ scheduledAt }`, 5 minutes to 90 days ahead (`400 schedule_too_soon` / `schedule_too_far`) |
 | `POST …/campaigns/:id/unschedule` | Scheduled → draft |
 | `POST …/campaigns/:id/cancel` | Draft or scheduled → cancelled |
+| `POST …/campaigns/:id/duplicate` | (M12) Copies any campaign the sender can see (sent, cancelled or draft) into a new draft. It keeps the purpose, audience, message and channels. Body `{ name? }`; the default name is `"<name> (copy)"`, and `400 invalid_name` rejects a bad one. Channels switched off since, and an archived template, are left out. The audience is worked out again when the copy is sent. `201 { campaign }`; another gym's campaign gets `404 not_found`. Audited as `communication_campaign_duplicated`. |
 | `POST …/campaigns/:id/send` | `{ sendRequestId, confirmLargeSend? }` → `{ campaign }` with status `sending` and `counts` |
 
 **Content:** `{ title (≤65), body (≤1000), ctaLabel? (≤25), deepLink?: message | membership | renewal | payment | gym, offerName?, discount?, amountTzs? }`.

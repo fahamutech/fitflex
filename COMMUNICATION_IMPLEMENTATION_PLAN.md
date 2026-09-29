@@ -1,7 +1,7 @@
 # Gym Communication & Member Engagement — Implementation Plan
 
 **Based on:** `COMMUNICATION_IMPLEMENTATION_AUDIT.md` (26 Sep 2026)
-**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 live.** **M8 live.** **M9 live.** **M10 built** (analytics; see the M10 results below). **M11 built** (security and tenant isolation; see the M11 results below). M12 is next.
+**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 live.** **M8 live.** **M9 live.** **M10 built** (analytics; see the M10 results below). **M11 live.** **M12 built** (QA; see the M12 results below and `COMMUNICATION_TEST_PLAN.md`). What's left is the production rollout (the checks done by a person in the test plan).
 **Repos:** `fitflex-functions` (backend, merged first), `fitflexmobile` (owner Communication Center and member inbox), `fitflex-portal` (owner/staff Communication Center on the operator side, and admin platform communications, each gated by role and ACL).
 **Release rule (existing):** every merge to `main` deploys. Backend PRs merge and are confirmed live before the mobile or portal PRs that call them.
 
@@ -399,6 +399,30 @@ There's no WhatsApp Business account yet, so M7 builds everything **except** a r
   3. Mobile and portal merge.
   4. Turn on `PUSH_NOTIFICATIONS=on`.
   5. Enable WhatsApp only after the provider is checked and templates are approved.
+
+**M12 results** (branch `feat/communication-qa` in all three repos):
+- **Test plan:** `COMMUNICATION_TEST_PLAN.md` maps every case in the QA brief, and every Definition of Done item, to the test that proves it. It also lists what a person has to check before and after rollout.
+- **New feature: use a campaign again.** `POST …/campaigns/:id/duplicate` copies a campaign into a new draft that opens in the composer. It's in the backend, Flutter and the portal. The brief's "Duplicate campaign" case covers both this and "never sent twice".
+- **`communications-qa` suite:** the brief's gaps, plus the Definition of Done walked through the real endpoints. The gaps it covers:
+  - an owner with several gyms;
+  - a 1,200-member audience;
+  - duplicating a campaign, and pressing Send twice;
+  - the in-app cycle through the member's own endpoints;
+  - every deep link;
+  - one campaign on every channel;
+  - a number removed after the message was queued;
+  - all six lifecycle automations end to end.
+- **Smoke test:** `scripts/role-smoke.mjs` has a communications section (38/38 locally).
+- **Portal Playwright:** new `owner-communications` and `admin-whatsapp` specs.
+- **Bugs found:**
+  - The portal's campaign detail showed the M11 skip reasons as raw codes, because it kept its own list of reasons. It now shares one list.
+  - The `admin-comms-trainers` Playwright spec had been failing since M10, because it didn't mock the results request. Playwright isn't part of CI, so this went unnoticed.
+- **Tests:** backend 759/759; Flutter analyze clean and 484/484; portal `tsc`, `next build` and 4 Playwright specs.
+- **Rollout still open** (only the owner or host admin can do these):
+  - turn on `PUSH_NOTIFICATIONS=on` in production;
+  - choose a WhatsApp provider;
+  - review the Swahili wording.
+  The checks a person must do are in the test plan.
 
 ---
 
