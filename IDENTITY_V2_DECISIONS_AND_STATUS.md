@@ -100,8 +100,8 @@ Invitation (org, role, target person or identifier, tokenHash, status)
 | **I0 portal** | **Live** (portal#15, f6246a3). The live login bundle contains the verify step. |
 | **I1 foundation** | **Merged 30 Sep** (fahamutech/fitflex-functions#48, merge 1b92f4c; rebased onto main aecd43f, 1001/1001 specs, CI pass). After the redeploy the live API is healthy (health 200, `/me` 401). **The migration run is not confirmed from outside:** check the production database (step below). Reconcile script not yet run on production. |
 | **I2 backend** | **Live** (fahamutech/fitflex-functions#51, merge e2a3562, 30 Sep). Confirmed on the live API: `POST /auth/switch-persona` → 401 without a token. Dormant: `V2_LINKING` / `V2_PERSONAS` are off. |
-| **I2 mobile** | **Built:** fahamutech/fitflex-mobile#41 (draft). V2 header, persona state, "Switch role" tile/button, `/personas` picker. 501/501. |
-| **I2 portal** | **Built:** fahamutech/fitflex-portal#25 (draft). V2 header, portal-persona switcher in the sidebar. e2e 5/5, tsc and build clean. |
+| **I2 mobile** | **Live** (fahamutech/fitflex-mobile#41, merge 9f0c888): web and the Android tester APK deployed; the live bundle has the switch-persona call and the V2 header. Dormant until `V2_PERSONAS` is on. |
+| **I2 portal** | **Live** (fahamutech/fitflex-portal#25, merge 828f014): the live bundle has the switcher. Dormant until `V2_PERSONAS` is on. |
 | I3 onwards | Not started. |
 
 ## 7. Open items that block progress
