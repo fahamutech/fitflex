@@ -113,6 +113,21 @@ Invitation (org, role, target person or identifier, tokenHash, status)
 
 **Noticed outside scope:** `fitflex-functions` commit `224f160` added `backup/fitflex.dump` (removed on 16 Sep, still in git history). If it is a production dump, personal data is in the repo history. Raise with the repo owner.
 
+## 7a. Parked 30 Sep 2026 (by the product owner, for later clarification)
+
+Building continued into I2. These are **not dropped**: each gates *enabling* the related flags in production, not building.
+
+| # | Parked item | Must be done before |
+|---|---|---|
+| P1 | Confirm the I1 migration ran on production (`knex_migrations` last row, `Person` count, 0 `User` rows with null `personId`). There is no SSH access from the product owner's Mac; needs the server admin, or an admin status endpoint (offered, not built). | Turning on any V2 flag |
+| P2 | Run `node scripts/identity-reconcile.mjs --firebase` (dry run) on production, review the counts and conflicts, then `--apply` | Turning on `V2_LINKING` |
+| P3 | C1: Firebase account-linking setting | Turning on `V2_LINKING` |
+| P4 | C10: portal owner/staff sign-in in production logs | Portal I2 rollout |
+| P5 | Live test of the I0 verify-email path with an admin-created test owner | — (confidence) |
+| P6 | `User.personId` NOT NULL, after 7 days with no null rows | After P1 |
+| P7 | Public repos: remove the production server address and the `backup/fitflex.dump` pointer from #9 and this document; decide on a history rewrite if the dump is real data | Owner decision |
+| P8 | B1: account deletion vs Google Play | I3 |
+
 ## 8. How to continue (for the next agent)
 
 1. **Worktrees only.** Other sessions share these checkouts; never switch branches in place.
