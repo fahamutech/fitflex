@@ -98,8 +98,8 @@ Invitation (org, role, target person or identifier, tokenHash, status)
 | **I0 backend** | **Live** (functions#34, merge cf4b6a6, 28 Sep). Confirmed on the live API: `/auth/otp/*` → 404, `/me` without a token → 401, a bad Firebase token → 401, health 200. The rehash migration ran on deploy **without a production dry run** (waived by the product owner). |
 | **I0 mobile** | **Live** (mobile#29, 0e3c012). The web deploy serves the verify-email route; the Android tester APK is distributed from the same merge. |
 | **I0 portal** | **Live** (portal#15, f6246a3). The live login bundle contains the verify step. |
-| **I1 foundation** | **Built:** fahamutech/fitflex-functions#48 (draft, not merged). Person, LoginIdentifier, IdentityConflict, `User.personId` and `User.publicId`, guard trigger, reconcile script. 792/792 specs. Impact report: `IDENTITY_V2_I1_MIGRATION_IMPACT.md`. |
-| I2 onwards | Not started. I2 needs C1, C10 and explicit approval. |
+| **I1 foundation** | **Merged 30 Sep** (fahamutech/fitflex-functions#48, merge 1b92f4c; rebased onto main aecd43f, 1001/1001 specs, CI pass). After the redeploy the live API is healthy (health 200, `/me` 401). **The migration run is not confirmed from outside:** check the production database (step below). Reconcile script not yet run on production. |
+| I2 onwards | Not started. I2 needs: I1 confirmed in the production database, reconcile run and conflicts reviewed, C1, C10, 7 days of zero rows without a Person, and explicit approval. |
 
 ## 7. Open items that block progress
 
