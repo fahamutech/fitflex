@@ -105,7 +105,8 @@ Invitation (org, role, target person or identifier, tokenHash, status)
 | **I3 backend** | **Merged 1 Oct** (fahamutech/fitflex-functions#53, merge 11910ea): `POST /me/personas`, `addablePersonaTypes`, unique index on `User (personId, userType)`. The API was healthy after the redeploy; the new route can't be probed without a token (the `/me` guard answers 401 either way). Dormant: `V2_ADD_PERSONA` is off. |
 | **I3 mobile** | **Merged 1 Oct** (fahamutech/fitflex-mobile#42, merge 5f1a535): "Add a role" in the role sheet. Dormant until the flag is on. |
 | I3 portal | Not needed: the addable personas are app personas. |
-| I4 onwards | Not started. **Before I4:** reconcile with the B2B foundation another workstream merged (`B2BOrganization`, `B2BOrganizationUser`, `B2BBeneficiary`, migrations `20261101090000-b2b-foundation` onwards). It overlaps I4's `OrgMembership` for companies; decide whether I4 builds on it. |
+| **I4** | **Built:** fahamutech/fitflex-functions#57 (draft). `OrgMembership` (gym, vendor) and a thin `Vendor` (id = vendor `User.id`); memberships derived from the existing sources, kept in step by hooks on the users / trainers / subscriptions collections; drift check `scripts/org-membership-sync.mjs`; `GET /me/memberships` behind `V2_ORG_WRITE`. No authorisation change. 1145/1145. **Decisions 1 Oct:** corporate relationships stay in the B2B tables and are read, not copied; the Vendor record is thin (store profile stays on the User row). Gym-scoped member suspension already landed in functions#47 (it pauses the subscription); I4 mirrors it as a `suspended` membership. |
+| I5 onwards | Not started. I5 needs a drift-free period (run the drift check on production) and explicit approval. |
 
 ## 7. Open items that block progress
 
