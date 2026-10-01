@@ -102,7 +102,10 @@ Invitation (org, role, target person or identifier, tokenHash, status)
 | **I2 backend** | **Live** (fahamutech/fitflex-functions#51, merge e2a3562, 30 Sep). Confirmed on the live API: `POST /auth/switch-persona` → 401 without a token. Dormant: `V2_LINKING` / `V2_PERSONAS` are off. |
 | **I2 mobile** | **Live** (fahamutech/fitflex-mobile#41, merge 9f0c888): web and the Android tester APK deployed; the live bundle has the switch-persona call and the V2 header. Dormant until `V2_PERSONAS` is on. |
 | **I2 portal** | **Live** (fahamutech/fitflex-portal#25, merge 828f014): the live bundle has the switcher. Dormant until `V2_PERSONAS` is on. |
-| I3 onwards | Not started. |
+| **I3 backend** | **Built:** fahamutech/fitflex-functions#53 (draft). `POST /me/personas` (member, trainer, gym_operator, vendor) under the caller's Person, `addablePersonaTypes`, unique index on `User (personId, userType)`. Behind `V2_ADD_PERSONA` (off). 1094/1094. |
+| **I3 mobile** | **Built:** fahamutech/fitflex-mobile#42 (draft). "Add a role" in the role sheet. 504/504. Merge after #53 is live. |
+| I3 portal | Not needed: the addable personas are app personas. |
+| I4 onwards | Not started. **Before I4:** reconcile with the B2B foundation another workstream merged (`B2BOrganization`, `B2BOrganizationUser`, `B2BBeneficiary`, migrations `20261101090000-b2b-foundation` onwards). It overlaps I4's `OrgMembership` for companies; decide whether I4 builds on it. |
 
 ## 7. Open items that block progress
 
@@ -129,7 +132,7 @@ Building continued into I2. These are **not dropped**: each gates *enabling* the
 | P5 | Live test of the I0 verify-email path with an admin-created test owner | — (confidence) |
 | P6 | `User.personId` NOT NULL, after 7 days with no null rows | After P1 |
 | P7 | Public repos: remove the production server address and the `backup/fitflex.dump` pointer from #9 and this document; decide on a history rewrite if the dump is real data | Owner decision |
-| P8 | B1: account deletion vs Google Play | I3 |
+| P8 | B1: account deletion vs Google Play, and the O8 soft-close of "Delete account" (today it hard-deletes the current persona row and its history) | Turning on `V2_ADD_PERSONA` for real users (it does not block building I3) |
 
 ## 8. How to continue (for the next agent)
 
