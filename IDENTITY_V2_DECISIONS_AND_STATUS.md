@@ -105,7 +105,7 @@ Invitation (org, role, target person or identifier, tokenHash, status)
 | **I3 backend** | **Merged 1 Oct** (fahamutech/fitflex-functions#53, merge 11910ea): `POST /me/personas`, `addablePersonaTypes`, unique index on `User (personId, userType)`. The API was healthy after the redeploy; the new route can't be probed without a token (the `/me` guard answers 401 either way). Dormant: `V2_ADD_PERSONA` is off. |
 | **I3 mobile** | **Merged 1 Oct** (fahamutech/fitflex-mobile#42, merge 5f1a535): "Add a role" in the role sheet. Dormant until the flag is on. |
 | I3 portal | Not needed: the addable personas are app personas. |
-| **I4** | **Built:** fahamutech/fitflex-functions#57 (draft). `OrgMembership` (gym, vendor) and a thin `Vendor` (id = vendor `User.id`); memberships derived from the existing sources, kept in step by hooks on the users / trainers / subscriptions collections; drift check `scripts/org-membership-sync.mjs`; `GET /me/memberships` behind `V2_ORG_WRITE`. No authorisation change. 1145/1145. **Decisions 1 Oct:** corporate relationships stay in the B2B tables and are read, not copied; the Vendor record is thin (store profile stays on the User row). Gym-scoped member suspension already landed in functions#47 (it pauses the subscription); I4 mirrors it as a `suspended` membership. |
+| **I4** | **Merged 1 Oct** (fahamutech/fitflex-functions#57, merge 2e8c21b); the live API was healthy after the redeploy (one 502 during the restart). The migration and its backfill are **not confirmed from outside**: run `node scripts/org-membership-sync.mjs` on production (dry run; drift should be 0). `OrgMembership` (gym, vendor) and a thin `Vendor` (id = vendor `User.id`); memberships derived from the existing sources, kept in step by hooks on the users / trainers / subscriptions collections; drift check `scripts/org-membership-sync.mjs`; `GET /me/memberships` behind `V2_ORG_WRITE`. No authorisation change. 1145/1145. **Decisions 1 Oct:** corporate relationships stay in the B2B tables and are read, not copied; the Vendor record is thin (store profile stays on the User row). Gym-scoped member suspension already landed in functions#47 (it pauses the subscription); I4 mirrors it as a `suspended` membership. |
 | I5 onwards | Not started. I5 needs a drift-free period (run the drift check on production) and explicit approval. |
 
 ## 7. Open items that block progress
@@ -126,7 +126,7 @@ Building continued into I2. These are **not dropped**: each gates *enabling* the
 
 | # | Parked item | Must be done before |
 |---|---|---|
-| P1 | Confirm the I1 migration ran on production (`knex_migrations` last row, `Person` count, 0 `User` rows with null `personId`). There is no SSH access from the product owner's Mac; needs the server admin, or an admin status endpoint (offered, not built). | Turning on any V2 flag |
+| P1 | Confirm the migrations ran on production: I1 (below), I2/I3, and I4 (`OrgMembership` and `Vendor` exist; `node scripts/org-membership-sync.mjs` dry run reports drift 0). I1: (`knex_migrations` last row, `Person` count, 0 `User` rows with null `personId`). There is no SSH access from the product owner's Mac; needs the server admin, or an admin status endpoint (offered, not built). | Turning on any V2 flag |
 | P2 | Run `node scripts/identity-reconcile.mjs --firebase` (dry run) on production, review the counts and conflicts, then `--apply` | Turning on `V2_LINKING` |
 | P3 | C1: Firebase account-linking setting | Turning on `V2_LINKING` |
 | P4 | C10: portal owner/staff sign-in in production logs | Portal I2 rollout |
