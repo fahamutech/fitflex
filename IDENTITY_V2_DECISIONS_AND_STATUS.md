@@ -102,8 +102,8 @@ Invitation (org, role, target person or identifier, tokenHash, status)
 | **I2 backend** | **Live** (fahamutech/fitflex-functions#51, merge e2a3562, 30 Sep). Confirmed on the live API: `POST /auth/switch-persona` → 401 without a token. Dormant: `V2_LINKING` / `V2_PERSONAS` are off. |
 | **I2 mobile** | **Live** (fahamutech/fitflex-mobile#41, merge 9f0c888): web and the Android tester APK deployed; the live bundle has the switch-persona call and the V2 header. Dormant until `V2_PERSONAS` is on. |
 | **I2 portal** | **Live** (fahamutech/fitflex-portal#25, merge 828f014): the live bundle has the switcher. Dormant until `V2_PERSONAS` is on. |
-| **I3 backend** | **Built:** fahamutech/fitflex-functions#53 (draft). `POST /me/personas` (member, trainer, gym_operator, vendor) under the caller's Person, `addablePersonaTypes`, unique index on `User (personId, userType)`. Behind `V2_ADD_PERSONA` (off). 1094/1094. |
-| **I3 mobile** | **Built:** fahamutech/fitflex-mobile#42 (draft). "Add a role" in the role sheet. 504/504. Merge after #53 is live. |
+| **I3 backend** | **Merged 1 Oct** (fahamutech/fitflex-functions#53, merge 11910ea): `POST /me/personas`, `addablePersonaTypes`, unique index on `User (personId, userType)`. The API was healthy after the redeploy; the new route can't be probed without a token (the `/me` guard answers 401 either way). Dormant: `V2_ADD_PERSONA` is off. |
+| **I3 mobile** | **Merged 1 Oct** (fahamutech/fitflex-mobile#42, merge 5f1a535): "Add a role" in the role sheet. Dormant until the flag is on. |
 | I3 portal | Not needed: the addable personas are app personas. |
 | I4 onwards | Not started. **Before I4:** reconcile with the B2B foundation another workstream merged (`B2BOrganization`, `B2BOrganizationUser`, `B2BBeneficiary`, migrations `20261101090000-b2b-foundation` onwards). It overlaps I4's `OrgMembership` for companies; decide whether I4 builds on it. |
 
