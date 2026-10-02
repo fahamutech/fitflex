@@ -1,6 +1,6 @@
 # Identity V2 · I7 — Registration, sign-in and PIN: design for confirmation
 
-**Status: proposal, 2 Oct 2026. Nothing in this document is built. Build starts only after the product owner confirms the six decisions in section 9.**
+**Status: design confirmed by the product owner on 2 Oct 2026 (section 9). Nothing in this document is built yet; each build step still needs its own go-ahead.**
 
 It implements the decisions of 2 Oct 2026 recorded in `IDENTITY_V2_DECISIONS_AND_STATUS.md` (O4-R, O9–O12):
 
@@ -97,7 +97,7 @@ People who only ever used Google are unaffected.
 
 ## 6. Old app versions
 
-Old builds keep signing in through Firebase, as they do now. While old builds are still supported, FitFlex keeps the Firebase password equal to the current PIN, so a PIN changed in the new app still works in an old one. This copy is removed in I8 when old builds are retired.
+**Decided 2 Oct 2026:** every current user is a test user and will move to the new app, so old builds are **not** kept working. FitFlex does not copy the PIN back into Firebase. Once someone's PIN is kept by FitFlex, an old build can no longer sign them in with it.
 
 ## 7. What does not change in I7
 
@@ -118,23 +118,26 @@ Old builds keep signing in through Firebase, as they do now. While old builds ar
 
 A new flag, `V2_PIN_LOGIN`, is needed for I7a–I7d; `V2_RECOVERY` (already approved) covers forgot-PIN and identifier change. Adding the flag is a small addition to decision C2.
 
-## 9. Decisions needed from the product owner
+## 9. Decisions (confirmed by the product owner, 2 Oct 2026)
 
-| # | Decision | Recommendation |
+| # | Decision | Confirmed |
 |---|---|---|
-| 1 | Who keeps the PIN | FitFlex backend (option A) |
-| 2 | Existing users at first sign-in with the new app | One code to their email, then adopt their PIN; anyone with a longer PIN chooses a new 4-digit one |
-| 3 | Google sign-in | Keep it, with no PIN |
+| 1 | Who keeps the PIN | The FitFlex backend |
+| 2 | Existing users at first sign-in with the new app | One code to their email, then their PIN is adopted; anyone with a longer PIN chooses a new 4-digit one |
+| 3 | Google sign-in | Kept, with no PIN |
 | 4 | Lockout | 5 wrong → 15 minutes; 10 wrong in a row → reset by code required |
-| 5 | Old app builds during the changeover | Keep them working (Firebase password kept in step with the PIN) rather than forcing everyone to update at once |
-| 6 | On sign-up, when the email or number is already registered | Tell the person plainly and send them to sign-in (the current sign-up already reveals this) |
+| 5 | Old app builds | **Not supported.** All current users are test users and continue on the new app (differs from the recommendation) |
+| 6 | Sign-up with an email or number already registered | The person is told plainly and sent to sign-in |
 
-## 10. Found during the survey (existing behaviour, not part of I7)
+## 10. Found during the survey — fixes requested 2 Oct 2026
 
-Reported for a separate decision; none of these were changed.
+| Finding | State |
+|---|---|
+| Portal "Add staff" could never succeed (wrong field name); a member given a PIN from the portal could not sign in (raw PIN) | Fix built: fahamutech/fitflex-portal#35 (draft) |
+| Gym owners and staff cannot sign in at the portal (C10) | Backend half built: fahamutech/fitflex-functions#74 (draft; `existingOnly` on the session route, never creates a profile). Portal half follows once #74 is live |
+| PIN length rules disagree (keypad 4–6, change-PIN up to 8) | Fix built: fahamutech/fitflex-mobile#50 (draft). Setting a PIN is exactly 4 digits; sign-in accepts up to 8 so older PINs still work |
+| Stored credentials with no working sign-in (gym-created trainer PINs, vendor staff passwords, company employee activation PINs) | **Not fixed; under discussion.** It depends on how an invited person first signs in (below) |
 
-- **Portal "Add staff" cannot succeed today.** The portal sends the PIN under one field name and the backend reads another, so the request is refused. This is live because invitations are still switched off.
-- **Gym owners and staff cannot sign in at the portal.** The login page always asks for the admin role (this is the parked item C10).
-- **Three kinds of stored credential have no working sign-in:** PINs for trainers created by a gym, passwords for vendor staff, and the activation PIN for company employees.
-- **Signing out of the app leaves Firebase signed in.** On the web build, opening the sign-in screen can restore the session.
-- **The session token is kept in ordinary app storage** on both the app and the portal.
+**Open discussion (product owner, 2 Oct):** an invited trainer or staff member should receive, on their email or mobile number, a PIN to sign in with and a link to the app in the stores; which role they then sign in as is to be agreed. Nothing is decided or built. Points to settle: the PIN must come from FitFlex straight to the person (the organisation never sees it, principle P5); a person who already has an account gets no new PIN; whether the start PIN is single-use and replaced by the person's own PIN at first sign-in; whether a new person lands only in the invited role; whether a trainer profile created this way is approved at once, as gym-created trainers are today.
+
+Also seen, unchanged: signing out of the app leaves Firebase signed in (the web build can restore the session), and the session token is kept in ordinary app storage.
