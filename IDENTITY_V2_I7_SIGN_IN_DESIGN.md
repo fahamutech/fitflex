@@ -133,9 +133,9 @@ A new flag, `V2_PIN_LOGIN`, is needed for I7a–I7d; `V2_RECOVERY` (already appr
 
 | Finding | State |
 |---|---|
-| Portal "Add staff" could never succeed (wrong field name); a member given a PIN from the portal could not sign in (raw PIN) | Fix built: fahamutech/fitflex-portal#35 (draft) |
-| Gym owners and staff cannot sign in at the portal (C10) | Backend half **live 2 Oct** (fahamutech/fitflex-functions#74, merge bb84a3f; `existingOnly` on the session route, never creates a profile). Portal half built: fahamutech/fitflex-portal#37 (draft; tries admin, then existing owner, then existing staff; email sign-in also accepts the app PIN) |
-| PIN length rules disagree (keypad 4–6, change-PIN up to 8) | Fix built: fahamutech/fitflex-mobile#50 (draft). Setting a PIN is exactly 4 digits; sign-in accepts up to 8 so older PINs still work |
+| Portal "Add staff" could never succeed (wrong field name); a member given a PIN from the portal could not sign in (raw PIN) | **Live 3 Oct** (fahamutech/fitflex-portal#35, merge bf47ad9) |
+| Gym owners and staff cannot sign in at the portal (C10) | Backend half **live 2 Oct** (fahamutech/fitflex-functions#74, merge bb84a3f; `existingOnly` on the session route, never creates a profile). Portal half **live 3 Oct** (fahamutech/fitflex-portal#37, merge 4e7fad5; tries admin, then existing owner, then existing staff; email sign-in also accepts the app PIN) |
+| PIN length rules disagree (keypad 4–6, change-PIN up to 8) | **Live 3 Oct** (fahamutech/fitflex-mobile#50, merge e12c237). Setting a PIN is exactly 4 digits; sign-in accepts up to 8 so older PINs still work |
 | Stored credentials with no working sign-in (gym-created trainer PINs, vendor staff passwords, company employee activation PINs) | **Not fixed; under discussion.** It depends on how an invited person first signs in (below) |
 
 **Open discussion (product owner, 2 Oct):** an invited trainer or staff member should receive, on their email or mobile number, a PIN to sign in with and a link to the app in the stores; which role they then sign in as is to be agreed. Nothing is decided or built. Points to settle: the PIN must come from FitFlex straight to the person (the organisation never sees it, principle P5); a person who already has an account gets no new PIN; whether the start PIN is single-use and replaced by the person's own PIN at first sign-in; whether a new person lands only in the invited role; whether a trainer profile created this way is approved at once, as gym-created trainers are today.
