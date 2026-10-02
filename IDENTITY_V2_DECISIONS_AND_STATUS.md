@@ -140,7 +140,7 @@ O4-R is built in I6a. O9–O12 change how people register and sign in, so they a
 
 ## 7a. Parked 30 Sep 2026 (by the product owner, for later clarification)
 
-**Update 2 Oct 2026 (product owner): P1–P4 are un-parked.** P1 and P2 are to be confirmed by the product owner (they need production access; no agent session has it). **P3 / C1 is resolved:** the product owner confirmed the Firebase project is set to one account per email address. **P4 / C10 is being fixed:** backend live (fahamutech/fitflex-functions#74), portal draft fahamutech/fitflex-portal#36. P5–P8 remain parked.
+**Update 2 Oct 2026 (product owner): P1–P4 are un-parked.** P1 and P2 are to be confirmed by the product owner (they need production access; no agent session has it). **P3 / C1 is resolved:** the product owner confirmed the Firebase project is set to one account per email address. **P4 / C10 is being fixed:** backend live (fahamutech/fitflex-functions#74), portal draft fahamutech/fitflex-portal#37. P5–P8 remain parked.
 
 
 Building continued into I2. These are **not dropped**: each gates *enabling* the related flags in production, not building.
