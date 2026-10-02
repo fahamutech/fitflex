@@ -134,7 +134,7 @@ A new flag, `V2_PIN_LOGIN`, is needed for I7a–I7d; `V2_RECOVERY` (already appr
 | Finding | State |
 |---|---|
 | Portal "Add staff" could never succeed (wrong field name); a member given a PIN from the portal could not sign in (raw PIN) | Fix built: fahamutech/fitflex-portal#35 (draft) |
-| Gym owners and staff cannot sign in at the portal (C10) | Backend half built: fahamutech/fitflex-functions#74 (draft; `existingOnly` on the session route, never creates a profile). Portal half follows once #74 is live |
+| Gym owners and staff cannot sign in at the portal (C10) | Backend half **live 2 Oct** (fahamutech/fitflex-functions#74, merge bb84a3f; `existingOnly` on the session route, never creates a profile). Portal half built: fahamutech/fitflex-portal#36 (draft; tries admin, then existing owner, then existing staff; email sign-in also accepts the app PIN) |
 | PIN length rules disagree (keypad 4–6, change-PIN up to 8) | Fix built: fahamutech/fitflex-mobile#50 (draft). Setting a PIN is exactly 4 digits; sign-in accepts up to 8 so older PINs still work |
 | Stored credentials with no working sign-in (gym-created trainer PINs, vendor staff passwords, company employee activation PINs) | **Not fixed; under discussion.** It depends on how an invited person first signs in (below) |
 
