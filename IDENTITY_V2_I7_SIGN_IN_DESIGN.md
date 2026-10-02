@@ -138,6 +138,28 @@ A new flag, `V2_PIN_LOGIN`, is needed for I7a–I7d; `V2_RECOVERY` (already appr
 | PIN length rules disagree (keypad 4–6, change-PIN up to 8) | **Live 3 Oct** (fahamutech/fitflex-mobile#50, merge e12c237). Setting a PIN is exactly 4 digits; sign-in accepts up to 8 so older PINs still work |
 | Stored credentials with no working sign-in (gym-created trainer PINs, vendor staff passwords, company employee activation PINs) | **Not fixed; under discussion.** It depends on how an invited person first signs in (below) |
 
-**Open discussion (product owner, 2 Oct):** an invited trainer or staff member should receive, on their email or mobile number, a PIN to sign in with and a link to the app in the stores; which role they then sign in as is to be agreed. Nothing is decided or built. Points to settle: the PIN must come from FitFlex straight to the person (the organisation never sees it, principle P5); a person who already has an account gets no new PIN; whether the start PIN is single-use and replaced by the person's own PIN at first sign-in; whether a new person lands only in the invited role; whether a trainer profile created this way is approved at once, as gym-created trainers are today.
+**Invitation sign-in — agreed with the product owner, 3 Oct 2026** (replaces the open discussion)
+
+- An organisation (gym owner or vendor) invites a person by mobile number or email as staff or trainer. FitFlex sends the message straight to the person: who invited them, as what, links to the app in the stores (placeholders until the app is listed), and, **only if they are new to FitFlex**, a start PIN. The organisation never sees it.
+- **Start PIN:** 4 digits, single use, expires with the invitation (14 days), dies after 5 wrong tries.
+- **First sign-in:** number or email + start PIN (this also proves the number or email is theirs), then they **choose their own 4-digit PIN** straight away.
+- **Then a separate Accept / Decline step**, the same screen existing users get.
+- **Existing FitFlex users** get no PIN: the notice and store links only; they accept with their own PIN.
+- **Declining with no other role:** they see the normal "How will you use FitFlex?" role choice (member, trainer, gym owner, vendor). If they choose nothing, the account keeps no role and can be invited again later.
+- **Role after accepting:** only the invited role, using that role's interface. No member profile is created; to train and book as a customer they add the member role themselves (I3, `V2_ADD_PERSONA`).
+- **A new person invited as a trainer** gets a trainer profile on acceptance, attached to that gym, **but not bookable until FitFlex verifies them** (rule below).
+
+Depends on I7a (FitFlex keeps the PIN), so it is built after it.
+
+**Partner verification — changed by the product owner, 3 Oct 2026** (replaces the 28 Sep rule "approved before going live" for trainers and gyms; vendors unchanged)
+
+- Self-registered **trainers and gym owners** get an **active profile at once**: no "waiting for approval" screen.
+- They show as **not verified** until they submit their details and a FitFlex admin approves them.
+- Until verified: **no Connect** (the trainer–client link for sharing workouts and progress), **no bookings**, **no payouts or settlements**. This also applies to trainers invited by a gym.
+- In lists, **verified profiles come first**, then unverified ones, labelled.
+- Today (code, 3 Oct): unverified new trainers are hidden from lists and cannot be booked or apply to a gym; Connect (`POST /trainers/:id/connect`) has no verification check of its own; new gyms start as `pending_verification`.
+- To confirm before building: what an unverified **gym** cannot do (members checking in or buying plans there?), and whether an unverified trainer may apply to join a gym.
+- This is a change to the partner-verification rules, not identity; built as its own piece.
+
 
 Also seen, unchanged: signing out of the app leaves Firebase signed in (the web build can restore the session), and the session token is kept in ordinary app storage.
