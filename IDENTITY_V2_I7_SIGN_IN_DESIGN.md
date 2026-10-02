@@ -158,7 +158,8 @@ Depends on I7a (FitFlex keeps the PIN), so it is built after it.
 - Until verified: **no Connect** (the trainer–client link for sharing workouts and progress), **no bookings**, **no payouts or settlements**. This also applies to trainers invited by a gym.
 - In lists, **verified profiles come first**, then unverified ones, labelled.
 - Today (code, 3 Oct): unverified new trainers are hidden from lists and cannot be booked or apply to a gym; Connect (`POST /trainers/:id/connect`) has no verification check of its own; new gyms start as `pending_verification`.
-- To confirm before building: what an unverified **gym** cannot do (members checking in or buying plans there?), and whether an unverified trainer may apply to join a gym.
+- **Unverified gym (confirmed 3 Oct):** FitFlex Pass members cannot check in there until it is verified. Nothing else was asked to be blocked; the gym's own members and the existing payout gating for new gyms are unchanged.
+- **Unverified trainer (confirmed 3 Oct):** cannot apply to join a gym (as today).
 - This is a change to the partner-verification rules, not identity; built as its own piece.
 
 
