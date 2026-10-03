@@ -161,7 +161,7 @@ Depends on I7a (FitFlex keeps the PIN), so it is built after it.
 - **Unverified gym (confirmed 3 Oct):** FitFlex Pass members cannot check in there until it is verified. Nothing else was asked to be blocked; the gym's own members and the existing payout gating for new gyms are unchanged.
 - **Unverified trainer (confirmed 3 Oct):** cannot apply to join a gym (as today).
 - This is a change to the partner-verification rules, not identity; built as its own piece.
-- **Backend built 3 Oct:** fahamutech/fitflex-functions#80 (draft; 1298/1298). The app change (a "not verified" label, booking and Connect disabled for unverified trainers, the partner's own "not verified" notice) follows once it is live. A rejected KYC case still blocks sign-in as before; that was not part of the decision.
+- **Backend live 3 Oct** (fahamutech/fitflex-functions#80, merge 5c7a0d5; the live trainer list carries `bookable` and lists verified trainers first). **App built:** fahamutech/fitflex-mobile#52 (draft; "Unverified" label in lists, Book and Connect disabled for an unverified trainer, the partner's own "not verified" notice; 550/550). A rejected KYC case still blocks sign-in as before; that was not part of the decision.
 
 
 Also seen, unchanged: signing out of the app leaves Firebase signed in (the web build can restore the session), and the session token is kept in ordinary app storage.
