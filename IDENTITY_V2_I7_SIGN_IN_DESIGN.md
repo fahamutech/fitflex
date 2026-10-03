@@ -110,8 +110,8 @@ People who only ever used Google are unaffected.
 
 | Step | Contents |
 |---|---|
-| I7a | Backend: PIN storage, number/email + PIN sign-in, lockout, ending sessions, adopting existing users' PINs. **Built 3 Oct:** fahamutech/fitflex-functions#82 (draft; `POST /auth/pin/login`, `POST /auth/pin/setup`, flag `V2_PIN_LOGIN`, needs `PIN_PEPPER` and `FIREBASE_WEB_API_KEY` on the server; 1311/1311) |
-| I7b | Backend: registration with a code |
+| I7a | Backend: PIN storage, number/email + PIN sign-in, lockout, ending sessions, adopting existing users' PINs. **Live 3 Oct** (fahamutech/fitflex-functions#82, merge cf1c03c; `POST /auth/pin/login`, `POST /auth/pin/setup`, flag `V2_PIN_LOGIN`, needs `PIN_PEPPER` and `FIREBASE_WEB_API_KEY` on the server; 1311/1311) |
+| I7b | Backend: registration with a code. **Built 3 Oct:** fahamutech/fitflex-functions#83 (draft; `/auth/register/start`, `/confirm`, `/complete`; nothing exists until the four-digit PIN is set; 1318/1318) |
 | I7c | Backend: forgot PIN and change PIN |
 | I7d | App: new sign-up, sign-in, forgot-PIN and change-PIN screens with a 4-digit keypad |
 | I7e | Change an email or number |
