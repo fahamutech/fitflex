@@ -110,7 +110,7 @@ People who only ever used Google are unaffected.
 
 | Step | Contents |
 |---|---|
-| I7a | Backend: PIN storage, number/email + PIN sign-in, lockout, ending sessions, adopting existing users' PINs |
+| I7a | Backend: PIN storage, number/email + PIN sign-in, lockout, ending sessions, adopting existing users' PINs. **Built 3 Oct:** fahamutech/fitflex-functions#82 (draft; `POST /auth/pin/login`, `POST /auth/pin/setup`, flag `V2_PIN_LOGIN`, needs `PIN_PEPPER` and `FIREBASE_WEB_API_KEY` on the server; 1311/1311) |
 | I7b | Backend: registration with a code |
 | I7c | Backend: forgot PIN and change PIN |
 | I7d | App: new sign-up, sign-in, forgot-PIN and change-PIN screens with a 4-digit keypad |
@@ -161,7 +161,7 @@ Depends on I7a (FitFlex keeps the PIN), so it is built after it.
 - **Unverified gym (confirmed 3 Oct):** FitFlex Pass members cannot check in there until it is verified. Nothing else was asked to be blocked; the gym's own members and the existing payout gating for new gyms are unchanged.
 - **Unverified trainer (confirmed 3 Oct):** cannot apply to join a gym (as today).
 - This is a change to the partner-verification rules, not identity; built as its own piece.
-- **Backend live 3 Oct** (fahamutech/fitflex-functions#80, merge 5c7a0d5; the live trainer list carries `bookable` and lists verified trainers first). **App built:** fahamutech/fitflex-mobile#52 (draft; "Unverified" label in lists, Book and Connect disabled for an unverified trainer, the partner's own "not verified" notice; 550/550). A rejected KYC case still blocks sign-in as before; that was not part of the decision.
+- **Backend live 3 Oct** (fahamutech/fitflex-functions#80, merge 5c7a0d5; the live trainer list carries `bookable` and lists verified trainers first). **App live 3 Oct** (fahamutech/fitflex-mobile#52, merge 4fc42cf; "Not Verified" label in lists, Book and Connect disabled for an unverified trainer, the partner's own "not verified" notice; 550/550). A rejected KYC case still blocks sign-in as before; that was not part of the decision.
 
 
 Also seen, unchanged: signing out of the app leaves Firebase signed in (the web build can restore the session), and the session token is kept in ordinary app storage.
