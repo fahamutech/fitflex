@@ -1,6 +1,6 @@
 # Identity V2 · I7 — Registration, sign-in and PIN: design for confirmation
 
-**Status: design confirmed by the product owner on 2 Oct 2026 (section 9). Nothing in this document is built yet; each build step still needs its own go-ahead.**
+**Status (4 Oct 2026): design confirmed by the product owner on 2 Oct; I7a–I7e and invitation sign-in with a start PIN are all built, merged and deployed, and all dormant behind flags.** Before switching on: `PIN_PEPPER`, `FIREBASE_WEB_API_KEY`, Beem and Mailgun credentials on the server; production checks P1 and P2; then the flags. Wording still to confirm: the invitation SMS and the notice to a replaced number or email. Not designed: recovery for someone who has lost every verified identifier. I8 (cleanup) waits until the new sign-in has been live at least two weeks.
 
 It implements the decisions of 2 Oct 2026 recorded in `IDENTITY_V2_DECISIONS_AND_STATUS.md` (O4-R, O9–O12):
 
@@ -114,7 +114,7 @@ People who only ever used Google are unaffected.
 | I7b | Backend: registration with a code. **Live 3 Oct** (fahamutech/fitflex-functions#83, merge ff579f7; `/auth/register/start`, `/confirm`, `/complete`; nothing exists until the four-digit PIN is set; 1318/1318) |
 | I7c | Backend: forgot PIN and change PIN. **Live 4 Oct** (fahamutech/fitflex-functions#85, merge 9687279; `/auth/pin/reset/start`, `/confirm`, `/complete` behind `V2_RECOVERY`; `POST /me/pin` behind `V2_PIN_LOGIN`; 1326/1326) |
 | I7d | App: new sign-up, sign-in, forgot-PIN and change-PIN screens with a 4-digit keypad. **Live 4 Oct** (fahamutech/fitflex-mobile#54, merge 09ff008; `lib/screens/pin_flows.dart`; the app probes which sign-in options are on and keeps the Firebase path while they are off; 561/561) |
-| I7e | Change an email or number. **Backend live 4 Oct** (fahamutech/fitflex-functions#90, merge 319750d; `POST /me/identifiers/change/request` with the PIN and `…/confirm` with the code, behind `V2_RECOVERY`; the old value is revoked and told; 1367/1367). **App built 4 Oct:** fahamutech/fitflex-mobile#57 (draft; a Change action on each verified number or email; 573/573). |
+| I7e | Change an email or number. **Backend live 4 Oct** (fahamutech/fitflex-functions#90, merge 319750d; `POST /me/identifiers/change/request` with the PIN and `…/confirm` with the code, behind `V2_RECOVERY`; the old value is revoked and told; 1367/1367). **App live 4 Oct** (fahamutech/fitflex-mobile#57, merge 32b100c; a Change action on each verified number or email; 573/573). |
 
 A new flag, `V2_PIN_LOGIN`, is needed for I7a–I7d; `V2_RECOVERY` (already approved) covers forgot-PIN and identifier change. Adding the flag is a small addition to decision C2.
 
