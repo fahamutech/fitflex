@@ -113,7 +113,7 @@ People who only ever used Google are unaffected.
 | I7a | Backend: PIN storage, number/email + PIN sign-in, lockout, ending sessions, adopting existing users' PINs. **Live 3 Oct** (fahamutech/fitflex-functions#82, merge cf1c03c; `POST /auth/pin/login`, `POST /auth/pin/setup`, flag `V2_PIN_LOGIN`, needs `PIN_PEPPER` and `FIREBASE_WEB_API_KEY` on the server; 1311/1311) |
 | I7b | Backend: registration with a code. **Live 3 Oct** (fahamutech/fitflex-functions#83, merge ff579f7; `/auth/register/start`, `/confirm`, `/complete`; nothing exists until the four-digit PIN is set; 1318/1318) |
 | I7c | Backend: forgot PIN and change PIN. **Live 4 Oct** (fahamutech/fitflex-functions#85, merge 9687279; `/auth/pin/reset/start`, `/confirm`, `/complete` behind `V2_RECOVERY`; `POST /me/pin` behind `V2_PIN_LOGIN`; 1326/1326) |
-| I7d | App: new sign-up, sign-in, forgot-PIN and change-PIN screens with a 4-digit keypad. **Built 4 Oct:** fahamutech/fitflex-mobile#54 (draft; `lib/screens/pin_flows.dart`; the app probes which sign-in options are on and keeps the Firebase path while they are off; 561/561) |
+| I7d | App: new sign-up, sign-in, forgot-PIN and change-PIN screens with a 4-digit keypad. **Live 4 Oct** (fahamutech/fitflex-mobile#54, merge 09ff008; `lib/screens/pin_flows.dart`; the app probes which sign-in options are on and keeps the Firebase path while they are off; 561/561) |
 | I7e | Change an email or number |
 
 A new flag, `V2_PIN_LOGIN`, is needed for I7a–I7d; `V2_RECOVERY` (already approved) covers forgot-PIN and identifier change. Adding the flag is a small addition to decision C2.
@@ -149,7 +149,7 @@ A new flag, `V2_PIN_LOGIN`, is needed for I7a–I7d; `V2_RECOVERY` (already appr
 - **Role after accepting:** only the invited role, using that role's interface. No member profile is created; to train and book as a customer they add the member role themselves (I3, `V2_ADD_PERSONA`).
 - **A new person invited as a trainer** gets a trainer profile on acceptance, attached to that gym, **but not bookable until FitFlex verifies them** (rule below).
 
-Depends on I7a (FitFlex keeps the PIN), so it is built after it.
+Depends on I7a (FitFlex keeps the PIN), so it is built after it. **Backend built 4 Oct:** fahamutech/fitflex-functions#86 (draft; delivery by SMS or email for staff and trainer invitations, start PIN for people new to FitFlex, `POST /auth/invite/begin`, `/auth/onboarding/accept`, `/decline`, `/role`; a trainer profile is created on acceptance for anyone without one; member invitations unchanged; message wording not yet confirmed; 1343/1343). The app change follows once it is live.
 
 **Partner verification — changed by the product owner, 3 Oct 2026** (replaces the 28 Sep rule "approved before going live" for trainers and gyms; vendors unchanged)
 
