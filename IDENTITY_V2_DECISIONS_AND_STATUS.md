@@ -156,6 +156,12 @@ Building continued into I2. These are **not dropped**: each gates *enabling* the
 | P7 | Public repos: remove the production server address and the `backup/fitflex.dump` pointer from #9 and this document; decide on a history rewrite if the dump is real data | Owner decision |
 | P8 | B1: account deletion vs Google Play, and the O8 soft-close of "Delete account" (today it hard-deletes the current persona row and its history) | Turning on `V2_ADD_PERSONA` for real users (it does not block building I3) |
 
+## 7b. Future items to close (noted 5 Oct 2026)
+
+| # | Item | What to close |
+|---|---|---|
+| F1 | `PUBLIC_API_URL` (the product owner called it "Public_API_Key"; it is an address, not a key) | Used only to build the cancel link in the "someone asked to recover your account" message (`<PUBLIC_API_URL>/auth/recovery/cancel/<id>.<key>`). It defaults to the current backend address, so nothing is needed now. Before go-live: confirm the default is the address a phone can open, set it explicitly on the server, and re-check it whenever the backend address changes. A wrong value means the owner cannot cancel from the message; the in-app Cancel button still works. |
+
 ## 8. How to continue (for the next agent)
 
 1. **Worktrees only.** Other sessions share these checkouts; never switch branches in place.
