@@ -1,6 +1,6 @@
 # Identity V2 — Recovering an account when every verified number and email is lost
 
-**Status: decisions 1–8 approved by the product owner on 5 Oct 2026 (waiting period changed to 24 hours for members, 72 hours for partners). Decision 9 (how long evidence is kept) and the ID-and-selfie proof in decision 3 still need Tanzanian counsel. Nothing here is built yet.**
+**Status: decisions 1–8 approved by the product owner on 5 Oct 2026 (waiting period changed to 24 hours for members, 72 hours for partners). Decision 9 (how long evidence is kept) and the ID-and-selfie proof in decision 3 still need Tanzanian counsel. The reminder and the member path are built (5 Oct, drafts, not merged): see section 10.**
 
 ## 1. Who is actually stuck
 
@@ -99,3 +99,15 @@ Three pieces, each dormant behind `V2_RECOVERY`:
 | App | "I can't access my number or email" on the sign-in screen; the proof steps; the cancel banner; the reminder to verify a second contact |
 
 The reminder in section 7 is independent and small; it could ship first.
+
+## 10. Build status (5 Oct 2026)
+
+Built as drafts, dormant behind `IDENTITY_V2` + `V2_RECOVERY` (the same flag as Forgot PIN), nothing merged:
+
+| Piece | Draft PR | What it does |
+|---|---|---|
+| Backend | fitflex-functions#97 | Member recovery end to end; admin permission `account_recovery`; the "second contact" suggestion on `GET /me/identifiers` |
+| Portal | fitflex-portal#50 | Admin "Account recovery" queue and decision screen |
+| App | fitflex-mobile#60 | Sign-in link, questions, status, cancel banner, profile reminder card |
+
+Not built, by design: partner recovery (verified trainers, gym owners, vendors) until counsel answers decisions 3 and 9. Such accounts are refused with "contact FitFlex support". Staff and admin accounts are not offered recovery. Recovery answers are free text; no ID or selfie is collected in the member path.
