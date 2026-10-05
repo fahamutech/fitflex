@@ -1,6 +1,6 @@
 # Identity V2 — Recovering an account when every verified number and email is lost
 
-**Status: proposal, 5 Oct 2026. Nothing here is built. It needs the product owner's decisions in section 8, and two points need Tanzanian counsel (marked).**
+**Status: decisions 1–8 approved by the product owner on 5 Oct 2026 (waiting period changed to 24 hours for members, 72 hours for partners). Decision 9 (how long evidence is kept) and the ID-and-selfie proof in decision 3 still need Tanzanian counsel. Nothing here is built yet.**
 
 ## 1. Who is actually stuck
 
@@ -52,7 +52,7 @@ A refused request tells the person why in general terms and what they can do (tr
 
 | Setting | Member | Trainer, gym owner, vendor |
 |---|---|---|
-| Waiting period before approval | 3 days | 7 days |
+| Waiting period before approval | 24 hours | 72 hours |
 | Who approves | One FitFlex admin | Two FitFlex admins |
 | After recovery: payouts held, and the payout account cannot be changed | not applicable | 7 days |
 | Requests allowed | 1 open request per account; 3 per network address per day | same |
@@ -81,7 +81,7 @@ Cheaper than any recovery:
 | 1 | Offer assisted recovery at all, or tell people in this case to open a new account | Offer it, as designed here |
 | 2 | Proof for members | Account facts, with the gym's confirmation as optional supporting evidence |
 | 3 | Proof for verified trainers, gym owners and vendors | The ID already on file, shown again with a photo of the person holding it (**subject to counsel**) |
-| 4 | Waiting period | 3 days for members, 7 days for partners |
+| 4 | Waiting period | 24 hours for members, 72 hours for partners (changed by the product owner, 5 Oct) |
 | 5 | Approval | One admin for members, two for partners |
 | 6 | Hold after recovery | 7 days: payouts held and payout account locked |
 | 7 | Staff accounts | No recovery; the owner re-invites |
