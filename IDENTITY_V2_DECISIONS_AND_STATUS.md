@@ -85,6 +85,12 @@ O4-R is built in I6a. O9–O12 change how people register and sign in, so they a
 
 **Decisions an implementer must not make alone** (stop and ask): KYC ownership, deletion and retention, corporate data visibility, phone provider, walk-in semantics, invitation acceptance policy, pricing, compliance, customer communication, merging a disputed identity, any production Firebase configuration change.
 
+### Decision of 8 Oct 2026 (product owner): email stays on Firebase for now
+
+Beem (SMS) is set up; Mailgun is not. **For now, email accounts stay on Firebase** (Firebase sends the verification link, and Firebase signs email accounts in with `fitflex-pin:<pin>` as before), while mobile numbers use FitFlex codes through Beem and the FitFlex-held 4-digit PIN. This changes, for the time being, the 2 Oct decisions O4-R (email codes through Mailgun) and O10 (email verified at registration by a FitFlex code). Mailgun codes are not removed: when Mailgun is configured the server reports `emailCodes: true` (`GET /auth/options`) and the FitFlex email flows return without a new release.
+
+Consequences while email is on Firebase: no adding or changing an email by code; the new contact in account recovery must be a mobile number; the "add a second contact" card suggests a phone only. **Open (not decided):** how an email account resets its PIN. Firebase's own reset page cannot set a 4-digit PIN (Firebase passwords need 6 or more characters, which is why the PIN is stored as `fitflex-pin:<pin>`). Options put to the product owner: change the Firebase reset email's link to a FitFlex page that sets `fitflex-pin:<pin>` (a Firebase configuration change; needs explicit approval), or reset through a verified mobile number, or set Mailgun up. Until decided, email accounts have no self-service PIN reset in the app.
+
 ## 5. Locked invariants (short form)
 
 1. One human = one Person, whose ID never changes and is never reused.
