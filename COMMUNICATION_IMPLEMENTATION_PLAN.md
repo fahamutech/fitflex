@@ -1,7 +1,7 @@
 # Gym Communication & Member Engagement — Implementation Plan
 
 **Based on:** `COMMUNICATION_IMPLEMENTATION_AUDIT.md` (26 Sep 2026)
-**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 live.** **M8 live.** **M9 live.** **M10 built** (analytics; see the M10 results below). **M11 live.** **M12 built** (QA; see the M12 results below and `COMMUNICATION_TEST_PLAN.md`). What's left is the production rollout (the checks done by a person in the test plan).
+**Status:** M0 complete. Decisions D1–D6 recorded 26 Sep 2026 (audit §16). **M1 and M2 built** on `fitflex-functions` branch `feat/communications-foundation` (see `COMMUNICATION_ARCHITECTURE.md`, `COMMUNICATION_API.md`). They ship as one PR (fitflex-functions#17). **M3–M5 built and live.** **M6 live.** **M7 live.** **M8 live.** **M9 live.** **M10–M12 live** (29 Sep 2026). **Push switched on in production** (2 Oct 2026; Android only). Fixes from production use and from the M0–M8 audit (Oct 2026) are in `COMMUNICATION_ARCHITECTURE.md` §16. What's left is a WhatsApp provider, iPhone push and a Swahili review.
 **Repos:** `fitflex-functions` (backend, merged first), `fitflexmobile` (owner Communication Center and member inbox), `fitflex-portal` (owner/staff Communication Center on the operator side, and admin platform communications, each gated by role and ACL).
 **Release rule (existing):** every merge to `main` deploys. Backend PRs merge and are confirmed live before the mobile or portal PRs that call them.
 

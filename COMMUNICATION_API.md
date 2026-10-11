@@ -119,8 +119,8 @@ The same routes exist under `/owner/communications` (a gym → its direct member
 | `GET …/overview?gymId` | Members reachable (`preset: all`), campaigns by status, 5 most recent campaigns, channels available (`{ in_app, push, whatsapp }`), limits (`largeSendThreshold`, `marketingWeeklyCap`) |
 | `GET …/campaigns?gymId&status&limit` | Newest first. List rows carry `title` and `preset` instead of the full content. |
 | `POST …/campaigns` | Saves a draft. Body: `{ gymId?, name?, purpose, audience?: { preset?, filter? }, content?, channels? }`. Only `purpose` is required for a draft. `gymId` is required for owners with more than one gym (`400 gym_required`). |
-| `POST …/campaigns/preview` | Previews an unsaved campaign (same body as create): `{ category, counts: { targeted, queued, skipped: {reason: n}, byChannel }, example: { memberName, title, body, ctaLabel, deepLink }, warnings: [{ code, count?, channel? }], largeSendThreshold }` |
-| `GET …/campaigns/:id` | `{ campaign, progress: { channel: { status: n } } }` from the delivery ledger |
+| `POST …/campaigns/preview` | Previews an unsaved campaign (same body as create): `{ category, counts: { targeted, queued, skipped: {reason: n}, byChannel }, example: { memberName, title, body, ctaLabel, deepLink }, warnings: [{ code, count?, channel?, variable?, of? }], largeSendThreshold }`. Warning codes are listed under "Preview warnings" below. |
+| `GET …/campaigns/:id` | `{ campaign, progress: { channel: { status: n } } }` from the delivery ledger. `campaign.title` is the readable label (see "Campaign names" below); `campaign.content.title` is the message itself, with its variables. |
 | `PATCH …/campaigns/:id` | Edits a draft (`409 not_editable` otherwise) |
 | `DELETE …/campaigns/:id` | Deletes a draft (`409 only_drafts_can_be_deleted`) |
 | `POST …/campaigns/:id/preview` | Previews a saved campaign |
@@ -147,6 +147,25 @@ The same routes exist under `/owner/communications` (a gym → its direct member
 - `skipped`: the member can't be reached, with `skipReason`, e.g. `no_device`, `in_app_marketing_off`, `marketing_cap`.
 
 ---
+
+**Preview warnings.** Each is `{ code, … }`. Clients must ignore codes they don't know.
+
+| Code | Extra fields | Meaning |
+|---|---|---|
+| `large_send` | `count` | The audience is at or over the large-send threshold. |
+| `marketing_cap` | `count` | That many members already had this week's maximum of offers and will be skipped. |
+| `channel_reaches_no_one` | `channel` | Nobody in the audience can be reached on that channel. |
+| `nobody_reachable` | — | Nobody can be reached on any chosen channel. |
+| `empty_value` | `variable`, `count`, `of` | The placeholder `variable` is blank for `count` of the `of` recipients. Example: `{{expiry_date}}` for trainers, who have no membership. One warning per placeholder, across the title and body in every language. |
+| `gym_name_is_fitflex` | — | A FitFlex-wide message uses `{{gym_name}}`; it will read "FitFlex". |
+
+**Campaign names.** A campaign's `name`, the list's `title` and `GET …/campaigns/:id`'s `campaign.title` are labels for lists, history and results; they never contain `{{placeholders}}`.
+- The sender's own values (offer, discount, amount, gym) are filled in.
+- Per-member variables are left out.
+- A sender value not typed yet shows as "…".
+- Examples: `{{discount}} off: {{offer_name}}` → `20% off: Ramadan special`; `We miss you, {{member_name}}` → `We miss you`.
+- The apps send the message title as the name; the server stores the label.
+- On update the name follows the title and its values, unless the owner chose a name of their own.
 
 ## Templates (M6)
 
@@ -203,6 +222,12 @@ List, get and preview exist under both `/owner/communications` and `/admin/commu
 - A real provider's credential variables are named by its adapter.
 
 ---
+
+**Direct WhatsApp sends (outside this module).** `src/services/whatsapp-service.mjs` (Africa's Talking) sends one-off service messages: sign-in codes and booking updates.
+- It is off unless `AFRICAS_TALKING_API_KEY` is set.
+- It honours the member's WhatsApp opt-out and "service updates" switch, except for sign-in codes.
+- It is not for audiences. The admin routes `POST /admin/send-reengagement/vendor/:vendorId` and `…/member/:memberId` were **removed** (Oct 2026): they were marketing that skipped consent, the kill switch and the history. Use a campaign instead.
+- The unused `fitflex-whatsapp` notifier client (`WHATSAPP_SERVICE_URL`) was removed too.
 
 ## History (M8)
 

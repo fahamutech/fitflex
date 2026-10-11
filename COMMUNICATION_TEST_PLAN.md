@@ -173,10 +173,11 @@ qa's *Definition of Done* test walks most of this through the real endpoints, wi
 
 Automated tests can't cover these:
 
-1. **Push on real phones.**
-   - Set `PUSH_NOTIFICATIONS=on` in production; it's still off.
-   - Send a small in-app + push campaign to test accounts on Android and iOS.
-   - Tapping the push should open the inbox message and then the linked screen.
+1. **Push on real phones (Android).** `PUSH_NOTIFICATIONS=on` has been set in production since 2 Oct 2026, and Firebase accepted a real send on 3 Oct. Still to confirm on a phone with the build from 3 Oct or later:
+   - Open the app once after updating; that creates the "Messages" channel.
+   - With the app in the background, a push pops up. Tapping it opens the inbox message and then the linked screen.
+   - With the app open, a banner appears with an Open button.
+   - iPhones get no push yet; see `COMMUNICATION_ARCHITECTURE.md` §16 for what's needed.
 2. **WhatsApp with a real provider**, once one is chosen:
    - Register and approve the templates; the admin WhatsApp page shows what's missing.
    - Send a test from that page.

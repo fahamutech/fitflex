@@ -390,3 +390,56 @@ dispatcher: before each delivery — member exists, not suspended, and (gym
 - Limits.
 - A deliberately broken ownership check fails the suite, naming the route that leaked.
 
+## 16. After M12: fixes from production and the M0–M8 audit (Oct 2026)
+
+**Readable campaign names.**
+- A campaign from a template was listed as `{{discount}} off: {{offer_name}}`. Members always got the filled-in text; only the label was raw.
+- `labelText` (`src/shared/communications.mjs`) now produces the label: sender values filled in, per-member variables left out.
+- The stored `name`, the list `title` and the campaign page heading all use it.
+- Migration `20261113090000-communication-campaign-names` renamed existing rows.
+
+**Blank-placeholder warnings.**
+- The preview counts, per placeholder, how many recipients would get a blank (`empty_value`).
+- It also flags `{{gym_name}}` in a FitFlex-wide message (`gym_name_is_fitflex`).
+- Prompted by a real "JOB OFFER" sent to trainers that read "Last Date to Apply" with no date.
+
+**Push that people actually see (Android).**
+- *App open:* Android shows nothing for an app in the foreground, and the app used to only refresh the inbox. It now shows a banner (`lib/shared/push_banner.dart`) with the title, text and an Open button.
+- *App in the background:* pushes used Android's default channel, which doesn't pop up. `MainActivity` creates a high-importance channel `fitflex_messages` ("Messages"), and the manifest names it as FCM's default. An existing install gets the channel the first time the updated app opens.
+- *Token lookup:* `sendPush` reads one member's device tokens by `userId` (indexed), not the whole table.
+
+**iPhone push is not supported yet.** `PushService.supported` is Android-only. Before any code change, all of this is needed:
+1. A real iOS bundle ID. `firebase_options.dart` still has the placeholder `com.example.fitflexmobile`.
+2. The iOS app registered in the Firebase project with that bundle ID, and its `GoogleService-Info.plist`.
+3. An Apple Developer account with the Push Notifications capability on the app ID.
+4. An APNs auth key uploaded in Firebase → Project settings → Cloud Messaging.
+
+Then, in code:
+- the `aps-environment` entitlement;
+- `remote-notification` background mode;
+- `supported` including iOS;
+- the device-token `platform` sent as `ios`.
+
+**One path for audience messages on WhatsApp.**
+- *Audience messages:* campaigns and automations go only through the Communications module (§11), which checks consent, records every message and has the kill switch.
+- *Direct service messages:* the older Africa's Talking service (`src/services/whatsapp-service.mjs`) remains for sign-in codes and bookings.
+  - It read a `phoneNumber` field that accounts don't have, so it had never sent anything; it now uses `phone`.
+  - It honours the WhatsApp opt-out and "service updates" switch, except for sign-in codes.
+- *Removed:* its re-engagement sends and their admin routes (marketing that bypassed consent and history), and the unused third client (`whatsapp-hooks.mjs`).
+
+**Portal robustness.**
+- A translation key the portal doesn't know used to crash the page (`fill(undefined)`), so the portal had to be deployed before the server whenever the server gained a new code.
+- Now a missing text fills to empty, and an unknown preview warning is left out.
+- New codes can ship server-first.
+
+**Staff permission from the portal.** Both staff forms on the owner's manage page (direct create and invitation) have "Can send messages to members", which adds the `communications` scope. Before, staff added from the portal always got the same four scopes.
+
+**Still open:**
+- A WhatsApp provider for the module.
+- iPhone push.
+- A Swahili review by a speaker.
+- The portal Playwright specs are not in CI.
+- FitFlex-wide audiences load every member into memory.
+- No retention rule for the message ledger.
+- Backend spec files share one database, so they must run one at a time (`--test-concurrency=1`, as `npm test` does).
+
