@@ -33,7 +33,8 @@ Rules:
 | `data/` | The six record files (JSON Lines) and `learnings.md`. Schema below. |
 | `content/<id>/` | One folder per content record: `brief.md`, `source/slides.json` + rendered HTML, `slides/*.png`, `contact-sheet.png`, `licences.md` |
 | `brand/` | `brand-tokens.json` (committed copy of the canon tokens), logo SVG/PNG, `fonts/` (Inter 700/800/900), `photos/` (licensed stock, see its README), `effects.css`, `post-templates.md`, `brand-block.md` |
-| `tools/` | `render-carousel.js` (slides.json + tokens → HTML → PNG via headless Chrome), `gen-brand-tokens.js` (canon → tokens), `legacy/` (the week-1 scripts as they were) |
+| `tools/` | `render-carousel.js` (slides.json + tokens → HTML → PNG via headless Chrome), `gen-brand-tokens.js` (canon → tokens), `check-records.js` (integrity: states, approval lines, owner-only approvals, no publishing before Phase 3), `legacy/` (the week-1 scripts as they were) |
+| `tests/` | Negative fixtures for the brand reviewer and a tampered data copy for `check-records.js`; results in `tests/README.md` |
 | `intel/` | Intelligence notes: the 2026-10-09 swipe file, `weekly/` sweeps from Phase 4 |
 | `calendar/` | Month plans; `2026-10-plan.md` is the month-1 content plan |
 | `ops/` | Operations designs: `comment-to-dm-design.md` (Meta private replies, Phase 5) |
@@ -50,6 +51,10 @@ Rules:
 | `performance.jsonl` | `publish_id`, `observed_at`, `reach`, `impressions`, `likes`, `comments`, `saves`, `shares`, `views`, `clicks`, `follows`, `dm_keyword_hits`, `source` (metricool, manual, meta_api). Created on first pull (Phase 3). |
 
 Times are ISO 8601 with the East Africa offset (`+03:00`).
+
+## Day-to-day use
+
+See `social/USAGE.md` for what to say to Claude Code, how approval is written, and the Cowork note.
 
 ## Rendering a carousel
 

@@ -1,0 +1,16 @@
+{
+  "record": "2026-10-W3-A-owners",
+  "format": "ig_feed_portrait",
+  "prefix": "R",
+  "handle": "@fitflex.africa",
+  "slides": [
+    { "t": "navy",   "h": "Your members don’t quit <em>loudly.</em>", "ph": 5878659, "pos": "50% 30%" },
+    { "t": "cream",  "h": "They just stop <em>coming.</em>", "s": "No message. No goodbye.", "ph": 7432872, "pos": "50% 40%" },
+    { "t": "orange", "h": "By renewal day, they’ve <em>already left.</em>", "ph": 12250460, "pos": "50% 50%" },
+    { "t": "navy",   "h": "See who’s <em>slipping</em> before they’re gone.", "s": "Active. Slipping. At risk. <b>Lapsed.</b>", "ph": 34043570, "pos": "50% 30%", "ov": "dashboard" },
+    { "t": "cream",  "h": "Message them from the <em>app.</em>", "s": "In-app, push or SMS. Your words, your members.", "ph": 5592605, "pos": "50% 30%" },
+    { "t": "green",  "h": "Give them a reason to come back: a <em>challenge.</em>", "ph": 29526371, "pos": "50% 50%" },
+    { "t": "navy",   "h": "Community keeps members. Data tells you <em>when</em> to act.", "ph": 36510744, "pos": "50% 40%" },
+    { "t": "orange", "h": "Own a gym in <em>Dar es Salaam?</em>", "kw": "PARTNER", "cta": "We’ll DM you how FitFlex works.", "ph": 6496099, "pos": "50% 30%" }
+  ]
+}
