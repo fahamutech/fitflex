@@ -1,0 +1,8 @@
+:root{
+  --radius-xs:.375rem; --radius-sm:.5rem; --radius-md:.75rem; --radius-lg:1rem; --radius-xl:1.5rem; --radius-2xl:2rem; --radius-full:9999px;
+  --shadow-sm:0 1px 2px rgba(2,6,23,.4); --shadow-md:0 4px 12px rgba(2,6,23,.45); --shadow-lg:0 10px 30px rgba(2,6,23,.55); --shadow-2xl:0 25px 60px rgba(2,6,23,.7);
+  --glow-primary:0 8px 30px rgba(0,182,122,.18); --glow-primary-sm:0 4px 14px rgba(0,182,122,.12); --glow-secondary:0 8px 30px rgba(255,152,0,.16);
+  --blur-glass:12px; --blur-glow:140px;
+  --ease-out:cubic-bezier(0.16,1,0.3,1); --ease-in-out:cubic-bezier(0.65,0,0.35,1);
+  --dur-fast:150ms; --dur-base:250ms; --dur-slow:400ms;
+}

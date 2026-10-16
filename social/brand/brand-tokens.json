@@ -1,0 +1,119 @@
+{
+  "source": "canon/04-marketing/design-system.md — machine-readable tokens block (canonical, local to the owner's workspace); this file is its committed copy, regenerated with social/tools/gen-brand-tokens.js",
+  "decided": "2026-10-16",
+  "decision": "Owner ruled #1F7A3A (the app's brand green ramp) is the brand primary. #00B67A stays as the on-dark brand text and verified tint the app already uses; it is no longer the primary.",
+  "color": {
+    "primary": {
+      "50": "#E7F4EC",
+      "100": "#C4E3CF",
+      "200": "#9ED1AF",
+      "500": "#1F7A3A",
+      "600": "#1A6B32",
+      "700": "#155A2A",
+      "800": "#104921"
+    },
+    "brandOnDark": "#00B67A",
+    "verified": "#10D18F",
+    "accent": {
+      "500": "#FF9800",
+      "bright": "#FFAD33",
+      "deep": "#E07F00"
+    },
+    "gold": "#FDBE34",
+    "navy": {
+      "logo": "#111E30",
+      "deep": "#0B192C"
+    },
+    "slate": {
+      "50": "#F8FAFC",
+      "100": "#F1F5F9",
+      "200": "#E2E8F0",
+      "300": "#CBD5E1",
+      "400": "#94A3B8",
+      "500": "#64748B",
+      "600": "#475569",
+      "700": "#334155",
+      "800": "#1E293B",
+      "850": "#16203A",
+      "900": "#0F172A",
+      "950": "#020617"
+    },
+    "role": {
+      "member": "#1F7A3A",
+      "owner": "#FF9800",
+      "trainer": "#3B82F6",
+      "vendor": "#A855F7",
+      "corporate": "#6366F1",
+      "admin": "#F43F5E"
+    },
+    "status": {
+      "success": "#16A34A",
+      "warning": "#FF9800",
+      "danger": "#DC2626",
+      "info": "#3B82F6",
+      "verified": "#10D18F"
+    },
+    "text": {
+      "onDark": "#F1F5F9",
+      "onDarkMuted": "#94A3B8",
+      "onLight": "#0F172A",
+      "onAccent": "#0B192C"
+    }
+  },
+  "font": {
+    "sans": "Inter",
+    "mono": "JetBrains Mono"
+  },
+  "slideThemes": {
+    "navy": {
+      "bg": "#0B192C",
+      "fg": "#FFFFFF",
+      "acc": "#1F7A3A",
+      "acc2": "#FF9800",
+      "soft": "#16203A",
+      "ink": "#0B192C"
+    },
+    "cream": {
+      "bg": "#FFF6E5",
+      "fg": "#0B192C",
+      "acc": "#1F7A3A",
+      "acc2": "#FF9800",
+      "soft": "#FFE2B0",
+      "ink": "#0B192C"
+    },
+    "green": {
+      "bg": "#1F7A3A",
+      "fg": "#FFFFFF",
+      "acc": "#FDBE34",
+      "acc2": "#FF9800",
+      "soft": "#155A2A",
+      "ink": "#0B192C"
+    },
+    "orange": {
+      "bg": "#FF9800",
+      "fg": "#0B192C",
+      "acc": "#FFFFFF",
+      "acc2": "#0B192C",
+      "soft": "#E07F00",
+      "ink": "#0B192C"
+    }
+  },
+  "formats": {
+    "ig_feed_portrait": [
+      1080,
+      1350
+    ],
+    "ig_square": [
+      1080,
+      1080
+    ],
+    "story_reel": [
+      1080,
+      1920
+    ],
+    "linkedin_landscape": [
+      1200,
+      627
+    ]
+  }
+}

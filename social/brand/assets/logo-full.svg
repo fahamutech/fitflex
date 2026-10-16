@@ -1,0 +1,24 @@
+<svg width="248" height="52" viewBox="0 0 248 52" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FitFlex Af — Fitness Without Limits">
+  <defs>
+    <linearGradient id="logoAthleteGradientF" x1="10" y1="140" x2="140" y2="10" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB"></stop>
+      <stop offset="35%" stop-color="#06B6D4"></stop>
+      <stop offset="75%" stop-color="#10B981"></stop>
+      <stop offset="100%" stop-color="#00B67A"></stop>
+    </linearGradient>
+    <filter id="pinShadowF" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.3"></feDropShadow>
+    </filter>
+  </defs>
+  <g transform="translate(0 2) scale(0.3)">
+    <path d="M 80 15 C 38 15, 12 44, 12 85 C 12 110, 24 125, 42 136 C 52 142, 60 146, 85 152 C 105 142, 138 115, 138 85 C 138 44, 118 15, 80 15 Z" fill="#111e30" stroke="#1e293b" stroke-width="3" filter="url(#pinShadowF)"></path>
+    <circle cx="82" cy="50" r="11" fill="url(#logoAthleteGradientF)"></circle>
+    <path d="M 88 56 C 96 56, 108 50, 114 62 C 118 70, 114 78, 102 78 C 96 78, 92 74, 92 70" stroke="url(#logoAthleteGradientF)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+    <path d="M 68 64 C 55 64, 45 74, 48 88" stroke="url(#logoAthleteGradientF)" stroke-width="10" stroke-linecap="round" fill="none"></path>
+    <path d="M 82 61 C 82 72, 70 85, 76 100 C 80 110, 88 112, 98 120" stroke="url(#logoAthleteGradientF)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+    <path d="M 76 100 C 85 110, 95 125, 80 140" stroke="url(#logoAthleteGradientF)" stroke-width="11" stroke-linecap="round" fill="none"></path>
+    <path d="M 72 96 C 50 96, 25 110, 5 128" stroke="url(#logoAthleteGradientF)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+  </g>
+  <text x="56" y="27" font-family="Inter, sans-serif" font-weight="900" font-size="22" letter-spacing="-0.01em" fill="#f1f5f9">FitFlex<tspan fill="#FDBE34" dx="3">Af</tspan></text>
+  <text x="57" y="42" font-family="Inter, sans-serif" font-weight="600" font-size="8.5" letter-spacing="0.14em" fill="#94a3b8">FITNESS WITHOUT LIMITS</text>
+</svg>
