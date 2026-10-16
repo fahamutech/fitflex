@@ -47,9 +47,9 @@
       "admin": "#F43F5E"
     },
     "status": {
-      "success": "#16A34A",
+      "success": "#00B67A",
       "warning": "#FF9800",
-      "danger": "#DC2626",
+      "danger": "#F43F5E",
       "info": "#3B82F6",
       "verified": "#10D18F"
     },
