@@ -40,12 +40,51 @@ Approval is a written line, not a chat message. When you say "approve <id>" (or 
 
 `check-records.js` refuses any `approved`, `scheduled` or `published` state that lacks such a line, and refuses any approval written by `claude` or `brand_reviewer`.
 
+## Publishing operations (Phase 3)
+
+Publishing is a four-step hand-off; no step skips a gate.
+
+| Step | Who | Command or action |
+|---|---|---|
+| 1. Exact-version approval | Owner, in chat | Claude shows caption, slide count, account, time and the content hash; owner says yes; Claude appends an `actor: owner` line with `content_hash` and `platforms` |
+| 2. Lift the pause | Owner, in chat | Claude sets `social/ops/pause.json` to `paused: false` and records who and when |
+| 3. Reserve | Claude (`social-ops`) | `node social/tools/publish.js reserve <id> <platform> <YYYY-MM-DDTHH:mm>` (Dar es Salaam time); writes a `pending` line and the payload file |
+| 4. Write | `social-publisher` agent | Asks you to confirm the first publication per platform in the session, makes exactly one `createScheduledPost` call, reports the raw result |
+| 5. Record | Claude (`social-ops`) | `publish.js result pub_NNNN --status scheduled --post-id … --uuid … --planner …` or `--status failed --error "…"`; state → `scheduled` |
+| 6. Reconcile and measure | Claude (`social-ops`) | `getScheduledPosts` against `publishes.jsonl`; first snapshot within 48 h via `publish.js snapshot`; state → `published`, then `measured` |
+
+Dry run at any time, no side effects beyond a report file:
+
+```bash
+node social/tools/publish.js dry-run <record-id> instagram 2026-10-19T08:00
+```
+
+Pause everything:
+
+```bash
+node -e "require('fs').writeFileSync('social/ops/pause.json', JSON.stringify({paused:true, reason:'owner', changed_by:'owner', changed_at:new Date().toISOString()}, null, 2))"
+```
+
+Rules: one platform per reservation; Instagram and Facebook only; a changed caption or slide changes the hash and needs a new owner line; failed writes are never retried automatically; the owner deletes a scheduled post in the Metricool planner (the connector has no delete).
+
+## Daily operations (Claude Code or Cowork)
+
+Same repo, same records, same rules. Cowork availability is still unverified; if used, point it at this repo checkout and give the same instructions. It must not keep its own calendar or content list.
+
+| When | Instruction to Claude | What happens |
+|---|---|---|
+| Morning | "Ops check" | `check-records --phase 3`, `getScheduledPosts` for the next 7 days reconciled against `publishes.jsonl`, any `failed` lines since yesterday, pause state. Report only |
+| Morning | "Draft today's record" | `social-strategy` + `social-studio` on the next calendar slot → `brand_checked`, contact sheet shown |
+| When you are ready | "Approve exact <id> for instagram" | Owner line with hash; then "reserve and schedule <id> instagram <time>" → publisher asks you to confirm → scheduled |
+| Day after a publish | "Snapshot <pub id>" | Analytics pull, `performance.jsonl`, `learnings.md` |
+| Anything odd | "Pause publishing" | `pause.json` on; nothing writes until you lift it |
+
 ## What is still manual
 
 - Native Swahili review: no reviewer named. Every Swahili caption carries "Claude draft; needs native review" until an approvals note records a reviewer's sign-off.
 - Checking product claims against the current build: each brief lists the claims to eyeball.
 - Keyword replies (PASS, PARTNER, TRAINER): manual DMs until the comment-to-DM module (Phase 5).
-- Posting: not available. Phase 3 adds `social-ops` and the `social-publisher` agent against Metricool, after you connect the account.
+- Posting: the Phase 3 process above; every write is preceded by your exact-version approval and a confirmation prompt. Deleting a scheduled post happens in the Metricool planner.
 
 ## Claude Cowork (unverified)
 

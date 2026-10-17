@@ -4,10 +4,22 @@
   "label": "FitFlex Africa",
   "timezone": "Africa/Dar_es_Salaam",
   "networks": {
-    "instagram": { "handle": "fitflex.africa", "connected": true },
-    "facebook": { "pageId": "1368079233061761", "pageUrl": "https://www.facebook.com/profile.php?id=61595529537350", "connected": true }
+    "instagram": {
+      "handle": "fitflex.africa",
+      "connected": true
+    },
+    "facebook": {
+      "pageId": "1368079233061761",
+      "pageUrl": "https://www.facebook.com/profile.php?id=61595529537350",
+      "connected": true
+    }
   },
   "firstConnection": "2026-10-16",
-  "publishingNetworks": ["instagram", "facebook"],
-  "decision": "Owner 2026-10-16: Instagram and Facebook are the first publishing networks; TikTok and LinkedIn not yet."
+  "publishingNetworks": [
+    "instagram",
+    "facebook"
+  ],
+  "decision": "Owner 2026-10-16: Instagram and Facebook are the first publishing networks; TikTok and LinkedIn not yet.",
+  "mediaBase": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-studio-phase2",
+  "mediaBaseNote": "Public raw URLs of committed, pushed slide PNGs. After merge switch to the release-candidate or main ref. publish.js refuses media that does not answer 200."
 }

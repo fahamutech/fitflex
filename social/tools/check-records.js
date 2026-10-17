@@ -60,6 +60,26 @@ ideas.forEach(r => {
 });
 
 if (phase < 3 && publishes.length) fail(`publishes.jsonl has ${publishes.length} line(s) before Phase 3`);
+if (phase >= 3) {
+  need(publishes, 'publishes.jsonl', ['id', 'idea_id', 'platform', 'status', 'at']);
+  const latest = {};
+  for (const p of publishes) latest[p.id] = { ...(latest[p.id] || {}), ...p };
+  const seenKey = new Set();
+  for (const p of Object.values(latest)) {
+    if (!['pending', 'scheduled', 'published', 'failed', 'deleted'].includes(p.status)) fail(`${p.id}: unknown publish status ${p.status}`);
+    if (!['instagram', 'facebook'].includes(p.platform)) fail(`${p.id}: platform ${p.platform} not enabled`);
+    const ok = approvals.find(a => a.idea_id === p.idea_id && a.actor === 'owner' && a.to_state === 'approved' && a.decision === 'pass' && a.content_hash === p.content_hash && Array.isArray(a.platforms) && a.platforms.includes(p.platform));
+    if (['pending', 'scheduled', 'published'].includes(p.status) && !ok) fail(`${p.id}: no owner approval for content ${p.content_hash} on ${p.platform}`);
+    if (['pending', 'scheduled', 'published'].includes(p.status)) {
+      const key = `${p.idea_id}|${p.platform}|${p.content_hash}`;
+      if (seenKey.has(key)) fail(`${p.id}: duplicate live publish for ${key}`); seenKey.add(key);
+    }
+    if (p.error && /(bearer\s+(?!\[REDACTED\])[A-Za-z0-9._-]{8,}|(?:token|api_key|secret|access_token)=(?!\[REDACTED\])[^&\s]+)/i.test(p.error)) fail(`${p.id}: error text looks like it contains a credential`);
+  }
+  ideas.forEach(r => {
+    if (['scheduled', 'published', 'measured'].includes(r.state) && !Object.values(latest).some(p => p.idea_id === r.id && ['scheduled', 'published'].includes(p.status))) fail(`${r.id}: state ${r.state} without a scheduled/published publish line`);
+  });
+}
 
 if (errors.length) { console.error(`check-records: ${errors.length} problem(s)`); errors.forEach(e => console.error(' - ' + e)); process.exit(1); }
 console.log(`check-records: ok (${ideas.length} records, ${approvals.length} approval lines, phase ${phase})`);

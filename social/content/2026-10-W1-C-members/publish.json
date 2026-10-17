@@ -1,0 +1,39 @@
+{
+  "record": "2026-10-W1-C-members",
+  "version_note": "Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/C01.png",
+    "slides/C02.png",
+    "slides/C03.png",
+    "slides/C04.png",
+    "slides/C05.png",
+    "slides/C06.png",
+    "slides/C07.png",
+    "slides/C08.png"
+  ],
+  "altText": [
+    "Woman exercising in a gym; headline: One gym, one contract, stuck. There's a better way",
+    "Man texting on a phone with a mobile-money phone mock; text: Pay once with mobile money",
+    "Modern gym with a network of pins; text: Train at gyms across the network",
+    "Dumbbells with a shield and stars; text: Every gym is visited and scored before it joins",
+    "Businessman in an airport; text: Travelling for work? Your pass goes with you",
+    "Gym equipment with a QR code mock; text: Check in with a QR that refreshes every minute",
+    "Dumbbells with a phone mock; text: Book a trainer and buy gear in one app",
+    "Woman holding dumbbells with a speech bubble: Comment PASS. We'll DM you the link"
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Gym moja, mkataba mmoja, umekwama? Kuna njia bora. 💪\nLipa mara moja kwa M-Pesa, Airtel Money au Tigo Pesa, na ufanye mazoezi kwenye gym tofauti zilizokaguliwa na FitFlex.\nAndika PASS kwenye comments tukutumie link.\n\nOne mobile-money pass, many vetted gyms. Comment PASS for the link.\n\n#gym #daressalaam #mpesa #fitness #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "One mobile-money pass, many vetted gyms. Comment PASS for the link.\n\nGym moja, mkataba mmoja, umekwama? Kuna njia bora. 💪\nLipa mara moja kwa M-Pesa, Airtel Money au Tigo Pesa, na ufanye mazoezi kwenye gym tofauti zilizokaguliwa na FitFlex.\nAndika PASS kwenye comments tukutumie link.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PASS",
+  "reply_path": "manual reply by the owner until the comment-to-DM module exists"
+}
