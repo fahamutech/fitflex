@@ -1,0 +1,39 @@
+{
+  "record": "2026-10-W3-A-owners",
+  "version_note": "Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/R01.png",
+    "slides/R02.png",
+    "slides/R03.png",
+    "slides/R04.png",
+    "slides/R05.png",
+    "slides/R06.png",
+    "slides/R07.png",
+    "slides/R08.png"
+  ],
+  "altText": [
+    "Gym owner in a dark gym; headline: Your members don't quit loudly",
+    "Empty gym floor; text: They just stop coming. No message, no goodbye",
+    "Gym reception; text: By renewal day they've already left",
+    "Two men in a gym with a dashboard card showing bars and ticks; text: See who's slipping before they're gone. Active, slipping, at risk, lapsed",
+    "Person using a phone in a gym; text: Message them from the app. In-app, push or SMS",
+    "Group training; text: Give them a reason to come back, a challenge",
+    "Gym at night; text: Community keeps members, data tells you when to act",
+    "Smiling woman with a speech bubble: Comment PARTNER. We'll DM you how FitFlex works"
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Wanachama hawaachi kwa kelele. Wanaacha kuja tu.\nFitFlex inakuonyesha nani anapungua kabla hajaondoka, na unaweza kumtumia ujumbe moja kwa moja kutoka kwenye app.\nUna gym Dar es Salaam? Andika PARTNER kwenye comments tukutumie maelezo.\n\nMembers don't quit loudly. They just stop coming. FitFlex shows you who's slipping and lets you message them before they're gone. Own a gym in Dar? Comment PARTNER.\n\n#gymowner #memberretention #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Members don't quit loudly. They just stop coming. FitFlex shows you who's slipping and lets you message them before they're gone. Own a gym in Dar? Comment PARTNER.\n\nWanachama hawaachi kwa kelele. Wanaacha kuja tu.\nFitFlex inakuonyesha nani anapungua kabla hajaondoka, na unaweza kumtumia ujumbe moja kwa moja kutoka kwenye app.\nUna gym Dar es Salaam? Andika PARTNER kwenye comments tukutumie maelezo.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PARTNER",
+  "reply_path": "manual reply by the owner until the comment-to-DM module exists"
+}

@@ -1,6 +1,6 @@
 # 2026-10-W1-C-members — "One gym. One contract. Stuck."
 
-State: **drafted** (awaiting brand review and owner approval). Record: `social/data/ideas.jsonl`.
+State: **brand_checked** (brand review passed 2026-10-16; owner approval pending). Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
@@ -56,13 +56,13 @@ Comment **PASS** → DM with a one-line explanation of the Platform Pass plus th
 |---|---|---|
 | Instagram | drafted | Carousel as above |
 | TikTok | not adapted | Candidate: 15 s text-motion of slides 1–4 |
-| Facebook | not adapted | Same carousel |
+| Facebook | drafted | Same 8 slides and caption on the FitFlex Africa Page (connected in Metricool 2026-10-16) |
 | LinkedIn | not adapted | Low fit |
 
 ## Checks before approval
 
-- [ ] Brand review against `social/brand/brand-block.md`
-- [ ] Native Swahili review, or owner waiver
+- [x] Brand review (social-brand-reviewer): pass 2026-10-16 after one revise (facts tags, C02/C04 surfaces)
+- [x] Native Swahili review: owner chose to proceed without it for now (2026-10-16); caption still marked as a draft
 - [ ] "Across the network" must be true for the gyms live in Dar es Salaam; if only a few are live, say "gyms in Dar es Salaam" and name the number honestly
 - [ ] The Android link is live and the DM does not mention iOS
 - [ ] Confirm the trainer booking and marketplace named on slide 7 are live in the current build

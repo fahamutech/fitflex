@@ -1,6 +1,6 @@
 # 2026-10-W1-A-owners — "You're counting the wrong members."
 
-State: **drafted** (awaiting brand review and owner approval). Record: `social/data/ideas.jsonl`.
+State: **brand_checked** (brand review passed 2026-10-16; owner approval pending). Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
@@ -56,12 +56,12 @@ Comment **PARTNER** → DM with a short explanation of partnering and the partne
 |---|---|---|
 | Instagram | drafted | Carousel as above |
 | LinkedIn | not adapted | Candidate: same 8 slides as a PDF document post, English lead, owner audience fits LinkedIn best |
-| Facebook | not adapted | Same carousel; Page not confirmed |
+| Facebook | drafted | Same 8 slides and caption on the FitFlex Africa Page (connected in Metricool 2026-10-16) |
 | TikTok | not adapted | Would need a text-motion version |
 
 ## Checks before approval
 
-- [ ] Brand review against `social/brand/brand-block.md`
-- [ ] Native Swahili review, or owner waiver
+- [x] Brand review (social-brand-reviewer): pass 2026-10-16 after one revise (facts tags, C02/C04 surfaces)
+- [x] Native Swahili review: owner chose to proceed without it for now (2026-10-16); caption still marked as a draft
 - [ ] Where does the PARTNER DM link: sign-up page, WhatsApp number or email?
 - [ ] Confirm the owner dashboard features named on slide 6 are live in the current build

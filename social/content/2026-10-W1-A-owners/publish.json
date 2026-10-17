@@ -1,0 +1,39 @@
+{
+  "record": "2026-10-W1-A-owners",
+  "version_note": "Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/A01.png",
+    "slides/A02.png",
+    "slides/A03.png",
+    "slides/A04.png",
+    "slides/A05.png",
+    "slides/A06.png",
+    "slides/A07.png",
+    "slides/A08.png"
+  ],
+  "altText": [
+    "Gym trainer in a busy gym; headline: You're counting the wrong members",
+    "Athletes in a gym with a bar chart of joined vs stayed; text: Sign-ups tell you who joined, visits tell you who stayed",
+    "Man at a desk; text: Most small gyms track visits in a notebook, or not at all",
+    "Exercise equipment; text: Can't see visits? You can't see who's leaving",
+    "Treadmills with a chart overlay; text: Empty off-peak hours aren't a mystery, they're a data problem",
+    "Gym interior with a dashboard card; text: A dashboard shows check-ins, busy hours and who stopped coming",
+    "Man in a gym; text: And it brings new members to your door",
+    "Smiling man with a speech bubble: Comment PARTNER. We'll DM you how FitFlex works"
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Unahesabu wanachama wasiofaa? 👀\nKujiunga si kubaki. Ukitaka kujua nani anakuja kweli, hesabu ziara, si usajili.\nUna gym Dar es Salaam? Andika PARTNER kwenye comments tupate kukutumia maelezo.\n\nSign-ups tell you who joined. Visits tell you who stayed. Comment PARTNER to learn how FitFlex works for gyms.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Sign-ups tell you who joined. Visits tell you who stayed. Comment PARTNER to learn how FitFlex works for gyms.\n\nUnahesabu wanachama wasiofaa? 👀\nKujiunga si kubaki. Ukitaka kujua nani anakuja kweli, hesabu ziara, si usajili.\nUna gym Dar es Salaam? Andika PARTNER kwenye comments tupate kukutumia maelezo.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PARTNER",
+  "reply_path": "manual reply by the owner until the comment-to-DM module exists"
+}

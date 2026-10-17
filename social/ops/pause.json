@@ -1,0 +1,6 @@
+{
+  "paused": true,
+  "reason": "Default state. Publishing writes are blocked while paused. Only the owner lifts it, by instruction in chat; Claude records who and when below.",
+  "changed_by": "claude (initial)",
+  "changed_at": "2026-10-16T20:00:00+03:00"
+}

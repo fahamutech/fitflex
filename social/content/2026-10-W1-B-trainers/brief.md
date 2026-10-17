@@ -1,6 +1,6 @@
 # 2026-10-W1-B-trainers — "Why clients don't book you."
 
-State: **drafted** (awaiting brand review and owner approval). Record: `social/data/ideas.jsonl`.
+State: **brand_checked** (brand review passed 2026-10-16; owner approval pending). Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
@@ -56,12 +56,12 @@ Comment **TRAINER** → DM with a short explanation of the trainer side plus the
 |---|---|---|
 | Instagram | drafted | Carousel as above |
 | TikTok | not adapted | Candidate: trainer talking-head or text-motion version of slides 2–5 |
-| Facebook | not adapted | Same carousel |
+| Facebook | drafted | Same 8 slides and caption on the FitFlex Africa Page (connected in Metricool 2026-10-16) |
 | LinkedIn | not adapted | Low fit |
 
 ## Checks before approval
 
-- [ ] Brand review against `social/brand/brand-block.md`
-- [ ] Native Swahili review, or owner waiver
+- [x] Brand review (social-brand-reviewer): pass 2026-10-16 after one revise (facts tags, C02/C04 surfaces)
+- [x] Native Swahili review: owner chose to proceed without it for now (2026-10-16); caption still marked as a draft
 - [ ] Confirm trainer onboarding is open to new sign-ups and reviews are visible on trainer profiles in the current build
 - [ ] Where does the TRAINER DM link?

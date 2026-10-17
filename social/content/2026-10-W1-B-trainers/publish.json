@@ -1,0 +1,39 @@
+{
+  "record": "2026-10-W1-B-trainers",
+  "version_note": "Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/B01.png",
+    "slides/B02.png",
+    "slides/B03.png",
+    "slides/B04.png",
+    "slides/B05.png",
+    "slides/B06.png",
+    "slides/B07.png",
+    "slides/B08.png"
+  ],
+  "altText": [
+    "Gym trainer in a modern fitness centre; headline: Why clients don't book you, it's not your price",
+    "Man in a black jacket; text: They can't tell what you actually help with",
+    "Woman in a gym pose with chat bubbles; text: Personal trainer says nothing, say who you help and why",
+    "Woman using battle ropes with photo, stars and review cards; text: They can't see proof",
+    "Man using a phone; text: Booking and paying is hard, cash, DMs and later kill sales",
+    "Man with a medicine ball and three ticked cards: clear offer, visible proof, easy booking",
+    "Young man with a phone showing a profile mock; text: A profile, bookings and payment in one app",
+    "Man in a blue tank top with a speech bubble: Comment TRAINER. We'll DM you how to join"
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Kwa nini wateja hawakubuki? Mara nyingi si bei.\nSema unamsaidia nani na tatizo gani, onyesha ushahidi, na wape njia rahisi ya kulipa.\nMkufunzi? Andika TRAINER kwenye comments tukutumie jinsi ya kujiunga.\n\nSay who you help, show proof, make paying easy. Trainers, comment TRAINER to learn how to join.\n\n#personaltrainer #fitnesscoach #tanzania #daressalaam #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Say who you help, show proof, make paying easy. Trainers, comment TRAINER to learn how to join.\n\nKwa nini wateja hawakubuki? Mara nyingi si bei.\nSema unamsaidia nani na tatizo gani, onyesha ushahidi, na wape njia rahisi ya kulipa.\nMkufunzi? Andika TRAINER kwenye comments tukutumie jinsi ya kujiunga.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "TRAINER",
+  "reply_path": "manual reply by the owner until the comment-to-DM module exists"
+}
