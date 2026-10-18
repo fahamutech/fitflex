@@ -79,6 +79,20 @@ Same repo, same records, same rules. Cowork availability is still unverified; if
 | Day after a publish | "Snapshot <pub id>" | Analytics pull, `performance.jsonl`, `learnings.md` |
 | Anything odd | "Pause publishing" | `pause.json` on; nothing writes until you lift it |
 
+## Intelligence and learning (Phase 4)
+
+| You say | What runs | Output |
+|---|---|---|
+| "Sweep" or "sync" | `social-intel`: reads your signed-in Instagram Saved collections at a human pace, appends observations with `intel-capture.js` (dated, sourced, deduped) | new lines in `inspiration.jsonl`, `watchlist.jsonl` |
+| "Weekly intel" | `intel-report.js --week <ISO week>` then the analyst sections | `social/intel/weekly/<week>.md` with facts (cited) and interpretation (labelled) |
+| "Performance pull" / Monday | `social-ops` analytics mode: Metricool `getAnalyticsDataByMetrics` per published post → `publish.js snapshot` → `performance-report.js --write` | `performance.jsonl` snapshots (missing metrics null), `learnings.md` with limitations and next tests |
+| "Calendar" | `calendar.js --write` (and `--check`) | `social/calendar/<month>.md` generated from the records; never edited by hand |
+| "Propose next week" | `social-strategy` with a **Learnings cited** list | proposal in chat; records only when you pick |
+
+Scheduled tasks: two are prepared in `social/ops/tasks/` (weekly sweep Monday 06:00, performance pull Monday 07:00, Dar es Salaam) and **not created yet**. `social/ops/automation.json` is the master switch (paused) and lists what blocks each: the sweep needs you signed in to Instagram in Chrome when it runs, the pull needs a published post. When you approve, Claude creates them in the Claude scheduled-tasks connector (one scheduler, not duplicated in Cowork); they produce reports and observations only and can never reserve, approve or publish (`SOCIAL_ACTOR=automation` makes the tools refuse). Pause them by setting `paused: true` in `automation.json`; inspect outputs in `social/intel/weekly/`, `learnings.md` and the task run log.
+
+Networks: `social/ops/networks.json`. Instagram is the publishing network; Facebook is connected and prepared but not activated until you confirm the Page linkage at Meta; TikTok and LinkedIn are unresolved.
+
 ## What is still manual
 
 - Native Swahili review: no reviewer named. Every Swahili caption carries "Claude draft; needs native review" until an approvals note records a reviewer's sign-off.

@@ -1,0 +1,7 @@
+{
+  "note": "Publishing network status. Instagram first. A network is activated for publishing only when account, administrator, Meta/Metricool permissions and the connector's capability for it are verified.",
+  "instagram": { "handle": "fitflex.africa", "account_type": "Business", "metricool": "connected", "publishing": "active (pilot pending)", "verified": "2026-10-16 via getBrandSettings" },
+  "facebook":  { "page_id": "1368079233061761", "owner_url": "https://www.facebook.com/profile.php?id=61595529537350", "metricool": "connected", "publishing": "prepared; variants drafted; NOT activated until the owner confirms this Page is the one linked to the Instagram account at Meta", "unresolved": ["Page to Instagram linkage at Meta", "Page administrator"] },
+  "tiktok":    { "publishing": "not activated", "unresolved": ["account handle", "administrator", "Business vs personal", "Metricool connection"] },
+  "linkedin":  { "publishing": "not activated", "unresolved": ["Company Page vs personal profile", "administrator", "Metricool connection"] }
+}

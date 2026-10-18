@@ -1,0 +1,10 @@
+{
+  "paused": true,
+  "note": "Master switch for scheduled tasks. While paused, a task that starts must stop after reading this file and write nothing. Scheduled tasks never reserve, schedule, approve or publish regardless of this switch.",
+  "tasks": {
+    "weekly-intel-sweep": { "status": "prepared, not created", "prompt": "social/ops/tasks/weekly-intel-sweep.md", "schedule": "Mondays 06:00 Africa/Dar_es_Salaam", "inputs_verified": false, "blocker": "needs the owner signed in to Instagram in Chrome at run time, and the owner's approval to create the task" },
+    "monday-performance-pull": { "status": "prepared, not created", "prompt": "social/ops/tasks/monday-performance-pull.md", "schedule": "Mondays 07:00 Africa/Dar_es_Salaam", "inputs_verified": false, "blocker": "no published posts yet; Metricool analytics read verified (getAnalyticsAvailableMetrics) but no post to pull" }
+  },
+  "changed_by": "claude (initial)",
+  "changed_at": "2026-10-17T10:00:00+03:00"
+}

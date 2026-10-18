@@ -141,6 +141,7 @@ function printReport(title, g, extra = {}) {
 if (cmd === 'hash') {
   console.log(contentHash(argv[1]));
 } else if (cmd === 'dry-run' || cmd === 'reserve') {
+  if (cmd === 'reserve' && process.env.SOCIAL_ACTOR === 'automation') { console.error('reserve refused: scheduled tasks and automations may not make publishing writes'); process.exit(1); }
   const [recordId, platform, when] = [argv[1], argv[2], argv[3]];
   const base = opt('--base', (brand && brand.mediaBase) || '');
   if (!base) { console.error('no media base URL: pass --base or set mediaBase in social/ops/metricool-brand.json'); process.exit(2); }
@@ -173,8 +174,11 @@ if (cmd === 'hash') {
   });
   console.log(`${id} -> ${status}`);
 } else if (cmd === 'snapshot') {
-  const id = argv[1]; const metrics = JSON.parse(opt('--json', '{}'));
-  appendJsonl(path.join(dataDir, 'performance.jsonl'), { publish_id: id, observed_at: nowIso(), ...metrics, source: opt('--source', 'metricool') });
+  const id = argv[1]; const raw = JSON.parse(opt('--json', '{}'));
+  const KEYS = ['reach', 'impressions', 'views', 'likes', 'comments', 'saves', 'shares', 'clicks', 'follows', 'interactions', 'dm_keyword_hits'];
+  const metrics = Object.fromEntries(KEYS.map(k => [k, (k in raw && raw[k] !== null && raw[k] !== undefined && raw[k] !== '') ? Number(raw[k]) : null]));
+  if (!readJsonl(path.join(dataDir, 'publishes.jsonl')).some(p => p.id === id)) { console.error(`${id} not found in publishes.jsonl`); process.exit(2); }
+  appendJsonl(path.join(dataDir, 'performance.jsonl'), { publish_id: id, observed_at: opt('--observed', nowIso()), ...metrics, post_url: raw.post_url || null, source: opt('--source', 'metricool') });
   console.log(`snapshot recorded for ${id}`);
 } else {
   console.error('usage: publish.js hash|dry-run|reserve|result|snapshot ...'); process.exit(2);
