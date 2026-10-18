@@ -20,6 +20,17 @@
       "deep": "#E07F00"
     },
     "gold": "#FDBE34",
+    "v2": {
+      "decided": "2026-10-18",
+      "volt": "#C8F04A",
+      "onVolt": "#020617",
+      "fuel": "#B8452C",
+      "fuelOnDark": "#FF8A6B",
+      "fuel50": "#FFF4EE",
+      "fuel200": "#FBD9CC",
+      "calmGround": "#F7F5F0",
+      "calmBorder": "#EBE7DE"
+    },
     "navy": {
       "logo": "#111E30",
       "deep": "#0B192C"
