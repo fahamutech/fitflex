@@ -44,7 +44,7 @@ Design system sources used: `canon/04-marketing/design-system.md` (V2 accents, 2
 | DD-4 | **Product images sit on a white `#FFFFFF` well in both themes.** In dark theme the well gets a 1px `slate-700` edge and 12px radius. | Owner request. Vendor photos are usually shot on white. This is not "brand colour on white", so canon allows it. |
 | DD-5 | Hero accent word: **Volt `#C8F04A` in dark theme; brand-on-dark green `FFTokens.fgBrand` in light theme.** Both sit on the photo scrim (§5), never on a light ground. | Volt is the dark theme's only primary and must not appear on a light-theme screen next to green CTAs (canon: no Volt + green as two primaries). |
 | DD-6 | **No auto-advance** on the hero carousel. Swipe, dots and (on wide screens) arrows only. | WCAG 2.2.2: moving content needs a pause control. No auto-advance keeps it simple and predictable for screen-reader and low-data users. |
-| DD-7 | **A rail needs at least 3 products to show.** Below that it is hidden; no empty rails. A product appears in **at most one rail** on the home, in this priority: Flash sale > Featured > Best sellers > Recommended. | Avoids a half-empty page in a small catalogue and avoids repeating the same items. |
+| DD-7 | **A rail needs at least 4 products to show** (owner 2026-10-19; server `SHOP_HOME_MIN_ITEMS`, default 4). Below that it is hidden; no empty rails. A product appears in **at most one rail** on the home, in this priority: Flash sale > Featured > Best sellers > Recommended. | Avoids a half-empty page in a small catalogue and avoids repeating the same items. |
 | DD-8 | **Ratings show only when `reviewCount ≥ 1` and the backend confirms the rating comes from real reviews (P-1 fixed).** With no reviews, nothing is shown: no stars, no "0.0", no "No reviews". | Owner rule: no fabricated ratings. |
 | DD-9 | **"Recommended for you" is organic.** Paid placements (sponsored / promoted) do not enter it. Featured/sponsored items live in the Featured rail with their disclosure badge (`FFPromotionBadge`), as today. | Keeps "for you" honest and separate from "Recommended by FitFlex" (the editorial promotion label `promo.recommended`). |
 | DD-10 | Role is **context**, not personal data. With personalisation off, the shop still adapts to the role the user is shopping as, but uses no purchase history, gender or location. | The user chose the role by opening that app area. The Why sheet says this plainly. |
@@ -259,8 +259,8 @@ The whole card opens product details (existing `_openProduct` sheet). The cart b
 
 ### 8.5 Cold start
 - Signed in with no purchase history: "Popular with {role}", header icon `Icons.trending_up`, Why = `popular_with_role` + `role_context`.
-- Tiny catalogue (fewer than 3 listable products in total): no rails; show the categories and a 2-column grid of all products under "All products".
-- Fewer than 3 items for a rail: hide that rail (DD-7). If **every** rail is hidden but products exist, show the "All products" grid.
+- Tiny catalogue (fewer than 4 listable products in total): no rails; show the categories and a 2-column grid of all products under "All products".
+- Fewer than 4 items for a rail: hide that rail (DD-7). If **every** rail is hidden but products exist, show the "All products" grid.
 
 ---
 
@@ -332,7 +332,7 @@ An unknown server key uses the server's full name (2 lines, ellipsis).
 | `shop.home.saleEnded` | Sale ended | Ofa imeisha | |
 | `shop.home.viewAll` | View all | Ona zote | |
 | `shop.home.featuredMember` | Featured gear | Vifaa vilivyoangaziwa | +50% |
-| `shop.home.featuredTrainer` | Featured coaching gear | Vifaa vya ukocha vilivyoangaziwa | +45%, 2 lines on phone |
+| `shop.home.featuredTrainer` | Featured coaching gear | Vifaa vya trainer vilivyoangaziwa | +45%, 2 lines on phone |
 | `shop.home.featuredOwner` | Featured equipment | Vifaa vya gym vilivyoangaziwa | +55% |
 | `shop.home.bestSellers` | Best sellers | Zinazouzwa zaidi | +35% |
 | `shop.home.recommended` | Recommended for you | Zilizopendekezwa kwako | +15% |
@@ -521,7 +521,7 @@ Each line is meant to be checked on its own by `design-qa` (visual/system) or `u
 - AC-05 Hero: 1 slide shows no dots; 2–5 slides show dots; swiping changes the slide; there is no auto-advance after 30s idle.
 - AC-06 Hero text sits on a scrim; on a white test photo, white headline text measures ≥ 4.5:1 and the accent word ≥ 3:1.
 - AC-07 Category tiles show the 8 server categories (short labels), hide categories with 0 products, and put "Other" last; tapping opens Results filtered to that category.
-- AC-08 A rail with fewer than 3 products is not rendered; no product appears in two home rails.
+- AC-08 A rail with fewer than 4 products is not rendered; no product appears in two home rails.
 - AC-09 Product images render on white wells in both themes; a broken image URL shows the bag icon on white.
 
 **Card and price**
@@ -598,7 +598,7 @@ Needs a real device (not checkable on Flutter web): TalkBack/VoiceOver gesture b
 | D-5 | Do we need owners-only (commercial) products (B-4)? | Yes if commercial vendors exist; otherwise owner focus by category only. |
 | D-6 | Should vendors be able to buy in the shop? | Not in this slice. |
 | D-7 | Trainers and owners have no privacy page; is the Why-sheet switch enough? | Acceptable for v1; add a settings row in their profile later. |
-| D-8 | Show money as `TSh 279,000` app-wide, or only in the shop? | **App-wide** in a separate small slice; mixing "TZS" and "TSh" in one app looks wrong. |
+| D-8 | Show money as `TSh 279,000` app-wide, or only in the shop? | **DECIDED 2026-10-19 (owner): TSh**, app-wide in a separate small slice. "ukocha" → "uTrainer" decided the same day. |
 | D-9 | Rename segment "Browse/Bidhaa" to "Shop/Duka"? | Yes, it reads better above a home page. |
 | D-10 | Add a `/trainer/shop` route for deep links? | Yes. |
 | D-11 | Who creates and approves hero banners (portal admin, `shop`/`moderation` scope)? | Admins with the moderation scope, reusing promotion approval. |
