@@ -33,18 +33,18 @@ Rules:
 | `data/` | The six record files (JSON Lines) and `learnings.md`. Schema below. |
 | `content/<id>/` | One folder per content record: `brief.md`, `source/slides.json` + rendered HTML, `slides/*.png`, `contact-sheet.png`, `licences.md`, `publish.json` (exact caption per platform, media order, alt text; hashed for approval) |
 | `brand/` | `brand-tokens.json` (committed copy of the canon tokens), logo SVG/PNG, `fonts/` (Inter 700/800/900), `photos/` (licensed stock, see its README), `effects.css`, `post-templates.md`, `brand-block.md` |
-| `tools/` | `render-carousel.js` (slides.json + tokens → HTML → PNG via headless Chrome), `gen-brand-tokens.js` (canon → tokens), `check-records.js` (integrity: states, approval lines, owner-only approvals, publish lines need an exact-version owner approval), `publish.js` (hash, dry-run, reserve, result, snapshot; see USAGE.md), `legacy/` (the week-1 scripts as they were) |
+| `tools/` | `render-carousel.js` (slides.json + tokens → HTML → PNG via headless Chrome), `gen-brand-tokens.js` (canon → tokens), `check-records.js` (integrity: states, approval lines, owner-only approvals, publish lines need an exact-version owner approval), `publish.js` (hash, dry-run, reserve, result, snapshot), `intel-capture.js` (accounts and dated observations, deduped), `intel-report.js` (weekly facts section), `performance-report.js` (Monday analysis into learnings.md), `calendar.js` (calendar from records, `--check`), `legacy/` (the week-1 scripts as they were) |
 | `tests/` | Negative fixtures for the brand reviewer and a tampered data copy for `check-records.js`; results in `tests/README.md` |
-| `intel/` | Intelligence notes: the 2026-10-09 swipe file, `weekly/` sweeps from Phase 4 |
-| `calendar/` | Month plans; `2026-10-plan.md` is the month-1 content plan |
-| `ops/` | `pause.json` (publishing kill switch, default on), `metricool-brand.json` (brand id, timezone, networks, media base; no secrets), `metricool-capabilities-<date>.md`, `dryruns/` reports, `comment-to-dm-design.md` (Phase 5) |
+| `intel/` | The 2026-10-09 swipe file and `weekly/<ISO week>.md` reports: generated facts (cited) plus labelled interpretation |
+| `calendar/` | `<month>-plan.md` (the human plan) and `<month>.md` (generated from the records by `calendar.js`; never edited by hand) |
+| `ops/` | `pause.json` (publishing kill switch, default on), `automation.json` (scheduled-task master switch, default paused) + `tasks/` prompts, `networks.json`, `metricool-brand.json` (brand id, timezone, networks, media base; no secrets), `metricool-capabilities-<date>.md`, `dryruns/` reports, `comment-to-dm-design.md` (Phase 5) |
 
 ## Data model (JSON Lines, one object per line)
 
 | File | Key fields |
 |---|---|
 | `watchlist.jsonl` | `id` (`wl_<platform>_<handle>`), `platform`, `handle`, `url`, `category` (gym, trainer, vendor, workout, growth, club, real_estate), `region` (tz, east_africa, global), `why`, `source`, `last_checked`, `active` |
-| `inspiration.jsonl` | `id`, `watchlist_id`, `post_url` (null when not captured), `captured_at`, `format`, `hook_type` (contrarian, data, how_to, offer, spotlight, recap, price), `pattern` (the structure in our words, never their copy), `engagement` (null or {likes, comments, saves, shares, views, observed_at}), `tags` (pillars), `used_in` |
+| `inspiration.jsonl` | `id`, `watchlist_id`, `post_url` (null when not captured), `captured_at`, `last_observed`, `source`, `format`, `hook_type` (contrarian, data, how_to, offer, spotlight, recap, price), `topic`, `pattern` and `structure` (in our words, never their copy), `engagement` (null, or every metric key with null for anything not visible), `engagement_history`, `tags` (pillars), `used_in`, `kind` |
 | `ideas.jsonl` | `id` (`YYYY-MM-W#-<letter>-<audience>`), `pillar` (find_train, grow_business, run_gym, community, marketplace), `audience` (member, trainer, owner, club_company, vendor), `problem`, `hook`, `concept`, `format`, `language_lead` (sw, en), `platforms`, `inspiration_ids`, `facts_cited`, `state`, `owner_note`, `created_at`, `updated_at` |
 | `approvals.jsonl` | `id`, `idea_id`, `from_state`, `to_state`, `actor` (claude, brand_reviewer, owner), `decision` (pass, revise, reject), `note`, `at`; an owner approval that authorises publishing also carries `content_hash` (from `publish.js hash`) and `platforms` |
 | `publishes.jsonl` | Append-only status lines per publish id (latest wins): `id`, `idea_id`, `platform`, `content_hash`, `scheduled_for`, `timezone`, `status` (pending, scheduled, published, failed, deleted), `idempotency_key`, `payload_file`, `metricool_post_id`, `metricool_uuid`, `post_url`, `planner_url`, `error` (redacted), `at` |

@@ -1,0 +1,24 @@
+{
+  "paused": false,
+  "note": "Master switch for scheduled tasks. Owner approved creating both tasks on 2026-10-18. While paused, a task that starts must stop after reading this file and write nothing. Scheduled tasks never reserve, schedule, approve or publish regardless of this switch. Tasks run from the worktree /Users/chollo/FitFlex-worktrees/social-rc (release-candidate) and open PRs with their outputs.",
+  "tasks": {
+    "weekly-intel-sweep": {
+      "status": "created in the Claude scheduled-tasks connector 2026-10-18",
+      "prompt": "social/ops/tasks/weekly-intel-sweep.md",
+      "schedule": "Mondays 06:00 Africa/Dar_es_Salaam",
+      "inputs_verified": false,
+      "blocker": "first run will report 'Instagram not signed in' unless the owner's Chrome session is signed in at run time; needs PR #64 merged so the tools exist on release-candidate",
+      "taskId": "fitflex-weekly-intel-sweep"
+    },
+    "monday-performance-pull": {
+      "status": "created in the Claude scheduled-tasks connector 2026-10-18",
+      "prompt": "social/ops/tasks/monday-performance-pull.md",
+      "schedule": "Mondays 07:00 Africa/Dar_es_Salaam",
+      "inputs_verified": false,
+      "blocker": "reports 'no published posts' until the pilot runs; needs PR #64 merged",
+      "taskId": "fitflex-monday-performance-pull"
+    }
+  },
+  "changed_by": "owner instruction in chat, recorded by claude",
+  "changed_at": "2026-10-18T09:00:00+03:00"
+}

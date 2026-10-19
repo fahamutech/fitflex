@@ -30,6 +30,7 @@ Owns the first four steps of the workflow: Idea → Audience/problem → Hook �
 
 - Read the month plan week, learnings and what is already in `ideas.jsonl` for that week.
 - Propose 3 carousels + 1 reel (the decided mix), each as a one-line idea with pillar, audience, hook type and the feature it leans on.
+- End the proposal with a **Learnings cited** list: the `learnings.md` section and the `social/intel/weekly/` report lines used, by record id and date; when there is no performance data yet, say so in that list instead of leaving it out. Performance is one input next to the month plan's priorities, never the only one.
 - Flag anything that needs a real partner, trainer, member or recording before it can be made.
 - Do not create records until the owner picks; then run the single-idea procedure per pick.
 
