@@ -16,12 +16,15 @@
 > 5. Apply it to **Activity**, with a **different photo for each section**: Today, Training, Challenges, Progress (§24).
 > 6. Apply it to the **Trainer, Vendor and Gym owner home** screens (§25).
 > Earlier decisions still apply: licensed people-free stock for now; people only as backs, hands or unclear faces; no "Dar es Salaam · Tanzania"; Fuel chip OK; flag `PHOTO_HERO_UI`, build-time, off by default.
+>
+> **Owner decisions 2026-10-19, third request** (plan `docs/plans/photo-hero-sections-footer-admin-plan.md`; override anything below, details in §31–§38):
+> D-1 gym detail and trainer detail get the **footer only**, no stock top hero · D-2 footer = FitFlex wordmark + "That's all for now." / "Hiyo ndiyo yote kwa sasa.", plus **Back to top** on Gyms, Trainers and Shop · D-3 section heroes on **member** screens only · D-4 any admin with the `brand_media` scope **publishes alone** (audit log + one-click rollback) · D-5 photo rotation **per day** · the photo manager (portal "App photos" + backend + app download) is built now behind flags and ships in the next release only if it passes security review in time.
 
 **Status:** Draft for owner review · **Date:** 2026-10-19 · **Author:** design-agent
 **Request:** owner, chat 2026-10-18/19: *"I like this kind of UI where real pictures lie on the background instead of plain white/navy backgrounds"* (the investor/partner deck hero), and *"the home needs this taste too since it's where the user lands after registration. We need a strong impression when it comes to design."*
 **Repos affected:** `fitflexmobile` (Flutter, mobile + Flutter web) and `fitflex-portal` (Next.js static export). **No backend change is required** (§14).
 **Ships:** dormant behind `PHOTO_HERO_UI` (mobile) and `NEXT_PUBLIC_PHOTO_HERO_UI` (portal), both default **off** (§13). With the flags off, today's screens render unchanged.
-**Not in scope:** app code; member onboarding (`/member/onboarding`); the pending-approval screen; the Shop home (separate spec, §3.3). (Owner/trainer/vendor homes, Profile, PIN, Upgrade plan and Activity were added by the 2026-10-19 addendum, §18+.)
+**Not in scope:** app code; member onboarding (`/member/onboarding`); the pending-approval screen; the Shop home (separate spec, §3.3). (Owner/trainer/vendor homes, Profile, PIN, Upgrade plan and Activity were added by the 2026-10-19 addendum, §18+. Gyms, Trainers, Shop home, the page footer band and the admin "App photos" screen were added by addendum 2, §31+.)
 
 Sources read (all from `origin/main` unless noted): `canon/04-marketing/design-system.md` (incl. V2 accents, 2026-10-18); memory notes `design-system-redesign`, `design-system-v2-accents`, `pass-card-ring-wording`, `swahili-review`; mobile `lib/shared/design_tokens.dart`, `lib/shared/components/*`, `lib/screens/language_screen.dart`, `auth_screen.dart`, `sign_up_screen.dart`, `role_screen.dart`, `member/member_home_tab.dart`, `member/home_feed.dart`, `member/member_shell.dart`, `member/widgets/home_cards.dart`, `member/widgets/pass_summary_card.dart`, `member/widgets/pass_state.dart`, `lib/shared/i18n.dart`, `lib/shared/splash/kinetic_splash.dart`, `pubspec.yaml`; portal `app/login/page.tsx`, `src/components/Shell.tsx`, `src/components/brand-logo.tsx`, `app/globals.css`, `next.config.mjs`, `src/lib/i18n.ts`; parent `social/brand/photos/README.md` (on `release-candidate`); the unmerged Shop home spec `docs/design/shop-home.md` (branch `docs/design-shop-home`).
 
@@ -864,7 +867,7 @@ Crops are in source pixels `l,t,r,b`. "Focal" is the `Alignment` for `BoxFit.cov
 - **Trainer:** there is no whistle, clipboard or coach-hands photo without a face. Stand-in: battle rope + plyo box crop of 6388387.
 - None of the photos is Tanzanian (stop-gap, O-1). Several show equipment brand marks (e.g. "Concept2" on rowers in Training and Vendor, "movement" on treadmills in Today), like the heroes already shipped; §8.1 rule 3 is met only when own photos replace them.
 
-**Bundle:** about +0.36 MB at 2× and +0.14 MB at 1× (prototype), so all hero assets together come to about 1.07 MB. **New budget: ≤1.6 MB for all hero assets (both densities)**, replacing the 1.2 MB in §9. Report the build size change in the PR.
+**Bundle:** about +0.36 MB at 2× and +0.14 MB at 1× (prototype), so all hero assets together come to about 1.07 MB. **New budget: ≤1.6 MB for all hero assets (both densities)**, replacing the 1.2 MB in §9. Report the build size change in the PR. (Addendum 2 spends part of the remaining 0.54 MB on three section heroes and four footer photos, with per-slot caps for the owner's own photos: §34.2.)
 
 ---
 
@@ -1000,3 +1003,590 @@ Checked on Flutter web built from RC at phone widths 360, 390 and 430 (heights 6
 | O-22 | Vendor and trainer photos are stand-ins (no supplements shelf, no coach photo in the licensed folder). Source two more licensed people-free photos now, or wait for the own shoot? | Ship the stand-ins behind the flag; replace with the own shoot. |
 
 Known gaps still in view: legal texts remain drafts pending Tanzanian counsel; vendor settlement exists but has not been tried by hand; `PHOTO_HERO_UI` and the other flags stay off; all Swahili above awaits native review; camera scanning and real-device rendering are **[device]** checks.
+
+---
+---
+
+# Addendum 2 (2026-10-19): section heroes, footer band, admin-managed photos
+
+## 31. Scope, decisions and what changed
+
+The owner asked for four things on 2026-10-19 after the second phone preview: more photos in the Gyms, Trainers and Shop sections (the owner will send their own photos); a photo band at the bottom of pages, with a different photo from the top; a way for admins to change the photos from the portal; and a fix for the gallery edge lines (shipped separately as mobile#182, not covered here). The planner's plan is `docs/plans/photo-hero-sections-footer-admin-plan.md`; the owner's decisions D-1 to D-5 are in the decision block at the top of this file. Everything in §1–§30 still applies unless a section below says otherwise.
+
+| # | What | Section | Flag | Slice |
+|---|---|---|---|---|
+| 1 | `band` heroes on member Gyms, Trainers and Shop home | §32 | `PHOTO_HERO_UI` (existing) | 1 (mobile) |
+| 2 | `FFPhotoFooter`: a photo band that ends long pages | §33 | `PHOTO_FOOTER_UI` (new, needs `PHOTO_HERO_UI`) | 2 (mobile) |
+| 3 | Stand-in photos for 1 and 2, bundle math | §34 | — | 1, 2 |
+| 4 | What the owner sends for their own photos | §35 | — | 3 (assets) |
+| 5 | Portal admin "App photos" screen | §36 | `NEXT_PUBLIC_HERO_IMAGES_ADMIN` (portal) + `HERO_IMAGES_CMS` (server) | 5 (portal), on 4 (backend) |
+| 6 | Copy, backend fields, flags | §37 | — | — |
+| 7 | Acceptance criteria AC-L, AC-M, AC-N; open questions | §38 | — | — |
+
+Real names in the code (read from `fitflexmobile` and `fitflex-portal` `origin/release-candidate` on 2026-10-19, mobile `baf155f`, portal `07c327a`):
+
+| Screen | Route | File | Notes |
+|---|---|---|---|
+| Gyms list | `/member/gyms` (shell tab) | `lib/screens/member/member_gyms_tab.dart` | `CustomScrollView` `gym-page-scroll`: `FFPageHeader` (`member.discoverGyms` + ghost "Trainers" button `member-find-trainer`), search `gym-search`, tier chips, filters panel, Featured strip, section strip ("Discover gyms" + count), grid `gym-card-*`. Empty: `FFEmptyState(member.noData)`. |
+| Trainers list | `/member/trainers` (under the Gyms tab) | `lib/screens/member/member_trainers_tab.dart` | `CustomScrollView` `trainer-page-scroll`: `FFPageHeader` (`member.findTrainerTitle`), search `trainer-search`, chips, Featured, "Top rated" strip, grid `trainer-card-*`. |
+| Shop home | `/member/shop` | `lib/screens/member/member_shop_tab.dart` → `ShopBrowseBody(mode: member)` (`lib/shared/widgets/shop_browse_page.dart`) → `ShopHomeView` (`lib/shared/widgets/shop_home/shop_home_page.dart`) | `ShopHomeView` renders only when `SHOP_HOME_V2` is on, the Browse segment is selected and the Results view is not open (`_showHome`). Order: segments → search row (`shop-home-search` + cart `shop-home-cart`) → category row → rails `shop-home-section-*` → "Browse all products" `shop-home-browse-all`. The sticky cart bar `shop-home-checkout` is a **sibling below the list** (a `Column`), not an overlay. |
+| Gym detail | `/member/gyms/:id` | `member_gym_detail_page.dart` | Own `Scaffold` + `AppBar` inside the shell; `ListView` `gym-detail-scroll` opening with the gym's `PhotoGallery` (`gym-section-gallery`), ending with Trainers and Reviews. |
+| Trainer detail | `/member/trainers/:id` | `member_trainer_detail_page.dart` | Own `Scaffold`; pinned action bar `trainer-actions` is the `bottomNavigationBar` (outside the scroll); `ListView` opening with `trainer-section-gallery` when the trainer has photos. |
+| Vendor Products | `/vendor/home` | `vendor_home_page.dart` | `FloatingActionButton.extended` `vendor-add-product` **overlays** the list once the hero has scrolled away (§25.2). |
+
+Two corrections to the plan, found in the code:
+- **The shop cart bar and the trainer detail action bar need no footer padding.** Both sit outside the scroll view, so the list already ends above them. Only the vendor FAB overlays content (§33.5).
+- **Gyms and Trainers have no loading or error state today** (F-12 below). `MemberData` has `gyms` and `trainers` lists but no `gymsLoaded` / `trainersLoaded` flag, and `_refreshGyms` swallows errors, so the tab says "Nothing to show yet." while loading and after a failed request. The plan's rule "footer only after loading finished and the list isn't empty" needs those two client flags (app-side state, **not** a backend field).
+
+### 31.1 Existing problems found (planner decides; safe outside the flag)
+- **F-11 (a11y, touch target).** Gym and trainer filter chips (`gym-filter-*`, `gym-filter-more`, trainer chips) are bare `GestureDetector`s 38px tall: not keyboard-focusable on Flutter web, no button/selected semantics, below the 44px minimum. Fix with `ChoiceChip` / `FilterChip` (48px hit area) or wrap in `Semantics(button: true, selected: …)` + `FocusableActionDetector`, keeping the keys.
+- **F-12 (wrong state).** See above: loading and failure both render "Nothing to show yet." Add `gymsLoaded`, `gymsLoadFailed`, `trainersLoaded`, `trainersLoadFailed` to `MemberData`, set in `_refreshGyms` / `_refreshTrainers`, and render the states in §32.4 with the flag on **and** off (the off-flag version is the same states without the hero).
+- **F-13 (consistency).** The Gyms tab's location spinner is a raw `CircularProgressIndicator`; use `FFSpinner` (as F-10).
+
+---
+
+## 32. Section heroes: Gyms, Trainers, Shop home (member only, D-3)
+
+### 32.1 Common rules
+- **Variant `band`** (C-1): an inset card inside the page padding, 24px corners, vertical scrim (0.50 top → 0.80 from `textTop − 24px`), no sheet overlap, no melt. The **shell app bar stays solid** on these tabs (they are not in `heroTabRoutes`), so the search field and filters stay near the top. The band scrolls away with the page. No parallax.
+- **Size:** `minHeight 160` on phones; it grows with its text and buttons (the Gyms band is about 210 tall with its button). **≥840 wide:** `panel` + `rounded`, height 200, text in the left half (the existing desktop banner).
+- **Member only.** Trainer, owner and vendor-personal shops, the trainer's Gyms tab and any partner list never show these bands.
+- **On solid ground, always:** search fields, chips, the filters panel, Featured strips, counts, cards, prices, rails, cart and checkout. **The bands show no number, price, count, rating or gym/trainer name.**
+- **Colours:** accent Volt in dark theme, `#17B26A` (≥24px, w800) in light theme; secondary action `onPhoto`; no Volt on light grounds (AC-H6).
+- **Semantics:** photo excluded; eyebrow + headline are one header node; each action its own labelled button (AC-H7). The hero gets a `Focus` node with `skipTraversal: true` and `canRequestFocus: true`, so "Back to top" (§33.4) can move focus to it without adding a Tab stop.
+- **Search focus (Gyms, Trainers, Shop):** when the search field gains focus and its top edge is lower than 40% of the visible viewport (viewport minus keyboard), the page scrolls so the field's top sits 8px below the app bar (300ms ease-out; instant under reduced motion). The band scrolls away; it never shrinks, collapses or animates its height. On unfocus nothing scrolls back. Typing never hides the band (no layout jump while results change).
+- **Pre-cache:** `gyms`, `trainers`, `shop` after the existing member list in `member_shell.dart` (§28 order: Home, Activity Today, Profile, Upgrade, then these three).
+
+### 32.2 Gyms (`/member/gyms`)
+
+| Element | Content |
+|---|---|
+| Photo | `gyms` (§34.1: weight-stack plates on a cable machine, dark gym) |
+| Eyebrow | `member.gyms` "GYMS" / "GYM". **Not** `member.discoverGyms` as the plan suggested: the section strip below the Featured row already says "Discover gyms" with the count, and the owner does not want the same words twice on one screen. |
+| Headline | `hero.gyms.lead` / `.accent`: "Find your / **gym.**" · "Pata / **gym yako.**" |
+| Subline | none |
+| Action | "Trainers" (`member.trainers`), `FFButton` `onPhoto`, size `sm`, icon `sports_gymnastics_outlined`, **key `member-find-trainer` (moved from the page header)** → `context.go(AppRoutes.memberTrainers)` |
+| Removed under the flag | the `FFPageHeader` (title and the ghost Trainers button) |
+| Below, unchanged order | search `gym-search` → (linear progress while discovering) → tier chips → filters panel → location spinner → Featured strip → section strip → grid |
+
+### 32.3 Trainers (`/member/trainers`)
+
+| Element | Content |
+|---|---|
+| Photo | `trainers` (§34.1: a seated coach's hands mid-explanation, no face) |
+| Eyebrow | `member.trainers` "TRAINERS" / "MA-TRAINER" |
+| Headline | `hero.trainers.lead` / `.accent`: "Train with / **a Trainer.**" · "Fanya mazoezi na / **Trainer.**" |
+| Subline / action | none (booking, enquiry and interest live on each trainer's page) |
+| Removed under the flag | the `FFPageHeader` ("Find a trainer"; the eyebrow and headline replace it) |
+| Below, unchanged | search `trainer-search` → chips → Featured → "Top rated" strip → grid |
+
+Back behaviour: unchanged. `/member/trainers` is a root tab route (`handleRootBack`); the bottom-nav Gyms item goes back to Gyms.
+
+### 32.4 Gyms and Trainers states
+
+| State | Trigger (client state; F-12 adds the flags) | Band | Below |
+|---|---|---|---|
+| Loading, nothing cached | `!gymsLoaded` (`!trainersLoaded`) | shown (static copy, needs no data); action shown | search + chips as usual (usable); grid area = 4 `FFSkeleton` cards in the grid's columns (no shimmer under reduced motion); **no** "Nothing to show yet" |
+| Loaded | list non-empty | shown | as today |
+| Discovering (server ranking a search) | `_discoveryLoading` | unchanged | existing 2px progress under the search field |
+| Empty network | loaded, `gyms.isEmpty`, no search/filter active | shown | `FFEmptyState(member.noData)` (as today) |
+| No match | loaded, list non-empty, but the search/filters leave nothing (`gyms.isEmpty && featured.isEmpty` with a search or non-default filter) | shown | `FFEmptyState` title `member.gymsNoMatch` / `member.trainersNoMatch` + ghost button "Clear search and filters" (`member.clearSearchFilters`, key `gym-clear-search` / `trainer-clear-search`) that resets search, chip, price, amenities and verified to defaults |
+| Load failed, nothing cached | `gymsLoadFailed && gyms.isEmpty` | shown | `FFErrorState` title `member.gymsLoadError` / `member.trainersLoadError` + Retry (`common.retry`) → `_refreshGyms` / `_refreshTrainers` |
+| Offline, cached | shell `offline`, list non-empty | shown | shell offline banner (solid, under the solid bar, as today); list as cached |
+| Offline, nothing cached | shell `offline`, list empty | shown | the "Load failed" state above (same Retry); the banner also shows |
+| No photo (high contrast / decode failure) | — | navy `heroPlaceholder`, same text | — |
+
+**Focus order, Gyms:** app bar (inbox, prefs) → offline Retry (if shown) → band heading → Trainers → search → clear-search icon (when text) → tier chips (F-11) → Other filters → filters panel controls (when open) → Featured cards → grid cards → (footer, §33) → bottom nav. **Trainers:** the same without the Trainers button.
+
+### 32.5 Shop home (`/member/shop`)
+
+| Element | Content |
+|---|---|
+| Photo | `shop` (§34.1: hands tapping a phone, white T-shirt, no face) |
+| Eyebrow | `member.shopTitle` "FITFLEX SHOP" / "DUKA LA FITFLEX" |
+| Headline | `hero.shop.lead` / `.accent`: "Gear up / **for training.**" · "Jiandae / **kwa mazoezi.**" |
+| Subline / action | none. The band has **no CTA**: rails, categories and "Browse all products" are the actions, and a CTA here would compete with sponsored banners later. Never prices, discounts or "sale". |
+| Position | **slot 3 of the Shop home order** (`docs/design/shop-home.md` §5.1): segments → search row (search + cart) → **band** → category row → rails → Browse all. This is exactly where the Shop spec puts its hero carousel, so the two never stack. Search and cart stay at the top, reachable without scrolling. |
+| Width | inside the shop's 16px gutter (`ShopHomeView.gutter`) and its centred ≤1200 column; ≥840 the `panel` + `rounded` banner, height 200. |
+
+**Shop V2 coexistence rule (testable):**
+1. `ShopHomeView` gets `showHero` (default **false**); `ShopBrowseBody` gets the same parameter and passes it through. **Only `MemberShopTab` passes `true`.** `owner_shop_page.dart`, the trainer home's `ShopBrowseBody` and the vendor-personal shop keep the default.
+2. The band renders only when all are true: `photoHeroUi`, `showHero`, and `ShopHomeView` is on screen (which already means `SHOP_HOME_V2` on, Browse segment, not the Results view, not `_homeUnavailable`).
+3. **Not shown** on: the legacy catalogue (`SHOP_HOME_V2` off, or `_homeUnavailable`), the Results view (search, category, View all), My orders, product detail, checkout.
+4. **When Shop Phase 3 banners exist** (`FFHeroCarousel`, not built; Shop spec B-1): if the home answer has ≥1 active banner for this role, the carousel takes slot 3 and the band is **not** rendered. With 0 banners, or when banners fail, the band is the carousel's fallback and **replaces** the Shop spec's navy no-photo fallback slide (§6.3 there) while `PHOTO_HERO_UI` is on; with the flag off the Shop spec's own fallback applies. Never both a band and a carousel.
+5. Both use one scrim implementation (`FFPhotoHero`), per §3.2.
+
+**Shop states** (the band never changes with them; it needs no data):
+
+| State (existing, `ShopHomeViewState`) | Band | Below |
+|---|---|---|
+| Loading, no cache (`data == null && _loading`) | shown | `_ShopHomeSkeleton` (unchanged) |
+| Loaded | shown | category row, rails, Browse all |
+| Error / offline, no cache (`data == null`) | shown | `FFErrorState` `shop-home-error` / `shop-home-offline` (unchanged) |
+| Offline / error with cache | shown | `shop-home-offline-bar` alert above the content, which here means **between the search row and the band** (the alert is about the content, and it must not be buried under a photo) |
+| Getting ready (`allProductsCount == 0`) | shown | `FFEmptyState` "The shop is getting ready" (unchanged); no footer |
+| Cart has items | shown | sticky cart bar below the list (unchanged) |
+
+**Focus order, Shop:** app bar → Browse / My orders segments → search → cart → offline alert (when shown) → band heading → category tiles → each rail (title, Why, View all, cards) → Browse all → (footer) → cart bar (when shown) → bottom nav.
+
+---
+
+## 33. `FFPhotoFooter`: the page-end band (D-1, D-2)
+
+**Purpose:** a quiet branded full stop at the bottom of long pages, so the end of the scroll feels designed rather than abrupt. It carries no information and no action except "Back to top" on the three long lists.
+
+### 33.1 New component (nothing existing fits)
+`lib/shared/components/ff_photo_footer.dart`, and `lib/shared/photo_footer_flag.dart` (`PHOTO_FOOTER_UI`, build-time, same pattern as `photo_hero_flag.dart`, with a `debugPhotoFooterUiOverride` for tests; effective value = `photoHeroUi && kPhotoFooterUi`). `FFPhotoHero` cannot be reused as-is: the footer has a uniform scrim, centred content, no eyebrow/headline semantics, and a show/hide rule that depends on the content above it. It reuses `FFWordmark`, `FFButton(onPhoto)`, `heroImageProvider`, the `_HeroPhotoLayer` fade and the hero tokens.
+
+API: `FFPhotoFooter.sliver({required String pageKey, FFHeroPhoto? top, bool backToTop = false, ScrollController? controller, double extraBottom = 0, bool enabled = true})`. `enabled` is the page's "loaded and not empty" condition (§33.3). Pages built on `ListView` switch to `CustomScrollView(slivers: [SliverList(...), FFPhotoFooter.sliver(...)])` **keeping their existing scroll `Key`** (`activity-scroll`, `profile-scroll`, `passes-scroll`, `gym-detail-scroll`, …).
+
+### 33.2 Anatomy (phone, 390 wide)
+
+```
+ ─ last content item ─
+ 32px gap
+┌───────────────────────────────────────┐  inset inside the page padding (24; owner home 24/16)
+│ photo (BoxFit.cover, focal)           │  24px corners, clipped
+│ uniform scrim #020617 @ 0.80          │
+│            [athlete] FitFlex Af       │  FFWordmark size 18, centred, ExcludeSemantics
+│               8px                     │
+│        That's all for now.            │  Inter 16/24 w600 #F1F5F9, centred, max 2 lines (3 at 1.3×)
+│               12px                    │
+│          ( ↑ Back to top )            │  Gyms / Trainers / Shop only: FFButton onPhoto sm
+└───────────────────────────────────────┘
+ 24px + bottom safe-area inset + extraBottom
+```
+
+- **Height:** 160 at text scale 1.0 on phones; 140 when the viewport is <360 wide or <640 tall; it grows with text up to 200 and beyond 200 only if needed to avoid clipping (AC-M8). **≥840 wide:** 220, inside the same ≤960 column as the page content.
+- **Scrim:** a single uniform layer at `heroScrimText` (0.80) over the whole band. The band is short and its text is centred, so a gradient would leave no photo-only zone worth having; uniform 0.80 makes every pixel meet the §5.2 text rule over any photo (DD-9). The photo reads as texture, which is the intent.
+- **Contrast** (against 0.80 over pure white, composite `#353845`): line `#F1F5F9` 10.63:1; wordmark white 10.63:1, gold "Af" `#FDBE34` 6.98:1; `onPhoto` button border/label 10.63:1. Under high contrast (navy `#0B192C`): 16.11:1, 10.58:1.
+- **Motion:** the photo fades in over 250ms from `heroPlaceholder` (instant under reduced motion). No parallax, no scale, no auto-advance.
+- **High contrast:** no photo; navy `heroPlaceholder` ground, same wordmark, line and button.
+- **Decode failure:** same as high contrast.
+- **Theme:** identical in light and dark (always-dark island, DD-1). No Volt anywhere in the footer, so it is safe on light pages (AC-H6).
+- **Copy:** `footer.endLine` "That's all for now." / "Hiyo ndiyo yote kwa sasa." (25 SW chars, longest word 5); `footer.backToTop` "Back to top" / "Rudi juu".
+
+### 33.3 When it shows (the short-page rule)
+1. **Flag:** `photoHeroUi && kPhotoFooterUi`. Otherwise not in the tree.
+2. **Page is in the list (§33.6)** and the page's `enabled` condition holds: content loaded, and for lists the list (or shop content) is not empty. Never in a loading, empty, error, getting-ready or no-access state.
+3. **The page scrolls:** shown only when `precedingScrollExtent + footerExtent > viewportMainAxisExtent` (read from the sliver's `SliverConstraints` in a `SliverLayoutBuilder`). The extent above the footer does not depend on the footer, so the decision cannot feed back on itself and cannot flicker. **Hysteresis:** once shown on this page visit, it stays shown until `enabled` turns false (e.g. a search empties the list) or the route changes; it does not hide because an image above it finished loading a few pixels shorter.
+4. **Why not on short pages:** a page that does not scroll has no "end" to mark, and the footer would sit next to the top hero or an empty state, putting two photos on one screen.
+5. Built lazily (a sliver), so nothing decodes until the user nears the bottom. Decoded at display size via `heroImageProvider` (`cacheWidth` = band width × device pixel ratio).
+
+### 33.4 Back to top (Gyms, Trainers, Shop only)
+- `FFButton` `onPhoto`, `sm` (40 visible, **48 hit area**), icon `arrow_upward`, label `footer.backToTop`, key `photo-footer-back-to-top`.
+- Pressed: animates the page's scroll controller to offset 0 (400ms ease-out; `jumpTo(0)` under reduced motion), then moves focus to the band hero's `Focus` node (§32.1), so screen readers read the band heading and the next Tab goes to the band's action (Gyms) or the search field (Trainers, Shop: the first control after the heading in their focus order).
+- Not on other pages: they are short enough, or have their own top-level controls in reach (owner decision D-2).
+
+### 33.5 Padding next to bottom bars and buttons
+- The footer is inside the scroll content, so it always ends above the shell `NavigationBar`, the shop cart bar and the trainer detail action bar (both are outside the scroll view; no extra padding).
+- **Bottom padding:** 24 + `MediaQuery.paddingOf(context).bottom` (0 when a bottom bar has already taken the safe area) + `extraBottom`.
+- **Vendor Products only:** `extraBottom = 88` (56 FAB + 16 FAB margin + 16 gap), because the `vendor-add-product` FAB overlays the list once the hero has scrolled away, which is exactly when the footer is on screen. No other footer page has a FAB.
+
+### 33.6 Page list, top photo and footer photo
+
+Footer pages get a fixed footer photo while photos are bundled (deterministic and reviewable). The rule behind the table: **the footer never shares a `sourceId` with the page's top photo**, and two pages one step apart do not share a footer photo. When the app later reads photos from the CMS (slice 6), the pick becomes "per day" (D-5): `pool[fnv1a32('$pageKey|$yyyyMMdd') % n]` over the pool minus the top photo's `sourceId`, FNV-1a 32-bit over UTF-8 (not `String.hashCode`, which may differ between web and VM).
+
+| `pageKey` | Screen (only where listed) | Top photo (`sourceId`) | Footer (stand-in) | Back to top | `enabled` when |
+|---|---|---|---|---|---|
+| `member.home` | member Home (all pass states) | `homeStart` / `homePass` | `footerWindow` | no | `me != null` |
+| `member.activity` | Activity, every section (one footer for all four) | `activity*` | `footerBoxing` | no | `activityLoaded` |
+| `member.profile` | Profile | `profile` | `footerStairs` | no | `me != null` |
+| `member.passes` | Upgrade plan / buy list (`/member/passes`) | `upgrade` | `footerWarmGym` | no | options or pass list loaded and shown; **hidden while the manual-payment fields or the pending-payment card are on screen** (a payment step, §33.7) |
+| `member.gyms` | Gyms | `gyms` | `footerBoxing` | **yes** | `gymsLoaded` and grid non-empty |
+| `member.trainers` | Trainers | `trainers` | `footerWindow` | **yes** | `trainersLoaded` and grid non-empty |
+| `member.shop` | Shop home (member, §32.5 rule) | `shop` | `footerStairs` | **yes** | home loaded with ≥1 rail or the All products grid; after "Browse all products" |
+| `member.gymDetail` | Gym detail (footer only, D-1) | none (the gym's own gallery) | `footerWindow` | no | gym found |
+| `member.trainerDetail` | Trainer detail (footer only, D-1) | none | `footerStairs` | no | trainer found |
+| `trainer.home` | Trainer app, Home tab only | `trainer` | `footerBoxing` | no | always (the dashboard needs no list) |
+| `vendor.products` | Vendor app, Products tab, only while the hero rules of §25.2 show a hero | `vendor` | `footerWarmGym` | no | products loaded and ≥1 product |
+| `owner.home` | Gym owner app, Home | `owner` | `footerStairs` | no | dashboard loaded |
+
+Adjacency checks for the table: Gyms (`footerBoxing`) → Trainers (`footerWindow`) → trainer detail (`footerStairs`); Gyms → gym detail (`footerWindow`) → trainer card → trainer detail (`footerStairs`); Home (`footerWindow`) ↔ Activity (`footerBoxing`) ↔ Profile (`footerStairs`); Home → Upgrade (`footerWarmGym`); Home → Shop (`footerStairs`). The footer on gym and trainer detail is one of the two least gym-like photos (a misty window, a glass stair rail), so it does not read as that partner's own photo (the DD-8 concern behind D-1).
+
+### 33.7 Never on
+Language, Role, Sign in, Sign up, PIN entry and the PIN flows (forms or pinned keypads), onboarding, checkout and payment pages (`member_payment_page.dart`, the shop checkout sheet, manual payment fields), QR screens and sheets, chat and inbox, dialogs and bottom sheets, the shop Results view, My orders, product detail, every non-home tab of the partner apps, the admin portal, and every page not in §33.6.
+
+### 33.8 Semantics and focus
+- The photo and the wordmark are excluded (`ExcludeSemantics`; `FFWordmark` has its own "FitFlex" label, which must not be read here).
+- The sign-off line is **one plain text node**, not a header, not a live region.
+- "Back to top" is a button labelled with its visible text; it is the only focusable element in the footer.
+- Focus order: last content control → Back to top (when present) → bottom nav. Screen-reader order: last content → "That's all for now." → Back to top.
+
+---
+
+## 34. Photos for addendum 2 (stand-ins), bundle math
+
+### 34.1 Stand-in crops
+Chosen from the **13 photos in `social/brand/photos/` (branch `release-candidate`) not yet used in the apps**: 10376250, 33832204, 34043570, 36510739, 36510744, 4173217, 5592605, 5647574, 5878659, 6388369, 6496099, 6604154, 8612491. All are Pexels licence, pages checked "Free" on 2026-10-16, none marked AI-generated (README there). Every one of them shows a person with a clear face somewhere in the frame, so each crop below was chosen to leave every face out, and was checked at 100% on 2026-10-19. Owner decision 2 applies: people only as backs, hands or unclear faces.
+
+Crops are source pixels `l,t,r,b`; "focal" is the `Alignment` for `BoxFit.cover` (C-2); grade = brightness factor before export. Sizes are from a Pillow export at WebP q72 (`method=6`), sRGB, metadata dropped; the builder re-exports with the same settings and reports real sizes. "Text-zone L" = mean / max relative luminance of the area under text after grading, measured on a 64px-wide sample (bottom 55% for bands, whole frame for footers); §8.3 target ≤0.20 mean, ≤0.45 max. The contrast guarantee does not depend on it (DD-9).
+
+| `FFHeroPhoto` | File | Source (photographer) | Crop → aspect | 2× (1× = half) | Focal | Grade | Text-zone L | People, and why it qualifies | 2× / 1× bytes |
+|---|---|---|---|---|---|---|---|---|---|
+| `gyms` | `hero_gyms.webp` | `pexels-33832204` "Confident Woman in Gym Exercise Pose" (photobydela) | 0,0,1100,620 → 1.77:1 | 1080×609 | (−0.3, −0.2) plates and pin selector | ×0.75 | 0.030 / 0.515 | **none**: the crop is the weight stack and dark gym above and left of the woman; her raised hand starts about 60px below the crop's bottom edge and her face lower still. One narrow chrome highlight on the left upright measures 0.52 (above the 0.45 art target, inside the 0.50→0.80 photo zone at most widths); the builder may darken it locally. | 15,618 / 6,288 |
+| `trainers` | `hero_trainers.webp` | `pexels-36510739` "Fitness Trainer in Busy Gym Environment" (Carbell Sarfo) | 100,650,1100,1000 → 2.86:1 | 1000×350 | (0.15, 0.0) hands | ×0.85 | 0.028 / 0.438 | **hands, forearms and knees** of a seated man; the crop starts about 230px below his chin and below the gym logo on his shirt (another gym's brand, so it is cut out); two phones on the bench show their backs/dark screens. **No face in frame.** The source is only 350px tall, so a 180–220px band at 2× upscales it about 1.26×; acceptable under the scrim, replace with the owner's photo. | 10,932 / 4,600 |
+| `shop` | `hero_shop.webp` | `pexels-5592605` "A Young Man in a Yellow Beanie Using a Smartphone" (Thirdman) | 250,1300,1500,2100 → 1.56:1 | 1080×691 | (−0.1, 0.2) hands on the phone | ×0.6 (white shirt and wall) | 0.144 / 0.256 | **two hands, forearms and a white T-shirt**; the crop starts about 220px below the chin. **No face in frame.** The phone shows its yellow case, not a screen. Reads as "shopping on your phone". | 8,650 / 3,672 |
+
+Footer pool (all 16:7, the footer's 160–220px band at 342–912px wide; focal centre unless noted):
+
+| `FFHeroPhoto` | File | Source (photographer) | Crop | 2× (1× = half) | Grade | Text-zone L | People, and why it qualifies | 2× / 1× bytes |
+|---|---|---|---|---|---|---|---|---|
+| `footerWarmGym` | `footer_warm_gym.webp` | `pexels-36510744` "Focused Gym Trainer in Modern Fitness Center" (Carbell Sarfo) | 820,0,1500,297 | 680×297 | ×0.65 | 0.127 / 0.362 | the warm, out-of-focus gym behind the trainer; one distant **backlit silhouette with no facial features** at the lower left (an "unclear face"); the trainer's head is left of x=820 and outside the crop | 6,640 / 3,172 |
+| `footerBoxing` | `footer_boxing.webp` | `pexels-8612491` "A Man in Black Crew Neck T-shirt Smiling at the Camera" (RDNE Stock project) | 960,230,1500,466 | 540×236 | ×0.6 | 0.119 / 0.305 | the blurred boxing gym to the man's left (rowers, speed bags, heavy bag); at most two **tiny out-of-focus figures** with no features; the man's head and shoulder end at x≈900 and are outside the crop | 2,916 / 1,362 |
+| `footerWindow` | `footer_window.webp` | `pexels-6388369` "A Woman in Black Tank Top Exercising in the Gym" (Tima Miroshnichenko) | 0,0,1050,460 | 960×421 | ×0.75 | 0.138 / 0.333 | **none**: the misty gym windows above and left of the woman; her hair starts below y≈480 and right of x≈1000 | 2,474 / 1,026 |
+| `footerStairs` | `footer_stairs.webp` | `pexels-5647574` "Serious African American manager texting message on smartphone" (Ono Kosuki) | 450,1720,1500,2179 | 960×420 | ×0.85 | 0.086 / 0.315 | **none**: the glass stair rail below the man; his body ends above y≈1600 at this x range | 11,720 / 3,206 |
+
+**Rejected from the 13, and why:** 10376250 (office desk, not fitness), 4173217 (airport corridor, not fitness), 34043570 and 6604154 (only shirtless torsos remain once faces are cut: body-focused, the same reason a 6388387 body crop was rejected in §26), 6496099 (only a torso in a fitted top remains below the face: body-focused), 5878659 (only small blurred corners remain; the clean regions are under 500px wide). The other crops of 36510739 (the backlit people behind the trainer) also qualify but repeat the `trainers` source, so they were not used.
+
+**`sourceId` (new field on every `FFHeroPhoto` value, C-2 extended).** The footer rule compares *scenes*, not files, so photos from the same shoot share one id. Existing values: `language` and `activityToday` `pexels-12250460`; `signIn`, `activityTraining` and `vendor` `scene-tubarones-9545` (9545909 and 9545914 are the same gym); `signUp` and `activityProgress` `pexels-3916766`; `role`, `homeStart` and `owner` `pexels-29526371`; `homePass` `pexels-5312212`; `profile` `pexels-4716814`; `pin` `pexels-7432872`; `upgrade` and `activityChallenges` `scene-ketut-4720` (4720565 and 4720518 are one shoot); `trainer` `scene-tima-6388`. New: `gyms` `pexels-33832204`; `trainers` and `footerWarmGym` `scene-carbell-sarfo-3651` (36510739 and 36510744 are one shoot); `shop` `pexels-5592605`; `footerBoxing` `pexels-8612491`; `footerWindow` `scene-tima-6388` (same shoot as the trainer home photo); `footerStairs` `pexels-5647574`. So `footerWarmGym` must never be picked on Trainers, and `footerWindow` never on the trainer home: the §33.6 table respects this, and the test in AC-M4 checks it for every page.
+
+**Adjacency (no top photo on two screens one step apart, AC-H18):** Gyms (`gyms`) ↔ Trainers (`trainers`) ↔ trainer detail (the trainer's own photos) and Gyms ↔ gym detail (the gym's own photos): distinct. Home (`homeStart` / `homePass`) → Gyms (`gyms`) and → Shop (`shop`): distinct. `shop` and `pin` both show hands on a phone, from different sources, and are never adjacent (PIN is before sign-in).
+
+**Licence rows:** the builder adds one row per file to `fitflexmobile/assets/photos/hero/LICENSES.md` with the existing columns (file, used on, source page, photographer, licence, crop, 2× size, bytes, people) and, for `trainers` and `shop`, the words "no face in frame". **No row, no ship** (§8.1).
+
+**Gaps:** none of these is Tanzanian (O-1). The `trainers` source is low-resolution for a band. Replace all seven with the owner's photos (slice 3, §35).
+
+### 34.2 Bundle math
+
+| | 2× bytes | 1× bytes | Total |
+|---|---|---|---|
+| On RC today (16 heroes, `LICENSES.md` totals) | — | — | **1,061,970** |
+| Stand-ins, 3 section heroes (prototype) | 35,200 | 14,560 | 49,760 |
+| Stand-ins, 4 footer photos (prototype) | 23,750 | 8,766 | 32,516 |
+| **All hero assets with stand-ins** | | | **≈1,144,246 (1.14 MB)** |
+| Budget (§26) | | | **1,600,000** |
+
+The stand-ins are small because they are dark, out of focus or plain. The owner's sharper photos will be bigger, so the budget is held by **per-slot caps** that the plan's estimate (≈1.53 MB) assumes:
+
+| Slot group | 2× cap | 1× cap | × slots | Worst case |
+|---|---|---|---|---|
+| `gyms`, `trainers`, `shop` | 60 KB | 25 KB | 3 | 255 KB |
+| footer pool | 40 KB | 12 KB | 4 | 208 KB |
+| **All hero assets, worst case** | | | | **1,061,970 + 463,000 ≈ 1.53 MB** (≤1.6 MB) |
+
+How to meet a cap: export WebP q72; if over, step quality down 72 → 65 → 58 → 50; if still over, reduce the 2× width to 960 (bands) or 860 (footers). If the total ever passes 1.6 MB, drop the footers' 1× files first (Flutter falls back to the 2× file on 1× screens; saves ≈48 KB), as the plan says. The PR reports the measured total and the APK / web build size change.
+
+### 34.3 Owner photo replacement (slice 3)
+The owner's photo replaces a stand-in **in place**: same file name, same `FFHeroPhoto` value, new `sourceId`, new focal point, new `LICENSES.md` row (the stand-in row is deleted). The §33.6 footer table is re-checked against the new `sourceId`s; if a replacement shares a scene with a page's top photo, that page's footer moves to the next pool photo in table order.
+
+---
+
+## 35. Owner photo-intake guide (slice 3)
+
+Plain-language guide for the owner and anyone taking photos for FitFlex. The design-agent prepares the crops from these; nothing ships until each photo passes the checks in §35.4.
+
+### 35.1 What to send
+| For | How many | Shows | Avoid |
+|---|---|---|---|
+| Gyms list | 1–3 | A gym space: equipment rows, a rack, the floor, a doorway with daylight | A recognisable single partner gym's name, logo or signage (it would look like we favour that gym on the list of all gyms), unless the owner decides otherwise |
+| Trainers list | 1–3 | Coaching without faces: hands guiding a grip, a clipboard or stopwatch, a trainer seen from behind with a client | A trainer's face or name badge |
+| Shop | 1–3 | Gear and products: shoes, bottles, bands, supplements on a shelf, hands holding a product | Other brands' logos big enough to read; prices; FitFlex-sold product claims |
+| Page footers | up to 4 | Calm, texture-like: a towel on a bench, a window in morning light, chalk on a floor, a rack in shadow | Anything recognisable as one particular gym (footers also show on other gyms' pages) |
+
+Later, with the photo manager (slices 4–6), each place can hold up to five photos and the app rotates them once a day; that adds nothing to the app's size.
+
+### 35.2 How to take them
+- **Landscape**, at least **2160px on the long edge** (any phone camera from the last few years). Take a few steps back: we crop, we cannot add.
+- Put the subject in the **upper right third**. Keep the **bottom half and the left side calm and darker** (no bright window or lamp there): that is where the text goes.
+- Natural light, Dar es Salaam spaces where possible. No flash glare on mirrors or chrome.
+- **No text in the photo** (posters, screens, whiteboards); the app adds its own words in English and Swahili.
+
+### 35.3 People
+- **No recognisable faces.** Backs, hands, silhouettes and faces that are out of focus or turned away only. Check **mirrors and reflections** too: a face in a gym mirror counts.
+- **No children.**
+- **No screens** showing names, phone numbers, messages or QR codes; no car number plates.
+- If someone is in the photo even from behind, ask them first and tell us who they are (first name is enough) so we can record it.
+
+### 35.4 For each photo, tell us
+1. Who took it (name).
+2. Where (gym name or place, area of Dar es Salaam).
+3. That FitFlex may use it in the apps and on the portal, with no end date (or the end date).
+4. **If it was taken inside a partner gym:** that gym's written permission (a short message or email from the owner or manager naming FitFlex and saying the photo may be used in the FitFlex apps). We file it as the consent reference.
+5. Whether anyone is in the frame (no one / hands or backs / faces not clear).
+
+### 35.5 How to send
+Send the **original files** (JPEG or HEIC straight from the camera) as **files or documents**, for example from Google Drive, email attachments, or WhatsApp "Document". Do **not** send them as WhatsApp photos: WhatsApp shrinks them below what we need.
+
+### 35.6 What the design-agent does with them (checklist)
+1. Check at 100% for faces, reflections, screens, plates, logos and children; reject or re-crop.
+2. Crop per slot (band 1.6–1.8:1; footer 16:7), set the focal point, grade per §8.3, measure text-zone luminance.
+3. Convert to sRGB, **strip all metadata including GPS** (HEIC from iPhones carries location), export per the §34.2 caps.
+4. Write the `LICENSES.md` row: file, used on, photographer, place, licence ("Owned by FitFlex" / "Partner consent"), consent reference, "no face in frame", sizes.
+5. Hand the files to mobile-builder for the assets-only PR (slice 3) and, if the portal login photo changes, to portal-builder.
+
+---
+
+## 36. Admin "App photos" screen (portal, slice 5)
+
+**Purpose:** let an admin with the `brand_media` scope change the photos behind the app's headings and the portal sign-in page without a new app build, safely: nothing goes public until Publish, every change is recorded, and any earlier version can be put back with one click (D-4).
+
+**Route:** `/admin/hero-images` (`app/admin/hero-images/page.tsx`), component `src/components/hero-image-manager.tsx`. **Nav:** "App photos" (`admin.nav.heroImages`), icon `Images` (lucide), group `nav.group.platform` after Exercises, `aclScope: 'brand_media'`, shown only when `NEXT_PUBLIC_HERO_IMAGES_ADMIN` is on. **Server:** every `/admin/hero-*` call 404s while `HERO_IMAGES_CMS` is off (§36.7).
+
+**Reuse:** `PageHeader`, `Segmented`, `Card`, `Button`, `Badge`, `Field`, `Input`, `Select`, `Textarea`, `Checkbox`, `Radio`, `Alert`, `Table`, `EmptyState`, `ErrorState`, `Skeleton*`, `Spinner` (`src/components/shared.tsx`), `Dialog` / `ConfirmDialog` (`src/components/dialog.tsx`), toasts (`src/components/ui/toast.tsx`), and the scrim CSS and `--hero-*` tokens in `app/globals.css` used by `photo-panel.tsx`. **New:** `HeroPreview` (a preview frame that applies the real scrim to a photo at a fixed size, because `PhotoPanel` is a page layout, not a sized frame) and `FocalPointPicker` (no 2-D picker exists). The upload dialog is modelled on `image-upload.tsx` **but must not downscale or re-encode in the browser** (that component shrinks to 1280px WebP; the server needs the original to make the variants and to strip metadata itself).
+
+### 36.1 Layout
+**Desktop (≥1024):** `PageHeader` title "App photos", subtitle "Photos behind the headings in the FitFlex app and on the portal sign-in page. Changes go live only when you publish." Actions: **Upload photo** (secondary), **Publish** (primary; disabled with the hint "No changes to publish" when no draft differs from what is published). Below: an info `Alert` (always shown): "The app shows these photos only in builds with remote photos turned on. Until then it keeps its built-in photos." Then a `Segmented` control: **Places** · **Library** · **History**.
+
+**Tablet / phone (<1024):** the same content in one column; header actions wrap under the title; slot cards stack; tables in History scroll horizontally inside their wrapper (existing `Table`).
+
+### 36.2 Places (slots grouped by area)
+One `Card` per area, in this order, each slot a row:
+
+| Area | Slots (`slotId` → label) |
+|---|---|
+| Before sign-in | `language` Language screen · `signIn` Sign in · `signUp` Create account · `role` Choose account type · `pin` PIN screens |
+| Members | `homeStart` Home, no active pass · `homePass` Home, active pass · `profile` Profile · `upgrade` Upgrade plan · `activityToday` Activity: Today · `activityTraining` Activity: Training · `activityChallenges` Activity: Challenges · `activityProgress` Activity: Progress · `gyms` Gyms list · `trainers` Trainers list · `shop` Shop home |
+| Partners | `trainer` Trainer home · `vendor` Vendor products · `owner` Gym owner home |
+| Page footers | `footerPool` Page footers (up to 8) |
+| Portal | `portalLogin` Portal sign-in |
+
+The slot ids mirror the `FFHeroPhoto` names (backend registry `src/shared/hero-slots.mjs`); the labels live in the portal's i18n by slot id. A slot id the portal does not know is shown under its raw id in an "Other" card, never hidden.
+
+**Slot row:** label · one line "Shows on …" (`heroImages.slot.<id>.where`) · **Published** thumbnails (64×40, `object-fit: cover` at the image's focal point) or "Using the built-in photo" · **Draft** thumbnails when they differ, with a `Badge` "Changed" (warning tone) · a "Bright" badge on any image whose `textZoneLuminance > 0.20` · actions **Choose photos** (opens the picker dialog) and **Preview** (opens the preview dialog for the first draft image). Count hint "{n} of {max}" when `maxImages > 1`.
+
+**Choose photos dialog:** grid of library images with status Draft or Published (not Retired), multi-select up to the slot's `maxImages` (checkbox on each card, label "Photo by {photographer}, {source}"), the selected ones listed below in order with Move up / Move down buttons (no drag-only reordering), **Use the built-in photo** (clears the slot), **Save** → `PUT /admin/hero-slots/:slotId` with the ordered ids. Saving changes the **draft only**; the dialog says so: "Saved as a draft. Publish to send it to the apps."
+
+### 36.3 Library
+Grid of uploaded images (newest first), filter `Select`: All · Draft · Published · Retired. Each card: thumbnail, status `Badge` (Draft neutral, Published success, Retired muted), people `Badge` (No people / Hands or backs only / Faces not clear), photographer and source, "Used in {n} places" (from the slots' draft and published lists), actions **Edit** and **Retire** (Retire is disabled with the hint "Remove it from every place first" while any draft slot uses it; published copies stay until the next publish). Empty: `EmptyState` "No photos uploaded yet" + Upload photo.
+
+Thumbnails come from `GET /admin/hero-images/:id/preview`, which needs the admin's token, so the portal fetches each as a blob with the `Authorization` header and shows an object URL (revoked on unmount); lazy, one request at a time, cached for the session. `alt` = "Photo by {photographer}, {source}".
+
+### 36.4 Upload form (dialog)
+Fields, in order (all labels visible, errors under the field, `aria-describedby`):
+1. **Photo file**: drop zone + "Choose a file" button. Accepts JPEG, PNG, WebP; up to 15 MB; at least 1080px wide. The browser reads the size and dimensions locally and shows an error at once (the server checks again). Shows the file name, size and pixel size after choosing. HEIC is not accepted here (O-31); the hint says "Convert HEIC to JPEG first."
+2. **Source** (`source`, text, required): hint "Where the photo comes from, e.g. FitFlex shoot, partner gym, Pexels."
+3. **Photographer** (`photographer`, text, required).
+4. **Licence** (`licence`, text, required): hint "e.g. Owned by FitFlex, Partner consent, Pexels licence."
+5. **Licence link or reference** (`licenceRef`, optional).
+6. **People in the photo** (`people`, radio group, required, no default): No people · Hands or backs only · Faces not clear.
+7. **Taken in a partner gym?** checkbox (UI only); when ticked, **Partner consent reference** (`consentRef`) becomes required, hint "The gym's written permission, e.g. an email date or document number."
+8. Two **confirmations**, unticked by default, both required:
+   - `heroImages.rights.confirm` "I confirm FitFlex has the right to use this photo in its apps and portal."
+   - `heroImages.faces.confirm` "No one in this photo can be recognised: only backs, hands or unclear faces."
+9. **Upload** (primary) is disabled until 1–8 are valid; **Cancel**.
+
+While uploading: a progress bar with percentage (`aria-valuenow`), fields disabled, Cancel aborts the request. On success: toast "Photo uploaded. Set its focus point next." and the Edit view (§36.5) opens for the new image.
+
+### 36.5 Edit view: focal point and previews
+Opens as a full-width dialog (desktop) / full page (phone). Left: the **focal-point picker**; right (below on phones): **previews**; footer: licence fields (same as upload, editable, `PATCH`), **Save**, **Cancel**.
+
+**Focal-point picker (`FocalPointPicker`):**
+- The image fit to the column (max 640 wide), with a crosshair: a 28px ring, 2px white plus 2px `#020617` outline so it shows on any photo, and a centre dot.
+- **Pointer:** click or tap sets the point; drag moves it.
+- **Keyboard:** the picker is one Tab stop (`role="group"`, label "Focus point"); Arrow keys move 5%, Shift+Arrow 1%, Home puts it back to the centre. Focus ring: the portal's `--color-brand-600` outline, 2px offset.
+- **Screen readers and fine control:** two labelled range inputs below the image, **Left–right** and **Top–bottom**, −100…100, showing "{n}% from left" / "{n}% from top"; they and the crosshair stay in sync. A polite live region announces the new position after a change (debounced 500ms).
+- Value saved as `focal: {x, y}` in −1…1 (Flutter `Alignment`); CSS previews use `object-position: ((x+1)/2·100)% ((y+1)/2·100)%`.
+- Hint under the image (`heroImages.focal.hint`): "Click the subject to keep it in view."
+
+**Previews (`HeroPreview`), three fixed sizes, real scrim, sample text:**
+| Preview | Size (CSS px) | Scrim (from `--hero-*`) | Text |
+|---|---|---|---|
+| Phone hero | 390 × 300 | vertical: 0.50 at the top → 0.80 from 24px above the text, text bottom-left (as `FFPhotoHero compact`) | eyebrow "SAMPLE", headline "Every step **counts.**" (accent `--hero-accent-light`) |
+| Phone band | 342 × 180 (footer slots: 342 × 160 with uniform 0.80, wordmark and "That's all for now.") | vertical, as `band` | same sample |
+| Desktop | 960 × 320 banner (portal sign-in slot: 704 × 800 panel) | horizontal: 0.92 → 0.80 → 0.30, plus the bottom layer (as `photo-panel`) | same sample, text in the left half |
+- Each preview has a caption with its size and a toggle "Show 1.3× text" (text scale for the check).
+- The brightness `Alert` (warning tone) shows above the previews when `textZoneLuminance > 0.20`: "This photo is bright where the text sits. It will still be readable but will look darker." Publishing is still allowed.
+- Under `prefers-reduced-motion`, no transitions in the picker or previews.
+
+### 36.6 Publish and history
+**Publish dialog** ("Publish these changes?"): a list, one row per changed slot: slot label · **Before** thumbnails (or "Built-in photo") → **After** thumbnails (or "Built-in photo"); a count line "{n} places change"; **Note** (optional, ≤200 characters, `Textarea`); footer text "Apps pick up the new photos the next time they open, or within a few hours."; buttons **Publish** (primary) and Cancel. While publishing (the server builds the public versions): spinner in the button, dialog not dismissable, up to the request timeout. Success: toast "Published. Version {id}." and History opens.
+
+**History tab:** `Table` of the last 20 publications, newest first: **Version** (`#id`, "Current" badge on the newest) · **Published** (date and time, Africa/Dar_es_Salaam, `dd MMM yyyy, HH:mm`) · **By** (publisher name) · **Note** · **Changes** ("{n} places") · **Put back** (`heroImages.rollback` "Put back this version", on every row except Current; a row created by rollback shows the badge "Put back from #{id}"). Clicking Put back opens a `ConfirmDialog` with the same before/after list (Current → that version) and "Put back" / Cancel; success creates a new publication (toast "Version #{id} is live again.").
+
+### 36.7 States and errors
+| State | What the admin sees |
+|---|---|
+| Loading | `SkeletonCard` × 3 (Places), `SkeletonTable` (History) |
+| Server feature off (`GET /admin/hero-images` → 404) | `EmptyState` "App photos are switched off" / body "This feature is turned off on the server." No actions. |
+| No access (403, or the scope is missing) | nav item hidden; a direct visit shows the portal's existing no-access page |
+| Load failed (network / 5xx) | `ErrorState` "Couldn't load app photos." + Try again |
+| Empty library | Places: every slot "Using the built-in photo"; Library: `EmptyState` + Upload photo |
+| Nothing to publish | Publish disabled, hint "No changes to publish" |
+| Upload: `rights_confirmation_required` / `no_faces_confirmation_required` | field error on the box: "Tick this box to confirm." (the button should have prevented it) |
+| Upload: `image_too_small` | "This photo is too small. Use one at least 1080 pixels wide." |
+| Upload: `unsupported_file_type` | "This file type isn't supported. Use JPEG, PNG or WebP." |
+| Upload: 413 `file_too_large` | "This file is larger than 15 MB." |
+| Upload: 503 `storage_service_unavailable` | "Photo storage isn't available right now. Try again in a few minutes." |
+| Slot save: `unknown_slot` | "This place no longer exists. Reload the page." |
+| Slot save: `too_many_images` | "This place takes up to {max} photos." |
+| Slot save: `image_retired` | "One of these photos was retired. Choose another." |
+| Publish / rollback failed | `Alert` in the dialog: "Couldn't publish. Nothing has changed in the apps." + Try again |
+| Network error anywhere | toast "You're offline or the server can't be reached." (existing pattern) |
+| Unknown error code | "Something went wrong ({code})." so support can trace it |
+
+### 36.8 Focus order and semantics
+Header (title, Upload photo, Publish) → info alert → Places / Library / History → content of the tab in reading order (area card → slot rows → Choose photos → Preview). Dialogs trap focus, start on the first field (upload) or the dialog title (publish, confirm), Escape closes (except while publishing), and focus returns to the button that opened them. The page has one `<h1>` ("App photos"); area names are `<h2>`. Status badges have text, not colour alone. All controls ≥44px tall.
+
+---
+
+## 37. Copy, backend fields, flags
+
+### 37.1 Mobile copy (all Swahili draft for native review)
+| Key | English | Swahili | Chars EN / SW | Longest word |
+|---|---|---|---|---|
+| `hero.gyms.lead` / `.accent` | Find your / **gym.** | Pata / **gym yako.** | 14 / 14 | 5 |
+| `hero.trainers.lead` / `.accent` | Train with / **a Trainer.** | Fanya mazoezi na / **Trainer.** | 21 / 25 | 8 |
+| `hero.shop.lead` / `.accent` | Gear up / **for training.** | Jiandae / **kwa mazoezi.** | 21 / 20 | 9 |
+| `footer.endLine` | That's all for now. | Hiyo ndiyo yote kwa sasa. | 19 / 25 | 6 |
+| `footer.backToTop` | Back to top | Rudi juu | 11 / 8 | 4 |
+| `member.gymsLoadError` (F-12) | We couldn't load gyms. | Hatukuweza kupakia gym. | 22 / 23 | 10 |
+| `member.trainersLoadError` (F-12) | We couldn't load Trainers. | Hatukuweza kupakia ma-trainer. | 26 / 30 | 10 |
+| `member.gymsNoMatch` | No gyms match your search or filters. | Hakuna gym inayolingana na utafutaji au vichujio vyako. | 37 / 55 | 12 |
+| `member.trainersNoMatch` | No Trainers match your search or filters. | Hakuna trainer anayelingana na utafutaji au vichujio vyako. | 41 / 59 | 12 |
+| `member.clearSearchFilters` | Clear search and filters | Futa utafutaji na vichujio | 24 / 26 | 9 |
+
+Reused (no new translation): `member.gyms`, `member.trainers`, `member.shopTitle`, `member.noData`, `common.retry`, `app.title` (wordmark, not read in the footer). Eyebrow lengths (uppercased, ≤28): "GYMS" / "GYM", "TRAINERS" / "MA-TRAINER", "FITFLEX SHOP" / "DUKA LA FITFLEX". Words for the native reviewer: "Jiandae" (get ready), "inayolingana / anayelingana" (that matches), "vichujio" (filters, as in `shop.clearFilters`).
+
+### 37.2 Portal copy (all Swahili draft for native review; portal uses "bonyeza")
+| Key | English | Swahili |
+|---|---|---|
+| `admin.nav.heroImages` | App photos | Picha za app |
+| `heroImages.title` | App photos | Picha za app |
+| `heroImages.subtitle` | Photos behind the headings in the FitFlex app and on the portal sign-in page. Changes go live only when you publish. | Picha zilizo nyuma ya vichwa kwenye app ya FitFlex na kwenye ukurasa wa kuingia wa portal. Mabadiliko yanaonekana tu ukichapisha. |
+| `heroImages.remoteNote` | The app shows these photos only in builds with remote photos turned on. Until then it keeps its built-in photos. | App inaonyesha picha hizi tu kwenye matoleo yaliyowashwa picha za mtandaoni. Hadi hapo inatumia picha zake zilizomo. |
+| `heroImages.tab.places` / `.library` / `.history` | Places / Library / History | Sehemu / Maktaba / Historia |
+| `heroImages.area.preSignIn` / `.members` / `.partners` / `.footers` / `.portal` / `.other` | Before sign-in / Members / Partners / Page footers / Portal / Other | Kabla ya kuingia / Wanachama / Washirika / Sehemu za chini za kurasa / Portal / Nyingine |
+| `heroImages.slot.language` … `.portalLogin` | the labels in §36.2 | Skrini ya lugha · Kuingia · Kufungua akaunti · Kuchagua aina ya akaunti · Skrini za PIN · Nyumbani, bila pasi hai · Nyumbani, pasi hai · Wasifu · Boresha mpango · Shughuli: Leo · Shughuli: Mazoezi · Shughuli: Challenges · Shughuli: Maendeleo · Orodha ya gym · Orodha ya ma-trainer · Duka · Nyumbani kwa trainer · Bidhaa za muuzaji · Nyumbani kwa mmiliki wa gym · Sehemu za chini za kurasa · Kuingia kwenye portal |
+| `heroImages.slot.<id>.where` | one line per slot, e.g. "Shows at the top of the Gyms list." | e.g. "Inaonekana juu ya orodha ya gym." |
+| `heroImages.empty` | Using the built-in photo | Inatumia picha iliyomo kwenye app |
+| `heroImages.changed` / `.bright` | Changed / Bright | Imebadilishwa / Ina mwanga mwingi |
+| `heroImages.countOfMax` | {n} of {max} | {n} kati ya {max} |
+| `heroImages.choose` / `.preview` / `.useBuiltIn` / `.save` | Choose photos / Preview / Use the built-in photo / Save | Chagua picha / Hakiki / Tumia picha iliyomo / Hifadhi |
+| `heroImages.savedDraft` | Saved as a draft. Publish to send it to the apps. | Imehifadhiwa kama rasimu. Chapisha ili ifike kwenye app. |
+| `heroImages.moveUp` / `.moveDown` | Move up / Move down | Sogeza juu / Sogeza chini |
+| `heroImages.upload` | Upload photo | Pakia picha |
+| `heroImages.file` / `.file.hint` | Photo file / JPEG, PNG or WebP, up to 15 MB, at least 1080 pixels wide. Convert HEIC to JPEG first. | Faili la picha / JPEG, PNG au WebP, hadi MB 15, upana wa angalau pikseli 1080. Badilisha HEIC kuwa JPEG kwanza. |
+| `heroImages.chooseFile` | Choose a file | Chagua faili |
+| `heroImages.source` / `.source.hint` | Source / Where the photo comes from, e.g. FitFlex shoot, partner gym, Pexels. | Chanzo / Picha imetoka wapi, k.m. upigaji picha wa FitFlex, gym mshirika, Pexels. |
+| `heroImages.photographer` | Photographer | Mpiga picha |
+| `heroImages.licence` / `.licence.hint` | Licence / e.g. Owned by FitFlex, Partner consent, Pexels licence. | Leseni / k.m. Mali ya FitFlex, Ridhaa ya mshirika, Leseni ya Pexels. |
+| `heroImages.licenceRef` | Licence link or reference (optional) | Kiungo au kumbukumbu ya leseni (si lazima) |
+| `heroImages.people` | People in the photo | Watu kwenye picha |
+| `heroImages.people.none` / `.handsBacks` / `.unclearFaces` | No people / Hands or backs only / Faces not clear | Hakuna watu / Mikono au migongo tu / Nyuso si wazi |
+| `heroImages.partnerGym` | Taken in a partner gym? | Imepigwa ndani ya gym mshirika? |
+| `heroImages.consentRef` / `.consentRef.hint` | Partner consent reference / The gym's written permission, e.g. an email date or document number. | Kumbukumbu ya ridhaa ya mshirika / Ruhusa ya maandishi ya gym, k.m. tarehe ya barua pepe au namba ya hati. |
+| `heroImages.rights.confirm` | I confirm FitFlex has the right to use this photo in its apps and portal. | Nathibitisha kuwa FitFlex ina haki ya kutumia picha hii kwenye app na portal zake. |
+| `heroImages.faces.confirm` | No one in this photo can be recognised: only backs, hands or unclear faces. | Hakuna mtu anayeweza kutambulika kwenye picha hii: migongo, mikono au nyuso zisizo wazi tu. |
+| `heroImages.uploaded` | Photo uploaded. Set its focus point next. | Picha imepakiwa. Sasa weka sehemu kuu ya picha. |
+| `heroImages.focal` / `.focal.hint` | Focus point / Click the subject to keep it in view. | Sehemu kuu / Bonyeza kitu kikuu ili kibaki kionekane. |
+| `heroImages.focal.x` / `.focal.y` | Left–right / Top–bottom | Kushoto–kulia / Juu–chini |
+| `heroImages.focal.fromLeft` / `.fromTop` | {n}% from left / {n}% from top | {n}% kutoka kushoto / {n}% kutoka juu |
+| `heroImages.preview.phone` / `.band` / `.desktop` / `.scale` | Phone hero / Phone band / Desktop / Show 1.3× text | Picha ya simu / Ukanda wa simu / Kompyuta / Onyesha maandishi 1.3× |
+| `heroImages.preview.sampleEyebrow` / `.sampleLead` / `.sampleAccent` | SAMPLE / Every step / counts. | MFANO / Kila hatua / ina thamani. |
+| `heroImages.brightWarning` | This photo is bright where the text sits. It will still be readable but will look darker. | Picha hii ina mwanga mwingi mahali maandishi yalipo. Bado yatasomeka, ila picha itaonekana nyeusi zaidi. |
+| `heroImages.status.draft` / `.published` / `.retired` | Draft / Published / Retired | Rasimu / Imechapishwa / Imestaafishwa |
+| `heroImages.usedIn` | Used in {n} places | Inatumika sehemu {n} |
+| `heroImages.edit` / `.retire` / `.retire.blocked` | Edit / Retire / Remove it from every place first. | Hariri / Staafisha / Iondoe kwenye kila sehemu kwanza. |
+| `heroImages.library.empty` | No photos uploaded yet | Bado hakuna picha zilizopakiwa |
+| `heroImages.publish` | Publish | Chapisha |
+| `heroImages.publish.none` | No changes to publish | Hakuna mabadiliko ya kuchapisha |
+| `heroImages.publish.title` / `.count` / `.note` / `.when` | Publish these changes? / {n} places change / Note (optional) / Apps pick up the new photos the next time they open, or within a few hours. | Chapisha mabadiliko haya? / Sehemu {n} zinabadilika / Maelezo (si lazima) / App zitapata picha mpya zitakapofunguliwa tena, au ndani ya saa chache. |
+| `heroImages.before` / `.after` / `.builtIn` | Before / After / Built-in photo | Kabla / Baada / Picha iliyomo |
+| `heroImages.published` | Published. Version {id}. | Imechapishwa. Toleo {id}. |
+| `heroImages.history.version` / `.when` / `.by` / `.note` / `.changes` / `.current` / `.fromRollback` | Version / Published / By / Note / Changes / Current / Put back from #{id} | Toleo / Imechapishwa / Na / Maelezo / Mabadiliko / La sasa / Limerudishwa kutoka #{id} |
+| `heroImages.rollback` / `.rollback.done` | Put back this version / Version #{id} is live again. | Rudisha toleo hili / Toleo #{id} linatumika tena. |
+| `heroImages.off.title` / `.off.body` | App photos are switched off / This feature is turned off on the server. | Picha za app zimezimwa / Huduma hii imezimwa kwenye seva. |
+| `heroImages.loadError` | Couldn't load app photos. | Hatukuweza kupakia picha za app. |
+| `heroImages.error.confirmRequired` | Tick this box to confirm. | Weka alama kwenye kisanduku hiki kuthibitisha. |
+| `heroImages.error.imageTooSmall` | This photo is too small. Use one at least 1080 pixels wide. | Picha hii ni ndogo mno. Tumia yenye upana wa angalau pikseli 1080. |
+| `heroImages.error.unsupportedFileType` | This file type isn't supported. Use JPEG, PNG or WebP. | Aina hii ya faili haikubaliki. Tumia JPEG, PNG au WebP. |
+| `heroImages.error.fileTooLarge` | This file is larger than 15 MB. | Faili hili ni kubwa kuliko MB 15. |
+| `heroImages.error.storageUnavailable` | Photo storage isn't available right now. Try again in a few minutes. | Hifadhi ya picha haipatikani sasa hivi. Jaribu tena baada ya dakika chache. |
+| `heroImages.error.unknownSlot` | This place no longer exists. Reload the page. | Sehemu hii haipo tena. Pakia ukurasa upya. |
+| `heroImages.error.tooManyImages` | This place takes up to {max} photos. | Sehemu hii inachukua hadi picha {max}. |
+| `heroImages.error.imageRetired` | One of these photos was retired. Choose another. | Moja ya picha hizi imestaafishwa. Chagua nyingine. |
+| `heroImages.error.publishFailed` | Couldn't publish. Nothing has changed in the apps. | Hatukuweza kuchapisha. Hakuna kilichobadilika kwenye app. |
+| `heroImages.error.unknown` | Something went wrong ({code}). | Kuna hitilafu ({code}). |
+
+### 37.3 Backend fields (for `fitflex-planner` / `contract-checker`)
+**Slices 1–3 (mobile): nothing new.** They read only what the app already reads (`GET /gyms`, `/trainers`, the shop home, `/me`). The F-12 flags are client state.
+
+**Slice 5 (portal) needs from slice 4** (plan §2, slice 4), please confirm the names:
+- `GET /admin/hero-images` → `images[]{id, status, width, height, focalX, focalY, variants, textZoneLuminance, source, photographer, licence, licenceRef, people, consentRef, rightsConfirmedBy, rightsConfirmedAt, noFacesConfirmedBy, noFacesConfirmedAt, createdBy, createdAt, updatedAt}`, `slots[]{id, surface, variant, draft[], published[]}`, `publications[]{id, slots, publishedBy, publishedAt, note, rolledBackFrom}`.
+- **Needed but not in the plan's response shape:** per slot **`maxImages`** and **`aspectHint`** (in the registry, but the listed GET response omits them; the Choose dialog and previews need them); **display names** for `createdBy` and `publishedBy` (ids alone cannot be shown in History; e.g. `publishedByName`, or a `users{id: name}` map).
+- `POST /admin/hero-images` multipart (fields as listed in the plan, `rightsConfirmed=true`, `noFacesConfirmed=true`); error codes `rights_confirmation_required`, `no_faces_confirmation_required`, `image_too_small`, `unsupported_file_type`, `file_too_large` (413), `storage_service_unavailable` (503).
+- `GET /admin/hero-images/:id/preview` (auth header; full original, see O-30), `PATCH /admin/hero-images/:id` `{focal{x,y}, source, photographer, licence, licenceRef, people, consentRef, status:'retired'}`, `PUT /admin/hero-slots/:slotId` `{imageIds}` (`unknown_slot`, `too_many_images`, `image_retired`), `POST /admin/hero-slots/publish` `{note}`, `POST /admin/hero-slots/rollback` `{publicationId}`.
+
+**Slice 6 (app)** uses `GET /app/hero-images` exactly as in the plan; each entry's `sourceId` must be the scene id of §34.1 for bundled-equivalent photos, and the upload form has no `sourceId` field, so the backend should default `sourceId` to the image `id` (each upload its own scene). O-32 asks whether admins need to set it.
+
+### 37.4 Flags
+| Flag | Where | Default | Gates |
+|---|---|---|---|
+| `PHOTO_HERO_UI` | mobile, build time (existing) | off | §32 bands |
+| `PHOTO_FOOTER_UI` | mobile, build time (new; effective only with `PHOTO_HERO_UI`) | off | §33 footer; add a `photo_footer` input to `distribute-android.yml` (manual runs only, like `photo_hero`) |
+| `NEXT_PUBLIC_HERO_IMAGES_ADMIN` | portal, build time (new) | off | §36 nav item and page |
+| `HERO_IMAGES_CMS` | server env (new) | off | every `/admin/hero-*` route (404 when off) and `/app/hero-images` (empty list when off) |
+| `HERO_IMAGES_REMOTE` / `NEXT_PUBLIC_HERO_IMAGES_REMOTE` | mobile / portal, build time (new) | off | slice 6 / portal login reading remote photos (plan) |
+
+---
+
+## 38. Acceptance criteria (addendum 2) and open questions
+
+Checked on Flutter web built from RC at 360×640, 390×844 and 430×932, and 1280×800, light and dark, English and Swahili, text scale 1.0 and 1.3, against an isolated backend with seed accounts; the portal at 375, 768 and 1280. **[device]** = needs a real phone.
+
+**L. Section heroes (Gyms, Trainers, Shop)**
+- AC-L1 With `PHOTO_HERO_UI` off, Gyms, Trainers and Shop home are unchanged; existing tests pass; the keys `gym-page-scroll`, `trainer-page-scroll`, `member-find-trainer`, `gym-search`, `trainer-search`, `gym-filter-*`, `shop-home`, `shop-home-search`, `shop-home-cart`, `shop-home-section-*`, `shop-home-browse-all`, `shop-home-checkout` exist and work.
+- AC-L2 Flag on, member Gyms: a `band` hero (24px corners, inside the page padding, under the **solid** shell app bar) with the `gyms` photo, eyebrow "GYMS" / "GYM", headline "Find your gym." / "Pata gym yako.", and an `onPhoto` "Trainers" button with key `member-find-trainer` that opens `/member/trainers`; the old page header is gone; "Discover gyms" appears only once on the screen (the section strip).
+- AC-L3 Flag on, member Trainers: `band` hero with the `trainers` photo, "TRAINERS" / "MA-TRAINER", "Train with a Trainer." / "Fanya mazoezi na Trainer."; no action on the band; the "Find a trainer" header is gone.
+- AC-L4 Flag on, `SHOP_HOME_V2` on, member Shop: the `band` with the `shop` photo, "FITFLEX SHOP" / "DUKA LA FITFLEX", "Gear up for training." / "Jiandae kwa mazoezi.", no button, placed **after the search row and before the category row**; search and cart are visible without scrolling at 360×640.
+- AC-L5 No band on: the trainer, owner and vendor-personal shops; the Shop Results view; My orders; product detail; the legacy shop (`SHOP_HOME_V2` off) and `_homeUnavailable`. (Widget test: `ShopHomeView(showHero: false)` default; only `MemberShopTab` passes true.)
+- AC-L6 If the Shop home ever renders a banner carousel, the band is not in the tree (test with a fake carousel slot until Phase 3 exists); never both.
+- AC-L7 No band shows a number, price, rating, count, discount, or a gym's or Trainer's name.
+- AC-L8 At 390×844, 1.0×, both languages: the Gyms search field's bottom edge is ≤420px from the top of the screen, and the Trainers and Shop search fields' bottom edges are ≤380px; at 1.3× all three are visible without scrolling.
+- AC-L9 Focusing a search field at 360×640 with the on-screen keyboard (simulate by reducing viewport height to 360) scrolls the field to 8px under the app bar; the band never changes height; typing does not move the band.
+- AC-L10 Gyms / Trainers loading: band shown, 4 skeleton cards in the grid, never "Nothing to show yet." (F-12; also with the flag off, without the band).
+- AC-L11 Gyms / Trainers load failure with nothing cached (seed: backend stopped): "We couldn't load gyms." / "We couldn't load Trainers." with Try again, which refetches.
+- AC-L12 A search that matches nothing shows "No gyms match your search or filters." (or the Trainers line) and "Clear search and filters", which resets search and every filter and shows the full list.
+- AC-L13 Screen reader: the band is one header node read as "Gyms. Find your gym." (no photo node); the Trainers button follows it; focus order matches §32.4 and §32.5.
+- AC-L14 Desktop 1280: each band is the rounded `panel` banner, height 200, text in the left half; the shop band stays inside the ≤1200 column.
+- AC-L15 The three new hero files are each ≤60 KB at 2× and ≤25 KB at 1× (the §34.2 caps), have `LICENSES.md` rows, and at 100% at 360, 430 and 1280 wide no part of a face (eyes, nose, mouth, chin) and no other gym's logo is visible; the `trainers` and `shop` rows say "no face in frame".
+- AC-L16 F-11: every Gyms / Trainers filter chip is reachable by Tab, toggles with Space/Enter, announces its selected state, and has a ≥44px hit area.
+
+**M. Footer (`FFPhotoFooter`)**
+- AC-M1 With `PHOTO_FOOTER_UI` off, or `PHOTO_HERO_UI` off, no page has a footer; nothing else changes.
+- AC-M2 Flag on, each page in §33.6 ends with the footer when its content is taller than the screen: photo band with 24px corners inside the page padding, the wordmark, "That's all for now." / "Hiyo ndiyo yote kwa sasa."; and on no page in §33.7.
+- AC-M3 Gym detail and trainer detail have the footer and **no** stock photo at the top (the partner's own gallery stays first).
+- AC-M4 Every footer page's footer photo has a different `sourceId` from that page's top photo (one widget test looping over every `pageKey` and every top photo the page can show, including Home's two and Activity's four); the stand-in mapping equals the §33.6 table.
+- AC-M5 Short page: with content shorter than the viewport (e.g. Profile at 430×932 with a small seed, or Trainers with one result), no footer; growing the content past the screen shows it; the footer never appears and disappears while an image above it loads (hysteresis).
+- AC-M6 No footer while a list is loading, empty, in error, in the no-match state, or while the shop is "getting ready"; no footer on Upgrade while the manual-payment fields or the pending-payment card are on screen.
+- AC-M7 The footer ends above the bottom navigation, the shop cart bar and the trainer detail action bar with 24px to spare; on vendor Products with the FAB showing, the footer's text and band are fully visible above the FAB (88px extra).
+- AC-M8 At text scale 1.3 in Swahili at 360 wide, the footer text is not clipped and the band is ≤200 tall unless more is needed to avoid clipping.
+- AC-M9 "Back to top" appears only on Gyms, Trainers and Shop; it is ≥44px, labelled "Back to top" / "Rudi juu", scrolls to the top (instantly with reduced motion), and moves focus to the band heading, after which Tab goes to the band's button (Gyms) or the search field (Trainers, Shop).
+- AC-M10 Screen reader: the footer exposes exactly one text node ("That's all for now.") and, where present, one button; the photo and the wordmark are not announced ("FitFlex" is not read in the footer).
+- AC-M11 High contrast on **[device]** (and the `MediaQuery.highContrast` override in a widget test): navy ground, no photo, same text and button.
+- AC-M12 Contrast with the footer photo replaced by a pure-white image: line ≥4.5:1, wordmark and gold "Af" ≥3:1, button border ≥3:1, in both themes.
+- AC-M13 The footer photo is not decoded until the footer is within one screen of the viewport (lazy sliver); it fades in over 250ms (instant with reduced motion); no parallax.
+- AC-M14 The four footer files are each ≤40 KB at 2× and ≤12 KB at 1×, have `LICENSES.md` rows, and show no face; all hero assets together are ≤1.6 MB (the PR reports the measured total).
+- AC-M15 Existing scroll keys (`activity-scroll`, `profile-scroll`, `passes-scroll`, `gym-detail-scroll`, `gym-page-scroll`, `trainer-page-scroll`) still find the scroll view after the switch to `CustomScrollView`.
+- AC-M16 `distribute-android.yml` has a `photo_footer` input that is used only on manual runs; pushes to main build with it off.
+
+**N. Admin "App photos" (portal)**
+- AC-N1 With `NEXT_PUBLIC_HERO_IMAGES_ADMIN` off, no "App photos" nav item and `/admin/hero-images` shows the portal's not-found or no-access page.
+- AC-N2 Flag on: the nav item shows only for super-admins and staff with `brand_media`; staff without it never see it and a direct visit shows no-access.
+- AC-N3 With `HERO_IMAGES_CMS` off (API 404), the page shows "App photos are switched off" and no actions.
+- AC-N4 Places lists every slot in §36.2 under its area, in order; an empty slot says "Using the built-in photo"; a slot whose draft differs shows "Changed"; a slot id the portal doesn't know appears under "Other".
+- AC-N5 Upload is disabled until a valid file, Source, Photographer, Licence and People are set **and both confirmation boxes are ticked**; ticking "Taken in a partner gym?" makes the consent reference required.
+- AC-N6 A 900px-wide file, a GIF, and a 16 MB file are rejected in the browser with the §36.7 messages before any request; the same server error codes (mocked) show the same messages.
+- AC-N7 The upload sends the original file (no browser downscale or re-encode: request body size equals the file size within multipart overhead).
+- AC-N8 Focal point by keyboard: Tab to the picker, Arrow moves 5%, Shift+Arrow 1%, Home centres; the two range inputs and the live region report the same values; the three previews' `object-position` follows.
+- AC-N9 The three previews use the real scrim tokens (`--hero-scrim-*`): with a pure-white test image the sample text measures ≥4.5:1 (subline) / ≥3:1 (headline) in every preview, at 1.0× and 1.3×.
+- AC-N10 An image with `textZoneLuminance > 0.20` shows the brightness warning and a "Bright" badge, and can still be published.
+- AC-N11 Saving a slot changes only the draft; the published thumbnails and `GET /app/hero-images` (mocked) are unchanged until Publish.
+- AC-N12 Publish is disabled with no changes; with changes, the dialog lists exactly the changed slots with before and after (including "Built-in photo"), accepts an optional note ≤200 characters, and on success History shows the new version as Current.
+- AC-N13 History shows the last 20 versions with date, publisher name, note and change count; "Put back this version" on an older row opens a confirm with the before/after list and, on confirm, creates a new Current version marked "Put back from #id".
+- AC-N14 Retire is disabled while any draft slot uses the image, with the hint shown.
+- AC-N15 Every error code in §36.7 maps to its English and Swahili text; an unknown code shows "Something went wrong ({code})."
+- AC-N16 Keyboard only: every control is reachable in the §36.8 order; dialogs trap focus, Escape closes them (not while publishing), and focus returns to the opener; one `<h1>`; all controls ≥44px.
+- AC-N17 The Swahili toggle switches every string on the page, dialogs included; no hardcoded English (i18n auditor).
+- AC-N18 Library and Places thumbnails load through authenticated blob requests (no unauthenticated image URL in the DOM for draft images).
+
+### 38.1 Open questions (addendum 2)
+| # | Question | Default if no answer |
+|---|---|---|
+| O-30 | `GET /admin/hero-images/:id/preview` streams the full original (up to 15 MB) and the Library may show 30+ thumbnails. Add a small server-side preview size (e.g. `?w=480`)? | Ask backend-builder to add it in slice 4; until then the portal loads thumbnails lazily, one at a time. |
+| O-31 | Accept HEIC uploads in the portal (needs a server image library build with HEIC support)? | No; JPEG, PNG, WebP only, with the "convert first" hint. The design-agent converts the owner's HEIC files for slice 3. |
+| O-32 | Should admins set a "same scene as …" link when uploading several photos from one shoot, so the footer rule can tell them apart? | No field; each upload is its own scene (`sourceId = id`). The footer rule still never repeats the exact top photo. |
+| O-33 | Gyms band showing one recognisable partner gym: allowed (it could read as promotion)? | Not allowed by default (§35.1); the owner can decide per photo. |
+
+Known gaps still in view: legal texts remain drafts pending Tanzanian counsel; vendor settlement exists but has not been tried by hand; `PHOTO_HERO_UI`, `PHOTO_FOOTER_UI` and every photo-manager flag stay off; all Swahili here awaits native review; real-phone rendering, high contrast and camera scanning are **[device]** checks; the stand-in photos are not Tanzanian.
