@@ -570,7 +570,7 @@ Each line is meant to be checked on its own by `design-qa` (visual/system) or `u
 - AC-44 Hero slides change with screen-reader increase/decrease gestures and with keyboard on web; each slide reads "Banner n of total".
 - AC-45 Keyboard Tab order follows §11.3; every control shows a visible focus indicator, and Volt-filled controls use an outline.
 - AC-46 All touch targets ≥ 48×48 (cart button, dots, Why, View all, arrows, tiles).
-- AC-47 At 200% text scale on phone, nothing is clipped or overlapping (hero, headers with countdown, cards, cart bar) in Swahili.
+- AC-47 At the app's maximum text scale (130%, owner decision 2026-10-20 to keep the app-wide clamp) on phone, nothing is clipped or overlapping (hero, headers with countdown, cards, cart bar) in Swahili.
 - AC-48 No Volt anywhere on a light surface (light theme screens, white image wells), and no Volt + green primary on the same light-theme screen.
 - AC-49 Measured contrast matches §4 for the sale price, old price, discount badge, countdown chip and hero text.
 - AC-50 With reduce-motion on: no slide animation, no shimmer, no digit animation.
