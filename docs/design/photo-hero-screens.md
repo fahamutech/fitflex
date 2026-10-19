@@ -1,5 +1,13 @@
 # Photo hero screens: pre-sign-in, member Home, portal login. Design spec
 
+> **Owner decisions 2026-10-19** (override anything below):
+> 1. Photos: use the licensed people-free Pexels stock in `social/brand/photos` (§8.4) for now. No shoot yet.
+> 2. People: only backs, hands, or people whose faces are not clear. No identifiable faces.
+> 3. Headlines approved as written (incl. "Let's get you training." / "Tuanze mazoezi."), **but remove "Dar es Salaam · Tanzania"** everywhere (no place footer, no `hero.footer.place` / `login.hero.footer` keys).
+> 4. Fuel "ends soon" / "few visits" chip on Home: approved.
+> 5. Fix the existing problems F-1..F-4, F-7 now, separately from the flagged redesign.
+> Other open questions (§16) take the spec's proposed defaults.
+
 **Status:** Draft for owner review · **Date:** 2026-10-19 · **Author:** design-agent
 **Request:** owner, chat 2026-10-18/19: *"I like this kind of UI where real pictures lie on the background instead of plain white/navy backgrounds"* (the investor/partner deck hero), and *"the home needs this taste too since it's where the user lands after registration. We need a strong impression when it comes to design."*
 **Repos affected:** `fitflexmobile` (Flutter, mobile + Flutter web) and `fitflex-portal` (Next.js static export). **No backend change is required** (§14).
@@ -175,7 +183,7 @@ Common to all four:
 - **Tablet / narrow web (600–1023):** hero becomes a 280px band across the top with 24px radius at the bottom corners; content column max 420, centred.
 - **Desktop Flutter web (≥1024):** split layout. Left 58%: `FFPhotoHero(variant: panel)` full height, horizontal scrim, logo top-left, headline at 48/52 bottom-left with 64px padding, mono footer. Right 42%: solid ground (dark `#020617` / light `#EEF2F7`) with the existing content column, max 420, vertically centred. App bar actions (theme, language) sit top-right of the right pane.
 - **Logo:** athlete mark (24px) + wordmark, top-left inside the safe area, on the 0.50 top band. Shown on Language and Sign in only (Role and Sign up have a back button there).
-- **Footer:** mono `DAR ES SALAAM · TANZANIA` at the hero bottom (panel variant and Language only).
+- **Footer:** none. [OWNER 2026-10-19] No place line ("Dar es Salaam · Tanzania") on any hero.
 - **Motion:** hero photo fades in over 250ms from `heroPlaceholder`; the existing content fade + 5% rise stays. Under `MediaQuery.disableAnimationsOf`, both are instant.
 - **Back behaviour:** unchanged from today (Sign in back → Language; Role back → pop or Sign in; Sign up back → pop or Sign in). Android system back follows the same.
 - **Deep links:** none new. Routes unchanged.
@@ -350,7 +358,6 @@ For the headline split, the tagline needs lead/accent keys in sentence case (`he
 | Key | English | Swahili (native review) | EN / SW chars |
 |---|---|---|---|
 | `hero.eyebrow.brand` | FITFLEX AFRICA | FITFLEX AFRICA | 14 / 14 |
-| `hero.footer.place` | DAR ES SALAAM · TANZANIA | DAR ES SALAAM · TANZANIA | 24 / 24 |
 | `hero.lang.prompt` | Choose your language · Chagua lugha yako | (same, bilingual by design) | 40 |
 | `hero.lang.continueBoth` | Continue · Endelea | (same) | 18 |
 | `hero.signIn.lead` / `.accent` | Welcome / **back.** | Karibu / **tena.** | 13 / 12 |
@@ -380,7 +387,6 @@ For the headline split, the tagline needs lead/accent keys in sentence case (`he
 | Portal `login.hero.eyebrow` | FITFLEX PORTAL | PORTAL YA FITFLEX | 14 / 17 |
 | Portal `login.hero.lead` / `.accent` | Run it all from / **one place.** | Simamia kila kitu / **mahali pamoja.** | 26 / 32 |
 | Portal `login.hero.sub` | Check-ins, members, statements and programmes for FitFlex partners and companies. | Mahudhurio, wanachama, taarifa za malipo na programu kwa washirika wa FitFlex na makampuni. | 81 / 91 |
-| Portal `login.hero.footer` | DAR ES SALAAM · TANZANIA | DAR ES SALAAM · TANZANIA | 24 / 24 |
 
 Notes: "Many gyms" / "Gym nyingi" describes the product (a pass opens gyms across the network, as `pass.state.none` already says) and makes no count claim. "Mshirika" (partner) and "taarifa za malipo" (statements) need native confirmation.
 
@@ -392,7 +398,7 @@ Notes: "Many gyms" / "Gym nyingi" describes the product (a pass opens gyms acros
 
 **Layout:**
 - **Desktop (≥1024):** the Shell's 64px white login header stays (logo, "FitFlex Af", language toggle) so the language control does not move. Below it, two columns at full remaining height:
-  - Left 55%: `PhotoPanel` with P1, horizontal scrim (§5.2), content bottom-left with 64px padding: eyebrow, headline 48/52 Inter 900 (lead `#F1F5F9`, accent `--color-brand-500`), subline 16/24 `#CBD5E1`, mono footer. **No logo on the panel** (the header has it), so the "logo on busy photo" rule is not engaged.
+  - Left 55%: `PhotoPanel` with P1, horizontal scrim (§5.2), content bottom-left with 64px padding: eyebrow, headline 48/52 Inter 900 (lead `#F1F5F9`, accent `--color-brand-500`), subline 16/24 `#CBD5E1` (no footer, owner 2026-10-19). **No logo on the panel** (the header has it), so the "logo on busy photo" rule is not engaged.
   - Right 45%: **Calm canvas** `--color-bg-canvas` (`#F7F5F0`) with the existing white `Card`, max width 384, vertically centred. Inside the card, unchanged: `login.heading`, `login.assignedAccount`, Google / email / HR / verify steps. The "FF" square is replaced by nothing (the header carries the logo) (F-7). `login.noSelfRegistration` stays under the card.
 - **Tablet (640–1023):** P1 band 16:5 at 220px under the header (bottom scrim, text bottom-left), then the Calm canvas and card.
 - **Phone (<640):** band at 160px with only the eyebrow and headline (no subline), then the card. Under `prefers-reduced-data`, no band.
