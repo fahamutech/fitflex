@@ -5,6 +5,9 @@ set -u
 cd "$(dirname "$0")/../../.." || exit 1
 T=$(mktemp -d); cp -R social/data "$T/data"; cp -R social/ops "$T/ops"; rm -rf "$T/ops/dryruns"
 export SOCIAL_DATA_DIR="$T/data" SOCIAL_OPS_DIR="$T/ops"
+# the live records now hold a real reservation (pub_0001) and W3 is scheduled; the copy starts from the pre-pilot state
+: > "$T/data/publishes.jsonl"; : > "$T/data/performance.jsonl"
+node -e 'const fs=require("fs");const f=process.argv[1];fs.writeFileSync(f,fs.readFileSync(f,"utf8").split("\n").filter(Boolean).map(l=>{const r=JSON.parse(l);if(r.id==="2026-10-W3-A-owners")r.state="approved";return JSON.stringify(r)}).join("\n")+"\n")' "$T/data/ideas.jsonl"
 REC=2026-10-W3-A-owners; HASH=$(node social/tools/publish.js hash $REC); WHEN=2026-11-02T08:00
 pass=0; failn=0
 expect() { # expect <0|1> <label> <command...>
@@ -17,7 +20,7 @@ approve_exact() { # approve_exact <record> <platforms-json>
   printf '{"id":"apr_test","idea_id":"%s","from_state":"approved","to_state":"approved","actor":"owner","decision":"pass","content_hash":"%s","platforms":%s,"note":"test","at":"2026-10-16T00:00:00+03:00"}\n' "$1" "$HASH" "$2" >> "$T/data/approvals.jsonl"; }
 
 echo "# 1 pause switch blocks (record approved, exact approval present)"
-approve_exact $REC '["instagram","facebook"]'; pausei
+grep -v '"content_hash"' social/data/approvals.jsonl > "$T/data/approvals.jsonl"; approve_exact $REC '["instagram","facebook"]'; pausei
 expect 1 "pause on -> reserve refused" node social/tools/publish.js reserve $REC instagram $WHEN
 
 echo "# 2 draft content cannot be scheduled"
@@ -26,13 +29,13 @@ expect 1 "brand_checked record refused (W1-A)" node social/tools/publish.js dry-
 expect 1 "idea record refused (W1-D reel)" node social/tools/publish.js dry-run 2026-10-W1-D-reel-members instagram $WHEN
 
 echo "# 3 missing / invalid owner approval blocks"
-cp social/data/approvals.jsonl "$T/data/approvals.jsonl"   # back to real lines: apr_0007 has no content_hash
+grep -v '"content_hash"' social/data/approvals.jsonl > "$T/data/approvals.jsonl"   # real lines minus any exact-version approval (the live apr_0014 exists since the pilot)
 expect 1 "approved record but no exact-version approval -> refused" node social/tools/publish.js dry-run $REC instagram $WHEN
 printf '{"id":"apr_bad","idea_id":"%s","from_state":"brand_checked","to_state":"approved","actor":"brand_reviewer","decision":"pass","content_hash":"%s","platforms":["instagram"],"note":"reviewer tries","at":"2026-10-16T00:00:00+03:00"}\n' $REC "$HASH" >> "$T/data/approvals.jsonl"
 expect 1 "reviewer-written approval does not count" node social/tools/publish.js dry-run $REC instagram $WHEN
 
 echo "# 4 approval for one platform or version cannot authorise another"
-cp social/data/approvals.jsonl "$T/data/approvals.jsonl"; approve_exact $REC '["instagram"]'
+grep -v '"content_hash"' social/data/approvals.jsonl > "$T/data/approvals.jsonl"; approve_exact $REC '["instagram"]'
 expect 0 "instagram approved -> instagram dry run passes" node social/tools/publish.js dry-run $REC instagram $WHEN
 expect 1 "instagram approved -> facebook refused" node social/tools/publish.js dry-run $REC facebook $WHEN
 printf '{"id":"apr_old","idea_id":"%s","from_state":"approved","to_state":"approved","actor":"owner","decision":"pass","content_hash":"sha256:0000000000000000000000000000dead","platforms":["facebook"],"note":"old version","at":"2026-10-16T00:00:00+03:00"}\n' $REC >> "$T/data/approvals.jsonl"

@@ -1,6 +1,6 @@
 # Phase 4 acceptance tests (run 2026-10-17)
 
-`sh social/tests/phase4/run.sh` works on copies of `social/data` and `social/ops`. Result: **26 of 26 passed.**
+`sh social/tests/phase4/run.sh` works on copies of `social/data` and `social/ops`. Result: **37 of 37 passed** (26 original + 11 for manual posts, added 2026-10-19).
 
 | Requirement | Test | Result |
 |---|---|---|
@@ -12,6 +12,11 @@
 | Scheduled tasks produce no publishing writes | `SOCIAL_ACTOR=automation` reserve refused; task prompts forbid writes; `automation.json` paused | pass |
 | Next proposal cites learnings | `social-strategy` requires a Learnings cited list (procedural; verified by review of the skill text) | pass |
 | Checker green | `check-records --phase 3` on the copy | pass |
+| Manual posts can be tracked | `publish.js manual` creates a record, an owner line and a `published` publish line marked manual; same URL twice refused; automation refused; snapshot works; learnings list it as manual and state it is excluded from comparisons; calendar shows it; checker accepts it | pass |
+
+## Isolation
+
+Since the pilot, the live records hold a real reservation (pub_0001) and the W3 record is `scheduled`. Both suites copy the records and reset the copy to the pre-pilot state (publishes emptied, W3 back to `approved`, exact-version approval lines removed) and write content only under a temp folder (`SOCIAL_CONTENT_DIR`). Live files are never touched.
 
 ## Preconditions not met, by design
 

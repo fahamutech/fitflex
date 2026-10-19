@@ -24,6 +24,7 @@ const { execFileSync } = require('child_process');
 const root = path.resolve(__dirname, '..', '..');
 const dataDir = process.env.SOCIAL_DATA_DIR ? path.resolve(process.env.SOCIAL_DATA_DIR) : path.join(root, 'social', 'data');
 const opsDir = process.env.SOCIAL_OPS_DIR ? path.resolve(process.env.SOCIAL_OPS_DIR) : path.join(root, 'social', 'ops');
+const contentRoot = process.env.SOCIAL_CONTENT_DIR ? path.resolve(process.env.SOCIAL_CONTENT_DIR) : path.join(root, 'social', 'content');
 const TZ = 'Africa/Dar_es_Salaam';
 const TZ_OFFSET = '+03:00'; // Dar es Salaam has no daylight saving
 
@@ -180,6 +181,38 @@ if (cmd === 'hash') {
   if (!readJsonl(path.join(dataDir, 'publishes.jsonl')).some(p => p.id === id)) { console.error(`${id} not found in publishes.jsonl`); process.exit(2); }
   appendJsonl(path.join(dataDir, 'performance.jsonl'), { publish_id: id, observed_at: opt('--observed', nowIso()), ...metrics, post_url: raw.post_url || null, source: opt('--source', 'metricool') });
   console.log(`snapshot recorded for ${id}`);
+} else if (cmd === 'manual') {
+  // Register a post the owner published by hand (Instagram app, not the planner) so analytics,
+  // calendar and learnings can see it. The owner's own posting is the approval; no brand review,
+  // no content hash, and performance comparisons label it as manual.
+  //   publish.js manual --url <post url> --platform instagram --published <ISO +03:00> --caption "<text>"
+  //       [--record <existing idea id>] [--pillar p] [--audience a] [--format f] [--language sw|en] [--hook "..."] [--keyword PASS]
+  if (process.env.SOCIAL_ACTOR === 'automation') { console.error('manual registration is an owner action; automations may not do it'); process.exit(1); }
+  const url = opt('--url'); const platform = opt('--platform', 'instagram'); const published = opt('--published'); const caption = opt('--caption', '');
+  if (!url || !published) { console.error('--url and --published are required'); process.exit(2); }
+  if (!['instagram', 'facebook'].includes(platform)) { console.error('platform must be instagram or facebook'); process.exit(2); }
+  const pubsAll = readJsonl(path.join(dataDir, 'publishes.jsonl'));
+  if (pubsAll.some(p => p.post_url === url)) { console.error(`already registered: ${url}`); process.exit(1); }
+  const ideasFile = path.join(dataDir, 'ideas.jsonl'); const ideas = readJsonl(ideasFile);
+  let recordId = opt('--record');
+  const month = published.slice(0, 7);
+  if (recordId) {
+    const r = ideas.find(x => x.id === recordId); if (!r) { console.error(`record ${recordId} not found`); process.exit(2); }
+    if (!(r.platforms || []).includes(platform)) r.platforms = [...(r.platforms || []), platform];
+    r.state = 'published'; r.updated_at = nowIso(); r.owner_note = ((r.owner_note || '') + ` | published manually by the owner on ${platform} ${published}`).replace(/^ \| /, '');
+    fs.writeFileSync(ideasFile, ideas.map(x => JSON.stringify(x)).join('\n') + '\n');
+  } else {
+    const n = ideas.filter(x => x.id.startsWith(`${month}-M`)).length + 1; recordId = `${month}-M${n}-manual`;
+    ideas.push({ id: recordId, pillar: opt('--pillar', 'unclassified'), audience: opt('--audience', 'unclassified'), problem: '', hook: opt('--hook', caption.split('\n')[0].slice(0, 80)), concept: 'Posted manually by the owner; registered after the fact', format: opt('--format', 'static'), language_lead: opt('--language', 'sw'), platforms: [platform], inspiration_ids: [], facts_cited: [], state: 'published', manual: true, owner_note: `published manually by the owner on ${platform} ${published}; no brand review, no content hash`, created_at: nowIso(), updated_at: nowIso() });
+    fs.writeFileSync(ideasFile, ideas.map(x => JSON.stringify(x)).join('\n') + '\n');
+    const dir = path.join(contentRoot, recordId); fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'brief.md'), `# ${recordId} — manual post\n\nState: **published** (posted by the owner by hand on ${platform}, ${published}). Registered with \`publish.js manual\`; it did not pass brand review and has no content hash, so it is labelled manual in performance comparisons.\n\nPost: ${url}\n\n## Caption as posted\n\n${caption || '_not recorded_'}\n\n## Licences and provenance\n\nUNRESOLVED: media was supplied by the owner outside the studio; record its source here before reusing it.\n`);
+  }
+  const aprs = readJsonl(path.join(dataDir, 'approvals.jsonl')); const aprId = `apr_${String(aprs.length + 1).padStart(4, '0')}`;
+  appendJsonl(path.join(dataDir, 'approvals.jsonl'), { id: aprId, idea_id: recordId, from_state: opt('--record') ? 'approved' : 'idea', to_state: 'published', actor: 'owner', decision: 'pass', manual: true, platforms: [platform], note: `Published manually by the owner on ${platform} at ${published}; registered via publish.js manual on the owner's instruction. No brand review, no content hash.`, at: nowIso() });
+  const pubId = `pub_${String(pubsAll.length + 1).padStart(4, '0')}`;
+  appendJsonl(path.join(dataDir, 'publishes.jsonl'), { id: pubId, idea_id: recordId, platform, variant: platform, content_hash: null, manual: true, source: 'manual', scheduled_for: null, published_at: published, timezone: TZ, status: 'published', idempotency_key: `manual|${platform}|${url}`, metricool_post_id: opt('--post-id', null), metricool_uuid: null, post_url: url, planner_url: null, error: null, at: nowIso() });
+  console.log(`registered manual post ${pubId} on record ${recordId} (${aprId}); next: snapshot it on the Monday pull`);
 } else {
-  console.error('usage: publish.js hash|dry-run|reserve|result|snapshot ...'); process.exit(2);
+  console.error('usage: publish.js hash|dry-run|reserve|result|snapshot|manual ...'); process.exit(2);
 }

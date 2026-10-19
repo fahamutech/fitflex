@@ -51,7 +51,8 @@ ideas.forEach(r => {
   if (!STATES.includes(r.state)) fail(`${r.id}: unknown state ${r.state}`);
   const mine = approvals.filter(a => a.idea_id === r.id);
   if (r.state !== 'idea' && !mine.some(a => a.to_state === r.state)) fail(`${r.id}: state ${r.state} has no approvals line reaching it`);
-  if (NEEDS_OWNER.has(r.state) && !mine.some(a => a.actor === 'owner' && a.to_state === 'approved' && a.decision === 'pass')) fail(`${r.id}: state ${r.state} without an owner approved line`);
+  const manualOk = r.manual && mine.some(a => a.actor === 'owner' && a.manual === true && a.to_state === 'published');
+  if (NEEDS_OWNER.has(r.state) && !manualOk && !mine.some(a => a.actor === 'owner' && a.to_state === 'approved' && a.decision === 'pass')) fail(`${r.id}: state ${r.state} without an owner approved line`);
   if (phase < 3 && ['scheduled', 'published', 'measured'].includes(r.state)) fail(`${r.id}: ${r.state} is not allowed before Phase 3`);
   const dir = path.join(contentDir, r.id);
   if (r.state !== 'idea' && !fs.existsSync(path.join(dir, 'brief.md'))) fail(`${r.id}: no brief.md for a ${r.state} record`);
@@ -69,9 +70,11 @@ if (phase >= 3) {
     if (!['pending', 'scheduled', 'published', 'failed', 'deleted'].includes(p.status)) fail(`${p.id}: unknown publish status ${p.status}`);
     if (!['instagram', 'facebook'].includes(p.platform)) fail(`${p.id}: platform ${p.platform} not enabled`);
     const ok = approvals.find(a => a.idea_id === p.idea_id && a.actor === 'owner' && a.to_state === 'approved' && a.decision === 'pass' && a.content_hash === p.content_hash && Array.isArray(a.platforms) && a.platforms.includes(p.platform));
-    if (['pending', 'scheduled', 'published'].includes(p.status) && !ok) fail(`${p.id}: no owner approval for content ${p.content_hash} on ${p.platform}`);
+    const manualLine = p.manual === true && approvals.some(a => a.idea_id === p.idea_id && a.actor === 'owner' && a.manual === true && a.to_state === 'published' && Array.isArray(a.platforms) && a.platforms.includes(p.platform));
+    if (p.manual === true && p.status !== 'published') fail(`${p.id}: a manual publish can only be published`);
+    if (['pending', 'scheduled', 'published'].includes(p.status) && !ok && !manualLine) fail(`${p.id}: no owner approval for content ${p.content_hash} on ${p.platform}`);
     if (['pending', 'scheduled', 'published'].includes(p.status)) {
-      const key = `${p.idea_id}|${p.platform}|${p.content_hash}`;
+      const key = p.manual ? `manual|${p.platform}|${p.post_url}` : `${p.idea_id}|${p.platform}|${p.content_hash}`;
       if (seenKey.has(key)) fail(`${p.id}: duplicate live publish for ${key}`); seenKey.add(key);
     }
     if (p.error && /(bearer\s+(?!\[REDACTED\])[A-Za-z0-9._-]{8,}|(?:token|api_key|secret|access_token)=(?!\[REDACTED\])[^&\s]+)/i.test(p.error)) fail(`${p.id}: error text looks like it contains a credential`);

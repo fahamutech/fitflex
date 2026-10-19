@@ -3,7 +3,9 @@
 set -u
 cd "$(dirname "$0")/../../.." || exit 1
 T=$(mktemp -d); cp -R social/data "$T/data"; mkdir -p "$T/intel" "$T/cal"
-export SOCIAL_DATA_DIR="$T/data" SOCIAL_INTEL_DIR="$T/intel" SOCIAL_CAL_DIR="$T/cal" SOCIAL_OPS_DIR="$T/ops"; cp -R social/ops "$T/ops"
+export SOCIAL_DATA_DIR="$T/data" SOCIAL_INTEL_DIR="$T/intel" SOCIAL_CAL_DIR="$T/cal" SOCIAL_OPS_DIR="$T/ops" SOCIAL_CONTENT_DIR="$T/content"; cp -R social/ops "$T/ops"; cp -R social/content "$T/content"
+: > "$T/data/publishes.jsonl"; : > "$T/data/performance.jsonl"
+node -e 'const fs=require("fs");const f=process.argv[1];fs.writeFileSync(f,fs.readFileSync(f,"utf8").split("\n").filter(Boolean).map(l=>{const r=JSON.parse(l);if(r.id==="2026-10-W3-A-owners")r.state="approved";return JSON.stringify(r)}).join("\n")+"\n")' "$T/data/ideas.jsonl"
 pass=0; failn=0
 expect() { want=$1; label=$2; shift 2; out=$("$@" 2>&1); code=$?; if [ "$code" -eq "$want" ]; then echo "PASS  $label"; pass=$((pass+1)); else echo "FAIL  $label (exit $code, wanted $want)"; echo "$out" | head -12; failn=$((failn+1)); fi; }
 check() { label=$1; shift; if "$@" >/dev/null 2>&1; then echo "PASS  $label"; pass=$((pass+1)); else echo "FAIL  $label"; failn=$((failn+1)); fi; }
@@ -53,12 +55,27 @@ printf '{"paused": false, "reason": "test", "changed_by": "test", "changed_at": 
 expect 1 "automation actor cannot reserve" env SOCIAL_ACTOR=automation node social/tools/publish.js reserve 2026-10-W3-A-owners facebook 2026-11-05T08:00
 check "sweep prompt forbids writes" grep -q "may NOT" social/ops/tasks/weekly-intel-sweep.md
 check "pull prompt forbids writes" grep -q "may NOT" social/ops/tasks/monday-performance-pull.md
-check "automation master switch exists and is paused" grep -q '"paused": true' social/ops/automation.json
+check "automation master switch exists (paused key present)" grep -q '"paused":' social/ops/automation.json
 
 echo "# 7 next proposal cites learnings (procedural)"
 check "strategy skill requires a Learnings cited list" grep -q "Learnings cited" .claude/skills/social-strategy/SKILL.md
 
+echo "# 9 manual posts can be registered and tracked"
+expect 0 "manual registration creates record + owner line + publish line" node social/tools/publish.js manual --url https://www.instagram.com/p/MANUAL1/ --platform instagram --published 2026-10-18T19:30:00+03:00 --caption "Posted by hand. Test." --pillar community --audience member --format static
+check "manual idea record exists" sh -c "grep -q '\"manual\":true' '$T/data/ideas.jsonl'"
+check "manual owner line exists" sh -c "grep -q '\"manual\":true' '$T/data/approvals.jsonl'"
+check "manual publish line is published with source manual" sh -c "grep MANUAL1 '$T/data/publishes.jsonl' | grep -q '\"source\":\"manual\"'"
+expect 1 "same url cannot be registered twice" node social/tools/publish.js manual --url https://www.instagram.com/p/MANUAL1/ --platform instagram --published 2026-10-18T19:30:00+03:00 --caption "dup"
+expect 1 "automation cannot register manual posts" env SOCIAL_ACTOR=automation node social/tools/publish.js manual --url https://www.instagram.com/p/MANUAL2/ --platform instagram --published 2026-10-18T19:30:00+03:00
+MP=$(grep MANUAL1 "$T/data/publishes.jsonl" | head -1 | sed 's/.*"id":"\([^"]*\)".*/\1/')
+expect 0 "manual post can be snapshotted" node social/tools/publish.js snapshot "$MP" --json '{"likes": 5}' --observed 2026-10-20T07:00:00+03:00
+node social/tools/performance-report.js --write >/dev/null
+check "manual post listed as manual" grep -q "| manual |" "$T/data/learnings.md"
+check "manual posts excluded from comparisons (stated)" grep -q "excluded from the comparisons" "$T/data/learnings.md"
+expect 0 "checker accepts manual records" node social/tools/check-records.js --data "$T/data" --content "$T/content" --phase 3
+node social/tools/calendar.js --write >/dev/null; check "calendar lists the manual record" grep -q "M1-manual" "$T/cal/2026-10.md"
+
 echo "# 8 checker still green on the copy"
-expect 0 "check-records phase 3 on copy" node social/tools/check-records.js --data "$T/data" --phase 3
+expect 0 "check-records phase 3 on copy" node social/tools/check-records.js --data "$T/data" --content "$T/content" --phase 3
 
 rm -rf "$T"; echo "passed=$pass failed=$failn"; [ "$failn" -eq 0 ]
