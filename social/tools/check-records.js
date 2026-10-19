@@ -44,7 +44,8 @@ const ACTORS = new Set(['claude', 'brand_reviewer', 'owner']);
 approvals.forEach(a => {
   if (!ACTORS.has(a.actor)) fail(`${a.id}: unknown actor ${a.actor}`);
   if (a.to_state === 'approved' && a.actor !== 'owner') fail(`${a.id}: only the owner may write to_state=approved (actor was ${a.actor})`);
-  if (a.actor === 'brand_reviewer' && !['drafted', 'brand_checked', 'rejected'].includes(a.to_state)) fail(`${a.id}: brand_reviewer may only move a record to drafted, brand_checked or rejected (got ${a.to_state})`);
+  // a reviewer may record a re-check without changing state (to_state == from_state); any transition it makes is limited to drafted, brand_checked or rejected
+  if (a.actor === 'brand_reviewer' && a.to_state !== a.from_state && !['drafted', 'brand_checked', 'rejected'].includes(a.to_state)) fail(`${a.id}: brand_reviewer may only move a record to drafted, brand_checked or rejected (got ${a.to_state})`);
 });
 
 ideas.forEach(r => {
