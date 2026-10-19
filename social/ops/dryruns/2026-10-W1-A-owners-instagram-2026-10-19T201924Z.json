@@ -1,0 +1,57 @@
+{
+  "title": "reserve 2026-10-W1-A-owners instagram 2026-10-21T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-19T20:19:24Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:d1f6ee5ee6bb2c1a184f29450d675b8f",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-10-21T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-A-owners/slides/A01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-A-owners/slides/A02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-A-owners/slides/A03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-A-owners/slides/A04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-A-owners/slides/A05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-A-owners/slides/A06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-A-owners/slides/A07.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-A-owners/slides/A08.png"
+      ],
+      "mediaAltText": [
+        "Gym trainer in a busy gym; headline: You're counting the wrong members",
+        "Athletes in a gym with a bar chart of joined vs stayed; text: Sign-ups tell you who joined, visits tell you who stayed",
+        "Man at a desk; text: Most small gyms track visits in a notebook, or not at all",
+        "Exercise equipment; text: Can't see visits? You can't see who's leaving",
+        "Treadmills with a chart overlay; text: Empty off-peak hours aren't a mystery, they're a data problem",
+        "Gym interior with a dashboard card; text: A dashboard shows check-ins, busy hours and who stopped coming",
+        "Man in a gym; text: And it brings new members to your door",
+        "Smiling man with a speech bubble: Comment PARTNER. We'll DM you how FitFlex works"
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-10-21T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Unahesabu wanachama wasiofaa? 👀\nKujiunga si kubaki. Ukitaka kujua nani anakuja kweli, hesabu ziara, si usajili.\nUna gym Dar es Salaam? Andika PARTNER kwenye comments tupate kukutumia maelezo.\n\nSign-ups tell you who joined. Visits tell you who stayed. Comment PARTNER to learn how FitFlex works for gyms.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate"
+}

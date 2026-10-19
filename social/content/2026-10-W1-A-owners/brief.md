@@ -1,6 +1,6 @@
 # 2026-10-W1-A-owners — "You're counting the wrong members."
 
-State: **brand_checked** (brand review passed 2026-10-16; owner approval pending). Record: `social/data/ideas.jsonl`.
+State: **scheduled** on Instagram for 2026-10-21 17:00 Dar es Salaam (pub_0004; owner approved 2026-10-19). Facebook variant not scheduled. Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
