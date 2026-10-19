@@ -206,7 +206,7 @@ Deep-link rules:
 
 ## 8. Strings (EN + SW)
 
-All SW are **drafts for native review** unless they come from plan §4 (also drafts). "Stock" stays English (glossary). "Variant" = "aina" (existing `vendor.variants` "Aina mbadala"). Placeholders: `{n}`, `{name}`, `{before}`, `{after}`, `{delta}`, `{ref}`.
+All SW are **drafts for native review** unless they come from plan §4 (also drafts). "Stock" stays English (glossary). "Variant" = "chaguo" / plural "machaguo" (decided 2026-10-19, glossary; "aina" means category). The SW cells below that still say "aina" are superseded — the shipped strings use chaguo/machaguo. Placeholders: `{n}`, `{name}`, `{before}`, `{after}`, `{delta}`, `{ref}`.
 
 ### 8.1 Form
 | Key | EN | SW (draft) |
