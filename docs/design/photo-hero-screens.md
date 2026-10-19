@@ -7,12 +7,21 @@
 > 4. Fuel "ends soon" / "few visits" chip on Home: approved.
 > 5. Fix the existing problems F-1..F-4, F-7 now, separately from the flagged redesign.
 > Other open questions (§16) take the spec's proposed defaults.
+>
+> **Owner decisions 2026-10-19, second review** (after seeing the preview on a phone; override anything below, details in §18–§30):
+> 1. Photo hero approach is OK. **Remove "Pamoja tuna nguvu"** (the Swahili tagline line) from the Language screen hero. Nothing replaces it (§19).
+> 2. Apply the photo hero to the member **Profile** tab (§21).
+> 3. Apply it to the **PIN entry** screen; the PIN setup / reset / register screens follow for consistency (§22).
+> 4. Apply it to the **Upgrade plan** screen (§23).
+> 5. Apply it to **Activity**, with a **different photo for each section**: Today, Training, Challenges, Progress (§24).
+> 6. Apply it to the **Trainer, Vendor and Gym owner home** screens (§25).
+> Earlier decisions still apply: licensed people-free stock for now; people only as backs, hands or unclear faces; no "Dar es Salaam · Tanzania"; Fuel chip OK; flag `PHOTO_HERO_UI`, build-time, off by default.
 
 **Status:** Draft for owner review · **Date:** 2026-10-19 · **Author:** design-agent
 **Request:** owner, chat 2026-10-18/19: *"I like this kind of UI where real pictures lie on the background instead of plain white/navy backgrounds"* (the investor/partner deck hero), and *"the home needs this taste too since it's where the user lands after registration. We need a strong impression when it comes to design."*
 **Repos affected:** `fitflexmobile` (Flutter, mobile + Flutter web) and `fitflex-portal` (Next.js static export). **No backend change is required** (§14).
 **Ships:** dormant behind `PHOTO_HERO_UI` (mobile) and `NEXT_PUBLIC_PHOTO_HERO_UI` (portal), both default **off** (§13). With the flags off, today's screens render unchanged.
-**Not in scope:** app code; member onboarding (`/member/onboarding`); the pending-approval screen; owner/trainer/vendor homes; the Shop home (separate spec, §3.3).
+**Not in scope:** app code; member onboarding (`/member/onboarding`); the pending-approval screen; the Shop home (separate spec, §3.3). (Owner/trainer/vendor homes, Profile, PIN, Upgrade plan and Activity were added by the 2026-10-19 addendum, §18+.)
 
 Sources read (all from `origin/main` unless noted): `canon/04-marketing/design-system.md` (incl. V2 accents, 2026-10-18); memory notes `design-system-redesign`, `design-system-v2-accents`, `pass-card-ring-wording`, `swahili-review`; mobile `lib/shared/design_tokens.dart`, `lib/shared/components/*`, `lib/screens/language_screen.dart`, `auth_screen.dart`, `sign_up_screen.dart`, `role_screen.dart`, `member/member_home_tab.dart`, `member/home_feed.dart`, `member/member_shell.dart`, `member/widgets/home_cards.dart`, `member/widgets/pass_summary_card.dart`, `member/widgets/pass_state.dart`, `lib/shared/i18n.dart`, `lib/shared/splash/kinetic_splash.dart`, `pubspec.yaml`; portal `app/login/page.tsx`, `src/components/Shell.tsx`, `src/components/brand-logo.tsx`, `app/globals.css`, `next.config.mjs`, `src/lib/i18n.ts`; parent `social/brand/photos/README.md` (on `release-candidate`); the unmerged Shop home spec `docs/design/shop-home.md` (branch `docs/design-shop-home`).
 
@@ -190,12 +199,12 @@ Common to all four:
 
 ### 6.1 Language (`/language`)
 **Purpose:** first screen; pick English or Kiswahili and feel the brand.
-**Layout (phone):** `full` hero, 52–60% of the viewport (min 320). Eyebrow `FITFLEX AFRICA`; headline shows **both languages**, because no language is chosen yet: English tagline at display size ("Fitness without **limits.**"), then the Swahili tagline below it at 22/28 w800 in `heroTextBody` ("Pamoja tuna **nguvu.**", accent in the same accent colour). Footer line. Below the hero: a bilingual prompt "Choose your language · Chagua lugha yako" (titleMedium), two tiles, Continue.
+**Layout (phone):** `full` hero, 52–60% of the viewport (min 320). Eyebrow `FITFLEX AFRICA`; headline: the English tagline at display size ("Fitness without **limits.**"). **[OWNER 2026-10-19, second review] No Swahili tagline line under it** ("Pamoja tuna nguvu" removed; nothing replaces it). The Swahili speaker is addressed by the bilingual prompt and the "Kiswahili" tile directly below the hero. No footer. Below the hero: a bilingual prompt "Choose your language · Chagua lugha yako" (titleMedium), two tiles, Continue.
 **Tiles:** titles in their own language: **English** and **Kiswahili** (today's "Swahili" title and "International Standard" subtitle go away; F-1). Each tile is a radio: `Semantics(inMutuallyExclusiveGroup: true, checked: selected, button: true, label: 'English' / 'Kiswahili')`, keyboard focusable, Space/Enter selects (F-3). Min height 64.
 **Continue:** disabled until a tile is chosen. Its label shows in the **selected** language ("Continue" / "Endelea"); before a choice it reads "Continue · Endelea".
 **States:** default (nothing selected), selected, no-photo fallback (high contrast / decode failure: `heroPlaceholder` ground, same text). No network on this screen, so no loading, offline or error states.
 **After completion:** sets the locale, goes to Sign in (unchanged).
-**Focus order:** theme toggle → hero text node ("FitFlex Africa. Fitness without limits. Pamoja tuna nguvu.") → prompt → English → Kiswahili → Continue.
+**Focus order:** theme toggle → hero text node ("FitFlex Africa. Fitness without limits.") → prompt → English → Kiswahili → Continue.
 
 ### 6.2 Sign in (`/auth`)
 **Purpose:** returning users sign in; new users find *Create account*.
@@ -316,7 +325,7 @@ Phone widths 360–430 at 2× need 720–860px; the 1080px masters cover 2.5×. 
 Cool shadows towards slate-navy, warm highlights, no crushed blacks in faces (if any). After grading, the text zone averages relative luminance ≤0.20 with no patch above 0.45. Export sRGB, strip metadata (incl. GPS) before committing.
 
 ### 8.4 Interim photos (until the shoot)
-People-free photos already licensed and recorded in `social/brand/photos/README.md` (Pexels licence, checked 2026-10-16): `pexels-9545909` / `pexels-9545914` (gym equipment, TUBARONES PHOTOGRAPHY), `pexels-12250460` (treadmills), `pexels-29526371` (equipped gym), `pexels-4716814` (equipment), `pexels-3916766` / `pexels-5312212` (dumbbells). They are **not** Tanzanian, so they are a stop-gap; the owner decides whether to ship the flag with them (O-1). Photos with people from that folder are **not** used in the apps.
+People-free photos already licensed and recorded in `social/brand/photos/README.md` (Pexels licence, checked 2026-10-16): `pexels-9545909` / `pexels-9545914` (gym equipment, TUBARONES PHOTOGRAPHY), `pexels-12250460` (treadmills), `pexels-29526371` (equipped gym), `pexels-4716814` (equipment), `pexels-3916766` / `pexels-5312212` (dumbbells). They are **not** Tanzanian, so they are a stop-gap; the owner decides whether to ship the flag with them (O-1). Photos with people from that folder are **not** used in the apps. **[2026-10-19, second review]** Owner decision 2 allows backs, hands and unclear faces, so the addendum (§26) uses four of them **cropped so that no face is in the frame**.
 
 ---
 
@@ -351,7 +360,7 @@ All Swahili is **draft for native review** (the author is not a native speaker).
 ### 11.1 Reused keys (no new translation)
 `splash.tagline` (EN "Fitness Without Limits", SW "Pamoja Tuna Nguvu"; the owner kept this Swahili tagline as-is in the splash work, so it is reused rather than translated literally), `lang.title`, `lang.continue`, `auth.signIn`, `auth.createAccount`, `role.welcomeTitle`, `role.welcomeSubtitle`, `role.member|owner|trainer|vendor|staff`, `role.*Body`, `member.goodMorning|goodAfternoon|goodEvening`, `home.welcome`, `pass.state.none|pending|ended|choose|viewPayment|payAgain`, `home.retry`, `offline.banner`.
 
-For the headline split, the tagline needs lead/accent keys in sentence case (`hero.tagline.lead` / `hero.tagline.accent`): EN "Fitness without" / "**limits.**"; SW "Pamoja tuna" / "**nguvu.**"
+For the headline split, the tagline needs lead/accent keys in sentence case (`hero.tagline.lead` / `hero.tagline.accent`): EN "Fitness without" / "**limits.**"; SW "Pamoja tuna" / "**nguvu.**" **[2026-10-19, second review]** The Language screen no longer shows the Swahili value (it shows the English tagline only, §19). The Swahili value is still used by the Home hero in the "offline, nothing loaded" / error state when the app is in Swahili (O-20).
 
 ### 11.2 New keys
 
@@ -466,7 +475,7 @@ Checked on Flutter web built from RC (phone widths 360, 390, 430; desktop 1280) 
 - AC-H15 Keyboard focus is visible on every control on and below the hero (V2 outline ring, not an overlay), including the Volt CTA.
 
 **A. Pre-sign-in**
-- AC-A1 Language shows the English tagline and the Swahili tagline at once; the tiles read "English" and "Kiswahili"; no hardcoded English remains in `language_screen.dart` (F-1).
+- AC-A1 Language shows the English tagline only (no Swahili tagline line; superseded 2026-10-19, see AC-A10); the tiles read "English" and "Kiswahili"; no hardcoded English remains in `language_screen.dart` (F-1).
 - AC-A2 Language tiles are reachable by Tab, selectable with Space/Enter, and announce as selected/not selected radio options (F-3). Same for role tiles.
 - AC-A3 Continue on Language is disabled until a choice is made and then shows its label in the chosen language.
 - AC-A4 Sign in: the form below the hero is identical in fields, order and behaviour to today; on a 360×640 viewport with the keyboard open (simulated by reducing viewport height to 360), the identifier field and Continue are visible after focusing the field.
@@ -513,7 +522,7 @@ Checked on Flutter web built from RC (phone widths 360, 390, 430; desktop 1280) 
 | O-1 | **Photo source.** Commission an own shoot in Dar es Salaam (partner gyms, seafront), collect partner gym photos with written consent, or ship first with the people-free licensed stock (not Tanzanian)? | Build with interim people-free stock behind the flag; do not turn the flag on until own photos exist. |
 | O-2 | **People in heroes.** May identifiable people appear (with model releases covering app use), or silhouettes/backs/hands only? | Silhouettes, backs and hands only. |
 | O-3 | **Headline copy.** Approve §11.2, especially Home "Let's get you training." / "Tuanze mazoezi." and the role-specific sign-up headlines. Alternatives for Home: "Your city is your gym." / "Jiji lako ni gym yako." | Use §11.2. |
-| O-4 | **Swahili tagline.** Keep "Pamoja tuna nguvu" (as on the splash) for the photo heroes, or use a literal line such as "Siha bila kikomo" (draft, native review)? | Keep "Pamoja tuna nguvu". |
+| O-4 | ~~**Swahili tagline.** Keep "Pamoja tuna nguvu" (as on the splash) for the photo heroes, or use a literal line such as "Siha bila kikomo" (draft, native review)?~~ | **Answered 2026-10-19 (second review):** removed from the Language hero, nothing replaces it. Other uses: O-20. |
 | O-5 | **State chip on Home.** For ending-soon and low-visits, is a three-word Fuel chip in the hero acceptable, or should the hero say nothing and leave it all to the card? | Show the chip. |
 | O-6 | **Hide the pass card** in no-pass, pending and ended states, with the hero carrying the message and the button? | Hide it. |
 | O-7 | **Fuel on the pass card** (ring + badge) for ending soon and low visits, replacing amber, as canon V2 says? | Yes, under the flag. |
@@ -532,3 +541,462 @@ Checked on Flutter web built from RC (phone widths 360, 390, 430; desktop 1280) 
 - All new flags stay off. V2 dark-theme QR scanning on a real phone is still not verified **[device]**; this spec keeps the QR off the photo, so it adds no new scanning risk.
 - Swahili in this spec is unreviewed by a native speaker.
 - The app's brand ramp (`#067647`) still differs from canon `#1F7A3A` (pre-existing, not changed here).
+
+---
+---
+
+# Addendum 2026-10-19: more screens (owner's second review)
+
+## 18. Scope and what changed
+
+The owner reviewed the photo-hero preview on a phone on 2026-10-19, said it is OK, and asked for six changes (owner-decision block at the top of this file). This addendum specifies them. Everything in §1–§17 still applies unless a section below says otherwise.
+
+| # | Owner ask | Where in this addendum | Placement | Variant |
+|---|---|---|---|---|
+| 1 | Remove "Pamoja tuna nguvu" from the Language hero | §19 | unchanged | `full` |
+| 2 | Member Profile | §21 | edge-to-edge under the shell's transparent app bar (as Home) | `compact` |
+| 3 | PIN entry (+ setup / reset / register, recommended) | §22 | edge-to-edge under the screen's transparent app bar | `compact`; hidden on short screens |
+| 4 | Upgrade plan | §23 | inset band under the page's solid app bar | **`band`** (new, §20) |
+| 5 | Activity: Today, Training, Challenges, Progress, each with its own photo | §24 | edge-to-edge under the shell's transparent app bar | `compact` |
+| 6 | Trainer, Vendor, Gym owner homes | §25 | inset band under the solid app bar | **`band`** |
+
+Real names in the code (read from `fitflexmobile` `origin/main`, 75e9d27):
+
+| Screen | Route | File | Notes |
+|---|---|---|---|
+| Member Profile | `/member/profile` (shell tab) | `lib/screens/member/member_profile_tab.dart` | Inside the member `ShellRoute`; shell app bar + bottom nav. |
+| PIN entry | `/auth/email` (`AppRoutes.emailAuth`) | `lib/screens/email_auth_screen.dart` | `EmailAuthScreen`, modes `signIn` / `signUp`. Own `Scaffold`; `CustomKeypad` (no system keyboard), `PinInputRow`. |
+| PIN flows | pushed with `MaterialPageRoute` | `lib/screens/pin_flows.dart` | `RegisterFlowScreen`, `ForgotPinScreen`, `PinSetupScreen` (all via `_flowScaffold`), `ChoosePinStep` (keypad, fixed 300 tall), `CodeStep` (text field). |
+| Upgrade plan | `/member/passes` (shell) | `lib/screens/member/member_passes_page.dart` | One route, two modes: **upgrade** (`hasActivePass` → `_UpgradeGate`) and **buy** (`normalList`). Has its own nested `Scaffold` + `AppBar` (back, "FitFlex Pass", `member.planBody` subtitle) inside the shell. Entry: pass card "Upgrade plan" / Home "Choose a pass". |
+| Activity | `/member/activity`, `/member/activity/progress` | `lib/screens/member/member_activity_tab.dart` | `FFSegmented` sections `overview` / `workouts` / `challenges` / `progress`, labelled `activity.overview` "Today" / `activity.workouts` "Training" / `activity.challenges` "Challenges" / `activity.progress` "Progress" (SW "Leo" / "Mazoezi" / "Challenges" / "Maendeleo"). |
+| Trainer home | `/trainer/home` | `lib/screens/trainer/trainer_home_page.dart` | `IndexedStack`, Home tab = `_dashboardTab()`. Solid app bar `trainer.dashboard` with QR, inbox, prefs. |
+| Vendor home | `/vendor/home` | `lib/screens/vendor/vendor_home_page.dart` | No dashboard; lands on **Products** (`_productsTab`) or the first section a staff user may open. Solid app bar with inbox, persona switch, Change PIN, sign out. FAB "Add product" on Products. |
+| Gym owner home | `/owner/home` (owner `ShellRoute`) | `lib/screens/owner/owner_home_tab.dart` | App bar is `FFOwnerDashboardBar` (gym picker, avatar). Greeting, date filter, Check-in button, quick actions, metric cards, chart, latest check-ins, tiles. |
+
+---
+
+## 19. Change to the Language screen (owner ask 1)
+
+- Remove the second headline line ("Pamoja tuna **nguvu.**"). The hero shows: eyebrow `FITFLEX AFRICA`, headline "Fitness without **limits.**". **Nothing replaces the removed line** (owner preference). No subline is added.
+- The hero keeps its height (52–60% of the viewport, min 320). The text block is about 38px shorter, so more photo shows above it; the 0.80 scrim stop still sits 24px above the eyebrow (§5.2).
+- Semantics: the hero node reads "FitFlex Africa. Fitness without limits." (§6.1 updated).
+- Code note for the builder: `language_screen.dart` stops passing `secondLead` / `secondAccent`. Nothing else uses them, so remove those two props and their branch from `FFPhotoHero` (dead code), and their test expectations.
+- The `hero.tagline.*` Swahili values stay, because the Home hero uses them in its offline / error state when the app is in Swahili. Whether that should change too is O-20.
+- §6.1, §11.1, O-4 and AC-A1 are updated in place. New check: AC-A10.
+
+---
+
+## 20. Shared component changes (reuse first)
+
+All screens below reuse `FFPhotoHero`, `FFPhotoHeroPage`, `FFHeroSheet`, `FFOnPhotoTheme`, `FFButton` (`primary` + `onPhoto`), `FFSkeleton` and the scrim tokens (§3.3) as built. The changes are small and each has a reason:
+
+| # | Change | Why nothing existing fits |
+|---|---|---|
+| C-1 | **New variant `FFHeroVariant.band`**: an inset card inside the page padding. 24px corners (`radiusXl`), no `topInset`, no light-theme sheet overlap (no extra 24px bottom padding), no dark-theme melt (the bottom edge stays at 0.80: it is a card with a visible edge). Same vertical scrim rule as `compact` (0.50 top → 0.80 from `textTop − 24px`). At content width ≥840 the builder passes `panel` + `rounded: true` instead (the existing desktop Home banner). | `compact` assumes it sits under a transparent app bar and under an overlapping sheet. Upgrade and the partner homes keep their solid app bars (§23, §25), so the hero has to be a card in the content. |
+| C-2 | **`FFHeroPhoto` gets 10 values and a `focal` alignment** (§26), used as the `Image.alignment` for `BoxFit.cover`. Existing values get `Alignment.center` (no visual change). | One file serves 360–430px phones (≈1.2:1 box) and ≥840 banners (≈3:1 box); without a focal point `cover` cuts the subject (e.g. the hand on the PIN photo). |
+| C-3 | **Optional `leading` widget** above the eyebrow, excluded from semantics. Used only by Profile for the avatar (§21). | No slot exists for an image above the text. |
+| C-4 | **Photo and text cross-fade when `photo` or the text changes**: `_HeroPhotoLayer` wraps the image in an `AnimatedSwitcher` keyed by `photo` (250ms ease-out); the text column uses a 200ms fade. Both are `Duration.zero` under `MediaQuery.disableAnimationsOf`. Height changes (only possible at large text scales) use `AnimatedSize` 200ms, also instant under reduced motion. | Needed for the Activity section switch (§24). Today the photo layer has no transition between two photos. |
+| C-5 | **Remove `secondLead` / `secondAccent`** (§19). | Dead code after owner ask 1. |
+| C-6 | **`FFPhotoHeroPage`: optional `heroMinViewportHeight` and `pinnedContent`**. With `pinnedContent: true` the content has a fixed height at the bottom and the hero takes the remaining height (no scroll). When the viewport is shorter than `heroMinViewportHeight`, the page renders **without a hero**: today's solid layout, title on the surface. | The PIN keypad must stay fully on screen (§22). A hero that pushed the OK key below the fold would be a regression. |
+| C-7 | **Generalise the member shell's `heroHome`** to a set of hero routes: `memberHome`, `memberActivity` (incl. `/member/activity/progress`) and `memberProfile`, at width <840, flag on. Transparent bar until the hero passes under it, then solid (the existing `HomeHeroAppBarNotification` mechanism; rename to `HeroAppBarNotification` if the builder likes). The offline strip keeps its solid place under the bar on these tabs, as on Home. | The same behaviour Home already has; avoids a second implementation. |
+
+No change to `FFButton`, `FFSegmented`, `CustomKeypad`, `PinInputRow`, `FFOwnerDashboardBar`, `MembershipCard`, `PassSummaryCard`, chart widgets, or the trainer/vendor/owner tiles.
+
+**Colour rules (unchanged, restated for partner homes):** the hero is an always-dark island in both themes. The accent word is **Volt `#C8F04A` in dark theme** and **`#17B26A` in light theme** (≥24px, w800 only). The hero primary button is `FFButton` primary, which in V2 is **Volt fill with on-volt label in dark theme** and **green `#067647` with white label in light theme**; the secondary is `onPhoto`. No Volt on light grounds (AC-H6).
+
+---
+
+## 21. Member Profile (owner ask 2)
+
+**Purpose:** make the member's own space feel personal and premium; who you are and what plan you are on, then settings.
+
+**Layout, phone (<840):**
+1. Shell app bar transparent over the hero (C-7); icons `#F1F5F9` on the 0.50 band; solid once the hero passes under it.
+2. **Hero** `compact`, `minHeight = clamp(viewport × 0.30, 240, ∞)`, photo `profile` (§26).
+   - `leading`: the existing `FFAvatar` (`me.user.photoUrl` or initials), size `lg`, with a 2px `heroText` ring (10.6:1 against the 0.80 scrim, so its edge is visible on any photo). Sits at the top of the text zone, i.e. below the 0.80 stop.
+   - Eyebrow: `member.profile` → "PROFILE" / "WASIFU".
+   - Headline: the member's name (`me.user.resolvedName`), lead only, **no accent word** (an accent-coloured name reads as a link, and accents are for brand phrases). Max 2 lines, then ellipsis (3 at 1.3×).
+   - No subline, no chip, **no actions** (Edit profile already exists as the first settings tile; no duplicate).
+3. **Solid content** (`FFHeroSheet`): the plan badge row (the existing `FFBadge` from the profile card: tier / direct plan / pending / "No pass yet", tone from `passState.badgeTone`), then the existing state `FFAlert` (`profile-pass-state`), `MembershipCard`, "Account settings" and all tiles, sign out. The old profile `FFCard` (avatar + name + badge) is **removed under the flag**: avatar and name moved to the hero, the badge stays on the surface.
+
+**Desktop (≥840):** shell bar solid; hero is the rounded `panel` banner (16:6, ≤960 column, as Home §7.1), avatar left of the text block.
+
+**States:**
+
+| State | Trigger (existing) | Hero | Content |
+|---|---|---|---|
+| Loaded | `me != null` | avatar, "PROFILE", name | as above |
+| Loading | `me == null && !offline` | avatar placeholder (initials circle with "?" replaced by an `FFSkeleton` circle), eyebrow, `headlineLoading` (two skeleton lines) | badge slot skeleton; tiles render (they need no data) |
+| Offline, cached | `offline && me != null` | as loaded | shell offline strip; as today |
+| Offline / error, nothing loaded | `me == null && offline` or profile request failed | eyebrow only, headline = name fallback (F-9) | badge shows `pass.state.noPass` today, which is wrong when offline: under the flag show nothing in the badge slot and keep the shell banner + Retry |
+| No photo (high contrast / decode failure) | — | navy `heroPlaceholder`, same text | — |
+
+**F-9 (existing bug, i18n):** `member_profile_tab.dart` falls back to the hardcoded English `'Member'` when there is no name. Fix inside or outside the flag with a new key `member.nameFallback` ("Member" / "Mwanachama").
+
+**Navigation:** entry = Profile tab; deep links unchanged (`/member/profile`). Back = shell root back (unchanged). Tiles route as today.
+
+**Focus order / semantics:** app bar (inbox, prefs) → offline Retry (if shown) → hero node, read once: "Profile. Amina Juma." (avatar excluded) → plan badge → state alert → Membership card → tiles in order → Sign out → bottom nav.
+
+---
+
+## 22. PIN entry and PIN flows (owner ask 3)
+
+### 22.1 PIN entry (`EmailAuthScreen`, `/auth/email`)
+
+**Purpose:** the last step of sign-in (or the "Create PIN" step of sign-up). The keypad is the job; the hero is a calm, branded frame around it.
+
+**Layout, phone:** `FFPhotoHeroPage` with `pinnedContent: true` and `heroMinViewportHeight` (C-6).
+- **Hero** (`compact`, photo `pin`, fills the height left above the pinned content, min 200): back button and prefs in the transparent app bar (`FFOnPhotoTheme`), no logo. Eyebrow: `auth.verificationPin` (sign in) / `auth.createPin` (sign up), uppercased. Headline: sign in "One last **step.**"; sign up "A PIN only **you know.**" (§27). **Subline: the identifier echo** (`widget.initialEmail`, the number or email the user typed), `heroTextBody`, max 2 lines, ellipsis. Today this echo is coloured primary on the surface; on the hero it is plain text, 7.8:1.
+- **Pinned solid content** (`FFHeroSheet`, max width 400, centred): `PinInputRow` + show/hide toggle (unchanged), then `CustomKeypad` at a **fixed height**: 4 rows of 68px (keys 52px tall + 16px gaps) when the viewport is ≥844 tall, 4 rows of 60px (keys 44px) below that; then "Forgot PIN? Reset" and the recovery links (unchanged conditions).
+- **The keypad, the dots, the show/hide toggle and every link sit on the solid sheet, never on the photo.**
+
+**Short screens (the rule, C-6):** the hero is shown only if `viewport height − pinned content height ≥ 200` (phone) at the current text scale. With the pinned content at about 460–500px this means **viewport height ≥ about 760**. Below that (e.g. 360×640, landscape, small desktop windows) the screen renders exactly today's layout (no hero). Text scale above 1.15 also falls back to today's layout if the hero text would not fit. This is deliberate: the OK key must never move below the fold.
+
+**Keyboard:** `CustomKeypad` replaces the system keyboard, so no soft keyboard opens on this screen. If a hardware keyboard is used on Flutter web, behaviour is unchanged (not specified by this spec).
+
+**Tablet / narrow web (600–1023):** 280px band hero only when `height − pinned ≥ 280`; else no hero. **Desktop (≥1024):** split layout as Sign in (§6): `panel` left 58% with eyebrow, headline and the echo; right 42% the dots, keypad (fixed 4 × 68) and links, vertically centred.
+
+**States:**
+
+| State | Hero | Solid content |
+|---|---|---|
+| Default (0–3 digits) | as above | OK disabled (unchanged) |
+| 4 digits | unchanged | OK enabled |
+| Busy (`_busy`) | unchanged, no spinner on the photo | keypad `isLoading`, back disabled (unchanged) |
+| Wrong PIN / too many tries / reset required / network | unchanged | existing error dialog / messages (translated keys `pin.err*`, `auth.networkError`) |
+| Reset offered / not offered | unchanged | links per existing `_resetOffered` + `pinResetEnabled` |
+| Recovery pending (`_recoveryToken`) | unchanged | "Check my recovery request" link (unchanged) |
+| Short screen / large text | **no hero** | today's layout |
+| No photo (high contrast) | navy ground, same text | — |
+
+**Navigation:** unchanged. Back → pop or `/auth`. Success → `routeForSignedInUser`. "Forgot PIN" pushes `ForgotPinScreen` (§22.2). Pre-cache the `pin` photo when the Sign in screen builds (§28).
+
+**Focus order:** back → prefs → hero node ("Verification PIN. One last step. +255 7…") → show/hide PIN → keys 1–9, Delete, 0, OK (existing labels) → Forgot PIN → recovery links.
+
+### 22.2 PIN setup, reset and register (recommended, for consistency)
+
+Recommendation: apply the same hero to the three `_flowScaffold` screens, with **the same `pin` photo**. They are steps of one task that the user moves through in sequence; one photo across the flow reads as continuity, like a wizard. The photo differs from the screens before them (Sign in `signIn`, Create account `signUp`), so the "no same photo on adjacent screens" rule holds at the flow's edges.
+
+- Replace `_flowScaffold`'s `AppBar(title)` + `ListView` with `FFPhotoHeroPage` (`compact`, `phoneFraction 0.30`, min 220). The current app bar title becomes the hero eyebrow; a headline is added per step; the step content goes on the sheet unchanged.
+- While the step on screen shows a keypad (`ChoosePinStep`, 300 tall), use `heroMinViewportHeight` so the hero is dropped when it would push the OK key below the fold (same rule as §22.1). While the step shows a text field (`CodeStep`, the contact field in Forgot / Register), the page scrolls; when the soft keyboard opens, the focused field scrolls into view and the hero scrolls away (existing `FFPhotoHeroPage` behaviour; it never shrinks or animates).
+
+| Screen / step | Eyebrow (existing key, uppercased) | Headline (§27) | Subline |
+|---|---|---|---|
+| Register, contact + code steps | `pin.registerTitle` "CREATE YOUR ACCOUNT" | "Check your **messages.**" (code step); none on the contact step (eyebrow only) | none (the code step's own text says where the code went) |
+| Register / Setup / Forgot, choose-PIN step | the screen's title key | "A PIN only **you know.**" | none (`pin.chooseBody` stays on the sheet) |
+| Forgot PIN, contact + code steps | `pin.forgotTitle` "RESET YOUR PIN" | "Let's get you **back in.**" | none (`pin.forgotBody` stays on the sheet) |
+| PIN setup (one-time check), code step | `pin.setupTitle` "ONE-TIME CHECK" | "Check your **messages.**" | none (`pin.setupBody` stays on the sheet) |
+
+Not included: `InviteStartScreen` (a name form, not PIN), the onboarding role chooser, and the Change PIN dialog (a dialog stays a dialog).
+
+States, errors and navigation inside these flows are unchanged (`pin-flow-error`, resend timer, `pin.err*`).
+
+---
+
+## 23. Upgrade plan (`/member/passes`) (owner ask 4)
+
+**Purpose:** the member chooses a higher plan and pays the difference; make the step feel like progress, while keeping prices and plan cards plain and fast to read.
+
+**Layout, phone:** the page keeps its nested solid `AppBar` (back, title "FitFlex Pass"). Under the flag the app bar's `bottom` subtitle (`member.planBody`) is removed (it moves into the hero in buy mode, below). The first item in the `ListView` (inside the 24px padding) is the hero: **`band`** variant (C-1), `minHeight 180`, photo `upgrade`, then 16px gap, then today's content unchanged.
+
+**Everything with a number stays on the solid surface:** current-plan card (tier, price), option cards (`+ {difference}`), "Adds N more gyms", gym list links, `upgrade.explain` (end date), `upgrade.late` (days left), manual-payment fields, the submit button ("Pay {amount} more"). **The hero shows no price, amount, date, days or gym count.**
+
+**Hero content by state** (all from data the page already has):
+
+| State | Trigger (existing) | Eyebrow | Headline | Subline | Below the hero |
+|---|---|---|---|---|---|
+| Upgrade, options available | `hasActivePass`, `upgradeOptions` returns `options` non-empty | `member.upgradePlan` "UPGRADE PLAN" / "BORESHA MPANGO" | "Move up **a level.**" / "Panda **ngazi.**" | none | as today |
+| Already on the highest plan | `options` empty | same | "You're at **the top.**" / "Uko **kileleni.**" | none | current-plan card; **the `upgrade.highest` alert is hidden under the flag** (the hero says it; one owner per message, DD-5) |
+| Loading upgrade options | future not done | same | none (eyebrow only; no skeleton needed for a two-word line) | none | spinner as today (F-10: replace the raw `CircularProgressIndicator` with `FFSpinner`) |
+| Upgrade options failed (network) | error, not `ApiException` | same | none | none | `home.passesLoadError` + Retry (unchanged; never falls back to full price) |
+| Nothing to upgrade from (server says so) → buy list | `ApiException` → `fallback` | `pay.product.fitflexPass` "FITFLEX PASS" | "One pass. **Many gyms.**" (reuses `hero.signUp.member.*`) | `member.planBody` (moved from the app bar) | pass list as today |
+| Buy mode (no active pass) | `!hasActivePass` | "FITFLEX PASS" | "One pass. **Many gyms.**" | `member.planBody` | pass list, note, Continue (unchanged) |
+| Pending pass payment | `pendingPass != null` | "FITFLEX PASS" | "One step **to go.**" (reuses `home.hero.pending.*`) | none | `_PendingBlockCard` (unchanged; it carries the details and actions) |
+| Passes failed to load | `passesLoaded && passes.isEmpty` | "FITFLEX PASS" | none | none | load error + Retry (unchanged) |
+| Submitting | `_sending` | unchanged | unchanged | unchanged | button spinner (unchanged) |
+
+Buy mode is included because it is the same route and the same screen; without it, the one screen would look different depending on whether the member has a pass. If the owner wants the hero only in upgrade mode, that is O-21.
+
+**Desktop (≥840):** `panel` + `rounded` banner, height 200, text in the left half; content below as today.
+
+**Navigation:** entries unchanged (pass card "Upgrade plan", Home "Choose a pass" / "Choose your next pass", payment-pending links). Back → `/member` (unchanged). After a successful upgrade request → `/member` (unchanged), where the Home hero shows the new state.
+
+**Focus order:** page back → (shell app bar controls) → hero node ("Upgrade plan. Move up a level.") → current plan card → "Choose a higher plan" → each option (existing InkWell; name, "+ amount", "View gyms") → explain / late alerts → manual payment fields → submit.
+
+---
+
+## 24. Activity (owner ask 5)
+
+**Purpose:** one place for the member's movement. Each section gets its own photo so switching sections feels like changing room, while numbers, charts and lists stay on solid ground and near the top.
+
+**Layout, phone (<840):**
+1. Shell app bar transparent over the hero (C-7); solid once scrolled past it.
+2. **Hero** `compact`, photo by section (table below), eyebrow `activity.title` ("ACTIVITY" / "SHUGHULI"), headline by section, **no subline, no chip**. Action: "Log activity" (`logActivity.open`), `FFButton` `onPhoto`, size `sm`, icon `add`, key `activity-log-open`, shown under exactly today's condition (`activityLoaded && (activities.isNotEmpty || section != overview)`). Under the flag the `FFPageHeader` ("Activity" + Log activity) is removed: its title is the eyebrow and its action is on the hero.
+3. **Solid sheet**: sample-data badge (if `activityIsSample`), then `FFSegmented` (`activity-sections`), then the section content exactly as today (Today summary, steps, streak, challenge, recent list; Training plan, workouts; challenges; progress charts).
+
+**Height, so charts are not pushed down:** `minHeight = topInset + 228` (dark) / `topInset + 252` (light), where `topInset` = status bar + 56. At text scale 1.0 every section's headline fits two lines in both languages at 360–430px, so **the hero height does not change when switching sections**. On a 390×844 phone the segmented control ends at about 400px from the top and the first content card starts by about 420px. At larger text scales the hero may grow; height changes animate (C-4).
+
+**Sections:**
+
+| Section (`_section`) | Tab label EN / SW | Photo (§26) | Headline EN | Headline SW (native review) |
+|---|---|---|---|---|
+| `overview` | Today / Leo | `activityToday` (treadmill rows) | Every step **counts.** | Kila hatua **ina thamani.** |
+| `workouts` | Training / Mazoezi | `activityTraining` (rope, kettlebells, rower) | Train with **a plan.** | Fanya mazoezi **kwa mpango.** |
+| `challenges` | Challenges / Challenges | `activityChallenges` (chalked hands) | Take on **a challenge.** | Shiriki **challenge.** |
+| `progress` | Progress / Maendeleo | `activityProgress` (graded dumbbell rack) | See how far **you've come.** | Tazama **ulipofika.** |
+
+**Switching sections:** the photo cross-fades (≤250ms, ease-out) and the headline fades (200ms) (C-4). **Under reduced motion both are instant.** Scroll position behaves as today. All four photos are pre-cached when the Activity tab first builds (and on shell start, after the Home photos), so a switch never shows the navy placeholder. The deep link `/member/activity/progress` opens with the Progress photo and headline on the first frame (no fade from Today).
+
+**States:**
+
+| State | Hero | Sheet |
+|---|---|---|
+| Loading (`!activityLoaded`) | photo, eyebrow, section headline (static copy, no data needed); no Log activity (today's condition) | spinner as today |
+| Empty (no activities) | as loaded; Log activity hidden on Today (today's condition) | existing empty states / get-started cards |
+| Sample data | as loaded | sample badge above the segmented control |
+| Offline | as loaded | shell offline strip under the bar (solid, as Home) |
+| Error | as loaded | existing per-card handling |
+| No photo | navy ground, same text | — |
+
+**Desktop (≥840):** shell bar solid; hero = rounded `panel` banner, height 200, text left; Log activity on the banner; segmented control and content below.
+
+**Focus order:** app bar → offline Retry → hero node ("Activity. Every step counts.") → Log activity → segmented control (each option selectable, selected state announced; unchanged widget) → section content in order → bottom nav. When the section changes, focus stays on the segmented control; the hero node's label updates but is not announced on its own (no live region), so screen-reader users hear only the section change they made.
+
+---
+
+## 25. Partner homes: Trainer, Vendor, Gym owner (owner ask 6)
+
+Common rules:
+- **Placement:** an inset **`band`** hero (C-1) as the first item in the home tab's scroll view, inside the existing 24px (owner: 24/16) padding. **The app bars stay solid:** they carry working controls used many times a day (gym picker, persona switch, Change PIN, sign out, QR, inbox), and partner homes are work dashboards, so the hero is a welcome band, not a takeover. Shown **only on the home tab** (trainer Home, vendor Products, owner Home); other tabs are unchanged.
+- **Size:** `minHeight 200` on phones, grows with text. **≥840:** `panel` + `rounded`, height 220, text in the left half.
+- **Colours:** Volt accent + Volt primary button in dark theme; `#17B26A` accent (large only) + green `#067647` primary in light theme; secondary `onPhoto` (§20).
+- **On solid ground, always:** QR codes and the QR sheet, metric cards, the membership chart, lists (check-ins, clients, products, orders), filters, notices, tiles.
+- **Eyebrow greeting:** `member.goodMorning|goodAfternoon|goodEvening` + ", " + first name (thresholds 12:00 / 17:00, as the owner home already does), uppercased, 28-character limit.
+
+### 25.1 Trainer home (`/trainer/home`, Home tab)
+
+| Element | Content |
+|---|---|
+| Photo | `trainer` (battle rope and plyo box, one hand on the rope at the edge) |
+| Eyebrow | greeting + first name (`_myProfile['displayName']` or `_displayName`, first word) |
+| Headline | "Ready to **coach?**" / "Tayari **kufundisha?**" |
+| Subline | `checkin.body` "Show your QR at reception, or scan the QR at the gym entrance." (existing) |
+| Primary | "Scan gym QR" (`checkin.scan`), icon `qr_code_scanner`, key `trainer-checkin-scan`, calls `_scanGymQr` (camera opens full screen; **needs a real device**) |
+| Secondary | "Show my QR" (`checkin.showQr`), `onPhoto`, key `trainer-checkin-qr`, calls `_showMyQr` (the QR opens in its existing solid sheet, never on the photo) |
+| Removed under the flag | the "Gym check-in" `FFCard` (`trainer-checkin-card`): its title, body and both buttons now live on the hero (one owner per message) |
+| Stays on solid, in today's order | `PartnerNotVerifiedNotice` (first, directly under the hero), `trainer.dashboardBody` line, profile card (name, specialties, rate pill, socials), `ClientsDigest`, linked-gyms metric, Sessions tiles (today, earnings, payouts, enquiries, schedule) |
+
+States: profile loading (`_myProfile == null`) → eyebrow greeting with `_displayName`, hero otherwise complete (no data needed); unverified trainer → hero unchanged, `PartnerNotVerifiedNotice` under it (pending-approval state); profile load error → existing snack, hero unchanged. The app-bar QR icon stays (it works from every tab).
+
+Focus order: app bar (QR, inbox, prefs) → hero node ("Good morning, Juma. Ready to coach? Show your QR at reception, or scan the QR at the gym entrance.") → Scan gym QR → Show my QR → not-verified notice → content → bottom nav.
+
+### 25.2 Vendor home (`/vendor/home`, Products tab)
+
+| Element | Content |
+|---|---|
+| Photo | `vendor` (stocked gear shelf: medicine balls, boxing gloves, bags; stand-in for a supplements/products shelf, §26) |
+| Eyebrow | `_profile['businessName']`, ellipsised; fallback `vendor.title` "Vendor marketplace" |
+| Headline | Published / normal: "Stock up. **Sell more.**" / "Ongeza bidhaa. **Uza zaidi.**". Pending approval (`_pendingApproval`): "Almost **ready to sell.**" / "Unakaribia **kuanza kuuza.**" |
+| Subline | none (the pending explanation is 180 characters and stays in the existing banner) |
+| Primary | "Add product" (`vendor.addProduct`), icon `add`, calls `_editProduct()` (pending vendors can add products, per the 2026-10-11 decision) |
+| FAB | Hidden while the hero is on screen (≥50% visible) and shown once it scrolls away (fade 150ms, instant under reduced motion). **Exactly one widget carries the key `vendor-add-product` at a time**: the hero button while the hero is visible, the FAB otherwise. The FAB is removed from the tree, not just made transparent, while hidden. |
+| Stays on solid | pending banner card (`vendor-pending-banner`, text + Verification button, unchanged, directly under the hero), staff-disabled alert, low-stock filter, product list, empty state ("No products yet. Add your first product.") |
+
+States:
+
+| State | Hero |
+|---|---|
+| Loading (`_loading`) | photo, eyebrow fallback, `headlineLoading`; no action; spinner below |
+| Empty products | normal hero + Add product; `FFEmptyState` below; no FAB (hero is visible) |
+| Pending approval | pending headline + Add product; pending banner below |
+| Staff disabled (`_staffDisabled`) | **no hero** (the error alert is the message) |
+| Staff without Products access (lands on another section) or "no access" tab | **no hero** (role-restricted: the hero lives on Products only) |
+| Low stock | normal hero; low stock stays in the nav badge and filter (no chip) |
+| Error loading | normal hero; existing snack / retry |
+
+Focus order: app bar (inbox, persona, Change PIN, sign out) → hero node → Add product → pending banner → filter → products → (FAB, when shown) → bottom nav.
+
+### 25.3 Gym owner home (`/owner/home`)
+
+| Element | Content |
+|---|---|
+| Photo | `owner` (gym floor from above: dumbbell rows, benches, machines) |
+| Eyebrow | greeting + `cleanName` (moved from today's solid greeting text, which is removed under the flag) |
+| Headline | Approved: "Keep your gym **moving.**" / "Weka gym yako **ikisonga.**". No approved gym yet (`ownerGyms.isEmpty`): "Welcome to **FitFlex**" (`role.welcomeTitle`, accent = brand name, as §6.3) |
+| Subline | none |
+| Primary | Approved: "Check-in" (`owner.checkin`), icon `qr_code_scanner`, key `owner-checkin-primary`, `context.push('/owner/scan')` (camera: **needs a real device**). Replaces today's full-width solid Check-in button. No gym yet: no action. |
+| Stays on solid, in today's order | `PartnerNotVerifiedNotice`, the date-filter row (left: `owner.gymSnapshot`, right: the filter chip `owner-date-filter`; the gym name is already in the app bar, so it is not repeated), quick actions (Earnings, Trainers if allowed, Members), metric cards, membership chart, latest check-ins, Communications / Challenges / Groups tiles. Pending: `FFGymUnapprovedCard` (unchanged). |
+
+States: dashboard loading → hero complete (greeting needs only `displayName`), content as today; no gym / pending approval → welcome headline, no action, unapproved card below; gym staff persona → same hero, Check-in under today's condition (today it always shows); offline / error → as today (no new handling).
+
+Focus order: owner app bar (gym picker, inbox, avatar) → hero node ("Good afternoon, Rehema. Keep your gym moving.") → Check-in → not-verified notice → date filter → quick actions → metrics → chart → check-ins → tiles → bottom nav.
+
+---
+
+## 26. Photos for the addendum
+
+All from `social/brand/photos/` on `release-candidate` (Pexels licence, pages checked "Free" on 2026-10-16, none marked AI-generated; README there). Each needs a row in `fitflexmobile/assets/photos/hero/LICENSES.md` with the same columns as the existing rows. **No row, no ship.**
+
+Crops are in source pixels `l,t,r,b`. "Focal" is the `Alignment` for `BoxFit.cover` (C-2). The **text safe zone** is the bottom 55% of the frame for `compact` / `band` (vertical scrim) and the left 50% for `panel`; keep it free of bright highlights after grading (§8.3; the contrast guarantee does not depend on it). Sizes below come from a quick Pillow export at WebP q72 with the brightness factor shown; the builder re-exports, and the target is **≤150 KB per 2× file** (all well under).
+
+| `FFHeroPhoto` | File | Source (photographer) | Crop `l,t,r,b` → aspect | 2× delivered (1× = half) | Focal | Grade | People, and why it qualifies | Proto 2× / 1× |
+|---|---|---|---|---|---|---|---|---|
+| `profile` | `hero_profile.webp` | `pexels-4716814` "Black and Gray Exercise Equipment" (Denys Gromov) | 600,150,1500,750 → 3:2 | 900×600 | (0.3, 0.0) lockers right of centre | ×0.75 (bright room) | none | 26 KB / 11 KB |
+| `pin` | `hero_pin.webp` | `pexels-7432872` "A Man in Striped Shirt Using His Mobile Phone" (August de Richelieu) | 250,330,1255,1000 → 3:2 | 1005×670 | (0.3, −0.2) hands and phone | ×0.8 | hands, forearms and shirt only; the crop starts well below the chin, **no face in frame**; the phone screen is blank | 26 KB / 9 KB |
+| `upgrade` | `hero_upgrade.webp` | `pexels-4720565` "Man Getting Medicine Ball" (Ketut Subiyanto) | 0,1000,1500,2000 → 3:2 | 1080×720 | (−0.3, −0.4) hand on the ball | ×0.9 | one hand and arm behind the balls; the crop starts about 200px below the chin, **no face in frame** | 26 KB / 10 KB |
+| `activityToday` | `hero_activity_today.webp` | `pexels-12250460` "Treadmills at Gym" (Mario García) | 0,125,1500,1125 → 3:2 | 1080×720 | (−0.2, −0.3) treadmill row | ×0.9 | none | 75 KB / 27 KB |
+| `activityTraining` | `hero_activity_training.webp` | `pexels-9545909` "Equipments Inside the Gym" (TUBARONES PHOTOGRAPHY) | 700,300,1500,833 → 3:2 | 800×533 | (−0.4, 0.0) rope, kettlebells | ×0.95 | none | 33 KB / 13 KB |
+| `activityChallenges` | `hero_activity_challenges.webp` | `pexels-4720518` "Man in Blue Tank Top" (Ketut Subiyanto) | 300,420,1200,1000 → ≈3:2 | 900×580 | (0.0, 0.1) chalked hands | ×0.9 | torso and hands clapping chalk; the crop starts below the chin, **no face in frame** | 23 KB / 8 KB |
+| `activityProgress` | `hero_activity_progress.webp` | `pexels-3916766` "Black and Red Dumbbells on Brown Wooden Floor" (Andrea Piacquadio) | 0,0,1458,972 → 3:2 | 1080×720 | (−0.1, −0.3) rack rows | ×0.9 | none | 35 KB / 16 KB |
+| `trainer` | `hero_trainer.webp` | `pexels-6388387` "Grayscale Photo of a Woman Using Battle Ropes" (Tima Miroshnichenko) | 0,470,840,1000 → ≈1.6:1 | 840×530 | (0.7, 0.0) hand on the rope | ×0.95 | one hand, forearm and one leg/shoe at the right edge; face and torso are outside the crop (a tighter body crop was tried and rejected as body-focused) | 10 KB / 4 KB |
+| `vendor` | `hero_vendor.webp` | `pexels-9545914` "Gym Equipment Inside the Fitness Gym" (TUBARONES PHOTOGRAPHY) | 620,250,1500,837 → 3:2 | 880×587 | (0.0, −0.3) shelves | ×0.95 | none | 38 KB / 16 KB |
+| `owner` | `hero_owner.webp` | `pexels-29526371` "Modern well-equipped gym with diverse fitness equipment" (foad shariyati) | 0,1000,1500,2000 → 3:2 | 1080×720 | (−0.3, −0.3) dumbbell rows, benches | ×0.8 (bright floor) | none (the one small, faceless figure in the full frame is outside this crop) | 67 KB / 27 KB |
+
+**2× minimum width:** a 390px-wide hero at device pixel ratio 2 needs 780px; every file meets that. 3× phones get the 2× file scaled under an 80% scrim (acceptable, §8.2).
+
+**Adjacency check (no photo on two adjacent screens):**
+- Sign in (`signIn`, 9545909 centre) → PIN (`pin`) → PIN flows (`pin`, same flow, §22.2) → Home: distinct at every step. Create account (`signUp`, 3916766) → Register flow (`pin`): distinct.
+- Member tabs: Home (`homeStart` 29526371 / `homePass` 5312212) ↔ Activity Today (12250460) ↔ Profile (4716814); Home → Upgrade (4720565): all distinct. The four Activity sections use four different source photos.
+- Sources reused **away from each other**: 9545909 (Sign in, centre crop; Activity Training, right crop), 3916766 (Create account; Activity Progress), 12250460 (Language; Activity Today), 29526371 (Role and member Home start; owner home, different crop and a different role). None of these pairs is one step apart.
+
+**Gaps in the folder (stand-ins used):**
+- **Vendor:** there is no supplements or product-shelf photo. Stand-in: the gear shelf in 9545914.
+- **Trainer:** there is no whistle, clipboard or coach-hands photo without a face. Stand-in: battle rope + plyo box crop of 6388387.
+- None of the photos is Tanzanian (stop-gap, O-1). Several show equipment brand marks (e.g. "Concept2" on rowers in Training and Vendor, "movement" on treadmills in Today), like the heroes already shipped; §8.1 rule 3 is met only when own photos replace them.
+
+**Bundle:** about +0.36 MB at 2× and +0.14 MB at 1× (prototype), so all hero assets together come to about 1.07 MB. **New budget: ≤1.6 MB for all hero assets (both densities)**, replacing the 1.2 MB in §9. Report the build size change in the PR.
+
+---
+
+## 27. Copy (English + Swahili)
+
+All Swahili is **draft for native review**. The glossary is followed (gym = "gym", challenge = "challenge" as in the tab label, PIN = "PIN"). Each headline is stored as `.lead` / `.accent` keys. Budgets per §4 (headline ≤26 EN / ≤34 SW characters, longest word ≤11).
+
+### 27.1 New keys
+
+| Key (`.lead` / `.accent`) | English | Swahili (native review) | Chars EN / SW | Longest word |
+|---|---|---|---|---|
+| `hero.pin.signIn` | One last / **step.** | Hatua / **ya mwisho.** | 14 / 16 | 6 |
+| `hero.pin.create` | A PIN only / **you know.** | PIN unayoijua / **wewe tu.** | 21 / 22 | 9 |
+| `hero.pin.code` | Check your / **messages.** | Angalia / **ujumbe wako.** | 20 / 20 | 9 |
+| `hero.pin.reset` | Let's get you / **back in.** | Tukurudishe / **ndani.** | 22 / 18 | 11 |
+| `hero.upgrade` | Move up / **a level.** | Panda / **ngazi.** | 16 / 12 | 6 |
+| `hero.upgrade.top` | You're at / **the top.** | Uko / **kileleni.** | 18 / 13 | 9 |
+| `hero.activity.today` | Every step / **counts.** | Kila hatua / **ina thamani.** | 18 / 22 | 7 |
+| `hero.activity.training` | Train with / **a plan.** | Fanya mazoezi / **kwa mpango.** | 18 / 25 | 7 |
+| `hero.activity.challenges` | Take on / **a challenge.** | Shiriki / **challenge.** | 20 / 18 | 10 |
+| `hero.activity.progress` | See how far / **you've come.** | Tazama / **ulipofika.** | 24 / 17 | 10 |
+| `hero.trainer` | Ready to / **coach?** | Tayari / **kufundisha?** | 15 / 18 | 11 |
+| `hero.vendor` | Stock up. / **Sell more.** | Ongeza bidhaa. / **Uza zaidi.** | 20 / 25 | 7 |
+| `hero.vendor.pending` | Almost / **ready to sell.** | Unakaribia / **kuanza kuuza.** | 21 / 24 | 10 |
+| `hero.owner` | Keep your gym / **moving.** | Weka gym yako / **ikisonga.** | 21 / 23 | 9 |
+| `member.nameFallback` (F-9) | Member | Mwanachama | 6 / 10 | — |
+
+Words that most need the native reviewer: "Tukurudishe ndani" (let us bring you back in), "ikisonga" (moving), "Unakaribia" (you are close to), "kileleni" (at the top), "ina thamani" (has value; chosen over "inahesabika", which is 12 characters with the full stop).
+
+### 27.2 Reused keys (no new translation)
+`member.profile`, `auth.verificationPin`, `auth.createPin`, `pin.registerTitle`, `pin.forgotTitle`, `pin.setupTitle`, `member.upgradePlan`, `pay.product.fitflexPass`, `member.planBody`, `hero.signUp.member.*`, `home.hero.pending.*`, `activity.title`, `logActivity.open`, `member.goodMorning|goodAfternoon|goodEvening`, `checkin.body`, `checkin.scan`, `checkin.showQr`, `vendor.title`, `vendor.addProduct`, `owner.checkin`, `owner.gymSnapshot`, `role.welcomeTitle`.
+
+Eyebrow lengths (uppercased, ≤28): "BORESHA MPANGO" 14, "PIN YA UTHIBITISHO" 18, "FUNGUA AKAUNTI YAKO" 19, "UHAKIKI WA MARA MOJA" 20, "SOKO LA MUUZAJI" 15 (vendor fallback), greetings ≤28 with the name ellipsised. Subline lengths: `checkin.body` 63 EN / 61 SW, `member.planBody` 49 / 47, all within 90 / 115.
+
+---
+
+## 28. Flags, backend fields, performance
+
+- **Flag:** everything in this addendum ships under the same build-time flag `PHOTO_HERO_UI` (off by default). With it off, all screens in §18 are unchanged. F-9 and F-10 are safe to fix outside the flag.
+- **Backend: nothing new.** Fields read, all already used by the app (for `contract-checker` to confirm the names):
+  - `GET /me`: `user.resolvedName`, `user.photoUrl`, `hasActivePass`, `subscription{tier, plan, isDirect, …}`, `pendingPayment(s)` (Profile, Upgrade, Home).
+  - Upgrade options (`api.upgradeOptions()`): `current{tier, priceTzs, expiresAt}`, `options[]{tier, differenceTzs, gymAccess}` (shown only on solid cards, unchanged).
+  - Pass tiers (`listSubscriptionTiers` / `listPasses`) (buy mode, unchanged).
+  - Activity: member data scope `activityLoaded`, `activities`, `activityIsSample` (unchanged).
+  - Trainer profile: `displayName` (unchanged source of the name already on the dashboard).
+  - Vendor profile: `businessName`, `status`; auth `pendingApproval` (unchanged).
+  - Owner data scope: `displayName`, `ownerGyms`, `activeGymId` (unchanged).
+- **Pre-caching (§9 extended):** `pin` when the Sign in screen builds; the three member-tab photos (`activityToday`, `profile`, then the other three Activity photos) after the Home photos on shell start; `upgrade` when the pass card renders; the role's partner photo after sign-in routes to that role. Decode at display size (existing `heroImageProvider`).
+- **Memory:** one hero image alive per screen, except during the ≤250ms Activity cross-fade (two).
+
+---
+
+## 29. Acceptance criteria (continued)
+
+Checked on Flutter web built from RC at phone widths 360, 390 and 430 (heights 640, 760 and 844) and desktop 1280×800, light and dark, English and Swahili, text scale 1.0 and 1.3, unless an item says otherwise. **[device]** = needs a real phone.
+
+**Flags and hero (all addendum screens)**
+- AC-F4 With `PHOTO_HERO_UI` off, Profile, PIN entry, Register / Forgot / Setup flows, `/member/passes`, Activity, and the trainer, vendor and owner homes look and behave exactly as on RC before this change; existing tests pass unchanged.
+- AC-F5 With the flag on, these keys still exist and work: `activity-scroll`, `activity-sections`, `activity-log-open`, `profile-edit`, `profile-pass-state`, `forgot-pin`, `recovery-link`, `recovery-check`, `pin-flow-pin-title`, `pin-flow-error`, `upgrade-submit`, `upgrade-manual-pay`, `trainer-checkin-scan`, `trainer-checkin-qr`, `trainer-appbar-qr`, `owner-checkin-primary`, `owner-date-filter`, `vendor-add-product`, `vendor-pending-banner`, and all `*-nav-*` keys.
+- AC-H16 Each of the 10 new hero files is ≤150 KB at 2× and has a `LICENSES.md` row (file, used on, source page, photographer, licence, crop, sizes, people).
+- AC-H17 Viewed at 100% at 360, 430 and 1280 wide, no new hero shows any part of a face (eyes, nose, mouth or chin). The `pin`, `upgrade`, `activityChallenges` and `trainer` rows in `LICENSES.md` describe the people visible (hands, arms, torso, legs) and say "no face in frame".
+- AC-H18 No two screens one navigation step apart show the same photo (the pairs in §26), except the PIN flow steps, which share `pin` by design.
+- AC-H19 On every addendum hero, no price, amount, date, days-left, visit count or gym count appears on the photo; QR codes, the PIN dots and keypad, plan and option cards, lists, filters and charts are on solid surfaces.
+- AC-H20 The pure-white test image check (AC-H3) passes for the `band` variant and for Profile's avatar ring (≥3:1).
+
+**A. Language**
+- AC-A10 The Language hero shows no Swahili tagline line in either locale ("Pamoja tuna nguvu" is absent from the screen and from the accessibility tree); no other line replaces it; the hero node reads "FitFlex Africa. Fitness without limits."; `FFPhotoHero` has no `secondLead` / `secondAccent`.
+
+**E. Profile**
+- AC-E1 Profile tab: transparent shell app bar over a `compact` hero with the `profile` photo, the avatar with a light ring, eyebrow "PROFILE" / "WASIFU", and the member's name as the headline, with no accent colour and no buttons on the hero.
+- AC-E2 The old profile card (avatar + name + badge) is gone; the plan badge is the first item on the solid sheet, followed by the state alert (when shown), Membership card and the settings tiles in today's order.
+- AC-E3 The name appears once on the screen.
+- AC-E4 Loading shows the skeleton headline and never "No pass yet"; offline with nothing loaded never shows "No pass yet" in the badge slot.
+- AC-E5 With no name available, the headline is "Member" / "Mwanachama" from `member.nameFallback`; no hardcoded `'Member'` remains in `member_profile_tab.dart` (F-9).
+- AC-E6 The app bar turns solid once the hero passes under it; icons are ≥3:1 throughout.
+- AC-E7 Screen reader order: app bar → hero node "Profile. {name}." (avatar not announced separately) → badge → alert → Membership card → tiles → Sign out.
+
+**G. PIN**
+- AC-G1 At 390×844, sign-in PIN: hero with the `pin` photo, eyebrow "VERIFICATION PIN" / "PIN YA UTHIBITISHO", headline "One last step." / "Hatua ya mwisho.", subline = the identifier typed on Sign in; the dots, keypad, Forgot PIN and recovery links are on the solid sheet, all visible without scrolling, OK key fully on screen.
+- AC-G2 Sign-up mode shows eyebrow "CREATE PIN" / "WEKA PIN" and "A PIN only you know." / "PIN unayoijua wewe tu.".
+- AC-G3 At 360×640, and at any size where the hero would leave less than 200px above the pinned content, the screen shows today's layout with no hero and the OK key is fully visible without scrolling.
+- AC-G4 At text scale 1.3 at 390×844, either the hero text fits without clipping or the screen falls back to the no-hero layout; it never clips text or pushes the keypad below the fold.
+- AC-G5 Keypad keys are ≥44px tall at every size (52px when the viewport is ≥844 tall); every key keeps its existing semantics label.
+- AC-G6 Desktop 1280×800: split layout; panel left with eyebrow, headline and the identifier; dots, keypad and links on the right, vertically centred.
+- AC-G7 Busy, wrong-PIN, too-many-tries and reset-required behave as today; the hero does not change in those states.
+- AC-G8 Register, Forgot PIN and PIN setup use the `pin` photo with the eyebrows and headlines in §22.2; on their code / contact steps, focusing the field at 360×640 scrolls the field and its button into view (hero scrolls away, never shrinks); on their choose-PIN step, the AC-G3 rule applies.
+- AC-G9 Focus order on PIN entry: back → prefs → hero node → show/hide → keys → Forgot PIN → recovery links.
+
+**I. Upgrade plan**
+- AC-I1 A member with an active pass and higher plans available sees a `band` hero (rounded 24px, inside the page padding, under the solid page app bar) with the `upgrade` photo, "UPGRADE PLAN", "Move up a level." / "Panda ngazi."; no subtitle under the app bar title.
+- AC-I2 No price, "+ amount", date or day count appears on the hero; current-plan and option cards, explain / late alerts, manual fields and the submit button are unchanged on the solid surface.
+- AC-I3 On the highest plan: headline "You're at the top." / "Uko kileleni."; the `upgrade.highest` alert is not shown; the current-plan card is.
+- AC-I4 Buy mode (no active pass, or the server says there is nothing to upgrade from): eyebrow "FITFLEX PASS", headline "One pass. Many gyms.", subline = `member.planBody`, shown once on the screen.
+- AC-I5 Pending pass payment: headline "One step to go."; the pending card is unchanged below.
+- AC-I6 While options load: eyebrow only on the hero, `FFSpinner` below (F-10). On a network error: retry message below; never the full-price list.
+- AC-I7 After a successful upgrade request the app goes to `/member` (unchanged).
+- AC-I8 Desktop 1280: rounded `panel` banner, text in the left half.
+
+**J. Activity**
+- AC-J1 Each section shows its own photo and headline: Today `activityToday` "Every step counts." / "Kila hatua ina thamani."; Training `activityTraining` "Train with a plan." / "Fanya mazoezi kwa mpango."; Challenges `activityChallenges` "Take on a challenge." / "Shiriki challenge."; Progress `activityProgress` "See how far you've come." / "Tazama ulipofika.". The four photos are different files.
+- AC-J2 Switching sections cross-fades the photo in ≤250ms and the headline in ≤200ms; with reduced motion on, the switch is instant (no intermediate frame shows both photos).
+- AC-J3 At text scale 1.0, switching sections does not change the hero height at 360, 390 or 430 wide, in either language.
+- AC-J4 At 390×844, 1.0×, both languages: the segmented control is fully visible with its bottom edge ≤440px from the top, and the first content card starts ≤470px from the top.
+- AC-J5 "Log activity" is on the hero as an `onPhoto` small button under exactly today's show condition; the old page header is gone; the segmented control and all charts, lists and cards are on the solid sheet.
+- AC-J6 Opening `/member/activity/progress` directly shows the Progress photo and headline on the first frame.
+- AC-J7 Switching sections never shows the navy placeholder after the tab has been open once (photos pre-cached).
+- AC-J8 Loading shows the photo, eyebrow and section headline with the spinner below; sample-data badge, empty states and the offline strip behave as today.
+- AC-J9 After a section change, keyboard focus stays on the segmented control and the hero node's label matches the new section.
+- AC-J10 Desktop 1280: rounded `panel` banner with Log activity; the shell app bar is solid.
+
+**K. Partner homes**
+- AC-K1 Trainer Home tab: `band` hero with the `trainer` photo, greeting + first name, "Ready to coach?" / "Tayari kufundisha?", subline `checkin.body`, primary "Scan gym QR" (`trainer-checkin-scan`), secondary "Show my QR" (`trainer-checkin-qr`); the old Gym check-in card is gone; the QR opens in its solid sheet **[device for scanning]**.
+- AC-K2 Trainer: other tabs (Clients, Shop, Gyms, Profile) have no hero; the not-verified notice is directly under the hero.
+- AC-K3 Vendor Products tab: `band` hero with the `vendor` photo, business name eyebrow (fallback "Vendor marketplace" / "Soko la muuzaji"), "Stock up. Sell more." / "Ongeza bidhaa. Uza zaidi.", primary "Add product".
+- AC-K4 Vendor: while the hero is visible the FAB is absent from the widget tree; after scrolling the hero away the FAB appears; at any moment exactly one widget has the key `vendor-add-product`.
+- AC-K5 Vendor pending approval: headline "Almost ready to sell." / "Unakaribia kuanza kuuza."; the pending banner card is unchanged directly below.
+- AC-K6 Vendor: no hero when staff is disabled, on the "no access" tab, or for staff who land on a section other than Products.
+- AC-K7 Owner Home: `band` hero with the `owner` photo, greeting + name (not repeated on the surface), "Keep your gym moving." / "Weka gym yako ikisonga.", primary "Check-in" (`owner-checkin-primary`) → scanner **[device for scanning]**; today's full-width Check-in button is gone.
+- AC-K8 Owner: the gym picker app bar stays solid; date filter, quick actions, metrics, chart, check-ins and tiles are on the solid surface in today's order; the gym name is not repeated below the hero.
+- AC-K9 Owner with no approved gym: headline "Welcome to FitFlex", no action, the unapproved card below.
+- AC-K10 Dark theme: accent word and primary button are Volt; light theme: accent `#17B26A` (≥24px, w800) and green primary; no Volt anywhere in light theme.
+- AC-K11 Desktop 1280: each partner hero is a rounded `panel` banner, height 220, text in the left half.
+- AC-K12 Every partner hero action is ≥44px tall, has a semantics label, and comes right after the hero node in focus order.
+
+---
+
+## 30. Open questions (addendum)
+
+| # | Question | Default if no answer |
+|---|---|---|
+| O-20 | "Pamoja tuna nguvu" is also the Home hero headline in Swahili when Home cannot load (offline / error), and the splash tagline. Remove it there too? | Language screen only, as asked. Home offline / error and the splash keep it until the owner says otherwise. |
+| O-21 | The Upgrade plan route also shows the **buy** list for members without a pass. Show the hero there too ("One pass. Many gyms."), or only when upgrading? | Show it in both modes (one screen, one look). |
+| O-22 | Vendor and trainer photos are stand-ins (no supplements shelf, no coach photo in the licensed folder). Source two more licensed people-free photos now, or wait for the own shoot? | Ship the stand-ins behind the flag; replace with the own shoot. |
+
+Known gaps still in view: legal texts remain drafts pending Tanzanian counsel; vendor settlement exists but has not been tried by hand; `PHOTO_HERO_UI` and the other flags stay off; all Swahili above awaits native review; camera scanning and real-device rendering are **[device]** checks.
