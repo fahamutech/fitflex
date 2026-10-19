@@ -1,6 +1,6 @@
 {
   "record": "2026-10-W1-C-members",
-  "version_note": "Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "version_note": "Template v2 (2026-10-20). Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
   "media": [
     "slides/C01.png",
     "slides/C02.png",
@@ -12,14 +12,14 @@
     "slides/C08.png"
   ],
   "altText": [
-    "Woman exercising in a gym; headline: One gym, one contract, stuck. There's a better way",
-    "Man texting on a phone with a mobile-money phone mock; text: Pay once with mobile money",
-    "Modern gym with a network of pins; text: Train at gyms across the network",
-    "Dumbbells with a shield and stars; text: Every gym is visited and scored before it joins",
-    "Businessman in an airport; text: Travelling for work? Your pass goes with you",
-    "Gym equipment with a QR code mock; text: Check in with a QR that refreshes every minute",
-    "Dumbbells with a phone mock; text: Book a trainer and buy gear in one app",
-    "Woman holding dumbbells with a speech bubble: Comment PASS. We'll DM you the link"
+    "Photo slide; text: One gym. One contract. Stuck.",
+    "Text slide; Pay once with mobile money. Rows: M-Pesa, Airtel Money, Tigo Pesa",
+    "Photo slide; text: Train at gyms across the network.",
+    "Text slide; Every gym is visited and scored before it joins.",
+    "Photo slide; text: Travelling for work? Your pass goes with you.",
+    "Text slide; Check in with a QR that refreshes every minute.",
+    "Text slide; Book a trainer and buy gear in one app.",
+    "Text slide; Want in? Comment PASS. We'll DM you the link."
   ],
   "aiGenerated": false,
   "variants": {

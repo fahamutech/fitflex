@@ -1,28 +1,15 @@
 <!doctype html><html><head><meta charset="utf-8"><style>
- @font-face{font-family:Inter;font-weight:400 900;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-900.ttf")}
- @font-face{font-family:Inter;font-weight:700;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-700.ttf")}
- @font-face{font-family:Inter;font-weight:800;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-800.ttf")}
- *{box-sizing:border-box;margin:0}
- body{width:1080px;height:1350px;background:#1F7A3A;color:#FFFFFF;font-family:Inter,sans-serif;display:flex;flex-direction:column;padding:70px 80px 60px;overflow:hidden}
- .top{display:flex;justify-content:space-between;align-items:center;height:70px}
- .brand{display:flex;align-items:center;gap:16px;font-weight:800;font-size:34px;letter-spacing:-.5px}
- .brand img{width:62px;height:62px;border-radius:16px}
- .n{font-weight:800;font-size:30px;opacity:.7}
- h1{font-weight:900;font-size:96px;line-height:1.02;letter-spacing:-3px;margin-top:44px}
- h1 em,.s em{font-style:normal;color:#FDBE34}
- .s{font-weight:700;font-size:48px;line-height:1.15;margin-top:22px;letter-spacing:-1px}
- .s b{font-weight:900;color:#FDBE34}
- .photo{flex:1;margin-top:30px;border-radius:44px;position:relative;overflow:hidden;min-height:0;background:#222 url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/photos/pexels-33832204.jpg") 50% 30%/cover no-repeat}
- .photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,.35));}
- .ov{position:absolute;z-index:2}
- .ov svg{width:100%;height:auto;display:block;filter:drop-shadow(0 12px 28px rgba(0,0,0,.35))}
- .ov.cta{left:4%;right:4%;bottom:4%}
- .ov:not(.cta){right:3%;bottom:4%;width:58%}
- .ov.vetted,.ov.network{width:46%}
- .foot{height:40px;margin-top:22px;font-weight:700;font-size:28px;opacity:.75;display:flex;justify-content:space-between}
- </style></head><body>
- <div class="top"><div class="brand">FitFlex Africa</div><div class="n">3/8</div></div>
- <h1>“Personal trainer” says nothing.</h1><div class="s">Say <b>who you help</b> and why.</div>
- <div class="photo"><div class="ov chat"><svg viewBox="0 0 800 600"><g><rect x="60" y="50" width="520" height="170" rx="36" fill="#155A2A"/><path d="M130 216 l-10 56 l70 -56z" fill="#155A2A"/></g><text x="320" y="155" font-family="Inter" font-weight="700" font-size="52" fill="#FFFFFF" text-anchor="middle">“Personal trainer”</text><g><rect x="220" y="300" width="520" height="210" rx="36" fill="#FDBE34"/><path d="M650 506 l30 56 l-70 -56z" fill="#FDBE34"/></g><text x="480" y="385" font-family="Inter" font-weight="800" font-size="38" fill="#0B192C" text-anchor="middle">“I help desk workers</text><text x="480" y="445" font-family="Inter" font-weight="800" font-size="38" fill="#0B192C" text-anchor="middle">beat back pain”</text><g><circle cx="700" cy="300" r="34" fill="#FF9800"/><path d="M684.7 300 L696.6 312.92 L717 288.1" stroke="#0B192C" stroke-width="7.48" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g></svg></div></div>
- <div class="foot"><span>Swipe →</span><span>@fitflex.africa</span></div>
- </body></html>
+ @font-face{font-family:Inter;font-weight:700;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-700.ttf")}@font-face{font-family:Inter;font-weight:800;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-800.ttf")}@font-face{font-family:Inter;font-weight:900;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-900.ttf")}
+ @font-face{font-family:Mono;font-weight:700;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/JetBrainsMono-700.ttf")}@font-face{font-family:Mono;font-weight:500;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/JetBrainsMono-500.ttf")}
+ *{box-sizing:border-box;margin:0}body{width:1080px;height:1350px;overflow:hidden;font-family:Inter,sans-serif;position:relative;background:#020617;color:#F1F5F9}
+ .eyebrow{position:absolute;top:80px;left:72px;font-family:Mono;font-weight:700;font-size:26px;letter-spacing:.18em;text-transform:uppercase;color:#C8F04A}
+ .logo{position:absolute;top:64px;right:72px;width:72px;height:72px;border-radius:18px}
+ .handle{position:absolute;bottom:60px;right:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:#64748B}
+ h1{font-weight:900;line-height:.94;letter-spacing:-.045em}h1 em{font-style:normal;color:#C8F04A}
+ .sub{font-size:36px;font-weight:700;color:#CBD5E1;line-height:1.2}
+ .ph{position:absolute;inset:0;background:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/photos/pexels-undefined.jpg") 50% 30%/cover}
+ .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,6,23,.35) 0%,rgba(2,6,23,.6) 45%,rgba(2,6,23,.97) 100%)}
+ .glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(200,240,74,.2),rgba(200,240,74,0) 65%)}
+ .row{display:flex;align-items:center;gap:28px;padding:28px 0;border-bottom:2px solid #1E293B}.row .bar{width:14px;height:64px;border-radius:7px}.row .t{font-weight:900;font-size:70px;letter-spacing:-2px}.row .tag{margin-left:auto;font-family:Mono;font-size:22px;letter-spacing:.1em;color:#64748B;text-transform:uppercase}
+ .foot{position:absolute;left:72px;bottom:112px;font-family:Mono;font-size:22px;letter-spacing:.1em;color:#64748B;text-transform:uppercase}
+ </style></head><body><div class="glow" style="top:650px;left:-250px"></div><div class="eyebrow">Grow your business · 03/08</div><h1 style="position:absolute;left:72px;right:72px;top:300px;font-size:128px">“Personal trainer” says <em>nothing.</em></h1><div class="sub" style="position:absolute;left:72px;right:72px;bottom:130px;max-width:820px">Say who you help, and with what.</div><div style="position:absolute;bottom:60px;left:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:#64748B">swipe →</div><div class="handle">@fitflex.africa</div></body></html>

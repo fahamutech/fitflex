@@ -1,28 +1,15 @@
 <!doctype html><html><head><meta charset="utf-8"><style>
- @font-face{font-family:Inter;font-weight:400 900;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-900.ttf")}
- @font-face{font-family:Inter;font-weight:700;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-700.ttf")}
- @font-face{font-family:Inter;font-weight:800;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-800.ttf")}
- *{box-sizing:border-box;margin:0}
- body{width:1080px;height:1350px;background:#0B192C;color:#FFFFFF;font-family:Inter,sans-serif;display:flex;flex-direction:column;padding:70px 80px 60px;overflow:hidden}
- .top{display:flex;justify-content:space-between;align-items:center;height:70px}
- .brand{display:flex;align-items:center;gap:16px;font-weight:800;font-size:34px;letter-spacing:-.5px}
- .brand img{width:62px;height:62px;border-radius:16px}
- .n{font-weight:800;font-size:30px;opacity:.7}
- h1{font-weight:900;font-size:84px;line-height:1.02;letter-spacing:-3px;margin-top:44px}
- h1 em,.s em{font-style:normal;color:#FF9800}
- .s{font-weight:700;font-size:48px;line-height:1.15;margin-top:22px;letter-spacing:-1px}
- .s b{font-weight:900;color:#FF9800}
- .photo{flex:1;margin-top:30px;border-radius:44px;position:relative;overflow:hidden;min-height:0;background:#222 url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/photos/pexels-3916766.jpg") 50% 50%/cover no-repeat}
- .photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,.35));}
- .ov{position:absolute;z-index:2}
- .ov svg{width:100%;height:auto;display:block;filter:drop-shadow(0 12px 28px rgba(0,0,0,.35))}
- .ov.cta{left:4%;right:4%;bottom:4%}
- .ov:not(.cta){right:3%;bottom:4%;width:58%}
- .ov.vetted,.ov.network{width:46%}
- .foot{height:40px;margin-top:22px;font-weight:700;font-size:28px;opacity:.75;display:flex;justify-content:space-between}
- </style></head><body>
- <div class="top"><div class="brand">FitFlex Africa</div><div class="n">4/8</div></div>
- <h1>Every gym is visited and <em>scored</em> before it joins.</h1>
- <div class="photo"><div class="ov vetted"><svg viewBox="0 0 800 600"><path d="M400 40 L660 130 V330 C660 450 540 520 400 570 C260 520 140 450 140 330 V130Z" fill="#16203A"/><path d="M400 90 L610 160 V330 C610 420 520 475 400 515 C280 475 190 420 190 330 V160Z" fill="#1F7A3A"/><polygon points="280.0,224.0 286.9,240.5 304.7,242.0 291.1,253.6 295.3,271.0 280.0,261.7 264.7,271.0 268.9,253.6 255.3,242.0 273.1,240.5" fill="#FF9800"/><polygon points="340.0,224.0 346.9,240.5 364.7,242.0 351.1,253.6 355.3,271.0 340.0,261.7 324.7,271.0 328.9,253.6 315.3,242.0 333.1,240.5" fill="#FF9800"/><polygon points="400.0,224.0 406.9,240.5 424.7,242.0 411.1,253.6 415.3,271.0 400.0,261.7 384.7,271.0 388.9,253.6 375.3,242.0 393.1,240.5" fill="#FF9800"/><polygon points="460.0,224.0 466.9,240.5 484.7,242.0 471.1,253.6 475.3,271.0 460.0,261.7 444.7,271.0 448.9,253.6 435.3,242.0 453.1,240.5" fill="#FF9800"/><polygon points="520.0,224.0 526.9,240.5 544.7,242.0 531.1,253.6 535.3,271.0 520.0,261.7 504.7,271.0 508.9,253.6 495.3,242.0 513.1,240.5" fill="#FF9800"/><g><circle cx="400" cy="390" r="60" fill="#FFFFFF"/><path d="M373 390 L394 412.8 L430 369" stroke="#0B192C" stroke-width="13.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g></svg></div></div>
- <div class="foot"><span>Swipe →</span><span>@fitflex.africa</span></div>
- </body></html>
+ @font-face{font-family:Inter;font-weight:700;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-700.ttf")}@font-face{font-family:Inter;font-weight:800;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-800.ttf")}@font-face{font-family:Inter;font-weight:900;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/Inter-900.ttf")}
+ @font-face{font-family:Mono;font-weight:700;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/JetBrainsMono-700.ttf")}@font-face{font-family:Mono;font-weight:500;src:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/fonts/JetBrainsMono-500.ttf")}
+ *{box-sizing:border-box;margin:0}body{width:1080px;height:1350px;overflow:hidden;font-family:Inter,sans-serif;position:relative;background:#020617;color:#F1F5F9}
+ .eyebrow{position:absolute;top:80px;left:72px;font-family:Mono;font-weight:700;font-size:26px;letter-spacing:.18em;text-transform:uppercase;color:#C8F04A}
+ .logo{position:absolute;top:64px;right:72px;width:72px;height:72px;border-radius:18px}
+ .handle{position:absolute;bottom:60px;right:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:#64748B}
+ h1{font-weight:900;line-height:.94;letter-spacing:-.045em}h1 em{font-style:normal;color:#C8F04A}
+ .sub{font-size:36px;font-weight:700;color:#CBD5E1;line-height:1.2}
+ .ph{position:absolute;inset:0;background:url("file:///Users/chollo/FitFlex-worktrees/social-phase1/social/brand/photos/pexels-undefined.jpg") 50% 30%/cover}
+ .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,6,23,.35) 0%,rgba(2,6,23,.6) 45%,rgba(2,6,23,.97) 100%)}
+ .glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(200,240,74,.2),rgba(200,240,74,0) 65%)}
+ .row{display:flex;align-items:center;gap:28px;padding:28px 0;border-bottom:2px solid #1E293B}.row .bar{width:14px;height:64px;border-radius:7px}.row .t{font-weight:900;font-size:70px;letter-spacing:-2px}.row .tag{margin-left:auto;font-family:Mono;font-size:22px;letter-spacing:.1em;color:#64748B;text-transform:uppercase}
+ .foot{position:absolute;left:72px;bottom:112px;font-family:Mono;font-size:22px;letter-spacing:.1em;color:#64748B;text-transform:uppercase}
+ </style></head><body><div class="glow" style="top:650px;left:-250px"></div><div class="eyebrow">Find & train · 04/08</div><h1 style="position:absolute;left:72px;right:72px;top:300px;font-size:108px">Every gym is visited and <em>scored</em> before it joins.</h1><div style="position:absolute;bottom:60px;left:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:#64748B">swipe →</div><div class="handle">@fitflex.africa</div></body></html>

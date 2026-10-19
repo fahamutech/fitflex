@@ -17,16 +17,18 @@ State: **brand_checked** (brand review passed 2026-10-16; owner approval pending
 
 ## Slides
 
-| # | Theme | Text | Photo |
+Template v2 (2026-10-20): deep slate ground, Volt accent word, mono eyebrow "Run a better gym", photo-scrim slides where the photo carries, list slide for proof, keyword CTA. Previous v1 spec: `source/slides-v1.json`.
+
+| # | Kind | Text | Photo |
 |---|---|---|---|
-| 1 | navy | **You're counting the wrong members.** | pexels-36510739 |
-| 2 | cream | Sign-ups tell you who joined. Visits tell you who **stayed.** (bars overlay) | pexels-34043570 |
-| 3 | orange | Most small gyms track visits in a notebook. Or not at all. | pexels-10376250 |
-| 4 | navy | Can't see visits? You can't see who's leaving. | pexels-4716814 |
-| 5 | green | Empty off-peak hours aren't a mystery. They're a **data problem.** (chart overlay) | pexels-12250460 |
-| 6 | cream | A dashboard shows check-ins, busy hours and who stopped coming. (dashboard overlay) | pexels-9545909 |
-| 7 | navy | And it brings new members to your door. | pexels-6604154 |
-| 8 | orange | **Own a gym in Dar es Salaam?** Comment **PARTNER**. We'll DM you how FitFlex works. | pexels-8612491 |
+| 1 | photo | You're counting the wrong members. Sign-ups aren't the number. | pexels-34043570 |
+| 2 | type | Sign-ups tell you who joined. Visits tell you who stayed. | none |
+| 3 | photo | Most small gyms track visits in a notebook. Or not at all. | pexels-10376250 |
+| 4 | type | Can't see visits? You can't see who's leaving. | none |
+| 5 | list | Empty off-peak hours aren't a mystery. Rows: Check-ins today, Visit trends, Slipping · at risk, Stopped coming | none |
+| 6 | type | A dashboard shows check-ins, visit trends and who stopped coming. | none |
+| 7 | photo | And it brings new members to your door. | pexels-6604154 |
+| 8 | cta | Own a gym in Dar es Salaam? Comment PARTNER. We'll DM you how FitFlex works. | none |
 
 Source: `source/slides.json`; render with `node social/tools/render-carousel.js social/content/2026-10-W1-A-owners --png`.
 

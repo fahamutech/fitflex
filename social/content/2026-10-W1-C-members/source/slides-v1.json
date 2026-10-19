@@ -1,0 +1,64 @@
+{
+  "record": "2026-10-W1-C-members",
+  "format": "ig_feed_portrait",
+  "prefix": "C",
+  "handle": "@fitflex.africa",
+  "slides": [
+    {
+      "t": "navy",
+      "h": "One gym. One contract. <em>Stuck.</em>",
+      "s": "There’s a better way.",
+      "ph": 6388369,
+      "pos": "50% 40%"
+    },
+    {
+      "t": "cream",
+      "h": "Pay once with <em>mobile money.</em>",
+      "ph": 5647574,
+      "pos": "50% 35%",
+      "ov": "mobilemoney"
+    },
+    {
+      "t": "green",
+      "h": "Train at gyms across the <em>network.</em>",
+      "ph": 29526371,
+      "pos": "50% 50%",
+      "ov": "network"
+    },
+    {
+      "t": "navy",
+      "h": "Every gym is visited and <em>scored</em> before it joins.",
+      "ph": 3916766,
+      "pos": "50% 50%",
+      "ov": "vetted"
+    },
+    {
+      "t": "orange",
+      "h": "Travelling for work? Your pass <em>goes with you.</em>",
+      "ph": 4173217,
+      "pos": "50% 30%"
+    },
+    {
+      "t": "cream",
+      "h": "Check in with a QR that <em>refreshes</em> every minute.",
+      "ph": 9545914,
+      "pos": "50% 50%",
+      "ov": "qr"
+    },
+    {
+      "t": "navy",
+      "h": "Book a trainer and buy gear in <em>one app.</em>",
+      "ph": 5312212,
+      "pos": "50% 50%",
+      "ov": "appfeat"
+    },
+    {
+      "t": "green",
+      "h": "Want <em>in?</em>",
+      "kw": "PASS",
+      "cta": "We’ll DM you the link.",
+      "ph": 6496099,
+      "pos": "50% 30%"
+    }
+  ]
+}

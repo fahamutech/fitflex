@@ -5,6 +5,8 @@
 //   node social/tools/render-carousel.js social/content/<record-id> [--png]
 //
 // Logo mark appears on the first and last slide only (brand-block rule; owner 2026-10-16).
+// Template v2 (spec.style === 'v2'): type-first slides on deep slate with Volt accent, photo-scrim slides
+// where the photo carries, list slides for proof, a giant-keyword CTA. Owner choice 2026-10-19 (directions 2 + 1).
 // Writes source/NN.html always, and slides/NN.png when --png is given (uses the
 // local Google Chrome in headless mode). Fonts, logo and photos come from
 // social/brand/, so the repo renders on its own without the app submodules.
@@ -100,6 +102,39 @@ function html(i, sl) {
  </body></html>`;
 }
 
+
+// ---- Template v2 (owner choice 2026-10-19: type-first base with photo-scrim slides) ----
+const V2 = (() => { const c = tokens.color || {}; const pick = (...ps) => { for (const p of ps) { const v = p.split('.').reduce((o, k) => (o && o[k] !== undefined ? o[k] : undefined), c); if (v) return v; } return null; };
+  return { volt: pick('v2.volt', 'accents.volt', 'volt') || '#C8F04A', onVolt: pick('v2.onVolt', 'accents.onVolt', 'onVolt') || '#020617', fuel: pick('v2.fuelOnDark', 'accents.fuelOnDark', 'fuelOnDark') || '#FF8A6B', ground: '#020617', ink: '#F1F5F9', body: '#CBD5E1', muted: '#94A3B8', quiet: '#64748B', line: '#1E293B' }; })();
+function htmlV2(i, sl) {
+  const n = slides.length; const kind = sl.kind || 'type'; const eyebrow = `${spec.eyebrow || ''} · ${String(i + 1).padStart(2, '0')}/${String(n).padStart(2, '0')}`;
+  const logo = (i === 0 || i === n - 1) ? `<img class="logo" src="${LOGO}">` : '';
+  const hs = (sl.h || '').replace(/<[^>]+>/g, '').length; const hsize = sl.size || (hs < 26 ? 150 : hs < 40 ? 128 : hs < 60 ? 108 : 92);
+  const head = `<!doctype html><html><head><meta charset="utf-8"><style>
+ @font-face{font-family:Inter;font-weight:700;src:url("${FONTS}/Inter-700.ttf")}@font-face{font-family:Inter;font-weight:800;src:url("${FONTS}/Inter-800.ttf")}@font-face{font-family:Inter;font-weight:900;src:url("${FONTS}/Inter-900.ttf")}
+ @font-face{font-family:Mono;font-weight:700;src:url("${FONTS}/JetBrainsMono-700.ttf")}@font-face{font-family:Mono;font-weight:500;src:url("${FONTS}/JetBrainsMono-500.ttf")}
+ *{box-sizing:border-box;margin:0}body{width:${W}px;height:${H}px;overflow:hidden;font-family:Inter,sans-serif;position:relative;background:${V2.ground};color:${V2.ink}}
+ .eyebrow{position:absolute;top:80px;left:72px;font-family:Mono;font-weight:700;font-size:26px;letter-spacing:.18em;text-transform:uppercase;color:${V2.volt}}
+ .logo{position:absolute;top:64px;right:72px;width:72px;height:72px;border-radius:18px}
+ .handle{position:absolute;bottom:60px;right:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${V2.quiet}}
+ h1{font-weight:900;line-height:.94;letter-spacing:-.045em}h1 em{font-style:normal;color:${V2.volt}}
+ .sub{font-size:36px;font-weight:700;color:${V2.body};line-height:1.2}
+ .ph{position:absolute;inset:0;background:url("${PH}${sl.ph}.jpg") ${sl.pos || '50% 30%'}/cover}
+ .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,6,23,.35) 0%,rgba(2,6,23,.6) 45%,rgba(2,6,23,.97) 100%)}
+ .glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(200,240,74,.2),rgba(200,240,74,0) 65%)}
+ .row{display:flex;align-items:center;gap:28px;padding:28px 0;border-bottom:2px solid ${V2.line}}.row .bar{width:14px;height:64px;border-radius:7px}.row .t{font-weight:900;font-size:70px;letter-spacing:-2px}.row .tag{margin-left:auto;font-family:Mono;font-size:22px;letter-spacing:.1em;color:${V2.quiet};text-transform:uppercase}
+ .foot{position:absolute;left:72px;bottom:112px;font-family:Mono;font-size:22px;letter-spacing:.1em;color:${V2.quiet};text-transform:uppercase}
+ </style></head><body>`;
+  let body = '';
+  if (kind === 'photo') body = `<div class="ph"></div><div class="scrim"></div><div class="eyebrow">${eyebrow}</div>${logo}<h1 style="position:absolute;left:72px;right:72px;bottom:${sl.s ? 190 : 150}px;font-size:${Math.min(hsize, 128)}px">${sl.h}</h1>${sl.s ? `<div class="sub" style="position:absolute;left:72px;right:72px;bottom:110px">${sl.s}</div>` : ''}`;
+  else if (kind === 'list') { const tone = t => t === 'volt' ? V2.volt : t === 'fuel' ? V2.fuel : '#334155'; const rows = (sl.rows || []).map(r => `<div class="row"><div class="bar" style="background:${tone(r.tone)}"></div><div class="t" style="color:${r.tone === 'fuel' ? V2.fuel : r.tone === 'muted' ? V2.body : V2.ink}">${r.t}</div>${r.tag ? `<div class="tag">${r.tag}</div>` : ''}</div>`).join('');
+    body = `<div class="glow" style="top:-500px;left:400px"></div><div class="eyebrow">${eyebrow}</div>${logo}<h1 style="position:absolute;left:72px;right:72px;top:170px;font-size:${Math.min(hsize, 100)}px">${sl.h}</h1><div style="position:absolute;left:72px;right:72px;top:${sl.top || 540}px">${rows}</div>${sl.note ? `<div class="foot">${sl.note}</div>` : ''}`; }
+  else if (kind === 'cta') body = `<div class="glow" style="top:300px;left:100px"></div><div class="eyebrow">${eyebrow}</div>${logo}<div style="position:absolute;left:72px;right:72px;top:300px;font-size:64px;font-weight:800;color:${V2.body};letter-spacing:-2px;line-height:1.1">${sl.h}<br>Comment</div><div style="position:absolute;left:60px;right:40px;top:540px;font-weight:900;font-size:${sl.kwSize || 210}px;letter-spacing:-.05em;color:${V2.volt};line-height:1">${sl.kw}</div><div class="sub" style="position:absolute;left:72px;right:72px;bottom:200px;color:${V2.ink}">${sl.cta || ''}</div>`;
+  else body = `<div class="glow" style="top:650px;left:-250px"></div><div class="eyebrow">${eyebrow}</div>${logo}<h1 style="position:absolute;left:72px;right:72px;top:300px;font-size:${hsize}px">${sl.h}</h1>${sl.s ? `<div class="sub" style="position:absolute;left:72px;right:72px;bottom:130px;max-width:820px">${sl.s}</div>` : ''}`;
+  const swipe = i < n - 1 ? `<div style="position:absolute;bottom:60px;left:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${V2.quiet}">swipe →</div>` : '';
+  return head + body + swipe + `<div class="handle">${handle}</div></body></html>`;
+}
+
 const srcDir = path.join(contentDir, 'source');
 const outDir = path.join(contentDir, 'slides');
 fs.mkdirSync(outDir, { recursive: true });
@@ -107,7 +142,7 @@ const chrome = process.env.CHROME_BIN || '/Applications/Google Chrome.app/Conten
 slides.forEach((sl, i) => {
   const nn = String(i + 1).padStart(2, '0');
   const f = path.join(srcDir, `${spec.prefix || ''}${nn}.html`);
-  fs.writeFileSync(f, html(i, sl));
+  fs.writeFileSync(f, spec.style === 'v2' ? htmlV2(i, sl) : html(i, sl));
   if (wantPng) {
     const png = path.join(outDir, `${spec.prefix || ''}${nn}.png`);
     execFileSync(chrome, ['--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run', `--window-size=${W},${H}`, `--screenshot=${png}`, `file://${f}`], { stdio: 'ignore' });

@@ -1,64 +1,76 @@
 {
   "record": "2026-10-W1-A-owners",
+  "style": "v2",
   "format": "ig_feed_portrait",
   "prefix": "A",
   "handle": "@fitflex.africa",
+  "eyebrow": "Run a better gym",
   "slides": [
     {
-      "t": "navy",
+      "kind": "photo",
       "h": "You’re counting the <em>wrong</em> members.",
-      "ph": 36510739,
-      "pos": "50% 40%"
-    },
-    {
-      "t": "cream",
-      "h": "Sign-ups tell you who <em>joined.</em>",
-      "s": "Visits tell you who <b>stayed.</b>",
+      "s": "Sign-ups aren’t the number.",
       "ph": 34043570,
-      "pos": "50% 30%",
-      "ov": "bars"
+      "pos": "50% 30%"
     },
     {
-      "t": "orange",
+      "kind": "type",
+      "h": "Sign-ups tell you who <em>joined.</em>",
+      "s": "Visits tell you who stayed."
+    },
+    {
+      "kind": "photo",
       "h": "Most small gyms track visits in a <em>notebook.</em>",
       "s": "Or not at all.",
       "ph": 10376250,
       "pos": "50% 40%"
     },
     {
-      "t": "navy",
-      "h": "Can’t see visits? You can’t see who’s <em>leaving.</em>",
-      "ph": 4716814,
-      "pos": "50% 50%"
+      "kind": "type",
+      "h": "Can’t see visits? You can’t see who’s <em>leaving.</em>"
     },
     {
-      "t": "green",
-      "h": "Empty off-peak hours aren’t a mystery.",
-      "s": "They’re a <b>data problem.</b>",
-      "ph": 12250460,
-      "pos": "50% 50%",
-      "ov": "chartgap"
+      "kind": "list",
+      "h": "Empty off-peak hours aren’t a <em>mystery.</em>",
+      "rows": [
+        {
+          "t": "Check-ins today",
+          "tag": "live",
+          "tone": "muted"
+        },
+        {
+          "t": "Visit trends",
+          "tag": "by week",
+          "tone": "volt"
+        },
+        {
+          "t": "Slipping · at risk",
+          "tag": "engagement",
+          "tone": "volt"
+        },
+        {
+          "t": "Stopped coming",
+          "tag": "act now",
+          "tone": "fuel"
+        }
+      ],
+      "note": "The owner dashboard · FitFlex app"
     },
     {
-      "t": "cream",
-      "h": "A dashboard shows check-ins, busy hours and who <em>stopped coming.</em>",
-      "ph": 9545909,
-      "pos": "50% 50%",
-      "ov": "dashboard"
+      "kind": "type",
+      "h": "A dashboard shows check-ins, visit trends and who <em>stopped coming.</em>"
     },
     {
-      "t": "navy",
+      "kind": "photo",
       "h": "And it brings <em>new members</em> to your door.",
       "ph": 6604154,
       "pos": "50% 30%"
     },
     {
-      "t": "orange",
-      "h": "Own a gym in <em>Dar es Salaam?</em>",
+      "kind": "cta",
+      "h": "Own a gym in Dar es Salaam?",
       "kw": "PARTNER",
-      "cta": "We’ll DM you how FitFlex works.",
-      "ph": 8612491,
-      "pos": "50% 40%"
+      "cta": "We’ll DM you how FitFlex works."
     }
   ]
 }
