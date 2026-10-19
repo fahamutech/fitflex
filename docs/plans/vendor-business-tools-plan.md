@@ -234,7 +234,8 @@ Allowed fields:
 - paymentStatus and paymentMethod; deliveryMethod; the buyer's order note.
 - `pickupGym {id, name}`.
 - `buyer {customerId (vendor-scoped), displayName}`.
-- While the vendor's own fulfilment is open (paid, not cancelled) and for 7 days after delivery (O-3) — and only with `VENDOR_ORDER_BUYER_CONTACT`: `buyer.phone` and `deliveryAddress`.
+- While the vendor's own fulfilment is open (paid, not cancelled) and for 7 days after delivery (O-3): `deliveryAddress` (no flag — live app builds need it to deliver; decided 2026-10-19), and, only with `VENDOR_ORDER_BUYER_CONTACT`, `buyer.phone` and `buyer.contactVisibleUntil`.
+- Short reference: `shortRef` (last 6 characters of the order id, uppercase).
 
 Never shown: buyerId, buyerRole, email, paymentReference, other vendors' lines or totals, older lines without a vendorId, internal fields.
 Walk-in customers: entered and owned by the vendor; FitFlex staff see them only for support/legal (to be written into vendor terms — draft, counsel).
