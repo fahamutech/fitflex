@@ -118,6 +118,7 @@ Rules:
 6. **Featured** — title depends on role (§5.2).
 7. **Best sellers**.
 8. **Recommended for you** (personalised) or **Popular with …** (cold start / opted out).
+8a. *(Added 2026-10-20, Phase 1 as built)* **Essentials**, **Recently viewed**, **Deals** and **New arrivals** rails, in that order, each only when it has at least 4 eligible products. New arrivals header icon `Icons.fiber_new_outlined`; Why reason `new_arrival` ("Recently added to the shop" / "Imeongezwa dukani hivi karibuni", SW for native review).
 9. "Browse all products" ghost button → Results view, no filter.
 10. Sticky **cart bar** above the bottom nav while the cart has items (replaces the in-list checkout button on the home; the Results view keeps today's button).
 
@@ -250,7 +251,7 @@ The whole card opens product details (existing `_openProduct` sheet). The cart b
 - The setting is **per account, across roles** (D-2).
 
 ### 8.3 What the reasons may say (closed list)
-`role_context`, `popular_with_role`, `bought_category {category}`, `bought_product {productName}`, `profile_gender` (only per DD-11), `delivers_to_area`, `featured_disclosure`, `flash_sale_seller_discount`, `best_sellers_30d`. Anything else falls back to the generic "Suggested from what's popular on FitFlex." "Near you" is **not** allowed until the distance is computed from the buyer (P-4).
+`role_context`, `popular_with_role`, `bought_category {category}`, `bought_product {productName}`, `profile_gender` (only per DD-11), `delivers_to_area`, `featured_disclosure`, `flash_sale_seller_discount`, `best_sellers_30d`, and (added 2026-10-20 to match the Phase 1 backend) `profile_goal`, `trainer_specialty`, `recently_viewed`, `seller_discount`, `new_arrival`, `generic`. Anything else falls back to the generic "Suggested from what's popular on FitFlex." "Near you" is **not** allowed until the distance is computed from the buyer (P-4).
 
 ### 8.4 Settings entry points
 - **Member:** a new `FFActionTile` on `/member/privacy` (between Message preferences and Activity sharing): icon `Icons.storefront_outlined`, title "Shop suggestions", subtitle "Personalised" / "Off". It opens the same switch in an `FFSheet`.
@@ -330,14 +331,14 @@ An unknown server key uses the server's full name (2 lines, ellipsis).
 | `shop.home.endsInDays` | Ends in {n} days | Inaisha baada ya siku {n} | |
 | `shop.home.endsInOneDay` | Ends in 1 day | Inaisha baada ya siku 1 | |
 | `shop.home.saleEnded` | Sale ended | Ofa imeisha | |
-| `shop.home.viewAll` | View all | Ona zote | |
+| `shop.home.viewAll` | View all | Tazama zote | |
 | `shop.home.featuredMember` | Featured gear | Vifaa vilivyoangaziwa | +50% |
 | `shop.home.featuredTrainer` | Featured coaching gear | Vifaa vya trainer vilivyoangaziwa | +45%, 2 lines on phone |
 | `shop.home.featuredOwner` | Featured equipment | Vifaa vya gym vilivyoangaziwa | +55% |
 | `shop.home.bestSellers` | Best sellers | Zinazouzwa zaidi | +35% |
 | `shop.home.recommended` | Recommended for you | Zilizopendekezwa kwako | +15% |
 | `shop.home.popularMember` | Popular with members | Maarufu kwa wanachama | |
-| `shop.home.popularTrainer` | Popular with trainers | Maarufu kwa wakufunzi | |
+| `shop.home.popularTrainer` | Popular with trainers | Maarufu kwa ma-trainer | |
 | `shop.home.popularOwner` | Popular with gym owners | Maarufu kwa wamiliki wa gym | +25% |
 | `shop.home.popularAll` | Popular in the shop | Maarufu dukani | |
 | `shop.home.allProducts` | All products | Bidhaa zote | |
@@ -383,7 +384,7 @@ An unknown server key uses the server's full name (2 lines, ellipsis).
 | `shop.why.roleMember` | You're shopping as a member. | Unanunua kama mwanachama. |
 | `shop.why.roleTrainer` | You're shopping as a trainer. | Unanunua kama mkufunzi. |
 | `shop.why.roleOwner` | You're shopping as a gym owner. | Unanunua kama mmiliki wa gym. |
-| `shop.why.popularWithRole` | It's popular with others shopping in this role. | Ni maarufu kwa wengine wanaonunua katika jukumu hili. |
+| `shop.why.popularWithRole` | It's popular with others shopping in this role. | Ni maarufu kwa wengine wanaonunua katika nafasi hii. |
 | `shop.why.boughtCategory` | You've bought {category} before. | Uliwahi kununua {category}. |
 | `shop.why.boughtProduct` | Suggested because you bought {product}. | Imependekezwa kwa sababu ulinunua {product}. |
 | `shop.why.gender` | The gender in your profile. | Jinsia uliyoweka kwenye wasifu wako. |
@@ -416,7 +417,7 @@ Check: `shop.why.featured` quotes the Swahili "Sponsored" label. It must match t
 | `shop.a11y.countdown` | Sale ends in {h} hours {m} minutes | Ofa inaisha baada ya saa {h} na dakika {m} |
 | `shop.a11y.countdownMinutes` | Sale ends in {m} minutes | Ofa inaisha baada ya dakika {m} |
 | `shop.a11y.category` | {category}, category | Aina: {category} |
-| `shop.a11y.viewAll` | View all, {section} | Ona zote, {section} |
+| `shop.a11y.viewAll` | View all, {section} | Tazama zote, {section} |
 | `shop.a11y.showMore` / `showPrevious` | Show more, {section} / Show previous, {section} | Onyesha zaidi, {section} / Onyesha zilizotangulia, {section} |
 | `shop.a11y.cartBar` | View cart, {count} items, total {total} | Tazama kikapu, bidhaa {count}, jumla {total} |
 
