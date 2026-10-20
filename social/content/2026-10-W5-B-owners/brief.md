@@ -1,6 +1,6 @@
 # 2026-10-W5-B-owners — "Dar members don't come back for the machines."
 
-State: **drafted** (brand review requested; owner approval pending). Record: `social/data/ideas.jsonl`.
+State: **brand_checked** (brand review passed 2026-10-20, 15 of 15; owner approval pending). Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
@@ -70,6 +70,6 @@ Comment **PARTNER** → the owner replies by DM himself (decided 2026-10-20). On
 
 ## Checks before approval
 
-- [ ] Brand review (social-brand-reviewer)
+- [x] Brand review (social-brand-reviewer): pass 2026-10-20, first try
 - [ ] Owner comfortable with the TANESCO mention and with "Not “come back tomorrow with cash”" as tone
 - [ ] Confirm the vetting rubric still weighs amenities, facility and staffing (glossary) before claiming "scores every gym on all of this"

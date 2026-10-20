@@ -119,7 +119,7 @@ function htmlV2(i, sl) {
  .handle{position:absolute;bottom:60px;right:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${V2.quiet}}
  h1{font-weight:900;line-height:.94;letter-spacing:-.045em}h1 em{font-style:normal;color:${V2.volt}}
  .sub{font-size:36px;font-weight:700;color:${V2.body};line-height:1.2}
- .ph{position:absolute;inset:0;background:url("${PH}${sl.ph}.jpg") ${sl.pos || '50% 30%'}/cover}
+ ${sl.ph ? `.ph{position:absolute;inset:0;background:url("${PH}${sl.ph}.jpg") ${sl.pos || '50% 30%'}/cover}` : ''}
  .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,6,23,.35) 0%,rgba(2,6,23,.6) 45%,rgba(2,6,23,.97) 100%)}
  .glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(200,240,74,.2),rgba(200,240,74,0) 65%)}
  .row{display:flex;align-items:center;gap:28px;padding:28px 0;border-bottom:2px solid ${V2.line}}.row .bar{width:14px;height:64px;border-radius:7px}.row .t{font-weight:900;font-size:70px;letter-spacing:-2px}.row .tag{margin-left:auto;font-family:Mono;font-size:22px;letter-spacing:.1em;color:${V2.quiet};text-transform:uppercase}
