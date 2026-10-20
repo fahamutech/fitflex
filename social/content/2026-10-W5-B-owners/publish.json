@@ -1,0 +1,39 @@
+{
+  "record": "2026-10-W5-B-owners",
+  "version_note": "Template v2, text-only. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/F01.png",
+    "slides/F02.png",
+    "slides/F03.png",
+    "slides/F04.png",
+    "slides/F05.png",
+    "slides/F06.png",
+    "slides/F07.png",
+    "slides/F08.png"
+  ],
+  "altText": [
+    "Text slide; Dar members don't come back for the machines. Five things that decide it before the first set.",
+    "Text slide; Rule 1. Karibu is the first rep. A greeting at the door. By name after week one. Nobody trains hard where they feel like a stranger.",
+    "Text slide; Rule 2. Plan for the power cut. A fan that works, water that runs, light when TANESCO lets you down. Members remember the gym that was ready.",
+    "Text slide; Rule 3. The changing room is the review. A clean floor, a hook for the bag, a mirror that isn't cracked. That is what they describe to a friend.",
+    "Text slide; Rule 4. Let them pay the way Dar pays. M-Pesa or Airtel Money at the desk, receipt on the phone. Not \"come back tomorrow with cash\".",
+    "Text slide; Rule 5. Someone on the floor who corrects form. Without being asked, without selling a package. That is the staff members talk about.",
+    "Text slide; FitFlex scores every gym on all of this before it joins. Equipment, amenities, facility and staff. Not just the weights.",
+    "Text slide; Own a gym in Dar es Salaam? Comment PARTNER. We'll DM you how FitFlex works."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Dar members don't come back for the machines. They come back for the greeting, the fan that works in a power cut, a changing room they'd describe to a friend, paying by M-Pesa, and someone on the floor who corrects their form. Five rules, no equipment needed.\nOwn a gym in Dar? Comment PARTNER.\n\nWanachama wa Dar hawarudi kwa ajili ya mashine. Wanarudi kwa ajili ya karibu mlangoni, feni inayofanya kazi umeme ukikatika, chumba cha kubadilishia nguo wanachokisifia kwa rafiki, kulipa kwa M-Pesa, na mtu uwanjani anayerekebisha mazoezi yao. Kanuni tano, hazihitaji vifaa.\nUna gym Dar? Andika PARTNER.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Dar members don't come back for the machines. They come back for the greeting, the fan that works in a power cut, a changing room they'd describe to a friend, paying by M-Pesa, and someone on the floor who corrects their form. Five rules, no equipment needed.\nOwn a gym in Dar? Comment PARTNER.\n\nWanachama wa Dar hawarudi kwa ajili ya mashine. Wanarudi kwa ajili ya karibu mlangoni, feni inayofanya kazi umeme ukikatika, chumba cha kubadilishia nguo wanachokisifia kwa rafiki, kulipa kwa M-Pesa, na mtu uwanjani anayerekebisha mazoezi yao. Kanuni tano, hazihitaji vifaa.\nUna gym Dar? Andika PARTNER.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PARTNER",
+  "reply_path": "the owner replies to keyword comments and DMs himself while traffic is low (2026-10-20); comment-to-DM module later"
+}
