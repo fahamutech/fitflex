@@ -8,6 +8,8 @@ Source of truth: `canon/04-marketing/design-system.md` (founder's workspace). To
 
 ## Do
 
+- Social slides (template v2, owner 2026-10-20): deep slate `#020617` ground, Inter 900 headline with one word in Volt `#C8F04A`, JetBrains Mono eyebrow, Fuel `#FF8A6B` only for an "act now" row, photos under a dark scrim. Volt never on a light ground; green `#1F7A3A` for any light piece.
+
 - Build on navy or cream; put green, amber and gold on those grounds.
 - Use the role colour when a post targets one audience: member green `#1F7A3A`, owner amber `#FF9800`, trainer blue `#3B82F6`, vendor purple `#A855F7`, corporate indigo `#6366F1`.
 - Inter for headlines and body (weights up to 900), JetBrains Mono for stats and labels.
