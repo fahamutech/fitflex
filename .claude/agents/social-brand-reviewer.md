@@ -18,7 +18,7 @@ You review one content record under `social/content/<id>/`. Input: the record id
 | Rule | Pass when |
 |---|---|
 | Palette | Every colour in `slides.json` themes resolves to `brand-tokens.json`; primary green is `#1F7A3A`; no brand colour on white |
-| Light and dark | At least two slides on a light ground and two on a dark ground |
+| Light and dark | Template v1: at least two slides on a light ground and two on a dark ground. Template v2 (`style: v2`, owner choice 2026-10-19): dark-only is accepted; check instead that photo slides carry a scrim and type slides vary in size and layout. Template v3 (`style: v3`): dark slides as v2, plus a Volt-ground cover with on-volt `#020617` text and nothing Volt-coloured on it (owner ruling 2026-10-20); covers should alternate Volt and dark across consecutive posts, flag two Volt covers in a row |
 | Logo | FitFlex logo appears, not stretched, not on a busy photo without a scrim; wordmark "Af" gold if the wordmark is used |
 | Type | Inter for headlines and body; hierarchy readable at phone size (headline ≥ 84 px on a 1080-wide slide) |
 | Voice | Confident, concrete, local; addresses "you"; brand called "FitFlex"; no "cheapest" or savings claim |
@@ -30,6 +30,7 @@ You review one content record under `social/content/<id>/`. Input: the record id
 | Bilingual and review status | Caption has English and Swahili; Swahili carries the 'needs native review' flag unless an `approvals.jsonl` note records a named reviewer's sign-off |
 | CTA | One ask; keyword only with a stated reply path |
 | Licences | Every photo and generated image in `licences.md` with source and provenance; unknown licence marked UNRESOLVED, never asserted. A missing entry fails; an UNRESOLVED entry passes this rule but goes in `notes` as something the owner must resolve before `approved` |
+| Rotation | The record's `style` matches `node social/tools/style.js <scheduled date>` (v2 / v3 / editorial by week); Swahili leads on slides with English under; covers alternate Volt and dark across consecutive posts |
 | Platform | Format and size match `references/platform-specs.md` for each platform marked `drafted`; unconfirmed platforms are `not adapted` |
 | State | Record is `drafted`; an `approvals.jsonl` line records idea → drafted; no `approved` line written by anyone but the owner |
 

@@ -4,7 +4,7 @@
 // connector. This script does everything around it, deterministically:
 //
 //   node social/tools/publish.js hash     <record-id>                 content hash of the exact version
-//   node social/tools/publish.js dry-run  <record-id> <platform> <YYYY-MM-DDTHH:mm> [--base <raw-url-base>]
+//   node social/tools/publish.js dry-run  <record-id> <platform> <YYYY-MM-DDTHH:mm> [--base <raw-url-base>] [--swap]   (--swap: validate a new version for a post already scheduled)
 //   node social/tools/publish.js reserve  <record-id> <platform> <YYYY-MM-DDTHH:mm> [--base ...]   (writes a pending line + payload file)
 //   node social/tools/publish.js result   <publish-id> --status scheduled|failed --post-id <id> --uuid <uuid> --url <url> [--error <text>]
 //   node social/tools/publish.js snapshot <publish-id> --json '<metrics json>' --source metricool
@@ -76,7 +76,7 @@ function gate(recordId, platform, when, { base, write }) {
   const ideas = readJsonl(path.join(dataDir, 'ideas.jsonl'));
   const rec = ideas.find(r => r.id === recordId);
   if (!rec) { problems.push(`record ${recordId} not found`); return { problems }; }
-  if (rec.state !== 'approved') problems.push(`record state is ${rec.state}; only approved records can be scheduled`);
+  if (rec.state !== 'approved' && !(rec.state === 'scheduled' && has('--swap'))) problems.push(`record state is ${rec.state}; only approved records can be scheduled (pass --swap to validate a media swap of a scheduled post)`);
   if (!['instagram', 'facebook'].includes(platform)) problems.push(`platform ${platform} is not enabled (instagram, facebook only)`);
   if (!(rec.platforms || []).includes(platform)) problems.push(`record does not list ${platform} in platforms`);
 
@@ -88,7 +88,8 @@ function gate(recordId, platform, when, { base, write }) {
   try { hash = contentHash(recordId); spec = JSON.parse(fs.readFileSync(path.join(dir, 'publish.json'), 'utf8')); } catch (e) { problems.push(e.message); }
 
   const approvals = readJsonl(path.join(dataDir, 'approvals.jsonl')).filter(a => a.idea_id === recordId);
-  const ownerOk = approvals.filter(a => a.actor === 'owner' && a.to_state === 'approved' && a.decision === 'pass');
+  const swap = rec.state === 'scheduled'; // swapping media/caption on a post already in the planner: record stays scheduled, needs an owner line with the new hash
+  const ownerOk = approvals.filter(a => a.actor === 'owner' && (a.to_state === 'approved' || (swap && a.to_state === 'scheduled')) && a.decision === 'pass');
   const exact = ownerOk.filter(a => a.content_hash === hash && Array.isArray(a.platforms) && a.platforms.includes(platform));
   if (!ownerOk.length) problems.push('no owner approval line');
   else if (!exact.length) problems.push(`owner approval exists but not for this exact content version (${hash}) and platform (${platform}); ask the owner to confirm the exact version`);
@@ -128,6 +129,7 @@ function gate(recordId, platform, when, { base, write }) {
   const latest = {};
   for (const p of publishes) latest[p.id] = { ...(latest[p.id] || {}), ...p };
   const dup = Object.values(latest).find(p => p.idea_id === recordId && p.platform === platform && p.content_hash === hash && ['pending', 'scheduled', 'published'].includes(p.status));
+  if (has('--swap') && !Object.values(latest).some(p => p.idea_id === recordId && p.platform === platform && p.status === 'scheduled')) problems.push('--swap given but no scheduled publish line exists for this record and platform');
   if (dup) problems.push(`duplicate: ${dup.id} already ${dup.status} for this record, platform and version`);
 
   return { problems, hash, payload, rec };

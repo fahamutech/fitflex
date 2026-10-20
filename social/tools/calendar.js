@@ -18,6 +18,7 @@ const pubRows = readJsonl(path.join(dataDir, 'publishes.jsonl'));
 const latestPub = {}; for (const p of pubRows) latestPub[p.id] = { ...(latestPub[p.id] || {}), ...p };
 const pubs = Object.values(latestPub);
 const SLOT = { A: 'Mon', B: 'Fri', C: 'Sat', D: 'Wed', R: 'Mon' };
+const { styleForDate, LABEL } = require('./style.js');
 
 const monthOf = r => (r.id.match(/^(\d{4}-\d{2})/) || [])[1] || r.created_at.slice(0, 7);
 function render(month) {
@@ -27,8 +28,8 @@ function render(month) {
   out.push('');
   out.push(`Generated from \`social/data/ideas.jsonl\` and \`publishes.jsonl\` by \`social/tools/calendar.js\`. Do not edit; change the records and regenerate. The month plan with pillars and rhythm is \`${month}-plan.md\` when present.`);
   out.push('');
-  out.push('| Record | Week | Slot | Pillar | Audience | Format | Lang | State | Platforms | Scheduled / published | Open checks |');
-  out.push('|---|---|---|---|---|---|---|---|---|---|---|');
+  out.push('| Record | Week | Slot | Style (rotation) | Pillar | Audience | Format | Lang | State | Platforms | Scheduled / published | Open checks |');
+  out.push('|---|---|---|---|---|---|---|---|---|---|---|---|');
   for (const r of rows) {
     const wk = (r.id.match(/-W(\d)-/) || [])[1] || ''; const letter = (r.id.match(/-W\d-([A-Z])-/) || [])[1] || '';
     const mine = pubs.filter(p => p.idea_id === r.id && ['pending', 'scheduled', 'published'].includes(p.status));
@@ -36,7 +37,10 @@ function render(month) {
     const brief = path.join(root, 'social', 'content', r.id, 'brief.md');
     let open = '';
     if (fs.existsSync(brief)) { const n = (fs.readFileSync(brief, 'utf8').match(/^- \[ \] /gm) || []).length; open = n ? `${n} open` : 'none'; }
-    out.push(`| [${r.id}](../content/${r.id}/brief.md) | W${wk} | ${SLOT[letter] || ''} | ${r.pillar} | ${r.audience} | ${r.format} | ${r.language_lead} | ${r.state} | ${(r.platforms || []).join(', ')} | ${sched} | ${open} |`);
+    const when = (mine.find(p => p.scheduled_for) || {}).scheduled_for || (pubs.find(p => p.idea_id === r.id && p.published_at) || {}).published_at || null;
+    const style = when ? LABEL[styleForDate(when)] : '';
+    let built = ''; try { built = JSON.parse(fs.readFileSync(path.join(root, 'social', 'content', r.id, 'source', 'slides.json'), 'utf8')).style || 'v1'; } catch (e) {}
+    out.push(`| [${r.id}](../content/${r.id}/brief.md) | W${wk} | ${SLOT[letter] || ''} | ${style}${built ? ` · built ${built}` : ''} | ${r.pillar} | ${r.audience} | ${r.format} | ${r.language_lead} | ${r.state} | ${(r.platforms || []).join(', ')} | ${sched} | ${open} |`);
   }
   out.push('');
   const states = {}; rows.forEach(r => { states[r.state] = (states[r.state] || 0) + 1; });

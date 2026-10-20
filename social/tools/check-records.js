@@ -44,7 +44,8 @@ const ACTORS = new Set(['claude', 'brand_reviewer', 'owner']);
 approvals.forEach(a => {
   if (!ACTORS.has(a.actor)) fail(`${a.id}: unknown actor ${a.actor}`);
   if (a.to_state === 'approved' && a.actor !== 'owner') fail(`${a.id}: only the owner may write to_state=approved (actor was ${a.actor})`);
-  if (a.actor === 'brand_reviewer' && !['drafted', 'brand_checked', 'rejected'].includes(a.to_state)) fail(`${a.id}: brand_reviewer may only move a record to drafted, brand_checked or rejected (got ${a.to_state})`);
+  // a reviewer may record a re-check without changing state (to_state == from_state); any transition it makes is limited to drafted, brand_checked or rejected
+  if (a.actor === 'brand_reviewer' && a.to_state !== a.from_state && !['drafted', 'brand_checked', 'rejected'].includes(a.to_state)) fail(`${a.id}: brand_reviewer may only move a record to drafted, brand_checked or rejected (got ${a.to_state})`);
 });
 
 ideas.forEach(r => {
@@ -69,7 +70,8 @@ if (phase >= 3) {
   for (const p of Object.values(latest)) {
     if (!['pending', 'scheduled', 'published', 'failed', 'deleted'].includes(p.status)) fail(`${p.id}: unknown publish status ${p.status}`);
     if (!['instagram', 'facebook'].includes(p.platform)) fail(`${p.id}: platform ${p.platform} not enabled`);
-    const ok = approvals.find(a => a.idea_id === p.idea_id && a.actor === 'owner' && a.to_state === 'approved' && a.decision === 'pass' && a.content_hash === p.content_hash && Array.isArray(a.platforms) && a.platforms.includes(p.platform));
+    // an owner line with to_state 'approved' authorises a first publish; one with to_state 'scheduled' authorises a swap of an already scheduled post to a new content version
+    const ok = approvals.find(a => a.idea_id === p.idea_id && a.actor === 'owner' && ['approved', 'scheduled'].includes(a.to_state) && a.decision === 'pass' && a.content_hash === p.content_hash && Array.isArray(a.platforms) && a.platforms.includes(p.platform));
     const manualLine = p.manual === true && approvals.some(a => a.idea_id === p.idea_id && a.actor === 'owner' && a.manual === true && a.to_state === 'published' && Array.isArray(a.platforms) && a.platforms.includes(p.platform));
     if (p.manual === true && p.status !== 'published') fail(`${p.id}: a manual publish can only be published`);
     if (['pending', 'scheduled', 'published'].includes(p.status) && !ok && !manualLine) fail(`${p.id}: no owner approval for content ${p.content_hash} on ${p.platform}`);

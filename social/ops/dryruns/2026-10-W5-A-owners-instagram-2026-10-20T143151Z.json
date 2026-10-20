@@ -1,0 +1,61 @@
+{
+  "title": "dry-run 2026-10-W5-A-owners instagram 2026-10-27T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-20T14:31:51Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:896bc27a2455e859affa0dac6f927885",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-10-27T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-A-owners/slides/E01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-A-owners/slides/E02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-A-owners/slides/E03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-A-owners/slides/E04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-A-owners/slides/E05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-A-owners/slides/E06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-A-owners/slides/E07.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-A-owners/slides/E08.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-A-owners/slides/E09.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-A-owners/slides/E10.png"
+      ],
+      "mediaAltText": [
+        "Cover slide on dark; Swahili: Wamiliki wa gym Dar wanaangalia namba zisizo sahihi. English: Dar gym owners are watching the wrong numbers.",
+        "Shift 01 slide; Swahili: Ziara ndiyo namba, si usajili. English: A member who joined and stopped coming is a cancellation you haven't seen yet.",
+        "Shift 02 slide; Swahili: Je, daftari ndilo tatizo? English: If your gym runs on WhatsApp, a notebook and cash, nobody can see who's slipping.",
+        "Checklist slide; Swahili: Wanachama tayari wanalipa kwa simu. English: Members already pay by phone. Cash only is the exception. Rows: M-Pesa (accepted), Airtel Money (accepted), Tigo Pesa (accepted), Pesa taslimu tu (the exception)",
+        "Shift 04 slide; Swahili: Mlango wako wa mbele ni skrini ya simu. English: Find the gym, check in with a QR, book a trainer. If it's slow, they feel it before you do.",
+        "Shift 05 slide; Swahili: Hakuna anayesema kwaheri. English: Nobody says goodbye. The only early signal is fewer visits.",
+        "Shift 06 slide; Swahili: Je, wateja wako wangebaki kama gym ya bei nafuu ingefunguliwa jirani? English: If the honest answer is \"the ones who feel at home\", protect that.",
+        "Shift 07 slide; Swahili: Trainer anataka booking na malipo sehemu moja. English: Give them that and you give them a reason to stay.",
+        "Shift 08 slide; Swahili: Gym zilizo kwenye mtandao zinapata wateja wasiowatangazia. English: Travellers and multi-gym members choose from the network.",
+        "Call to action; Swahili: Una gym Dar es Salaam? Andika PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. English: Own a gym in Dar es Salaam? Comment PARTNER. We'll DM you how FitFlex works."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-10-27T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Dar gym owners are watching the wrong numbers. Sign-ups, enquiries, cash in the drawer. Eight shifts are changing gyms right now, and most of them show up in your visits before they show up in your bank.\nOwn a gym in Dar? Comment PARTNER.\n\nWamiliki wa gym Dar wanaangalia namba zisizo sahihi. Usajili, maulizo, pesa taslimu. Mabadiliko manane yanabadilisha gym sasa hivi, na mengi yanaonekana kwenye ziara kabla ya kuonekana benki.\nUna gym Dar? Andika PARTNER.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2"
+}

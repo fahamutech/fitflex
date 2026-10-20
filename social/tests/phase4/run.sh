@@ -5,7 +5,7 @@ cd "$(dirname "$0")/../../.." || exit 1
 T=$(mktemp -d); cp -R social/data "$T/data"; mkdir -p "$T/intel" "$T/cal"
 export SOCIAL_DATA_DIR="$T/data" SOCIAL_INTEL_DIR="$T/intel" SOCIAL_CAL_DIR="$T/cal" SOCIAL_OPS_DIR="$T/ops" SOCIAL_CONTENT_DIR="$T/content"; cp -R social/ops "$T/ops"; cp -R social/content "$T/content"
 : > "$T/data/publishes.jsonl"; : > "$T/data/performance.jsonl"
-node -e 'const fs=require("fs");const f=process.argv[1];fs.writeFileSync(f,fs.readFileSync(f,"utf8").split("\n").filter(Boolean).map(l=>{const r=JSON.parse(l);if(r.id==="2026-10-W3-A-owners")r.state="approved";return JSON.stringify(r)}).join("\n")+"\n")' "$T/data/ideas.jsonl"
+node -e 'const fs=require("fs");const f=process.argv[1];fs.writeFileSync(f,fs.readFileSync(f,"utf8").split("\n").filter(Boolean).map(l=>{const r=JSON.parse(l);if(["scheduled","published","measured"].includes(r.state)&&!r.manual)r.state="approved";return JSON.stringify(r)}).join("\n")+"\n")' "$T/data/ideas.jsonl"
 pass=0; failn=0
 expect() { want=$1; label=$2; shift 2; out=$("$@" 2>&1); code=$?; if [ "$code" -eq "$want" ]; then echo "PASS  $label"; pass=$((pass+1)); else echo "FAIL  $label (exit $code, wanted $want)"; echo "$out" | head -12; failn=$((failn+1)); fi; }
 check() { label=$1; shift; if "$@" >/dev/null 2>&1; then echo "PASS  $label"; pass=$((pass+1)); else echo "FAIL  $label"; failn=$((failn+1)); fi; }

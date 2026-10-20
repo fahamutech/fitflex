@@ -1,0 +1,64 @@
+{
+  "record": "2026-10-W1-A-owners",
+  "format": "ig_feed_portrait",
+  "prefix": "A",
+  "handle": "@fitflex.africa",
+  "slides": [
+    {
+      "t": "navy",
+      "h": "You’re counting the <em>wrong</em> members.",
+      "ph": 36510739,
+      "pos": "50% 40%"
+    },
+    {
+      "t": "cream",
+      "h": "Sign-ups tell you who <em>joined.</em>",
+      "s": "Visits tell you who <b>stayed.</b>",
+      "ph": 34043570,
+      "pos": "50% 30%",
+      "ov": "bars"
+    },
+    {
+      "t": "orange",
+      "h": "Most small gyms track visits in a <em>notebook.</em>",
+      "s": "Or not at all.",
+      "ph": 10376250,
+      "pos": "50% 40%"
+    },
+    {
+      "t": "navy",
+      "h": "Can’t see visits? You can’t see who’s <em>leaving.</em>",
+      "ph": 4716814,
+      "pos": "50% 50%"
+    },
+    {
+      "t": "green",
+      "h": "Empty off-peak hours aren’t a mystery.",
+      "s": "They’re a <b>data problem.</b>",
+      "ph": 12250460,
+      "pos": "50% 50%",
+      "ov": "chartgap"
+    },
+    {
+      "t": "cream",
+      "h": "A dashboard shows check-ins, busy hours and who <em>stopped coming.</em>",
+      "ph": 9545909,
+      "pos": "50% 50%",
+      "ov": "dashboard"
+    },
+    {
+      "t": "navy",
+      "h": "And it brings <em>new members</em> to your door.",
+      "ph": 6604154,
+      "pos": "50% 30%"
+    },
+    {
+      "t": "orange",
+      "h": "Own a gym in <em>Dar es Salaam?</em>",
+      "kw": "PARTNER",
+      "cta": "We’ll DM you how FitFlex works.",
+      "ph": 8612491,
+      "pos": "50% 40%"
+    }
+  ]
+}

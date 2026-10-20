@@ -1,0 +1,57 @@
+{
+  "title": "dry-run 2026-10-W5-B-owners instagram 2026-10-29T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-20T15:43:09Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:cfde66b7c7dd4878b17b62a384d07dbe",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-10-29T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-B-owners/slides/F01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-B-owners/slides/F02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-B-owners/slides/F03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-B-owners/slides/F04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-B-owners/slides/F05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-B-owners/slides/F06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-B-owners/slides/F07.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W5-B-owners/slides/F08.png"
+      ],
+      "mediaAltText": [
+        "Cover slide on Volt green; Swahili: Wateja wa gym hawarudi kwa ajili ya mashine. English: Dar members don't come back for the machines.",
+        "Rule 01 slide; Swahili: Karibu ni step ya kwanza. English: A greeting at the door. By name after week one. Nobody trains hard where they feel like a stranger.",
+        "Rule 02 slide; Swahili: Jiandae na umeme kukatika. English: A fan that works, water that runs, light when TANESCO lets you down. Members remember the gym that was ready.",
+        "Rule 03 slide; Swahili: Chumba cha kubadilishia ndiyo review. English: A clean floor, a hook for the bag, a mirror that isn't cracked. That is what they describe to a friend.",
+        "Rule 04 slide; Swahili: Waache walipe jinsi Dar inavyolipa. English: M-Pesa or Airtel Money at the desk, receipt on the phone. Not \"come back tomorrow with cash\".",
+        "Rule 05 slide; Swahili: Trainer anayejua mazoezi. English: Without being asked, without selling a package. That is the staff members talk about.",
+        "Checklist slide; Swahili: FitFlex inakagua kila gym kabla haijajiunga. English: FitFlex scores every gym on all of this before it joins. Not just the weights. Rows: Vifaa (Equipment), Huduma (Amenities), Jengo (Facility), Wafanyakazi (Staff)",
+        "Call to action; Swahili: Una gym Dar es Salaam? Andika PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. English: Own a gym in Dar es Salaam? Comment PARTNER. We'll DM you how FitFlex works."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-10-29T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Dar members don't come back for the machines. They come back for the greeting, the fan that works in a power cut, a changing room they'd describe to a friend, paying by M-Pesa, and someone on the floor who corrects their form. Five rules, no equipment needed.\nOwn a gym in Dar? Comment PARTNER.\n\nWateja wa gym hawarudi kwa ajili ya mashine. Wanarudi kwa ajili ya karibu mlangoni, feni inayofanya kazi umeme ukikatika, chumba cha kubadilishia nguo wanachokisifia kwa rafiki, kulipa kwa M-Pesa, na trainer anayejua mazoezi. Kanuni tano, hazihitaji vifaa.\nUna gym Dar? Andika PARTNER.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2"
+}

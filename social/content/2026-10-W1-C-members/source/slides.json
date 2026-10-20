@@ -1,64 +1,69 @@
 {
   "record": "2026-10-W1-C-members",
+  "style": "v2",
   "format": "ig_feed_portrait",
   "prefix": "C",
   "handle": "@fitflex.africa",
+  "eyebrow": "Find & train",
   "slides": [
     {
-      "t": "navy",
+      "kind": "photo",
       "h": "One gym. One contract. <em>Stuck.</em>",
       "s": "There’s a better way.",
       "ph": 6388369,
       "pos": "50% 40%"
     },
     {
-      "t": "cream",
+      "kind": "list",
       "h": "Pay once with <em>mobile money.</em>",
-      "ph": 5647574,
-      "pos": "50% 35%",
-      "ov": "mobilemoney"
+      "rows": [
+        {
+          "t": "M-Pesa",
+          "tag": "accepted",
+          "tone": "volt"
+        },
+        {
+          "t": "Airtel Money",
+          "tag": "accepted",
+          "tone": "volt"
+        },
+        {
+          "t": "Tigo Pesa",
+          "tag": "accepted",
+          "tone": "volt"
+        }
+      ],
+      "note": "One payment · many gyms"
     },
     {
-      "t": "green",
+      "kind": "photo",
       "h": "Train at gyms across the <em>network.</em>",
       "ph": 29526371,
-      "pos": "50% 50%",
-      "ov": "network"
+      "pos": "50% 50%"
     },
     {
-      "t": "navy",
-      "h": "Every gym is visited and <em>scored</em> before it joins.",
-      "ph": 3916766,
-      "pos": "50% 50%",
-      "ov": "vetted"
+      "kind": "type",
+      "h": "Every gym is visited and <em>scored</em> before it joins."
     },
     {
-      "t": "orange",
+      "kind": "photo",
       "h": "Travelling for work? Your pass <em>goes with you.</em>",
       "ph": 4173217,
       "pos": "50% 30%"
     },
     {
-      "t": "cream",
-      "h": "Check in with a QR that <em>refreshes</em> every minute.",
-      "ph": 9545914,
-      "pos": "50% 50%",
-      "ov": "qr"
+      "kind": "type",
+      "h": "Check in with a QR that <em>refreshes</em> every minute."
     },
     {
-      "t": "navy",
-      "h": "Book a trainer and buy gear in <em>one app.</em>",
-      "ph": 5312212,
-      "pos": "50% 50%",
-      "ov": "appfeat"
+      "kind": "type",
+      "h": "Book a trainer and buy gear in <em>one app.</em>"
     },
     {
-      "t": "green",
-      "h": "Want <em>in?</em>",
+      "kind": "cta",
+      "h": "Want in?",
       "kw": "PASS",
-      "cta": "We’ll DM you the link.",
-      "ph": 6496099,
-      "pos": "50% 30%"
+      "cta": "We’ll DM you the link."
     }
   ]
 }

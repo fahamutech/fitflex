@@ -1,6 +1,6 @@
 # 2026-10-W1-C-members — "One gym. One contract. Stuck."
 
-State: **brand_checked** (brand review passed 2026-10-16; owner approval pending). Record: `social/data/ideas.jsonl`.
+State: **scheduled** (v2 render swapped into the planner 2026-10-20) on Instagram for 2026-10-25 17:00 Dar es Salaam (pub_0006; owner approved 2026-10-19). Facebook variant not scheduled. Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
@@ -17,16 +17,18 @@ State: **brand_checked** (brand review passed 2026-10-16; owner approval pending
 
 ## Slides
 
-| # | Theme | Text | Photo |
+Template v2 (2026-10-20): deep slate ground, Volt accent word, mono eyebrow "Find & train", photo-scrim slides where the photo carries, list slide for proof, keyword CTA. Previous v1 spec: `source/slides-v1.json`.
+
+| # | Kind | Text | Photo |
 |---|---|---|---|
-| 1 | navy | **One gym. One contract. Stuck.** There's a better way. | pexels-6388369 |
-| 2 | cream | Pay once with mobile money. (M-Pesa, Airtel Money, Tigo Pesa overlay) | pexels-5647574 |
-| 3 | green | Train at gyms across the network. (network overlay) | pexels-29526371 |
-| 4 | navy | Every gym is visited and scored before it joins. (shield overlay) | pexels-3916766 |
-| 5 | orange | Travelling for work? Your pass goes with you. | pexels-4173217 |
-| 6 | cream | Check in with a QR that refreshes every minute. (QR overlay) | pexels-9545914 |
-| 7 | navy | Book a trainer and buy gear in one app. (phone overlay) | pexels-5312212 |
-| 8 | green | **Want in?** Comment **PASS**. We'll DM you the link. | pexels-6496099 |
+| 1 | photo | One gym. One contract. Stuck. There's a better way. | pexels-6388369 |
+| 2 | list | Pay once with mobile money. Rows: M-Pesa, Airtel Money, Tigo Pesa | none |
+| 3 | photo | Train at gyms across the network. | pexels-29526371 |
+| 4 | type | Every gym is visited and scored before it joins. | none |
+| 5 | photo | Travelling for work? Your pass goes with you. | pexels-4173217 |
+| 6 | type | Check in with a QR that refreshes every minute. | none |
+| 7 | type | Book a trainer and buy gear in one app. | none |
+| 8 | cta | Want in? Comment PASS. We'll DM you the link. | none |
 
 Source: `source/slides.json`; render with `node social/tools/render-carousel.js social/content/2026-10-W1-C-members --png`.
 

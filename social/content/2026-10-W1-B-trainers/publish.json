@@ -1,6 +1,6 @@
 {
   "record": "2026-10-W1-B-trainers",
-  "version_note": "Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "version_note": "Template v2 (2026-10-20). Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
   "media": [
     "slides/B01.png",
     "slides/B02.png",
@@ -12,14 +12,14 @@
     "slides/B08.png"
   ],
   "altText": [
-    "Gym trainer in a modern fitness centre; headline: Why clients don't book you, it's not your price",
-    "Man in a black jacket; text: They can't tell what you actually help with",
-    "Woman in a gym pose with chat bubbles; text: Personal trainer says nothing, say who you help and why",
-    "Woman using battle ropes with photo, stars and review cards; text: They can't see proof",
-    "Man using a phone; text: Booking and paying is hard, cash, DMs and later kill sales",
-    "Man with a medicine ball and three ticked cards: clear offer, visible proof, easy booking",
-    "Young man with a phone showing a profile mock; text: A profile, bookings and payment in one app",
-    "Man in a blue tank top with a speech bubble: Comment TRAINER. We'll DM you how to join"
+    "Photo slide; text: Why clients don't book you.",
+    "Text slide; 1. They can't tell what you actually help with.",
+    "Text slide; “Personal trainer” says nothing.",
+    "Text slide; 2. They can't see proof. Rows: Photos, Specialties, Honest reviews, Nothing",
+    "Photo slide; text: 3. Booking and paying is hard.",
+    "Text slide; Fix all three.",
+    "Text slide; A profile, bookings and payment, in one app.",
+    "Text slide; Are you a trainer? Comment TRAINER. We'll DM you how to join."
   ],
   "aiGenerated": false,
   "variants": {
@@ -35,5 +35,5 @@
     }
   },
   "keyword": "TRAINER",
-  "reply_path": "manual reply by the owner until the comment-to-DM module exists"
+  "reply_path": "the owner replies to keyword comments and DMs himself while traffic is low (2026-10-20); comment-to-DM module later"
 }

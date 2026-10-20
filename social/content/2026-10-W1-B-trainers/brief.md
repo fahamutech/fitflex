@@ -1,6 +1,6 @@
 # 2026-10-W1-B-trainers — "Why clients don't book you."
 
-State: **brand_checked** (brand review passed 2026-10-16; owner approval pending). Record: `social/data/ideas.jsonl`.
+State: **scheduled** (v2 render swapped into the planner 2026-10-20) on Instagram for 2026-10-23 17:00 Dar es Salaam (pub_0005; owner approved 2026-10-19). Facebook variant not scheduled. Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
@@ -17,16 +17,18 @@ State: **brand_checked** (brand review passed 2026-10-16; owner approval pending
 
 ## Slides
 
-| # | Theme | Text | Photo |
+Template v2 (2026-10-20): deep slate ground, Volt accent word, mono eyebrow "Grow your business", photo-scrim slides where the photo carries, list slide for proof, keyword CTA. Previous v1 spec: `source/slides-v1.json`.
+
+| # | Kind | Text | Photo |
 |---|---|---|---|
-| 1 | navy | **Why clients don't book you.** (It's not your price.) | pexels-36510744 |
-| 2 | cream | 1. They can't tell what you actually help with. | pexels-5878659 |
-| 3 | green | "Personal trainer" says nothing. Say **who you help** and why. (chat overlay) | pexels-33832204 |
-| 4 | navy | 2. They can't see proof. Photos, clips and honest reviews build trust. (proof overlay) | pexels-6388387 |
-| 5 | orange | 3. Booking and paying is hard. Cash, DMs and "later" kill sales. | pexels-7432872 |
-| 6 | cream | Fix all three. (three-point overlay) | pexels-4720565 |
-| 7 | navy | A profile, bookings and payment, in one app. (phone overlay) | pexels-5592605 |
-| 8 | green | **Are you a trainer?** Comment **TRAINER**. We'll DM you how to join. | pexels-4720518 |
+| 1 | photo | Why clients don't book you. (It's not your price.) | pexels-4720518 |
+| 2 | type | 1. They can't tell what you actually help with. | none |
+| 3 | type | “Personal trainer” says nothing. Say who you help, and with what. | none |
+| 4 | list | 2. They can't see proof. Rows: Photos, Specialties, Honest reviews, Nothing | none |
+| 5 | photo | 3. Booking and paying is hard. Cash, DMs and “later” kill sales. | pexels-7432872 |
+| 6 | type | Fix all three. Clear offer. Visible proof. Easy booking. | none |
+| 7 | type | A profile, bookings and payment, in one app. | none |
+| 8 | cta | Are you a trainer? Comment TRAINER. We'll DM you how to join. | none |
 
 Source: `source/slides.json`; render with `node social/tools/render-carousel.js social/content/2026-10-W1-B-trainers --png`.
 

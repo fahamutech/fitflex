@@ -98,7 +98,7 @@ Networks: `social/ops/networks.json`. Instagram is the publishing network; Faceb
 
 - Native Swahili review: no reviewer named. Every Swahili caption carries "Claude draft; needs native review" until an approvals note records a reviewer's sign-off.
 - Checking product claims against the current build: each brief lists the claims to eyeball.
-- Keyword replies (PASS, PARTNER, TRAINER): manual DMs until the comment-to-DM module (Phase 5).
+- Keyword replies (PASS, PARTNER, TRAINER): the owner replies to comments and DMs himself while traffic is low (decided 2026-10-20), until the comment-to-DM module (Phase 5).
 - Posting: the Phase 3 process above; every write is preceded by your exact-version approval and a confirmation prompt. Deleting a scheduled post happens in the Metricool planner.
 
 ## Claude Cowork (unverified)

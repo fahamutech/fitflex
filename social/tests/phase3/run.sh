@@ -5,9 +5,9 @@ set -u
 cd "$(dirname "$0")/../../.." || exit 1
 T=$(mktemp -d); cp -R social/data "$T/data"; cp -R social/ops "$T/ops"; rm -rf "$T/ops/dryruns"
 export SOCIAL_DATA_DIR="$T/data" SOCIAL_OPS_DIR="$T/ops"
-# the live records now hold a real reservation (pub_0001) and W3 is scheduled; the copy starts from the pre-pilot state
+# the live records hold real reservations and scheduled/published states; the copy starts from the pre-pilot state (publishes emptied, live states back to approved)
 : > "$T/data/publishes.jsonl"; : > "$T/data/performance.jsonl"
-node -e 'const fs=require("fs");const f=process.argv[1];fs.writeFileSync(f,fs.readFileSync(f,"utf8").split("\n").filter(Boolean).map(l=>{const r=JSON.parse(l);if(r.id==="2026-10-W3-A-owners")r.state="approved";return JSON.stringify(r)}).join("\n")+"\n")' "$T/data/ideas.jsonl"
+node -e 'const fs=require("fs");const f=process.argv[1];fs.writeFileSync(f,fs.readFileSync(f,"utf8").split("\n").filter(Boolean).map(l=>{const r=JSON.parse(l);if(["scheduled","published","measured"].includes(r.state)&&!r.manual)r.state=(r.id==="2026-10-W3-A-owners"?"approved":"brand_checked");return JSON.stringify(r)}).join("\n")+"\n")' "$T/data/ideas.jsonl"
 REC=2026-10-W3-A-owners; HASH=$(node social/tools/publish.js hash $REC); WHEN=2026-11-02T08:00
 pass=0; failn=0
 expect() { # expect <0|1> <label> <command...>
