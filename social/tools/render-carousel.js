@@ -143,7 +143,7 @@ function htmlV3(i, sl) {
   const n = slides.length; const kind = sl.kind || 'rule'; const num = String(i + 1).padStart(2, '0');
   const eyebrow = `${spec.eyebrow || ''} · ${num}/${String(n).padStart(2, '0')}`;
   const onVolt = V2.onVolt, volt = V2.volt;
-  const dark = kind !== 'cover';
+  const dark = kind !== 'cover' || sl.ground === 'dark'; // a v3 cover is Volt unless the spec says ground: 'dark' (covers alternate across posts)
   const logo = (i === 0 || i === n - 1) ? `<img class="logo" src="${LOGO}">` : '';
   const head = `<!doctype html><html><head><meta charset="utf-8"><style>
  @font-face{font-family:Inter;font-weight:700;src:url("${FONTS}/Inter-700.ttf")}@font-face{font-family:Inter;font-weight:800;src:url("${FONTS}/Inter-800.ttf")}@font-face{font-family:Inter;font-weight:900;src:url("${FONTS}/Inter-900.ttf")}
@@ -162,7 +162,7 @@ function htmlV3(i, sl) {
  .bar{position:absolute;left:72px;top:150px;width:120px;height:12px;border-radius:6px;background:${volt}}
  </style></head><body>`;
   let body = '';
-  if (kind === 'cover') body = `<div class="eyebrow">${eyebrow}</div>${logo}<div style="position:absolute;left:72px;right:72px;top:360px"><h1 style="font-size:${sl.size || 132}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:48px;max-width:880px">${sl.en}</div>` : ''}</div>${sl.s ? `<div style="position:absolute;left:72px;right:72px;bottom:150px;font-family:Mono;font-weight:700;font-size:26px;letter-spacing:.12em;text-transform:uppercase;color:${onVolt};opacity:.8">${sl.s}</div>` : ''}`;
+  if (kind === 'cover') body = `<div class="eyebrow">${eyebrow}</div>${logo}<div style="position:absolute;left:72px;right:72px;top:360px"><h1 style="font-size:${sl.size || 132}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:48px;max-width:880px">${sl.en}</div>` : ''}</div>${sl.s ? `<div style="position:absolute;left:72px;right:72px;bottom:150px;font-family:Mono;font-weight:700;font-size:26px;letter-spacing:.12em;text-transform:uppercase;color:${dark ? V2.muted : onVolt};opacity:.8">${sl.s}</div>` : ''}`;
   else if (kind === 'rule') body = `<div class="eyebrow">${eyebrow}</div>${logo}<div class="numeral">${sl.num || num}</div><div style="position:absolute;left:72px;right:72px;top:520px"><h1 style="font-size:${sl.size || 104}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:40px;max-width:900px">${sl.en}</div>` : ''}${sl.chip ? `<div style="margin-top:56px"><span class="chip">${sl.chip}</span></div>` : ''}</div>`;
   else if (kind === 'check') { const rows = (sl.rows || []).map(r => `<div class="row"><div class="mark" style="background:${r.ok === false ? V2.fuel : volt};color:${onVolt}">${r.ok === false ? '✕' : '✓'}</div><div class="t">${r.t}${r.en ? `<small>${r.en}</small>` : ''}</div></div>`).join('');
     body = `<div class="eyebrow">${eyebrow}</div>${logo}<div class="bar"></div><div style="position:absolute;left:72px;right:72px;top:200px"><h1 style="font-size:${sl.size || 92}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:28px">${sl.en}</div>` : ''}</div><div style="position:absolute;left:72px;right:72px;top:${sl.top || 600}px">${rows}</div>`; }
