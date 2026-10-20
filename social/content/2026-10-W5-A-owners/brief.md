@@ -1,6 +1,6 @@
 # 2026-10-W5-A-owners — "Dar gym owners are watching the wrong numbers."
 
-State: **brand_checked** (brand review passed 2026-10-20 after one revision; owner approval pending). Record: `social/data/ideas.jsonl`.
+State: **scheduled** on Instagram for Tue 27 Oct 2026 17:00 Dar es Salaam (pub_0012; owner approved 2026-10-20). Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
