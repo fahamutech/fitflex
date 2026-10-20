@@ -45,7 +45,7 @@
           "en": "accepted"
         },
         {
-          "t": "Cash tu",
+          "t": "Pesa taslimu tu",
           "en": "the exception",
           "ok": false
         }
@@ -69,15 +69,15 @@
     {
       "kind": "rule",
       "num": "06",
-      "h": "Wateja wako wangebaki gym ya bei nafuu ikifunguliwa <em>jirani?</em>",
+      "h": "Je, wateja wako wangebaki kama gym ya bei nafuu ingefunguliwa <em>jirani?</em>",
       "en": "If the honest answer is “the ones who feel at home”, protect that.",
       "chip": "Jumuiya · community",
-      "size": 92
+      "size": 84
     },
     {
       "kind": "rule",
       "num": "07",
-      "h": "Trainer wanataka booking na malipo <em>sehemu moja.</em>",
+      "h": "Trainer anataka booking na malipo <em>sehemu moja.</em>",
       "en": "Give them that and you give them a reason to stay.",
       "chip": "Trainer · trainers"
     },

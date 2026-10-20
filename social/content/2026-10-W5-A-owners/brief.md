@@ -29,11 +29,11 @@ Template v3 (rotation: ISO week 44 = type-first bilingual). Dark cover (the Thur
 | 1 | cover | SW: Wamiliki wa gym Dar wanaangalia namba zisizo sahihi. — EN: Dar gym owners are watching the wrong numbers. | none |
 | 2 | rule | SW: Ziara ndiyo namba, si usajili. — EN: A member who joined and stopped coming is a cancellation you haven't seen yet. | none |
 | 3 | rule | SW: Je, daftari ndilo tatizo? — EN: If your gym runs on WhatsApp, a notebook and cash, nobody can see who's slipping. | none |
-| 4 | check | SW: Wanachama tayari wanalipa kwa simu. — EN: Members already pay by phone. Cash only is the exception. Rows: M-Pesa, Airtel Money, Tigo Pesa, Cash tu | none |
+| 4 | check | SW: Wanachama tayari wanalipa kwa simu. — EN: Members already pay by phone. Cash only is the exception. Rows: M-Pesa, Airtel Money, Tigo Pesa, Pesa taslimu tu | none |
 | 5 | rule | SW: Mlango wako wa mbele ni skrini ya simu. — EN: Find the gym, check in with a QR, book a trainer. If it's slow, they feel it before you do. | none |
 | 6 | rule | SW: Hakuna anayesema kwaheri. — EN: Nobody says goodbye. The only early signal is fewer visits. | none |
-| 7 | rule | SW: Wateja wako wangebaki gym ya bei nafuu ikifunguliwa jirani? — EN: If the honest answer is "the ones who feel at home", protect that. | none |
-| 8 | rule | SW: Trainer wanataka booking na malipo sehemu moja. — EN: Give them that and you give them a reason to stay. | none |
+| 7 | rule | SW: Je, wateja wako wangebaki kama gym ya bei nafuu ingefunguliwa jirani? — EN: If the honest answer is "the ones who feel at home", protect that. | none |
+| 8 | rule | SW: Trainer anataka booking na malipo sehemu moja. — EN: Give them that and you give them a reason to stay. | none |
 | 9 | rule | SW: Gym zilizo kwenye mtandao zinapata wateja wasiowatangazia. — EN: Travellers and multi-gym members choose from the network. | none |
 | 10 | cta | SW: Una gym Dar es Salaam? Andika — EN: Own a gym in Dar es Salaam? Comment PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. | none |
 
