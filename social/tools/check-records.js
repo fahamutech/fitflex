@@ -70,7 +70,8 @@ if (phase >= 3) {
   for (const p of Object.values(latest)) {
     if (!['pending', 'scheduled', 'published', 'failed', 'deleted'].includes(p.status)) fail(`${p.id}: unknown publish status ${p.status}`);
     if (!['instagram', 'facebook'].includes(p.platform)) fail(`${p.id}: platform ${p.platform} not enabled`);
-    const ok = approvals.find(a => a.idea_id === p.idea_id && a.actor === 'owner' && a.to_state === 'approved' && a.decision === 'pass' && a.content_hash === p.content_hash && Array.isArray(a.platforms) && a.platforms.includes(p.platform));
+    // an owner line with to_state 'approved' authorises a first publish; one with to_state 'scheduled' authorises a swap of an already scheduled post to a new content version
+    const ok = approvals.find(a => a.idea_id === p.idea_id && a.actor === 'owner' && ['approved', 'scheduled'].includes(a.to_state) && a.decision === 'pass' && a.content_hash === p.content_hash && Array.isArray(a.platforms) && a.platforms.includes(p.platform));
     const manualLine = p.manual === true && approvals.some(a => a.idea_id === p.idea_id && a.actor === 'owner' && a.manual === true && a.to_state === 'published' && Array.isArray(a.platforms) && a.platforms.includes(p.platform));
     if (p.manual === true && p.status !== 'published') fail(`${p.id}: a manual publish can only be published`);
     if (['pending', 'scheduled', 'published'].includes(p.status) && !ok && !manualLine) fail(`${p.id}: no owner approval for content ${p.content_hash} on ${p.platform}`);
