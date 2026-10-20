@@ -26,14 +26,14 @@ Type-first on deep slate with one Volt word per shift; a photo-scrim hook (owner
 |---|---|---|---|
 | 1 | photo | Dar gym owners are watching the wrong numbers. Sign-ups. Enquiries. Cash in the drawer. Eight shifts are changing gyms right now. | pexels-4720565 |
 | 2 | type | 1. Visits are the number, not sign-ups. A member who joined and stopped coming is a cancellation you haven't seen yet. | none |
-| 3 | type | 2. The notebook is the problem. WhatsApp, a notebook and cash can't show you who's slipping. | none |
+| 3 | type | 2. Is the notebook the problem? If your gym runs on WhatsApp, a notebook and cash, nobody can see who's slipping. | none |
 | 4 | list | 3. Members already pay by phone. Rows: M-Pesa, Airtel Money, Tigo Pesa, Cash only | none |
 | 5 | type | 4. Your front door is a phone screen. Find the gym, check in with a QR, book a trainer. If it's slow, they feel it before you do. | none |
 | 6 | type | 5. Nobody says goodbye. The only early signal is fewer visits. | none |
 | 7 | type | 6. Would your members stay if a cheaper gym opened next door? If the honest answer is “the ones who feel at home”, protect that. | none |
 | 8 | type | 7. Trainers want bookings and payment in one place. Give them that and you give them a reason to stay. | none |
 | 9 | photo | 8. Listed gyms get members they never advertised to. Travellers and multi-gym members choose from the network. | pexels-4173217 |
-| 10 | cta | Own a gym in Dar es Salaam? Comment PARTNER. We'll DM you how FitFlex works. Save this first. | none |
+| 10 | cta | Own a gym in Dar es Salaam? Comment PARTNER. We'll DM you how FitFlex works. | none |
 
 Source: `source/slides.json`; render with `node social/tools/render-carousel.js social/content/2026-10-W5-A-owners --png`.
 
@@ -45,17 +45,17 @@ Headlines 92–128 px Inter 900 on `#020617` or on the dark scrim; subheads 36 p
 
 **English (lead)**
 > Dar gym owners are watching the wrong numbers. Sign-ups, enquiries, cash in the drawer. Eight shifts are changing gyms right now, and most of them show up in your visits before they show up in your bank.
-> Save this. Own a gym in Dar? Comment PARTNER.
+> Own a gym in Dar? Comment PARTNER.
 
 **Swahili**
 > Wamiliki wa gym Dar wanaangalia namba zisizo sahihi. Usajili, maulizo, pesa taslimu. Mabadiliko manane yanabadilisha gym sasa hivi, na mengi yanaonekana kwenye ziara kabla ya kuonekana benki.
-> Hifadhi post hii. Una gym Dar? Andika PARTNER.
+> Una gym Dar? Andika PARTNER.
 
 Swahili is a Claude draft; the owner chose to proceed without native review for now.
 
 ## CTA
 
-Comment **PARTNER** → the owner replies by DM himself (decided 2026-10-20). "Save this first" asks for the save the format depends on.
+Comment **PARTNER** → the owner replies by DM himself (decided 2026-10-20). The save ask was dropped after brand review (one ask per post); the owner may reinstate it as an accepted exception for this format.
 
 ## Hashtags
 
@@ -74,4 +74,4 @@ Comment **PARTNER** → the owner replies by DM himself (decided 2026-10-20). "S
 
 - [ ] Brand review (social-brand-reviewer)
 - [ ] Confirm in the current build: engagement states and visit trends on the owner dashboard (shifts 1, 5); QR check-in and trainer booking (shift 4); trainer in-app payment (shift 7)
-- [ ] Owner comfortable with shifts 2 and 6 as worded (assumptions)
+- [x] Shifts 2 and 6 worded as questions after brand review (assumptions, not facts)
