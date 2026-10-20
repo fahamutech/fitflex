@@ -1,6 +1,6 @@
 # Licences and provenance — 2026-10-W5-B-owners
 
-Template v2, text-only, rendered 2026-10-20 with `social/tools/render-carousel.js` from `source/slides.json`. No photos, no AI-generated imagery.
+Template v3, bilingual text-only, rendered 2026-10-20 with `social/tools/render-carousel.js` from `source/slides.json`. No photos, no AI-generated imagery.
 
 | Asset | Source | Licence | Note |
 |---|---|---|---|
