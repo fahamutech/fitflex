@@ -92,7 +92,7 @@ New components in this addendum: **`FFAreaPicker`** only (plus the two P1 ones i
 | `approved` | Approved, start time in the future. Shown as **Scheduled** | staff (not the creator) | live (at start), withdrawn (vendor, before start), ended (staff "End now") |
 | `live` | Approved and now inside its window (derived from time) | time | ended |
 | `ended` | Window passed, or ended early by the vendor or by staff (`endedBy`, `endedReason`) | time / vendor "End now" / staff "End now" | — |
-| `rejected` | Staff said no, with a reason the vendor sees | staff | — (vendor may copy into a new proposal) |
+| `rejected` | Staff said no, with a reason the vendor sees | staff | Edit (goes back to `draft`) or copy into a new proposal *(as built, 2026-10-20)* |
 | `expired` | Not decided within 14 days of sending, or the start time came first | time | — (copy) |
 | `withdrawn` | The proposer took it back before it went live | vendor / creating staff | — (copy) |
 
@@ -195,7 +195,7 @@ One scrolling form on phone; on ≥1024 two columns: form (max 560) + sticky liv
 | 6 | **Subline** EN + SW (optional) | `FFTextField` ×2 | ≤ 70 EN / ≤ 90 SW. If one language is filled, the other is required: "Add the {Swahili / English} text too." |
 | 7 | **Links to** (required) | radio: "One of my products" (opens own-product picker: active, approved, in stock) · "My store" | Button label set automatically: "View product" / "Visit store" (shown read-only under the field: "Button: View product"). Picked product later out of stock → note on the card: "Hidden while {product} is out of stock". |
 | 8 | **Show to** (required, ≥1) | checkboxes: Members · Trainers · Gym owners (all ticked by default) | "Pick at least one." |
-| 9 | **Starts** / **Ends** (required) | date + time (Tanzania time, shown as such) | Start at least 1 hour from now: "Pick a start at least an hour from now." End after start: "The end must be after the start." Length ≤ 30 days: "A banner can run for up to 30 days." |
+| 9 | **Starts** / **Ends** (required) | date + time (Tanzania time, shown as such) | Start at least 1 hour from now: "Pick a start at least an hour from now." End after start: "The end must be after the start." *(No maximum length: owner decision 2026-10-20.)* |
 | — | Text rule (all text fields) | server + inline | No prices or percentages (DD-P2-2): "Banners can't show prices or discounts. Use a flash sale for a deal." No URLs/phone numbers: "Remove links and phone numbers." |
 
 Under the form: info `FFAlert`: "FitFlex reviews every banner. If it isn't reviewed within 14 days, or before it starts, it expires." Buttons: **"Send for approval"** (primary, full width on phone) and **"Cancel"** (ghost). Editing a scheduled banner: confirm dialog "Send this banner back for approval? It won't go live until FitFlex approves it again." ("Send again" / "Keep as is").
@@ -462,7 +462,7 @@ Swahili length check: the longest new strings run +20–45% (e.g. "Mabango na of
 |---|---|---|
 | `merch.entry.title` | Banners & flash sales | Mabango na ofa za muda mfupi |
 | `merch.entry.subtitle` | Promote your products in the FitFlex shop | Tangaza bidhaa zako kwenye duka la FitFlex |
-| `merch.entry.waiting` | {n} waiting for approval | {n} zinasubiri idhini |
+| `merch.entry.waiting` | {n} waiting for approval | {n} yanasubiri idhini |
 | `merch.nav` (portal) | Banners & sales | Mabango na ofa |
 | `merch.tab.sales` / `merch.tab.banners` | Flash sales / Banners | Ofa za muda mfupi / Mabango |
 | `merch.group.live` / `scheduled` / `waiting` / `past` | Live / Scheduled / Waiting for approval / Past | Zinaendelea / Zimepangwa / Zinasubiri idhini / Zilizopita |
@@ -529,7 +529,7 @@ Swahili length check: the longest new strings run +20–45% (e.g. "Mabango na of
 | `merch.dates.starts` / `ends` / `tzNote` | Starts / Ends / Tanzania time | Inaanza / Inaisha / Saa za Tanzania |
 | `merch.dates.startSoon` | Pick a start at least an hour from now. | Chagua muda wa kuanza angalau saa moja kuanzia sasa. |
 | `merch.dates.endAfter` | The end must be after the start. | Mwisho uwe baada ya mwanzo. |
-| `merch.banner.maxDays` | A banner can run for up to 30 days. | Bango linaweza kukaa hadi siku 30. |
+| ~~`merch.banner.maxDays`~~ | *(removed: no maximum length, owner 2026-10-20)* | |
 | `merch.banner.noPrices` | Banners can't show prices or discounts. Use a flash sale for a deal. | Mabango hayawezi kuonyesha bei wala punguzo. Tumia ofa ya muda mfupi kwa punguzo. |
 | `merch.banner.noLinks` | Remove links and phone numbers. | Ondoa viungo na namba za simu. |
 | `merch.banner.preview` / `previewA11y` | Preview / Preview of your banner | Hakiki / Hakiki ya bango lako |
@@ -851,7 +851,7 @@ Needs a real device (not checkable on Flutter web): Android/iOS OS location prom
 | Q-1 | Must vendors write banner/sale text in **both** English and Swahili (DD-P2-3), or may they write one language and FitFlex shows it in both? | Both required. Admin rejects mismatches. |
 | Q-2 | Banner text rule: block any price, % or "/=" in banner text (DD-P2-2)? | Yes; deals belong in flash sales where the server sets the price. |
 | Q-3 | Flash sale rules beyond your decisions: sale must beat a standing discount price (DD-P2-5); length 1 hour to 7 days and one sale per product at a time (DD-P2-12); price locked during a sale (DD-P2-4). Agree? | Yes to all four. |
-| Q-4 | Max 5 live banners per audience; approval blocked beyond that (DD-P2-11)? Banner max length 30 days? | Yes / yes. |
+| Q-4 | Max 5 live banners per audience; approval blocked beyond that (DD-P2-11)? Banner max length 30 days? | **Decided 2026-10-20 (owner): no cap, no maximum length.** Display limit only via `SHOP_BANNER_MAX_LIVE` (default unlimited). |
 | Q-5 | Location ask: invite card in the near-you slot opening the rationale sheet (DD-P2-7), rather than a sheet that pops up on first shop visit? | Invite card. |
 | Q-6 | Under-18 members: gender/age are never used (decided). Should purchase history and area also be off for them? | Yes, treat under-18 as personalisation off (safer; counsel to confirm). |
 | Q-7 | Vendor "Based in"/"Delivers to" and product "Made for"/"Age group" are **app-only** (the portal's products page says "edit in app"; there is no portal vendor profile form). OK for now? | Yes; add to the portal with the vendor-profile work later. |
@@ -868,3 +868,12 @@ Needs a real device (not checkable on Flutter web): Android/iOS OS location prom
 - The P1 spec (fitflex#65) is not on parent `release-candidate`; merge it first or alongside, and correct its "mkufunzi" Swahili (§10).
 - Swahili in this addendum needs native review; the glossary's "Hakuna intaneti" wording differs from the built P1 offline strings ("Huna mtandao"), which are left as they are.
 - `GeoArea` seed is thin (few districts); "Popular near you" will mostly resolve to a city until more districts are added in the admin areas screen.
+
+## 17. As-built notes (Slice 1, 2026-10-20)
+- **Phone carousel controls:** Previous/Next stay as 48dp buttons under the photo on phones (dots are pointer-only), so keyboard and switch users can change slides. On ≥1024 the arrows sit inside the photo edges. Focus order: CTA → Previous → Next.
+- **Rejected banners** can be edited (they return to draft) or copied.
+- **No live-banner cap and no maximum run** (owner); `SHOP_BANNER_MAX_LIVE` is a display limit only.
+- **Vendor CTA** is chosen from the fixed list (`ctaKey`); staff may write their own.
+- **Text rules (server):** no prices, percentages, any number of 4+ digits (years included), discount words (punguzo, bure, nusu bei, discount), links, @handles or phone numbers.
+- **Swahili:** bango takes li-/ya- agreement ("yanasubiri", "halijatumwa"); "End" = Sitisha; see the provisional glossary rows of 2026-10-20.
+
