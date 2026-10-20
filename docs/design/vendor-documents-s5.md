@@ -15,7 +15,7 @@ Ground rules:
 - **VAT is shown on vendor documents only.** Marketplace prices, the buyer's checkout total, commission and settlement do not change (O-10). FitFlex's commission never appears on a buyer or customer document.
 - **"This is not a TRA fiscal receipt."** stays on every document until S10.
 - **Money display: "TSh 95,000"** (glossary, owner 2026-10-19/20). "TZS" is used only in data and CSV headers. S3/S4 text templates still say "TZS". Builders should switch those to TSh in the same PR (string change only).
-- Dates are the EAT calendar. EN uses `19 Oct 2026, 14:05`. SW uses `19 Okt 2026, saa 8:05 mchana` (Swahili time, glossary §5a; months Jan Feb Mac Apr Mei Jun Jul Ago Sep Okt Nov Des). Marked for native review.
+- Dates are the EAT calendar. EN uses `19 Oct 2026, 14:05`. SW uses `19 Okt 2026, 2:05 mchana` (12-hour clock + day part, same rule as the apps — NOT the six-hour Swahili clock; glossary §5a; months Jan Feb Mac Apr Mei Jun Jul Ago Sep Okt Nov Des). Marked for native review.
 
 ---
 
