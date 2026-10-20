@@ -1,6 +1,6 @@
 # 2026-10-W5-B-owners — "Dar members don't come back for the machines."
 
-State: **brand_checked** (brand review passed 2026-10-20, 15 of 15; owner approval pending). Record: `social/data/ideas.jsonl`.
+State: **drafted** again (re-built in template v3 with Swahili on the slides; brand re-review pending). Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
@@ -18,20 +18,22 @@ State: **brand_checked** (brand review passed 2026-10-20, 15 of 15; owner approv
 
 ## Visual direction
 
-Text only, by the owner's request: deep slate ground, one Volt word per rule, sub-line under each headline, Fuel unused, no photos. Mono eyebrow "Run a better gym · n/8".
+Template v3: Volt-ground cover with the Swahili hook; rule slides with a large outlined numeral, Swahili headline, English under, a bilingual chip; a tick checklist for the FitFlex scoring slide; bilingual CTA. No photos. Mono eyebrow "Gym bora · run a better gym · n/8".
 
 ## Slides
 
+Template v3 (2026-10-20, owner asked for more engaging design and Swahili on the slides): Volt-ground cover, outlined numerals, Swahili headline with English under, bilingual chips, a tick checklist, bilingual CTA. Previous specs: `source/slides-v2.json`.
+
 | # | Kind | Text | Photo |
 |---|---|---|---|
-| 1 | type | Dar members don't come back for the machines. Five things that decide it before the first set. | none |
-| 2 | type | Rule 1. Karibu is the first rep. A greeting at the door. By name after week one. Nobody trains hard where they feel like a stranger. | none |
-| 3 | type | Rule 2. Plan for the power cut. A fan that works, water that runs, light when TANESCO lets you down. Members remember the gym that was ready. | none |
-| 4 | type | Rule 3. The changing room is the review. A clean floor, a hook for the bag, a mirror that isn't cracked. That is what they describe to a friend. | none |
-| 5 | type | Rule 4. Let them pay the way Dar pays. M-Pesa or Airtel Money at the desk, receipt on the phone. Not "come back tomorrow with cash". | none |
-| 6 | type | Rule 5. Someone on the floor who corrects form. Without being asked, without selling a package. That is the staff members talk about. | none |
-| 7 | type | FitFlex scores every gym on all of this before it joins. Equipment, amenities, facility and staff. Not just the weights. | none |
-| 8 | cta | Own a gym in Dar es Salaam? Comment PARTNER. We'll DM you how FitFlex works. | none |
+| 1 | cover | SW: Wanachama wa Dar hawarudi kwa ajili ya mashine. — EN: Dar members don't come back for the machines. | none |
+| 2 | rule | SW: Karibu ni rep ya kwanza. — EN: A greeting at the door. By name after week one. Nobody trains hard where they feel like a stranger. Chip: Mlangoni · at the door | none |
+| 3 | rule | SW: Jiandae na umeme kukatika. — EN: A fan that works, water that runs, light when TANESCO lets you down. Members remember the gym that was ready. Chip: Umeme · power | none |
+| 4 | rule | SW: Chumba cha kubadilishia ndiyo review. — EN: A clean floor, a hook for the bag, a mirror that isn't cracked. That is what they describe to a friend. Chip: Usafi · cleanliness | none |
+| 5 | rule | SW: Waache walipe jinsi Dar inavyolipa. — EN: M-Pesa or Airtel Money at the desk, receipt on the phone. Not "come back tomorrow with cash". Chip: Malipo · payment | none |
+| 6 | rule | SW: Mtu uwanjani anayerekebisha mazoezi. — EN: Without being asked, without selling a package. That is the staff members talk about. Chip: Wafanyakazi · staff | none |
+| 7 | check | SW: FitFlex inakagua kila gym kabla haijajiunga. — EN: FitFlex scores every gym on all of this before it joins. Not just the weights. Rows: Vifaa, Huduma, Jengo, Wafanyakazi | none |
+| 8 | cta | SW: Una gym Dar es Salaam? Andika — EN: Own a gym in Dar es Salaam? Comment PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. | none |
 
 Source: `source/slides.json`; render with `node social/tools/render-carousel.js social/content/2026-10-W5-B-owners --png`.
 
@@ -70,6 +72,7 @@ Comment **PARTNER** → the owner replies by DM himself (decided 2026-10-20). On
 
 ## Checks before approval
 
-- [x] Brand review (social-brand-reviewer): pass 2026-10-20, first try
+- [ ] Brand review of the v3 bilingual build (the v2 text-only build passed 2026-10-20)
+- [ ] Swahili on the slides is a Claude draft: the owner should read every Swahili line before approving, since it is now the lead text, not a caption
 - [ ] Owner comfortable with the TANESCO mention and with "Not “come back tomorrow with cash”" as tone
 - [ ] Confirm the vetting rubric still weighs amenities, facility and staffing (glossary) before claiming "scores every gym on all of this"

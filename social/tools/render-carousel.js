@@ -136,6 +136,42 @@ function htmlV2(i, sl) {
   return head + body + swipe + `<div class="handle">${handle}</div></body></html>`;
 }
 
+
+// ---- Template v3: bilingual slides (Swahili lead, English under), more variety ----
+// kinds: cover (Volt ground), rule (big numeral), check (ticks/crosses), quote (card), cta
+function htmlV3(i, sl) {
+  const n = slides.length; const kind = sl.kind || 'rule'; const num = String(i + 1).padStart(2, '0');
+  const eyebrow = `${spec.eyebrow || ''} · ${num}/${String(n).padStart(2, '0')}`;
+  const onVolt = V2.onVolt, volt = V2.volt;
+  const dark = kind !== 'cover';
+  const logo = (i === 0 || i === n - 1) ? `<img class="logo" src="${LOGO}">` : '';
+  const head = `<!doctype html><html><head><meta charset="utf-8"><style>
+ @font-face{font-family:Inter;font-weight:700;src:url("${FONTS}/Inter-700.ttf")}@font-face{font-family:Inter;font-weight:800;src:url("${FONTS}/Inter-800.ttf")}@font-face{font-family:Inter;font-weight:900;src:url("${FONTS}/Inter-900.ttf")}
+ @font-face{font-family:Mono;font-weight:700;src:url("${FONTS}/JetBrainsMono-700.ttf")}@font-face{font-family:Mono;font-weight:500;src:url("${FONTS}/JetBrainsMono-500.ttf")}
+ *{box-sizing:border-box;margin:0}body{width:${W}px;height:${H}px;overflow:hidden;font-family:Inter,sans-serif;position:relative;background:${dark ? V2.ground : volt};color:${dark ? V2.ink : onVolt}}
+ .eyebrow{position:absolute;top:80px;left:72px;font-family:Mono;font-weight:700;font-size:26px;letter-spacing:.18em;text-transform:uppercase;color:${dark ? volt : onVolt}}
+ .logo{position:absolute;top:64px;right:72px;width:72px;height:72px;border-radius:18px}
+ .handle{position:absolute;bottom:60px;right:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${dark ? V2.quiet : onVolt};opacity:${dark ? 1 : .7}}
+ .swipe{position:absolute;bottom:60px;left:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${dark ? V2.quiet : onVolt};opacity:${dark ? 1 : .7}}
+ h1{font-weight:900;line-height:.96;letter-spacing:-.045em}h1 em{font-style:normal;color:${dark ? volt : onVolt};${dark ? '' : 'text-decoration:underline;text-decoration-thickness:10px;text-underline-offset:14px'}}
+ .en{font-size:38px;font-weight:700;line-height:1.25;color:${dark ? V2.body : onVolt};opacity:${dark ? 1 : .85}}
+ .numeral{position:absolute;top:150px;left:60px;font-weight:900;font-size:320px;line-height:1;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:4px ${volt};opacity:.9}
+ .chip{display:inline-block;padding:14px 26px;border-radius:999px;border:3px solid ${volt};color:${volt};font-family:Mono;font-weight:700;font-size:24px;letter-spacing:.12em;text-transform:uppercase}
+ .row{display:flex;align-items:center;gap:26px;padding:26px 0;border-bottom:2px solid ${V2.line}}.row .mark{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:40px}.row .t{font-weight:900;font-size:64px;letter-spacing:-2px}.row .t small{display:block;font-weight:700;font-size:28px;letter-spacing:0;color:${V2.muted}}
+ .card{position:absolute;left:72px;right:72px;top:300px;background:#0F172A;border:2px solid ${V2.line};border-radius:36px;padding:64px}
+ .bar{position:absolute;left:72px;top:150px;width:120px;height:12px;border-radius:6px;background:${volt}}
+ </style></head><body>`;
+  let body = '';
+  if (kind === 'cover') body = `<div class="eyebrow">${eyebrow}</div>${logo}<div style="position:absolute;left:72px;right:72px;top:360px"><h1 style="font-size:${sl.size || 132}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:48px;max-width:880px">${sl.en}</div>` : ''}</div>${sl.s ? `<div style="position:absolute;left:72px;right:72px;bottom:150px;font-family:Mono;font-weight:700;font-size:26px;letter-spacing:.12em;text-transform:uppercase;color:${onVolt};opacity:.8">${sl.s}</div>` : ''}`;
+  else if (kind === 'rule') body = `<div class="eyebrow">${eyebrow}</div>${logo}<div class="numeral">${sl.num || num}</div><div style="position:absolute;left:72px;right:72px;top:520px"><h1 style="font-size:${sl.size || 104}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:40px;max-width:900px">${sl.en}</div>` : ''}${sl.chip ? `<div style="margin-top:56px"><span class="chip">${sl.chip}</span></div>` : ''}</div>`;
+  else if (kind === 'check') { const rows = (sl.rows || []).map(r => `<div class="row"><div class="mark" style="background:${r.ok === false ? V2.fuel : volt};color:${onVolt}">${r.ok === false ? '✕' : '✓'}</div><div class="t">${r.t}${r.en ? `<small>${r.en}</small>` : ''}</div></div>`).join('');
+    body = `<div class="eyebrow">${eyebrow}</div>${logo}<div class="bar"></div><div style="position:absolute;left:72px;right:72px;top:200px"><h1 style="font-size:${sl.size || 92}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:28px">${sl.en}</div>` : ''}</div><div style="position:absolute;left:72px;right:72px;top:${sl.top || 600}px">${rows}</div>`; }
+  else if (kind === 'quote') body = `<div class="eyebrow">${eyebrow}</div>${logo}<div class="card"><div style="font-weight:900;font-size:140px;line-height:.6;color:${volt};margin-bottom:40px">“</div><h1 style="font-size:${sl.size || 88}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:40px">${sl.en}</div>` : ''}${sl.by ? `<div style="margin-top:48px;font-family:Mono;font-size:24px;letter-spacing:.12em;text-transform:uppercase;color:${V2.muted}">${sl.by}</div>` : ''}</div>`;
+  else if (kind === 'cta') body = `<div class="eyebrow">${eyebrow}</div>${logo}<div style="position:absolute;left:72px;right:72px;top:280px"><h1 style="font-size:${sl.size || 80}px;color:${V2.ink}">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:24px">${sl.en}</div>` : ''}</div><div style="position:absolute;left:60px;right:40px;top:${sl.kwTop || 640}px;font-weight:900;font-size:${sl.kwSize || 210}px;letter-spacing:-.05em;color:${volt};line-height:1">${sl.kw}</div><div class="en" style="position:absolute;left:72px;right:72px;bottom:190px;color:${V2.ink}">${sl.cta || ''}${sl.ctaEn ? `<div style="margin-top:12px;font-size:30px;color:${V2.muted}">${sl.ctaEn}</div>` : ''}</div>`;
+  const swipe = i < n - 1 ? `<div class="swipe">swipe →</div>` : '';
+  return head + body + swipe + `<div class="handle">${handle}</div></body></html>`;
+}
+
 const srcDir = path.join(contentDir, 'source');
 const outDir = path.join(contentDir, 'slides');
 fs.mkdirSync(outDir, { recursive: true });
@@ -143,7 +179,7 @@ const chrome = process.env.CHROME_BIN || '/Applications/Google Chrome.app/Conten
 slides.forEach((sl, i) => {
   const nn = String(i + 1).padStart(2, '0');
   const f = path.join(srcDir, `${spec.prefix || ''}${nn}.html`);
-  fs.writeFileSync(f, spec.style === 'v2' ? htmlV2(i, sl) : html(i, sl));
+  fs.writeFileSync(f, spec.style === 'v3' ? htmlV3(i, sl) : spec.style === 'v2' ? htmlV2(i, sl) : html(i, sl));
   if (wantPng) {
     const png = path.join(outDir, `${spec.prefix || ''}${nn}.png`);
     execFileSync(chrome, ['--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run', `--window-size=${W},${H}`, `--screenshot=${png}`, `file://${f}`], { stdio: 'ignore' });
