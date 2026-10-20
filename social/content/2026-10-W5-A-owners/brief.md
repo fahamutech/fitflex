@@ -1,13 +1,13 @@
 # 2026-10-W5-A-owners — "Dar gym owners are watching the wrong numbers."
 
-State: **drafted** (brand review requested; owner approval pending). Record: `social/data/ideas.jsonl`.
+State: **brand_checked** (brand review passed 2026-10-20 after one revision; owner approval pending). Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
 | Pillar | Run a better gym |
 | Audience | Gym owners (Hassan persona) |
 | Problem | Owners measure sign-ups, enquiries and cash, and miss the shifts that show up in visits first |
-| Objective | Save the post, comment PARTNER; FitFlex as the operator's tool |
+| Objective | Owners comment PARTNER; FitFlex as the operator's tool |
 | Hook | Dar gym owners are watching the wrong numbers. |
 | Concept | Trends carousel in our own words: hook, eight shifts one per slide, PARTNER. Shifts 2 and 6 are assumptions and are worded as such (shift 6 as a question) |
 | Format | Carousel, 10 slides, 1080×1350, template v2 (dark, Volt accent; 2 photo slides, 1 list slide) |
@@ -72,6 +72,6 @@ Comment **PARTNER** → the owner replies by DM himself (decided 2026-10-20). Th
 
 ## Checks before approval
 
-- [ ] Brand review (social-brand-reviewer)
+- [x] Brand review (social-brand-reviewer): pass 2026-10-20 after one revise (shift 2 as a question, one CTA)
 - [ ] Confirm in the current build: engagement states and visit trends on the owner dashboard (shifts 1, 5); QR check-in and trainer booking (shift 4); trainer in-app payment (shift 7)
 - [x] Shifts 2 and 6 worded as questions after brand review (assumptions, not facts)
