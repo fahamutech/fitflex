@@ -1,6 +1,6 @@
 # 2026-10-W5-A-owners — "Dar gym owners are watching the wrong numbers."
 
-State: **scheduled** on Instagram for Tue 27 Oct 2026 17:00 Dar es Salaam (pub_0012, v2 render in the planner). Rebuilt in v3 on 2026-10-20 for the weekly rotation; the v3 version needs brand review and the owner's exact-version approval before it is swapped in. Record: `social/data/ideas.jsonl`.
+State: **scheduled** on Instagram for Tue 27 Oct 2026 17:00 Dar es Salaam (pub_0012; v3 render swapped into the planner 2026-10-20 after the owner's exact-version approval). Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|

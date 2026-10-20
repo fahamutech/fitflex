@@ -1,6 +1,6 @@
 # 2026-10-W5-B-owners — "Dar members don't come back for the machines."
 
-State: **brand_checked** (v3 bilingual build passed brand review 2026-10-20; owner approval pending). Record: `social/data/ideas.jsonl`.
+State: **scheduled** on Instagram for Thu 29 Oct 2026 17:00 Dar es Salaam (pub_0014; owner approved 2026-10-20). Note: the Swahili caption still says "mtu uwanjani anayerekebisha mazoezi yao" while the slide now says "Trainer anayejua mazoezi"; aligning it needs a fresh owner line and one Metricool update. Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
