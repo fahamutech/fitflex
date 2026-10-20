@@ -1,0 +1,43 @@
+{
+  "record": "2026-10-W5-A-owners",
+  "version_note": "Template v2. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/E01.png",
+    "slides/E02.png",
+    "slides/E03.png",
+    "slides/E04.png",
+    "slides/E05.png",
+    "slides/E06.png",
+    "slides/E07.png",
+    "slides/E08.png",
+    "slides/E09.png",
+    "slides/E10.png"
+  ],
+  "altText": [
+    "Photo slide; text: Dar gym owners are watching the wrong numbers.",
+    "Text slide; 1. Visits are the number, not sign-ups.",
+    "Text slide; 2. The notebook is the problem.",
+    "Text slide; 3. Members already pay by phone. Rows: M-Pesa, Airtel Money, Tigo Pesa, Cash only",
+    "Text slide; 4. Your front door is a phone screen.",
+    "Text slide; 5. Nobody says goodbye.",
+    "Text slide; 6. Would your members stay if a cheaper gym opened next door?",
+    "Text slide; 7. Trainers want bookings and payment in one place.",
+    "Photo slide; text: 8. Listed gyms get members they never advertised to.",
+    "Text slide; Own a gym in Dar es Salaam? Comment PARTNER. We'll DM you how FitFlex works. Save this first."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Dar gym owners are watching the wrong numbers. Sign-ups, enquiries, cash in the drawer. Eight shifts are changing gyms right now, and most of them show up in your visits before they show up in your bank.\nSave this. Own a gym in Dar? Comment PARTNER.\n\nWamiliki wa gym Dar wanaangalia namba zisizo sahihi. Usajili, maulizo, pesa taslimu. Mabadiliko manane yanabadilisha gym sasa hivi, na mengi yanaonekana kwenye ziara kabla ya kuonekana benki.\nHifadhi post hii. Una gym Dar? Andika PARTNER.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Dar gym owners are watching the wrong numbers. Sign-ups, enquiries, cash in the drawer. Eight shifts are changing gyms right now, and most of them show up in your visits before they show up in your bank.\nSave this. Own a gym in Dar? Comment PARTNER.\n\nWamiliki wa gym Dar wanaangalia namba zisizo sahihi. Usajili, maulizo, pesa taslimu. Mabadiliko manane yanabadilisha gym sasa hivi, na mengi yanaonekana kwenye ziara kabla ya kuonekana benki.\nHifadhi post hii. Una gym Dar? Andika PARTNER.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PARTNER",
+  "reply_path": "the owner replies to keyword comments and DMs himself while traffic is low (2026-10-20); comment-to-DM module later"
+}
