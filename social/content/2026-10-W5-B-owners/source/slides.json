@@ -8,13 +8,13 @@
   "slides": [
     {
       "kind": "cover",
-      "h": "Wanachama wa Dar hawarudi kwa ajili ya <em>mashine.</em>",
+      "h": "Wateja wa gym hawarudi kwa ajili ya <em>mashine.</em>",
       "en": "Dar members don’t come back for the machines.",
       "s": "Kanuni tano · five rules"
     },
     {
       "kind": "rule",
-      "h": "<em>Karibu</em> ni rep ya kwanza.",
+      "h": "Karibu ni <em>step</em> ya kwanza.",
       "en": "A greeting at the door. By name after week one. Nobody trains hard where they feel like a stranger.",
       "chip": "Mlangoni · at the door",
       "num": "01"
@@ -42,7 +42,7 @@
     },
     {
       "kind": "rule",
-      "h": "Mkufunzi anayekurekebisha <em>bila kuombwa.</em>",
+      "h": "Trainer anayejua <em>mazoezi.</em>",
       "en": "Without being asked, without selling a package. That is the staff members talk about.",
       "chip": "Wafanyakazi · staff",
       "num": "05"

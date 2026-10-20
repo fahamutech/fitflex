@@ -26,12 +26,12 @@ Template v3 (2026-10-20, owner asked for more engaging design and Swahili on the
 
 | # | Kind | Text | Photo |
 |---|---|---|---|
-| 1 | cover | SW: Wanachama wa Dar hawarudi kwa ajili ya mashine. — EN: Dar members don't come back for the machines. | none |
-| 2 | rule | SW: Karibu ni rep ya kwanza. — EN: A greeting at the door. By name after week one. Nobody trains hard where they feel like a stranger. Chip: Mlangoni · at the door | none |
+| 1 | cover | SW: Wateja wa gym hawarudi kwa ajili ya mashine. — EN: Dar members don't come back for the machines. | none |
+| 2 | rule | SW: Karibu ni step ya kwanza. — EN: A greeting at the door. By name after week one. Nobody trains hard where they feel like a stranger. Chip: Mlangoni · at the door | none |
 | 3 | rule | SW: Jiandae na umeme kukatika. — EN: A fan that works, water that runs, light when TANESCO lets you down. Members remember the gym that was ready. Chip: Umeme · power | none |
 | 4 | rule | SW: Chumba cha kubadilishia ndiyo review. — EN: A clean floor, a hook for the bag, a mirror that isn't cracked. That is what they describe to a friend. Chip: Usafi · cleanliness | none |
 | 5 | rule | SW: Waache walipe jinsi Dar inavyolipa. — EN: M-Pesa or Airtel Money at the desk, receipt on the phone. Not "come back tomorrow with cash". Chip: Malipo · payment | none |
-| 6 | rule | SW: Mkufunzi anayekurekebisha bila kuombwa. — EN: Without being asked, without selling a package. That is the staff members talk about. Chip: Wafanyakazi · staff | none |
+| 6 | rule | SW: Trainer anayejua mazoezi. — EN: Without being asked, without selling a package. That is the staff members talk about. Chip: Wafanyakazi · staff | none |
 | 7 | check | SW: FitFlex inakagua kila gym kabla haijajiunga. — EN: FitFlex scores every gym on all of this before it joins. Not just the weights. Rows: Vifaa, Huduma, Jengo, Wafanyakazi | none |
 | 8 | cta | SW: Una gym Dar es Salaam? Andika — EN: Own a gym in Dar es Salaam? Comment PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. | none |
 
@@ -48,7 +48,7 @@ Headlines 80–132 px Inter 900 (cover 132 on Volt with on-volt text, rules 104,
 > Own a gym in Dar? Comment PARTNER.
 
 **Swahili**
-> Wanachama wa Dar hawarudi kwa ajili ya mashine. Wanarudi kwa ajili ya karibu mlangoni, feni inayofanya kazi umeme ukikatika, chumba cha kubadilishia nguo wanachokisifia kwa rafiki, kulipa kwa M-Pesa, na mtu uwanjani anayerekebisha mazoezi yao. Kanuni tano, hazihitaji vifaa.
+> Wateja wa gym hawarudi kwa ajili ya mashine. Wanarudi kwa ajili ya karibu mlangoni, feni inayofanya kazi umeme ukikatika, chumba cha kubadilishia nguo wanachokisifia kwa rafiki, kulipa kwa M-Pesa, na mtu uwanjani anayerekebisha mazoezi yao. Kanuni tano, hazihitaji vifaa.
 > Una gym Dar? Andika PARTNER.
 
 Swahili is a Claude draft; the owner chose to proceed without native review for now. "TANESCO" (slide 3) is the national power utility; keep it, Dar readers know it.
@@ -73,7 +73,7 @@ Comment **PARTNER** → the owner replies by DM himself (decided 2026-10-20). On
 ## Checks before approval
 
 - [x] Brand review of the v3 bilingual build: pass 2026-10-20 (15 of 15); F06 reworded after the reviewer's note on 'uwanjani'
-- [ ] Swahili on the slides is a Claude draft: the owner should read every Swahili line before approving, since it is now the lead text, not a caption
-- [ ] Owner confirms the Volt-ground cover (canon still says social slides are dark-ground only; the cover is a proposal, not yet a ruling)
+- [x] Owner read the Swahili and changed three lines 2026-10-20 (cover, rule 1, rule 5); the rest stand as drafts accepted by the owner
+- [x] Owner 2026-10-20: Volt cover is fine, alternate with dark covers across posts (written into canon)
 - [ ] Owner comfortable with the TANESCO mention and with "Not “come back tomorrow with cash”" as tone
 - [ ] Confirm the vetting rubric still weighs amenities, facility and staffing (glossary) before claiming "scores every gym on all of this"
