@@ -126,12 +126,12 @@ function htmlV2(i, sl) {
  .foot{position:absolute;left:72px;bottom:112px;font-family:Mono;font-size:22px;letter-spacing:.1em;color:${V2.quiet};text-transform:uppercase}
  </style></head><body>`;
   let body = '';
-  if (kind === 'photo') body = `<div class="ph"></div><div class="scrim"></div><div class="eyebrow">${eyebrow}</div>${logo}<h1 style="position:absolute;left:72px;right:72px;bottom:${sl.s ? (sl.s.replace(/<[^>]+>/g, '').length > 44 ? 240 : 190) : 150}px;font-size:${Math.min(hsize, 128)}px">${sl.h}</h1>${sl.s ? `<div class="sub" style="position:absolute;left:72px;right:72px;bottom:110px">${sl.s}</div>` : ''}`;
+  if (kind === 'photo') body = `<div class="ph"></div><div class="scrim"></div><div class="eyebrow">${eyebrow}</div>${logo}<h1 style="position:absolute;left:72px;right:72px;bottom:${sl.s ? (sl.s.replace(/<[^>]+>/g, '').length > 44 ? 240 : 190) : 150}px;font-size:${Math.min(hsize, 128)}px">${sl.h}</h1>${sl.s ? `<div class="sub" style="position:absolute;left:72px;right:72px;bottom:110px">${sl.s}${sl.en ? `<div style="margin-top:10px;font-size:30px;color:${V2.muted}">${sl.en}</div>` : ''}</div>` : (sl.en ? `<div class="sub" style="position:absolute;left:72px;right:72px;bottom:110px;color:${V2.muted};font-size:32px">${sl.en}</div>` : '')}`;
   else if (kind === 'list') { const tone = t => t === 'volt' ? V2.volt : t === 'fuel' ? V2.fuel : '#334155'; const rows = (sl.rows || []).map(r => `<div class="row"><div class="bar" style="background:${tone(r.tone)}"></div><div class="t" style="color:${r.tone === 'fuel' ? V2.fuel : r.tone === 'muted' ? V2.body : V2.ink}">${r.t}</div>${r.tag ? `<div class="tag">${r.tag}</div>` : ''}</div>`).join('');
     body = `<div class="glow" style="top:-500px;left:400px"></div><div class="eyebrow">${eyebrow}</div>${logo}<h1 style="position:absolute;left:72px;right:72px;top:170px;font-size:${Math.min(hsize, 100)}px">${sl.h}</h1><div style="position:absolute;left:72px;right:72px;top:${sl.top || 540}px">${rows}</div>${sl.note ? `<div class="foot">${sl.note}</div>` : ''}`; }
   else if (kind === 'cta') body = `<div class="glow" style="top:300px;left:100px"></div><div class="eyebrow">${eyebrow}</div>${logo}<div style="position:absolute;left:72px;right:72px;top:300px;font-size:64px;font-weight:800;color:${V2.body};letter-spacing:-2px;line-height:1.1">${sl.h}<br>Comment</div><div style="position:absolute;left:60px;right:40px;top:540px;font-weight:900;font-size:${sl.kwSize || 210}px;letter-spacing:-.05em;color:${V2.volt};line-height:1">${sl.kw}</div><div class="sub" style="position:absolute;left:72px;right:72px;bottom:200px;color:${V2.ink}">${sl.cta || ''}</div>`;
   // type-only slides: the sub sits directly under the headline (owner 2026-10-20), not at the foot of the slide
-  else body = `<div class="glow" style="top:650px;left:-250px"></div><div class="eyebrow">${eyebrow}</div>${logo}<div style="position:absolute;left:72px;right:72px;top:300px"><h1 style="font-size:${hsize}px">${sl.h}</h1>${sl.s ? `<div class="sub" style="margin-top:44px;max-width:860px">${sl.s}</div>` : ''}</div>`;
+  else body = `<div class="glow" style="top:650px;left:-250px"></div><div class="eyebrow">${eyebrow}</div>${logo}<div style="position:absolute;left:72px;right:72px;top:300px"><h1 style="font-size:${hsize}px">${sl.h}</h1>${sl.s ? `<div class="sub" style="margin-top:44px;max-width:860px">${sl.s}</div>` : ''}${sl.en ? `<div class="sub" style="margin-top:${sl.s ? 18 : 44}px;max-width:860px;color:${V2.muted};font-size:32px">${sl.en}</div>` : ''}</div>`;
   const swipe = i < n - 1 ? `<div style="position:absolute;bottom:60px;left:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${V2.quiet}">swipe →</div>` : '';
   return head + body + swipe + `<div class="handle">${handle}</div></body></html>`;
 }
@@ -172,6 +172,39 @@ function htmlV3(i, sl) {
   return head + body + swipe + `<div class="handle">${handle}</div></body></html>`;
 }
 
+
+// ---- Template editorial: cream / navy / green grounds, brand green accent, arch-cropped B&W photo, numbered ----
+const ED = { cream: '#FFF6E5', navy: '#0B192C', green: tokens.color.primary['500'] || '#1F7A3A', greenLight: tokens.color.primary['200'] || '#9ED1AF', fuel: V2.fuel, rule: '#1E293B', mutedOnCream: '#64748B', mutedOnNavy: '#94A3B8' };
+function htmlED(i, sl) {
+  const n = slides.length; const kind = sl.kind || 'rule'; const num = String(i + 1).padStart(2, '0');
+  const ground = sl.ground || (kind === 'cover' ? 'cream' : kind === 'cta' || kind === 'check' ? 'green' : (i % 2 ? 'navy' : 'cream'));
+  const bg = ED[ground]; const ink = ground === 'cream' ? ED.navy : ED.cream; const accent = ground === 'cream' ? ED.green : ground === 'navy' ? ED.greenLight : ED.cream; const muted = ground === 'cream' ? ED.mutedOnCream : ground === 'navy' ? ED.mutedOnNavy : '#C4E3CF';
+  const logo = (i === 0 || i === n - 1) ? `<img class="logo" src="${LOGO}">` : '';
+  const head = `<!doctype html><html><head><meta charset="utf-8"><style>
+ @font-face{font-family:Inter;font-weight:700;src:url("${FONTS}/Inter-700.ttf")}@font-face{font-family:Inter;font-weight:800;src:url("${FONTS}/Inter-800.ttf")}@font-face{font-family:Inter;font-weight:900;src:url("${FONTS}/Inter-900.ttf")}
+ @font-face{font-family:Mono;font-weight:700;src:url("${FONTS}/JetBrainsMono-700.ttf")}@font-face{font-family:Mono;font-weight:500;src:url("${FONTS}/JetBrainsMono-500.ttf")}
+ *{box-sizing:border-box;margin:0}body{width:${W}px;height:${H}px;overflow:hidden;font-family:Inter,sans-serif;position:relative;background:${bg};color:${ink}}
+ .num{position:absolute;top:72px;left:72px;font-weight:900;font-size:40px;letter-spacing:-1px;color:${accent}}.num span{color:${muted};font-weight:700}
+ .rule{position:absolute;top:140px;left:72px;right:72px;height:4px;background:${accent}}
+ .logo{position:absolute;top:64px;right:72px;width:72px;height:72px;border-radius:18px}
+ .frame{position:absolute;left:72px;right:72px;top:176px;height:${sl.frameH || 560}px;border-radius:300px 300px 28px 28px;overflow:hidden}.frame img{width:100%;height:100%;object-fit:cover;object-position:${sl.pos || '50% 20%'};filter:grayscale(1) contrast(1.05)}
+ h1{font-weight:900;line-height:.98;letter-spacing:-.04em}h1 em{font-style:normal;color:${accent}}
+ .en{font-size:36px;font-weight:700;line-height:1.25;color:${muted}}
+ .cap{position:absolute;left:72px;bottom:110px;font-family:Mono;font-size:22px;letter-spacing:.12em;text-transform:uppercase;color:${muted}}
+ .handle{position:absolute;bottom:60px;right:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${muted}}.swipe{position:absolute;bottom:60px;left:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${muted}}
+ .li{display:flex;gap:30px;align-items:baseline;padding:22px 0;border-bottom:2px solid ${ground === 'cream' ? '#E7DCC6' : ground === 'navy' ? ED.rule : '#2E8B4F'}}.li .k{font-family:Mono;font-size:26px;color:${accent};font-weight:700}.li .t{font-weight:900;font-size:60px;letter-spacing:-2px}.li .t small{display:block;font-weight:700;font-size:26px;letter-spacing:0;color:${muted}}
+ </style></head><body>`;
+  const numBlock = `<div class="num">${num} <span>/ ${String(n).padStart(2, '0')}</span></div><div class="rule"></div>`;
+  let body = '';
+  if (kind === 'cover') body = `${numBlock}${logo}${sl.ph ? `<div class="frame"><img src="${PH}${sl.ph}.jpg"></div>` : ''}<div style="position:absolute;left:72px;right:72px;top:${sl.ph ? 780 : 320}px"><h1 style="font-size:${sl.size || 104}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:28px">${sl.en}</div>` : ''}</div>${sl.s ? `<div class="cap">${sl.s}</div>` : ''}`;
+  else if (kind === 'rule') body = `${numBlock}${logo}<div style="position:absolute;left:72px;right:72px;top:${sl.ph ? 800 : 300}px">${sl.ph ? '' : `<div style="font-family:Mono;font-weight:700;font-size:28px;letter-spacing:.14em;color:${accent};margin-bottom:28px">${sl.chip || ''}</div>`}<h1 style="font-size:${sl.size || 100}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:36px;max-width:900px">${sl.en}</div>` : ''}</div>${sl.ph ? `<div class="frame" style="height:560px"><img src="${PH}${sl.ph}.jpg"></div>` : ''}`;
+  else if (kind === 'check') { const rows = (sl.rows || []).map((r, k) => `<div class="li"><div class="k">0${k + 1}</div><div class="t">${r.t}${r.en ? `<small>${r.en}</small>` : ''}</div></div>`).join('');
+    body = `${numBlock}${logo}<div style="position:absolute;left:72px;right:72px;top:200px"><h1 style="font-size:${sl.size || 88}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:24px">${sl.en}</div>` : ''}</div><div style="position:absolute;left:72px;right:72px;top:${sl.top || 580}px">${rows}</div>`; }
+  else if (kind === 'cta') body = `${numBlock}${logo}<div style="position:absolute;left:72px;right:72px;top:260px"><h1 style="font-size:${sl.size || 96}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:24px">${sl.en}</div>` : ''}</div><div style="position:absolute;left:72px;top:${sl.kwTop || 640}px"><div style="font-family:Mono;font-size:26px;letter-spacing:.14em;margin-bottom:18px;color:${muted}">COMMENT · ANDIKA</div><div style="display:inline-block;background:${ED.navy};color:${ED.cream};font-weight:900;font-size:110px;letter-spacing:-3px;padding:14px 48px;border-radius:28px">${sl.kw}</div><div class="en" style="margin-top:26px;color:${ink}">${sl.cta || ''}${sl.ctaEn ? `<div style="font-size:28px;color:${muted};margin-top:8px">${sl.ctaEn}</div>` : ''}</div></div>`;
+  const swipe = i < n - 1 ? `<div class="swipe">swipe →</div>` : '';
+  return head + body + swipe + `<div class="handle">${handle}</div></body></html>`;
+}
+
 const srcDir = path.join(contentDir, 'source');
 const outDir = path.join(contentDir, 'slides');
 fs.mkdirSync(outDir, { recursive: true });
@@ -179,7 +212,7 @@ const chrome = process.env.CHROME_BIN || '/Applications/Google Chrome.app/Conten
 slides.forEach((sl, i) => {
   const nn = String(i + 1).padStart(2, '0');
   const f = path.join(srcDir, `${spec.prefix || ''}${nn}.html`);
-  fs.writeFileSync(f, spec.style === 'v3' ? htmlV3(i, sl) : spec.style === 'v2' ? htmlV2(i, sl) : html(i, sl));
+  fs.writeFileSync(f, spec.style === 'editorial' ? htmlED(i, sl) : spec.style === 'v3' ? htmlV3(i, sl) : spec.style === 'v2' ? htmlV2(i, sl) : html(i, sl));
   if (wantPng) {
     const png = path.join(outDir, `${spec.prefix || ''}${nn}.png`);
     execFileSync(chrome, ['--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run', `--window-size=${W},${H}`, `--screenshot=${png}`, `file://${f}`], { stdio: 'ignore' });

@@ -30,6 +30,7 @@ You review one content record under `social/content/<id>/`. Input: the record id
 | Bilingual and review status | Caption has English and Swahili; Swahili carries the 'needs native review' flag unless an `approvals.jsonl` note records a named reviewer's sign-off |
 | CTA | One ask; keyword only with a stated reply path |
 | Licences | Every photo and generated image in `licences.md` with source and provenance; unknown licence marked UNRESOLVED, never asserted. A missing entry fails; an UNRESOLVED entry passes this rule but goes in `notes` as something the owner must resolve before `approved` |
+| Rotation | The record's `style` matches `node social/tools/style.js <scheduled date>` (v2 / v3 / editorial by week); Swahili leads on slides with English under; covers alternate Volt and dark across consecutive posts |
 | Platform | Format and size match `references/platform-specs.md` for each platform marked `drafted`; unconfirmed platforms are `not adapted` |
 | State | Record is `drafted`; an `approvals.jsonl` line records idea → drafted; no `approved` line written by anyone but the owner |
 

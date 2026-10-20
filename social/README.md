@@ -56,6 +56,10 @@ Times are ISO 8601 with the East Africa offset (`+03:00`).
 
 See `social/USAGE.md` for what to say to Claude Code, how approval is written, and the Cowork note.
 
+## Template rotation (owner, 2026-10-20)
+
+Three looks rotate weekly: week 1 photo-scrim (`style: v2`), week 2 type-first bilingual (`style: v3`), week 3 editorial (`style: editorial`), then the cycle restarts; anchored on ISO week 43 of 2026. `node social/tools/style.js <date>` says which applies; the generated calendar shows it per record. Across all three: Swahili is the lead text on slides with English under it, captions follow the odd/even week language rule, and covers alternate Volt and dark across consecutive posts.
+
 ## Rendering a carousel
 
 ```bash
