@@ -1,6 +1,6 @@
 # 2026-10-W5-A-owners — "Dar gym owners are watching the wrong numbers."
 
-State: **scheduled** on Instagram for Tue 27 Oct 2026 17:00 Dar es Salaam (pub_0012; owner approved 2026-10-20). Record: `social/data/ideas.jsonl`.
+State: **scheduled** on Instagram for Tue 27 Oct 2026 17:00 Dar es Salaam (pub_0012, v2 render in the planner). Rebuilt in v3 on 2026-10-20 for the weekly rotation; the v3 version needs brand review and the owner's exact-version approval before it is swapped in. Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
@@ -10,7 +10,7 @@ State: **scheduled** on Instagram for Tue 27 Oct 2026 17:00 Dar es Salaam (pub_0
 | Objective | Owners comment PARTNER; FitFlex as the operator's tool |
 | Hook | Dar gym owners are watching the wrong numbers. |
 | Concept | Trends carousel in our own words: hook, eight shifts one per slide, PARTNER. Shifts 2 and 6 are assumptions and are worded as such (shift 6 as a question) |
-| Format | Carousel, 10 slides, 1080×1350, template v2 (dark, Volt accent; 2 photo slides, 1 list slide) |
+| Format | Carousel, 10 slides, 1080×1350, template v3 bilingual (text-only: dark cover, 8 numbered shifts, 1 checklist, CTA) |
 | Language lead | English (ISO week 44 is even); Swahili second |
 | Inspiration | ins_2026-10-20_459ac6 (gsdgyms trends carousel: format only), ins_2026-10-09_01 (operator-authority structure). No wording or imagery reused |
 | Facts cited | See `facts_cited` in the record: shifts 1, 3, 4, 5, 7, 8 rest on FitFlex_Platform_Business_Overview.md and the glossary [FACT]; shift 2 on the Hassan persona research [ASSUMPTION]; shift 6 is the gsdgyms claim written as a question [ASSUMPTION]. No statistics, prices, caps or payouts |
@@ -22,18 +22,20 @@ Type-first on deep slate with one Volt word per shift; a photo-scrim hook (owner
 
 ## Slides
 
+Template v3 (rotation: ISO week 44 = type-first bilingual). Dark cover (the Thursday post carries the Volt cover). Swahili lead, English under. Previous v2 spec: `source/slides-v2.json`.
+
 | # | Kind | Text | Photo |
 |---|---|---|---|
-| 1 | photo | Dar gym owners are watching the wrong numbers. Sign-ups. Enquiries. Cash in the drawer. Eight shifts are changing gyms right now. | pexels-4720565 |
-| 2 | type | 1. Visits are the number, not sign-ups. A member who joined and stopped coming is a cancellation you haven't seen yet. | none |
-| 3 | type | 2. Is the notebook the problem? If your gym runs on WhatsApp, a notebook and cash, nobody can see who's slipping. | none |
-| 4 | list | 3. Members already pay by phone. Rows: M-Pesa, Airtel Money, Tigo Pesa, Cash only | none |
-| 5 | type | 4. Your front door is a phone screen. Find the gym, check in with a QR, book a trainer. If it's slow, they feel it before you do. | none |
-| 6 | type | 5. Nobody says goodbye. The only early signal is fewer visits. | none |
-| 7 | type | 6. Would your members stay if a cheaper gym opened next door? If the honest answer is “the ones who feel at home”, protect that. | none |
-| 8 | type | 7. Trainers want bookings and payment in one place. Give them that and you give them a reason to stay. | none |
-| 9 | photo | 8. Listed gyms get members they never advertised to. Travellers and multi-gym members choose from the network. | pexels-4173217 |
-| 10 | cta | Own a gym in Dar es Salaam? Comment PARTNER. We'll DM you how FitFlex works. | none |
+| 1 | cover | SW: Wamiliki wa gym Dar wanaangalia namba zisizo sahihi. — EN: Dar gym owners are watching the wrong numbers. | none |
+| 2 | rule | SW: Ziara ndiyo namba, si usajili. — EN: A member who joined and stopped coming is a cancellation you haven't seen yet. | none |
+| 3 | rule | SW: Je, daftari ndilo tatizo? — EN: If your gym runs on WhatsApp, a notebook and cash, nobody can see who's slipping. | none |
+| 4 | check | SW: Wanachama tayari wanalipa kwa simu. — EN: Members already pay by phone. Cash only is the exception. Rows: M-Pesa, Airtel Money, Tigo Pesa, Cash tu | none |
+| 5 | rule | SW: Mlango wako wa mbele ni skrini ya simu. — EN: Find the gym, check in with a QR, book a trainer. If it's slow, they feel it before you do. | none |
+| 6 | rule | SW: Hakuna anayesema kwaheri. — EN: Nobody says goodbye. The only early signal is fewer visits. | none |
+| 7 | rule | SW: Wateja wako wangebaki gym ya bei nafuu ikifunguliwa jirani? — EN: If the honest answer is "the ones who feel at home", protect that. | none |
+| 8 | rule | SW: Trainer wanataka booking na malipo sehemu moja. — EN: Give them that and you give them a reason to stay. | none |
+| 9 | rule | SW: Gym zilizo kwenye mtandao zinapata wateja wasiowatangazia. — EN: Travellers and multi-gym members choose from the network. | none |
+| 10 | cta | SW: Una gym Dar es Salaam? Andika — EN: Own a gym in Dar es Salaam? Comment PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. | none |
 
 Source: `source/slides.json`; render with `node social/tools/render-carousel.js social/content/2026-10-W5-A-owners --png`.
 

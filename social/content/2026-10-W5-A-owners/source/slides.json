@@ -1,87 +1,100 @@
 {
   "record": "2026-10-W5-A-owners",
-  "style": "v2",
+  "style": "v3",
   "format": "ig_feed_portrait",
   "prefix": "E",
   "handle": "@fitflex.africa",
-  "eyebrow": "Run a better gym",
+  "eyebrow": "Gym bora · run a better gym",
   "slides": [
     {
-      "kind": "photo",
-      "h": "Dar gym owners are watching the <em>wrong</em> numbers.",
-      "s": "Sign-ups. Enquiries. Cash in the drawer. Eight shifts are changing gyms right now.",
-      "ph": 4720565,
-      "pos": "50% 40%"
+      "kind": "cover",
+      "h": "Wamiliki wa gym Dar wanaangalia namba <em>zisizo sahihi.</em>",
+      "en": "Dar gym owners are watching the wrong numbers.",
+      "s": "Mabadiliko manane · eight shifts"
     },
     {
-      "kind": "type",
-      "h": "1. Visits are the number, not <em>sign-ups.</em>",
-      "s": "A member who joined and stopped coming is a cancellation you haven’t seen yet."
+      "kind": "rule",
+      "num": "01",
+      "h": "Ziara ndiyo namba, si <em>usajili.</em>",
+      "en": "A member who joined and stopped coming is a cancellation you haven’t seen yet.",
+      "chip": "Ziara · visits"
     },
     {
-      "kind": "type",
-      "h": "2. Is the notebook the <em>problem?</em>",
-      "s": "If your gym runs on WhatsApp, a notebook and cash, nobody can see who’s slipping."
+      "kind": "rule",
+      "num": "02",
+      "h": "Je, daftari ndilo <em>tatizo?</em>",
+      "en": "If your gym runs on WhatsApp, a notebook and cash, nobody can see who’s slipping.",
+      "chip": "Daftari · the notebook"
     },
     {
-      "kind": "list",
-      "h": "3. Members already pay by <em>phone.</em>",
+      "kind": "check",
+      "h": "Wanachama tayari wanalipa kwa <em>simu.</em>",
+      "en": "Members already pay by phone. Cash only is the exception.",
       "rows": [
         {
           "t": "M-Pesa",
-          "tag": "accepted",
-          "tone": "volt"
+          "en": "accepted"
         },
         {
           "t": "Airtel Money",
-          "tag": "accepted",
-          "tone": "volt"
+          "en": "accepted"
         },
         {
           "t": "Tigo Pesa",
-          "tag": "accepted",
-          "tone": "volt"
+          "en": "accepted"
         },
         {
-          "t": "Cash only",
-          "tag": "the exception",
-          "tone": "fuel"
+          "t": "Cash tu",
+          "en": "the exception",
+          "ok": false
         }
       ],
-      "note": "How Dar pays · FitFlex app"
+      "top": 540
     },
     {
-      "kind": "type",
-      "h": "4. Your front door is a <em>phone screen.</em>",
-      "s": "Find the gym, check in with a QR, book a trainer. If it’s slow, they feel it before you do."
+      "kind": "rule",
+      "num": "04",
+      "h": "Mlango wako wa mbele ni <em>skrini ya simu.</em>",
+      "en": "Find the gym, check in with a QR, book a trainer. If it’s slow, they feel it before you do.",
+      "chip": "Simu · the phone"
     },
     {
-      "kind": "type",
-      "h": "5. Nobody says <em>goodbye.</em>",
-      "s": "The only early signal is fewer visits."
+      "kind": "rule",
+      "num": "05",
+      "h": "Hakuna anayesema <em>kwaheri.</em>",
+      "en": "Nobody says goodbye. The only early signal is fewer visits.",
+      "chip": "Ziara chache · fewer visits"
     },
     {
-      "kind": "type",
-      "h": "6. Would your members stay if a cheaper gym opened <em>next door?</em>",
-      "s": "If the honest answer is “the ones who feel at home”, protect that."
+      "kind": "rule",
+      "num": "06",
+      "h": "Wateja wako wangebaki gym ya bei nafuu ikifunguliwa <em>jirani?</em>",
+      "en": "If the honest answer is “the ones who feel at home”, protect that.",
+      "chip": "Jumuiya · community",
+      "size": 92
     },
     {
-      "kind": "type",
-      "h": "7. Trainers want bookings and payment in <em>one place.</em>",
-      "s": "Give them that and you give them a reason to stay."
+      "kind": "rule",
+      "num": "07",
+      "h": "Trainer wanataka booking na malipo <em>sehemu moja.</em>",
+      "en": "Give them that and you give them a reason to stay.",
+      "chip": "Trainer · trainers"
     },
     {
-      "kind": "photo",
-      "h": "8. Listed gyms get members they never <em>advertised to.</em>",
-      "s": "Travellers and multi-gym members choose from the network.",
-      "ph": 4173217,
-      "pos": "50% 30%"
+      "kind": "rule",
+      "num": "08",
+      "h": "Gym zilizo kwenye mtandao zinapata wateja <em>wasiowatangazia.</em>",
+      "en": "Travellers and multi-gym members choose from the network.",
+      "chip": "Mtandao · the network",
+      "size": 92
     },
     {
       "kind": "cta",
-      "h": "Own a gym in Dar es Salaam?",
+      "h": "Una gym Dar es Salaam? Andika",
+      "en": "Own a gym in Dar es Salaam? Comment",
       "kw": "PARTNER",
-      "cta": "We’ll DM you how FitFlex works."
+      "cta": "Tutakutumia DM jinsi FitFlex inavyofanya kazi.",
+      "ctaEn": "We’ll DM you how FitFlex works."
     }
   ]
 }
