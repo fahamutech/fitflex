@@ -1,0 +1,57 @@
+{
+  "title": "dry-run 2026-10-W1-C-members instagram 2026-10-25T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-20T15:43:24Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:d56cfebb1a4e352e71f04380ed980db2",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-10-25T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W1-C-members/slides/C01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W1-C-members/slides/C02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W1-C-members/slides/C03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W1-C-members/slides/C04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W1-C-members/slides/C05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W1-C-members/slides/C06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W1-C-members/slides/C07.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2/social/content/2026-10-W1-C-members/slides/C08.png"
+      ],
+      "mediaAltText": [
+        "Photo slide; text: One gym. One contract. Stuck.",
+        "Text slide; Pay once with mobile money. Rows: M-Pesa, Airtel Money, Tigo Pesa",
+        "Photo slide; text: Train at gyms across the network.",
+        "Text slide; Every gym is visited and scored before it joins.",
+        "Photo slide; text: Travelling for work? Your pass goes with you.",
+        "Text slide; Check in with a QR that refreshes every minute.",
+        "Text slide; Book a trainer and buy gear in one app.",
+        "Text slide; Want in? Comment PASS. We'll DM you the link."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-10-25T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Gym moja, mkataba mmoja, umekwama? Kuna njia bora. 💪\nLipa mara moja kwa M-Pesa, Airtel Money au Tigo Pesa, na ufanye mazoezi kwenye gym tofauti zilizokaguliwa na FitFlex.\nAndika PASS kwenye comments tukutumie link.\n\nOne mobile-money pass, many vetted gyms. Comment PASS for the link.\n\n#gym #daressalaam #mpesa #fitness #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-template-v2"
+}

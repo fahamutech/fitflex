@@ -1,6 +1,6 @@
 # 2026-10-W1-B-trainers — "Why clients don't book you."
 
-State: **scheduled** on Instagram for 2026-10-23 17:00 Dar es Salaam (pub_0005; owner approved 2026-10-19). Facebook variant not scheduled. Record: `social/data/ideas.jsonl`.
+State: **scheduled** (v2 render swapped into the planner 2026-10-20) on Instagram for 2026-10-23 17:00 Dar es Salaam (pub_0005; owner approved 2026-10-19). Facebook variant not scheduled. Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|

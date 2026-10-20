@@ -1,6 +1,6 @@
 # 2026-10-W5-B-owners — "Dar members don't come back for the machines."
 
-State: **scheduled** on Instagram for Thu 29 Oct 2026 17:00 Dar es Salaam (pub_0014; owner approved 2026-10-20). Note: the Swahili caption still says "mtu uwanjani anayerekebisha mazoezi yao" while the slide now says "Trainer anayejua mazoezi"; aligning it needs a fresh owner line and one Metricool update. Record: `social/data/ideas.jsonl`.
+State: **scheduled** on Instagram for Thu 29 Oct 2026 17:00 Dar es Salaam (pub_0014; owner approved 2026-10-20). Caption aligned to the slide wording 2026-10-20. Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|
@@ -48,7 +48,7 @@ Headlines 80–132 px Inter 900 (cover 132 on Volt with on-volt text, rules 104,
 > Own a gym in Dar? Comment PARTNER.
 
 **Swahili**
-> Wateja wa gym hawarudi kwa ajili ya mashine. Wanarudi kwa ajili ya karibu mlangoni, feni inayofanya kazi umeme ukikatika, chumba cha kubadilishia nguo wanachokisifia kwa rafiki, kulipa kwa M-Pesa, na mtu uwanjani anayerekebisha mazoezi yao. Kanuni tano, hazihitaji vifaa.
+> Wateja wa gym hawarudi kwa ajili ya mashine. Wanarudi kwa ajili ya karibu mlangoni, feni inayofanya kazi umeme ukikatika, chumba cha kubadilishia nguo wanachokisifia kwa rafiki, kulipa kwa M-Pesa, na trainer anayejua mazoezi. Kanuni tano, hazihitaji vifaa.
 > Una gym Dar? Andika PARTNER.
 
 Swahili is a Claude draft; the owner chose to proceed without native review for now. "TANESCO" (slide 3) is the national power utility; keep it, Dar readers know it.
