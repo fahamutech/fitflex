@@ -543,7 +543,7 @@ Terms: customer = mteja / wateja; pay later = lipa baadaye; credit sale = mauzo 
 | Part | EN | SW (draft) |
 |---|---|---|
 | title | {n} pay-later sales are now overdue | Mauzo {n} ya mkopo yamechelewa |
-| body | TZS {amount} is past its due date. See who owes you. | TZS {amount} imepita tarehe ya mwisho. Ona wanaokudai. |
+| body | TZS {amount} is past its due date. See who owes you. | TZS {amount} imepita tarehe ya mwisho. Ona wateja wanaodaiwa. |
 
 ### 11.8 Swahili overflow
 - Tab "Wateja" (6) fits. Segments "Wateja | Madeni | Ujumbe" fit at 375 (≈110dp each).
