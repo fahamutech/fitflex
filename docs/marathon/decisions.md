@@ -16,5 +16,13 @@
 | D12 | Organizer cancel with registrations | **Approved** | 2026-10-22 | Organizer self-cancel blocked once confirmed registrations exist (409 `has_registrations`); admin cancels; refunds per policy from S4. |
 | D13 | Event permit | **Approved** | 2026-10-22 | Optional at organizer approval and at event submission; admin sees a warning (`permitOnFile`). Not required to publish. |
 | D14 | Guest self-registration | **Approved** | 2026-10-22 | A guest purchaser's own "self" place has no `participantUserId`; it is claimed after verification (S3 claim flow). |
+| D15 | Participant invitations timing | Default applied | 2026-10-22 | SMS/email claim invitations go out on payment confirmation (S4); in-app "Is this you?" notices at order creation for verified matching contacts. |
+| D16 | Hold length | Default applied | 2026-10-22 | `EVENT_HOLD_TTL_MINUTES` stays 30 in code; UAT backend may set 120 via env. |
+| D17 | Per-place removal before payment | Default applied | 2026-10-22 | Purchaser may remove one person from an unpaid multi-place order (except the last place of a line). |
+| D18 | Who places a corporate order | Default applied | 2026-10-22 | Roster permission (`beneficiaries.manage`) validates; placing requires an `ORG_BILLING` role (consistent with B2B two-admin money). |
+| D19 | Corporate group label | Default applied | 2026-10-22 | `groupLabel` column added to corporate registrations (department filter later). |
+| D20 | Duplicate policy default | Default applied | 2026-10-22 | One place per person per category, matched on normalised phone or email as entered; organizers can relax it. |
+| D21 | Member-facing fee line | Default applied | 2026-10-22 | No FitFlex service fee shown to members unless `EVENTS_FEE_RULE` is set; organizer commission comes from the payout (D2). |
+| D22 | Swahili terms for S3 | Default applied | 2026-10-22 | "tiketi" = a bought place, "zimeshikiliwa" = held; "nafasi" stays reserved for roles. Native review pending. |
 
 Defaults marked "Open (default)" are implemented as configuration or flags so they can change without a schema rewrite.
