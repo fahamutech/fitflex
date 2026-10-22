@@ -37,3 +37,10 @@ Items raised in reviews that belong to a later slice. Fixed-in-place items are n
 ## Ops
 - Append-only triggers guard against application bugs only; a DB role can `DISABLE TRIGGER`. Note in the runbook.
 - `event-hold-expiry` appears in the ops job list while `EVENTS_MODULE` is off (cosmetic; runs record `skipped: flag_off`).
+
+## From the S2 backend security review (functions#249, 2026-10-22) — carried
+- L6: validate `Event.timezone` against the published `GET /events/options.timezones` list, not just Intl.
+- L9: the KYC → organizer-status hook is fail-open on a DB error; add a periodic re-derivation sweep (or derive on `organizerForUser`).
+- L10: no per-organizer cap on staff invitations (same as vendors): an approved organizer can trigger unlimited SMS/email sends. Platform-wide fix with the invitation limits.
+- Legal: organizers sign only the KYC consent; no organizer partner terms exist, and event-level terms/refund policy are organizer free text with no FitFlex baseline. Needs counsel before any public event.
+- Pre-existing English-only server pushes now reaching organizers: KYC status notices and document-expiry reminders (`partner-kyc-service.mjs`). Platform-wide bilingual follow-up.

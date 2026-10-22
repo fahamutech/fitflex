@@ -391,7 +391,7 @@ Invite `Dialog`: `Field` **Email or phone** (`Input`; parsed with `userContact()
 | role | EN label — description | SW label — description |
 |---|---|---|
 | `admin` | Admin — manages events, staff and settings | Msimamizi — husimamia matukio, wafanyakazi na mipangilio |
-| `ops` | Operations — kit collection and participant lookup on event day | Uendeshaji — uchukuaji wa kiti na kutafuta washiriki siku ya tukio |
+| `ops` | Operations — kit collection and participant lookup on event day | Uendeshaji — kuchukua vifaa vya mbio na kutafuta washiriki siku ya tukio |
 | `finance` | Finance — statements and payouts | Fedha — taarifa za fedha na malipo |
 | `timing` | Timing — submits and verifies results | Muda — huwasilisha na kuthibitisha matokeo |
 
@@ -586,16 +586,16 @@ All keys go in `src/lib/i18n.ts` `en` and `sw`. `{x}` placeholders via `fmt()`. 
 | `events.tickets.saleCloses` | Sale closes | Mauzo hufungwa |
 | `events.tickets.minPerOrder` | Min per order | Chini kwa oda |
 | `events.tickets.maxPerOrder` | Max per order | Juu kwa oda |
-| `events.kit.toggle` | This event hands out a race kit | Tukio hili hutoa kiti cha mbio |
-| `events.kit.none` | No kit collection for this event. | Hakuna uchukuaji wa kiti kwa tukio hili. |
+| `events.kit.toggle` | This event hands out a race kit | Tukio hili hutoa vifaa vya mbio |
+| `events.kit.none` | No kit collection for this event. | Hakuna kuchukua vifaa vya mbio kwa tukio hili. |
 | `events.kit.add` | Add collection point | Ongeza kituo cha uchukuaji |
 | `events.kit.pointName` | Point name | Jina la kituo |
 | `events.kit.windows` | Collection windows | Nyakati za kuchukua |
 | `events.kit.addWindow` | Add window | Ongeza muda |
 | `events.kit.instructionsEn` | Instructions (English) | Maelekezo (Kiingereza) |
 | `events.kit.instructionsSw` | Instructions (Swahili) | Maelekezo (Kiswahili) |
-| `events.kit.inclusionsEn` | What the kit includes (English) | Kiti kina nini (Kiingereza) |
-| `events.kit.inclusionsSw` | What the kit includes (Swahili) | Kiti kina nini (Kiswahili) |
+| `events.kit.inclusionsEn` | What the kit includes (English) | Vifaa vina nini (Kiingereza) |
+| `events.kit.inclusionsSw` | What the kit includes (Swahili) | Vifaa vina nini (Kiswahili) |
 | `events.terms.termsEn` | Event terms (English) | Masharti ya tukio (Kiingereza) |
 | `events.terms.termsSw` | Event terms (Swahili) | Masharti ya tukio (Kiswahili) |
 | `events.terms.legalNote` | These are your terms. FitFlex's participant terms are still being reviewed by counsel. | Haya ni masharti yako. Masharti ya washiriki ya FitFlex bado yanakaguliwa na wanasheria. |
@@ -752,7 +752,7 @@ All keys go in `src/lib/i18n.ts` `en` and `sw`. `{x}` placeholders via `fmt()`. 
 | `organizer.role.finance` | Finance | Fedha |
 | `organizer.role.timing` | Timing | Muda |
 | `organizer.role.admin.desc` | Manages events, staff and settings | Husimamia matukio, wafanyakazi na mipangilio |
-| `organizer.role.ops.desc` | Kit collection and participant lookup on event day | Uchukuaji wa kiti na kutafuta washiriki siku ya tukio |
+| `organizer.role.ops.desc` | Kit collection and participant lookup on event day | Kuchukua vifaa vya mbio na kutafuta washiriki siku ya tukio |
 | `organizer.role.finance.desc` | Statements and payouts | Taarifa za fedha na malipo |
 | `organizer.role.timing.desc` | Submits and verifies results | Huwasilisha na kuthibitisha matokeo |
 | `organizer.staff.inviteTitle` | Invite a staff member | Alika mfanyakazi |
@@ -801,7 +801,7 @@ Structure, top to bottom (phone 375px; Flutter web ≥ 840 wide uses a two-colum
 5. **List** of `EventCard`s, `ListView.builder`, `RefreshIndicator`, infinite scroll: when the last item is within 3 of the end and `nextCursor != null`, fetch the next page; a trailing row shows `FFSpinner` (semantics "Loading more") or a "Load more" `FFButton` secondary after a page error. Pages are keyed by the filter signature; a filter change resets to page 1 and scrolls to top.
 
 **Card anatomy (`EventCard`, 16dp radius `radiusLg`, `FFCard`):**
-- Top: image 16:9 (`FFRemoteImage` of `heroThumbUrl`, 600×338 WebP) with a **date chip** overlay bottom-left (`FFBadge` tone `onPhoto`, "Sat 14 Mar" / "Jmsi 14 Mac" via `formatDayMonth` + weekday short) and the **status pill** top-right (§11.3). No image → placeholder: slate ground (`FFTokens.heroPlaceholder`) with a Lucide-style `directions_run` icon at 40dp and the type label; the date chip and pill render the same.
+- Top: image 16:9 (`FFRemoteImage` of `heroThumbUrl`, 600×338 WebP) with a **date chip** overlay bottom-left (`FFBadge` tone `onPhoto`, "Sat 14 Mar" / "Jumamosi 14 Mac" via `formatDayMonth` + weekday (SW uses full weekday names per `formatters.dart`; no abbreviations)) and the **status pill** top-right (§11.3). No image → placeholder: slate ground (`FFTokens.heroPlaceholder`) with a Lucide-style `directions_run` icon at 40dp and the type label; the date chip and pill render the same.
 - Body: title (`titleMedium`, 2 lines, ellipsis), location line (icon `place` + "{venue.city}, {venue.region}", 1 line), **distance chips** (`FFPill` not filled, "5K · 10K · 21K" as up to 4 pills + "+1"), price line "from TSh 25,000" / "kuanzia TSh 25,000" (`bodyMedium`, bold amount; free → "Free" / "Bure"), and the organizer name muted with a verified check when `organizer.verified` (icon has `semanticsLabel: 'Verified organizer'`).
 - Whole card is one `InkWell` with `Semantics(button: true, label: "{title}, {date}, {city}, from TSh 25,000, {status}")`; children are `ExcludeSemantics`. Min height 48dp; the card is ~300dp tall.
 - Dark theme: card surface `colorScheme.surface`, pill colours via `FFToneTheme`; Volt is used only for the selected sort/chips (primary), never for text on the photo.
@@ -841,7 +841,7 @@ Fuel on dark uses `fuelOnDark` text per `FFBadgeTone.fuel` (white on Fuel 5.35:1
    - **What's included** / Vilivyomo: `inclusions` text.
    - **Eligibility** / Masharti ya kustahiki: per category notes + min age.
    - **Accessibility** / Ufikivu: `accessibility` text.
-   - **Kit collection** / Uchukuaji wa kiti: one card per collection point: name, address, windows ("Fri 12 Mar, 09:00–18:00 EAT"), instructions; "Open in maps" when geo present.
+   - **Kit collection** / Kuchukua vifaa vya mbio: one card per collection point: name, address, windows ("Fri 12 Mar, 09:00–18:00 EAT"), instructions; "Open in maps" when geo present.
    - **Schedule** / Ratiba: timeline list (time + label).
    - **Sponsors** / Wadhamini: horizontal row of logos (`FFRemoteImage` 120×60 contain, `semanticsLabel` = name) or names when no logo.
    - **Contact** / Mawasiliano: email (mailto), phone (tel), WhatsApp (wa.me) as `FFActionTile`s.
@@ -849,7 +849,7 @@ Fuel on dark uses `fuelOnDark` text per `FFBadgeTone.fuel` (white on Fuel 5.35:1
    - **Last updated** / Imesasishwa: "Updated 2 Mar 2027" muted, plus "Report a problem" ghost link (mailto support; S7 may replace).
 4. **Sticky bottom CTA** (§11.6) inside `SafeArea`, 64dp bar, surface with top hairline (`outline`), content padding `spacingMd`.
 
-States: loading skeleton (hero placeholder + 6 lines); error `FFErrorState`; offline with cache → content + `FFAlert` warning "Showing a saved copy from {time}"; 404 `event_not_found` → `FFEmptyState` icon `event_busy`, `events.detail.gone.title` ("This event isn't available" / "Tukio hili halipatikani"), body ("It may have been removed or isn't published yet." / "Huenda limeondolewa au bado halijachapishwa."), action "Back to events". Cancelled → `FFAlert` error at the top of the sheet "This event was cancelled" / "Tukio hili liliahirishwa" + reason note if public.
+States: loading skeleton (hero placeholder + 6 lines); error `FFErrorState`; offline with cache → content + `FFAlert` warning "Showing a saved copy from {time}"; 404 `event_not_found` → `FFEmptyState` icon `event_busy`, `events.detail.gone.title` ("This event isn't available" / "Tukio hili halipatikani"), body ("It may have been removed or isn't published yet." / "Huenda limeondolewa au bado halijachapishwa."), action "Back to events". Cancelled → `FFAlert` error at the top of the sheet "This event was cancelled" / "Tukio hili limeghairiwa" + reason note if public.
 
 Semantics / focus (Flutter web): hero heading gets `headingFocusNode` focus on open (announced "Dar Half Marathon, heading"); then Save, Share, the facts, each section heading (h2 via `FFSectionTitle`), links, then the bottom CTA (it is the last focusable element; `FocusTraversalOrder` ensures it is not first). All icon buttons have tooltips; external links announce "opens in browser". Contrast: all body text ≥ 4.5:1 on `surface`; Fuel text on light uses `fuel` (#B8452C, 5.3:1 on white) and `fuelOnDark` on dark; amounts use `tabular` figures.
 
@@ -860,7 +860,7 @@ Semantics / focus (Flutter web): hero heading gets `headingFocusNode` focus on o
 
 | State | Button | Label EN / SW | Secondary text above button |
 |---|---|---|---|
-| S2 everywhere (`registration` flag off) | `FFButton.primary`, `onPressed: null`, `fullWidth` | Register / Jisajili | "Registration opens soon in the app" / "Usajili utafunguliwa hivi karibuni kwenye programu" (`events.cta.soon`) |
+| S2 everywhere (`registration` flag off) | `FFButton.primary`, `onPressed: null`, `fullWidth` | Register / Jisajili | "Registration opens soon in the app" / "Usajili utafunguliwa hivi karibuni kwenye app" (`events.cta.soon`) |
 | `open` (S3) | primary enabled | Register · from TSh 25,000 / Jisajili · kuanzia TSh 25,000 | "Closes 12 Mar" / "Hufungwa 12 Mac" |
 | `closing_soon` (S3) | primary enabled, leading `schedule` icon in Fuel | Register / Jisajili | Fuel text "Closing soon · 2 days left" / "Inafungwa karibuni · zimebaki siku 2" |
 | `sold_out` | disabled | Sold out / Zimeisha | "Check back for cancellations" / "Rudi kuangalia nafasi zitakazoachwa" (S3 may add waitlist) |
@@ -976,7 +976,7 @@ Disabled buttons keep ≥ 3:1 contrast for the label (`onSurface` at 38 % is bel
 | `events.detail.eligibility` | Eligibility | Masharti ya kustahiki |
 | `events.detail.minAge` | Minimum age {n} | Umri wa chini {n} |
 | `events.detail.accessibility` | Accessibility | Ufikivu |
-| `events.detail.kit` | Kit collection | Uchukuaji wa kiti |
+| `events.detail.kit` | Kit collection | Kuchukua vifaa vya mbio |
 | `events.detail.schedule` | Schedule | Ratiba |
 | `events.detail.sponsors` | Sponsors | Wadhamini |
 | `events.detail.contact` | Contact | Mawasiliano |
@@ -990,10 +990,10 @@ Disabled buttons keep ≥ 3:1 contrast for the label (`onSurface` at 38 % is bel
 | `events.detail.gone.title` | This event isn't available | Tukio hili halipatikani |
 | `events.detail.gone.body` | It may have been removed or isn't published yet. | Huenda limeondolewa au bado halijachapishwa. |
 | `events.detail.back` | Back to events | Rudi kwenye matukio |
-| `events.detail.cancelledBanner` | This event was cancelled. | Tukio hili liliahirishwa. |
+| `events.detail.cancelledBanner` | This event was cancelled. | Tukio hili limeghairiwa. |
 | `events.cta.register` | Register | Jisajili |
 | `events.cta.registerFrom` | Register · from {amount} | Jisajili · kuanzia {amount} |
-| `events.cta.soon` | Registration opens soon in the app | Usajili utafunguliwa hivi karibuni kwenye programu |
+| `events.cta.soon` | Registration opens soon in the app | Usajili utafunguliwa hivi karibuni kwenye app |
 | `events.cta.closes` | Closes {date} | Hufungwa {date} |
 | `events.cta.closingSoon` | Closing soon · {n} days left | Inafungwa karibuni · zimebaki siku {n} |
 | `events.cta.soldOut` | Sold out | Zimeisha |
@@ -1009,7 +1009,7 @@ Disabled buttons keep ≥ 3:1 contrast for the label (`onSurface` at 38 % is bel
 | `error.reason.event_not_found` | This event isn't available. | Tukio hili halipatikani. |
 | `error.offlineTitle` (if absent) | You're offline | Hauko mtandaoni |
 
-Swahili overflow notes: "Usajili utafunguliwa hivi karibuni kwenye programu" (49 chars) above the CTA wraps to two lines at 375px: the CTA bar grows to 84dp in that case (do not clip). "Inafungwa karibuni · zimebaki siku 2" fits one line at 1.0×, two at 1.3×. Filter sheet chip labels ≤ 18 chars. Segment label "Matukio" is short; "Changamoto" (existing) sets the width.
+Swahili overflow notes: "Usajili utafunguliwa hivi karibuni kwenye app" (49 chars) above the CTA wraps to two lines at 375px: the CTA bar grows to 84dp in that case (do not clip). "Inafungwa karibuni · zimebaki siku 2" fits one line at 1.0×, two at 1.3×. Filter sheet chip labels ≤ 18 chars. Segment label "Matukio" is short; "Changamoto" (existing) sets the width.
 
 ### 11.10 Dark theme (Volt primary) notes
 - Selected `FFFilterChip` (solid) and the primary CTA use the theme primary = Volt on dark with `onVolt` `#020617` text; the availability pill `success` tone uses `FFToneTheme.success` dark variant, never Volt.
@@ -1052,7 +1052,7 @@ Swahili overflow notes: "Usajili utafunguliwa hivi karibuni kwenye programu" (49
 ## 12. Dates, times, money (both apps)
 
 - API timestamps are UTC ISO-8601. Every event payload carries `timezone` (IANA), `utcOffsetMinutes` (at `startsAt`) and `timezoneAbbr` ("EAT"), so mobile formats by applying the offset with the existing `formatDate`/`formatTimeOfDay` (no tz package added); portal uses `Intl.DateTimeFormat(locale, { timeZone })`.
-- Format: EN "Sat 14 Mar 2027, 06:30 EAT"; SW "Jmsi 14 Mac 2027, 06:30 EAT" (weekday abbreviations: Jpl, Jtt, Jnn, Jtn, Alh, Iju, Jmsi — native review). Ranges on one day "09:00–18:00 EAT".
+- Format: EN "Sat 14 Mar 2027, 06:30 EAT"; SW "Jumamosi 14 Mac 2027, 06:30 EAT" (full weekday names, per the app rule in `formatters.dart`; abbreviations rejected by the 2026-10-22 audit). Ranges on one day "09:00–18:00 EAT".
 - Money: whole TZS (D4). Portal `money(v, 'TZS')`; mobile `formatCurrency(v, currency: e.currency)`. "TSh" in both languages (D-8). Free = 0.
 
 ---
@@ -1141,4 +1141,4 @@ Names reserved: `event_list_viewed {filtersActive: n, resultCount}`, `event_deta
 3. **Event permit:** optional at organizer approval and at event submission (D10 default), shown as a warning to the admin. Should it be **required** before publishing?
 4. **Home card:** shows the two soonest open events for everyone (a soft promotion). Prefer saved/registered events only (empty for most members until S3)?
 5. **Hero photo for the Events area:** which licensed people-free stock from `social/brand/photos` to cut for the `events` slot (needed only as the no-cover fallback). Owner has preferred to wait for own photos elsewhere.
-6. **Swahili weekday abbreviations** (Jpl … Jmsi) and all SW strings above need native review before UAT sign-off.
+6. All SW strings above need native review before UAT sign-off (weekday abbreviations withdrawn 2026-10-22: full names are used).

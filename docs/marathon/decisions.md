@@ -12,5 +12,9 @@
 | D8 | Timing providers / results format | Open (default) | — | CSV import first; API submission via organizer API keys. |
 | D9 | Reward funding | Open (default) | — | FitFlex-funded digital-only rewards at launch; sponsor-funded rewards need issuer + funding fields (modelled, unused). |
 | D10 | Organizer verification evidence and SLA | Open (default) | — | Vendor KYC checklist plus event permit document type; no SLA encoded. |
+| D11 | Publish approval | **Approved** | 2026-10-22 | FitFlex admin approval mandatory for every publish. No trusted-organizer direct publish (not built). |
+| D12 | Organizer cancel with registrations | **Approved** | 2026-10-22 | Organizer self-cancel blocked once confirmed registrations exist (409 `has_registrations`); admin cancels; refunds per policy from S4. |
+| D13 | Event permit | **Approved** | 2026-10-22 | Optional at organizer approval and at event submission; admin sees a warning (`permitOnFile`). Not required to publish. |
+| D14 | Guest self-registration | **Approved** | 2026-10-22 | A guest purchaser's own "self" place has no `participantUserId`; it is claimed after verification (S3 claim flow). |
 
 Defaults marked "Open (default)" are implemented as configuration or flags so they can change without a schema rewrite.
