@@ -1674,7 +1674,7 @@ Known gaps still in view: legal texts remain drafts pending Tanzanian counsel; v
 | Partner withdraws a pending upload | Gone (nothing is pending). The partner can **Remove** a live item. |
 | 14-day expiry job, `PARTNER_MEDIA_PENDING_DAYS` | Gone. |
 | People choice (`none` / `hands_backs`) + people confirmation, reason `people` | Gone for partner uploads. New reason codes (§43.3) include `person_request` (someone in the photo asked for it to be removed). |
-| Notifications approved / rejected / removed / expired | `partner_media.taken_down` and `partner_media.set_by_fitflex` only. |
+| Notifications approved / rejected / removed / expired | `partner_media.taken_down` only (O-P3: no notice when FitFlex sets a photo). |
 | Portal tabs Pending / Live / Decided | **To review · Live · Taken down.** |
 | Logo plate always white | Light or dark plate, chosen automatically from the logo and changeable by the uploader, so a white logo doesn't vanish (§40.2). |
 | `GET /partner/media` only for those who can upload | Readable by **everyone who sees that home**: all staff of that gym, all vendor staff. It carries `canEdit`, so staff without upload rights still see the gym's photo on the home they share. |
@@ -2028,7 +2028,7 @@ Focus starts on the title when the sheet opens. When it closes, focus returns to
   - **Logo:** the plate `Segmented` (Automatic / Light / Dark) and plate previews.
   - **Confirmations:** the server's **admin** texts (`adminConfirmation.rights` and, for logos, `.partnerLogo`), unticked and required.
   - **Buttons:** **Save and show** (primary) / Cancel.
-- **Success:** toast "Live on {name}'s home." The partner gets `partner_media.set_by_fitflex`. The item never enters To review.
+- **Success:** toast "Live on {name}'s home." The partner is not notified (O-P3). The item never enters To review.
 - **Errors:** as §44.2.
 
 ### 43.6 Privacy in the portal
@@ -2206,7 +2206,6 @@ All Swahili below is **draft for native review**. It follows the glossary (gym =
 | `adminConfirmation.partnerLogo` | This is this partner's own logo, and they have agreed to its use. | Hii ni nembo ya mshirika huyu mwenyewe, na amekubali itumike. |
 | Push / inbox `partner_media.taken_down` (photo) | Title "Your home photo was taken down" · Body "{reason text} Tap to upload another." | "Picha yako ya mwanzo imeondolewa" · "{reason text} Gusa kupakia nyingine." |
 | Same (logo) | "Your logo was taken down" · "{reason text} Tap to upload another." | "Nembo yako imeondolewa" · "{reason text} Gusa kupakia nyingine." |
-| Push / inbox `partner_media.set_by_fitflex` | "FitFlex added a photo to your home" (logo: "FitFlex added your logo to your home") · "Open to see it or change it." | "FitFlex imeongeza picha kwenye ukurasa wako wa mwanzo" ("FitFlex imeongeza nembo yako kwenye ukurasa wako wa mwanzo") · "Fungua uione au uibadilishe." |
 
 - **Push reason text:** the `{reason text}` in a push is the §44.1 `reason.*` line.
 - **The note:** never in the push (it may be long or sensitive); it is shown on the page.
@@ -2257,7 +2256,7 @@ These are **contract changes from the plan's §2, caused by D-3 and D-5**. The p
     - **Drop:** `people_confirmation_required`, `invalid_people`.
     - **Add:** `image_taken_down_before` (409, O-P2), `reason_required`, `note_required`, `invalid_reason`.
     - **Keep:** the rest of plan §2.
-11. **Notifications:** `partner_media.taken_down`, `partner_media.set_by_fitflex`. **Drop** approved, rejected, removed and expired.
+11. **Notifications:** `partner_media.taken_down` only (O-P3 = No). **Drop** approved, rejected, removed and expired.
 12. **Jobs and env:** **no** lifecycle job and **no** `PARTNER_MEDIA_PENDING_DAYS`.
 13. **Migration:**
     - **Drop** `expiresAt`, `people`, `peopleConfirmedBy/At` from the plan's `PartnerMedia`.
@@ -2344,7 +2343,7 @@ These are **contract changes from the plan's §2, caused by D-3 and D-5**. The p
 
 **P-E. Set photo for this partner**
 - AC-P39 The gyms, trainers and vendors admin tables have a "Home photo and logo" row action (with `aria-label`); the gym detail dialog has the section with **Manage**. They are hidden without `brand_media`, `moderation` and `moderation_decide`, or with the portal flag off.
-- AC-P40 With `brand_media`: Set photo / Set logo enforce the file rules in the browser, offer the focal picker (photo) or the plate choice (logo), and require the server's admin confirmation boxes. Save and show makes the item live at once (`origin: fitflex`, `review.state: reviewed`); it does not enter To review; the partner gets `partner_media.set_by_fitflex`.
+- AC-P40 With `brand_media`: Set photo / Set logo enforce the file rules in the browser, offer the focal picker (photo) or the plate choice (logo), and require the server's admin confirmation boxes. Save and show makes the item live at once (`origin: fitflex`, `review.state: reviewed`); it does not enter To review; the partner is not notified (O-P3).
 - AC-P41 Without `brand_media` the set buttons are hidden and the hint shows. With `moderation_decide`, Take down works from this dialog as in AC-P35.
 - AC-P42 The vendors dialog shows "This is not the shop logo or banner members see."; the vendor's storefront `logo` / `banner` fields are untouched by any action here (D-8).
 
@@ -2356,11 +2355,11 @@ These are **contract changes from the plan's §2, caused by D-3 and D-5**. The p
 
 | # | Question | Default if no answer |
 |---|---|---|
-| O-P1 | Faces are now allowed and only the partner's team sees the photo in v1. Should v1 serve the files **only to signed-in users of that subject** (`GET /partner/media/:id/file?variant=`, `Cache-Control: private, max-age=31536000, immutable`) instead of the plan's public `/media/p/:fileId`? The random id is unguessable, but a public URL can still be forwarded. | **Yes, signed-in only in v1.** The public route waits for slice 5 and the people decision (§39 note). `security-and-privacy-reviewer` to confirm. |
-| O-P2 | Post-moderation lets a partner re-upload a photo that was just taken down. Refuse the exact same file (same `sha256`) for the same subject after a takedown (`409 image_taken_down_before`)? | **Yes.** Only the hash is kept, never the image. |
-| O-P3 | Notify the partner when FitFlex sets a photo or logo for them (`partner_media.set_by_fitflex`)? | **Yes** (their home changes without them acting). |
-| O-P4 | Should a FitFlex takedown keep a private evidence copy for a short time (e.g. a legal complaint), against "removal really deletes"? | **No copy**; reason, note, who, when and hash only. Revisit with counsel if needed. |
-| O-P5 | Upload rate: post-moderation means abuse shows at once to the partner's own team. Is 10 uploads a minute per subject enough, or add a daily cap (e.g. 20 a day)? | 10 a minute per subject, plus 20 a day per subject. |
+| O-P1 | Faces are now allowed and only the partner's team sees the photo in v1. Should v1 serve the files **only to signed-in users of that subject** (`GET /partner/media/:id/file?variant=`, `Cache-Control: private, max-age=31536000, immutable`) instead of the plan's public `/media/p/:fileId`? The random id is unguessable, but a public URL can still be forwarded. | **Owner 2026-10-29: Yes.** Signed-in only in v1. The public route waits for slice 5 and the people decision (§39 note). `security-and-privacy-reviewer` to confirm. |
+| O-P2 | Post-moderation lets a partner re-upload a photo that was just taken down. Refuse the exact same file (same `sha256`) for the same subject after a takedown (`409 image_taken_down_before`)? | **Owner 2026-10-29: Yes.** Only the hash is kept, never the image. |
+| O-P3 | Notify the partner when FitFlex sets a photo or logo for them (`partner_media.set_by_fitflex`)? | **Owner 2026-10-29: No.** No notice; the partner sees the new photo next time the home comes into view. |
+| O-P4 | Should a FitFlex takedown keep a private evidence copy for a short time (e.g. a legal complaint), against "removal really deletes"? | **Owner 2026-10-29: No copy**; reason, note, who, when and hash only. Revisit with counsel if needed. |
+| O-P5 | Upload rate: post-moderation means abuse shows at once to the partner's own team. Is 10 uploads a minute per subject enough, or add a daily cap (e.g. 20 a day)? | **Owner 2026-10-29: Yes,** 10 a minute plus 20 a day per subject. |
 
 **Known gaps still in view:**
 - **Legal:** the confirmation texts and the photo rules are drafts pending Tanzanian counsel.

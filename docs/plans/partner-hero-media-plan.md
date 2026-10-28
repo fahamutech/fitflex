@@ -101,7 +101,7 @@ Errors (one Swahili and English text each in the app):
 | `POST /admin/partner-media/:id/reviewed { revision }` | `moderation_decide` | "Looks fine": leaves To review; `409 stale_revision`, `403 own_upload` |
 | `POST /admin/partner-media/:id/take-down { revision, reason, note? }` | `moderation_decide` | live → taken_down; bytes deleted at once; reason, note, who, when and `sha256` kept; the partner is notified. `reason_required`, `note_required` (for `other`), `invalid_reason`. Works on `origin: fitflex` items too |
 | `GET /admin/partner-media/confirmation` | `brand_media` | `adminConfirmation{version, status, rights{en,sw}, partnerLogo{en,sw}}` |
-| `POST /admin/partner-media` multipart `subjectType, subjectId, kind, file, rightsConfirmed, partnerLogoConfirmed (logo), adminConfirmationVersion, focalX?, focalY?, plate?` | `brand_media` | origin `fitflex`, live straight away, `review.state: reviewed`; same file rules; the partner is notified (`set_by_fitflex`) |
+| `POST /admin/partner-media` multipart `subjectType, subjectId, kind, file, rightsConfirmed, partnerLogoConfirmed (logo), adminConfirmationVersion, focalX?, focalY?, plate?` | `brand_media` | origin `fitflex`, live straight away, `review.state: reviewed`; same file rules; the partner is not notified (O-P3 = No) |
 | `PATCH /admin/partner-media/:id { focal?, plate? }` | `brand_media` | |
 
 `approve` and `reject` are gone (D-3).
@@ -109,7 +109,7 @@ Errors (one Swahili and English text each in the app):
 Every write adds an `audit_log` row with before and after. Audit rows carry ids and hashes only, never file bytes.
 
 **Partner notifications (reuse `partner-notifications`):**
-- `partner_media.taken_down` (the reason line, never the note) and `partner_media.set_by_fitflex` (O-P3), deep-linking to the photo and logo page (`/owner/brand-media?gymId=`, `/trainer/brand-media`, `/vendor/brand-media`).
+- `partner_media.taken_down` (the reason line, never the note) only (O-P3 = No: no notice when FitFlex sets a photo), deep-linking to the photo and logo page (`/owner/brand-media?gymId=`, `/trainer/brand-media`, `/vendor/brand-media`).
 - `approved`, `rejected`, `removed` and `expired` are dropped.
 - Push titles in English and Swahili (wording in spec §44.3).
 
@@ -329,11 +329,11 @@ Confirmation texts (`rights`, `ownLogo`, and the admin `rights` / `partnerLogo`)
 - **D-8. Existing vendor `banner` / `logo` unchanged until slice 5.** **Yes.** The src-check fix PR (§0.4) was not answered separately: it is still recommended as a plain fix and needs the owner's go.
 
 **New questions raised by the decisions** (spec §45.1, defaults in brackets):
-- **O-P1.** Serve files signed-in only in v1, now that faces are allowed? [Yes]
-- **O-P2.** Refuse re-uploading a file that was taken down? [Yes]
-- **O-P3.** Notify the partner when FitFlex sets their photo? [Yes]
-- **O-P4.** Keep an evidence copy after a takedown? [No]
-- **O-P5.** Upload rate cap? [10 a minute and 20 a day per subject]
+- **O-P1.** Serve files signed-in only in v1, now that faces are allowed? **Owner 2026-10-29: Yes**
+- **O-P2.** Refuse re-uploading a file that was taken down? **Owner 2026-10-29: Yes**
+- **O-P3.** Notify the partner when FitFlex sets their photo? **Owner 2026-10-29: No**
+- **O-P4.** Keep an evidence copy after a takedown? **Owner 2026-10-29: No**
+- **O-P5.** Upload rate cap? [10 a minute and 20 a day per subject] **Owner 2026-10-29: Yes**
 
 ## 7. Known gaps to keep in view
 - **Photo flags:** `HERO_IMAGES_CMS`, `HERO_IMAGES_REMOTE` and `NEXT_PUBLIC_HERO_IMAGES_ADMIN` are still off. The admin photo manager is dormant, so the "global role slot" step in the precedence only applies once those are on.
