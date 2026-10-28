@@ -19,12 +19,18 @@
 >
 > **Owner decisions 2026-10-19, third request** (plan `docs/plans/photo-hero-sections-footer-admin-plan.md`; override anything below, details in §31–§38):
 > D-1 gym detail and trainer detail get the **footer only**, no stock top hero · D-2 footer = FitFlex wordmark + "That's all for now." / "Hiyo ndiyo yote kwa sasa.", plus **Back to top** on Gyms, Trainers and Shop · D-3 section heroes on **member** screens only · D-4 any admin with the `brand_media` scope **publishes alone** (audit log + one-click rollback) · D-5 photo rotation **per day** · the photo manager (portal "App photos" + backend + app download) is built now behind flags and ships in the next release only if it passes security review in time.
+>
+> **Owner decisions 2026-10-29, partner home photo and logo** (plan `docs/plans/partner-hero-media-plan.md`; details in §39–§45):
+> - Partner photos and logos are stored in our database, so removal really deletes. In v1 they show **only on the partner's own home**.
+> - **Show immediately, review afterwards:** there is no pending or approval state and no expiry. FitFlex takes down with a reason code, and the partner is notified.
+> - **People and faces allowed** in partner photos (the rights and own-logo confirmations stay). This must be revisited before any member-facing use.
+> - Kept: `moderation_decide` takes down, `brand_media` sets directly; gym staff with `gyms` at that gym and vendor admin staff may upload; the vendor storefront banner and logo are unchanged.
 
 **Status:** Draft for owner review · **Date:** 2026-10-19 · **Author:** design-agent
 **Request:** owner, chat 2026-10-18/19: *"I like this kind of UI where real pictures lie on the background instead of plain white/navy backgrounds"* (the investor/partner deck hero), and *"the home needs this taste too since it's where the user lands after registration. We need a strong impression when it comes to design."*
 **Repos affected:** `fitflexmobile` (Flutter, mobile + Flutter web) and `fitflex-portal` (Next.js static export). **No backend change is required** (§14).
 **Ships:** dormant behind `PHOTO_HERO_UI` (mobile) and `NEXT_PUBLIC_PHOTO_HERO_UI` (portal), both default **off** (§13). With the flags off, today's screens render unchanged.
-**Not in scope:** app code; member onboarding (`/member/onboarding`); the pending-approval screen; the Shop home (separate spec, §3.3). (Owner/trainer/vendor homes, Profile, PIN, Upgrade plan and Activity were added by the 2026-10-19 addendum, §18+. Gyms, Trainers, Shop home, the page footer band and the admin "App photos" screen were added by addendum 2, §31+.)
+**Not in scope:** app code; member onboarding (`/member/onboarding`); the pending-approval screen; the Shop home (separate spec, §3.3). (Owner/trainer/vendor homes, Profile, PIN, Upgrade plan and Activity were added by the 2026-10-19 addendum, §18+. Gyms, Trainers, Shop home, the page footer band and the admin "App photos" screen were added by addendum 2, §31+. The partner's own home photo and logo, its settings page and the portal "Partner photos" queue were added by addendum 3, §39+.)
 
 Sources read (all from `origin/main` unless noted): `canon/04-marketing/design-system.md` (incl. V2 accents, 2026-10-18); memory notes `design-system-redesign`, `design-system-v2-accents`, `pass-card-ring-wording`, `swahili-review`; mobile `lib/shared/design_tokens.dart`, `lib/shared/components/*`, `lib/screens/language_screen.dart`, `auth_screen.dart`, `sign_up_screen.dart`, `role_screen.dart`, `member/member_home_tab.dart`, `member/home_feed.dart`, `member/member_shell.dart`, `member/widgets/home_cards.dart`, `member/widgets/pass_summary_card.dart`, `member/widgets/pass_state.dart`, `lib/shared/i18n.dart`, `lib/shared/splash/kinetic_splash.dart`, `pubspec.yaml`; portal `app/login/page.tsx`, `src/components/Shell.tsx`, `src/components/brand-logo.tsx`, `app/globals.css`, `next.config.mjs`, `src/lib/i18n.ts`; parent `social/brand/photos/README.md` (on `release-candidate`); the unmerged Shop home spec `docs/design/shop-home.md` (branch `docs/design-shop-home`).
 
@@ -150,6 +156,37 @@ All proposed copy (§11) fits these budgets. The longest Swahili headline, "Uza 
 ---
 
 ## 5. Scrim and contrast
+
+> **[DECISION 2026-10-20, Owner] Lighter heroes (preview 5; supersedes the 0.50 / 0.80 rules below where they differ).** The photo was too dark everywhere (uniform 0.80), so the scrim is now local, behind `PHOTO_HERO_UI` (flag off unchanged). Mockup: `docs/design/mockups/compare/photo-lighter-fullwidth-proposal.png`.
+> - **Bar band:** `#020617` at **0.46** held over the status bar and app bar, fading to 0 by 16% of the hero height (never sooner than 32px below the bar). 0.46 is the lowest value that keeps `#F1F5F9` icons at **3.04:1** over a pure-white pixel (0.45 gives 2.95:1). On pages with a transparent app bar (pre-sign-in pages, member Home/Activity/Profile) the page draws this band fixed to the top of the screen (`FFPhotoBarScrim`), so icons keep 3:1 while the hero scrolls; it fades out when the bar turns solid. Wordmark gold "Af" is 2.00:1 there (logo, exempt; it was 2.28:1 at 0.50).
+> - **Photo:** clear (0) between the bar band and the ramp.
+> - **Ramp:** a 48px soft lead-in from 0 to 0.40, then 0.40 → **0.86** over the 24px above the first line of text. From the first line of text down to the bottom edge the scrim is **≥ 0.86** under all text, chips, buttons and the Profile avatar. Dark theme: the last 48px melt to 1.00; light theme: sheet overlap unchanged; band variant: no melt.
+> - **Panel (≥1024 / wide banners):** left → right `0.92` at the edge, **≥0.86** until 24px past the text column, then down to **0.15** at the far edge (the old bottom-up layer is gone).
+> - **High contrast:** navy placeholder, no photo (unchanged).
+> - **Contrast vs a pure-white pixel under the 0.86 zone (composite ≈ `#252937`):** headline `#F1F5F9` 13.21:1; body `#CBD5E1` 9.74:1; Volt `#C8F04A` 11.04:1; light accent `#17B26A` 5.24:1 (large only, still); Fuel chip text `#FF8A6B` 6.27:1 on the zone, 7.42:1 on its own fill; Fuel chip border raised from 0.6 to **0.7** alpha → 3.60:1 against the zone (0.6 gave 2.93:1); `onPhoto` border/label 13.21:1; Volt CTA fill 11.04:1.
+> - **Testable rule (AC-H3, replaces the 0.80 one):** `FFPhotoHero` measures its text block; the ramp starts 24px above the first line, and every text/chip/button row sits where the scrim is ≥ 0.86, at 1.0×, 1.3× and 2.0× text.
+
+> **[DECISION 2026-10-20, Owner] Taller heroes (§5.3; behind `PHOTO_HERO_UI`, flag off unchanged).** The short heroes started their text right under the app bar, so almost no clear photo showed. Phone heroes now aim for clear photo (no scrim) between the bar band and the ramp's lead-in, without pushing primary controls off screen.
+
+### 5.3 Taller heroes (owner 2026-10-20)
+- **Target:** clear photo = 19% of the viewport height, clamped 120–200px, at 1.0× text; divided by the text scale above 1.0× (the photo gives way first, never below 0). Phones (< 600 wide) at least **760px** tall only; shorter phones, tablets, desktop panels and the pinned PIN keypad keep today's heights. 390×844: **160px**; 430×932: **177px**.
+- **Cap:** a page can keep a control on screen (`tallContentReserve`, grows with text scale). The clear photo shrinks to fit. If none would be left, the hero keeps today's height rather than growing. The text is never cut.
+- **Measured at 390×844, 1.0×, real fonts, EN and SW, light and dark** (iPhone insets 47/34; no-inset figures in brackets):
+
+| Screen | Hero height before → after | Clear photo before → after | First control (bottom edge) |
+|---|---|---|---|
+| Sign in | 321 → 500 (488) | 0 → 125 (160) | Create account link 836 (871 after #201, below the fold); Continue 764; see the 2026-10-20 trim below |
+| Create account (all 5 roles) | 321–331 → 535–571 | 0 → 160 | Continue ≤ 836 |
+| Choose role | 235 → 473 (428) | 0 → 158 (160) | 3rd tile 598 → 836 |
+| Member Profile | 299 → 539 (492) | 0 → 160 | (no fold rule) |
+| Activity (4 sections) | unchanged 355 | 0 → 0 | switcher at 391 (rule: ≤ ~460) |
+| PIN entry / keypad flows | unchanged (keypad sets it) | 9 (56) | keypad rules from #184 win |
+| Upgrade plan, partner homes (bands) | unchanged | 0 | see below |
+
+- **[DECISION 2026-10-20, Owner] Sign in: the "Don't have an account? Create account" link is the first control that must stay on screen** (it sat 27px below the fold at 390×844 after #201). Sign in's reserve grows from Continue (272, +60 per 1.0 text scale) to the link (344, +155 per 1.0; the link wraps to two lines in English at 1.3×), so the clear photo is trimmed only as needed: 390×844 **160 → 125px** (link bottom 836, 8px margin); 430×932 unchanged at 177px (link bottom 900); no-inset 390×844 unchanged at 160px. 1.3×: 49px (390×844) / 125px (430×932) with the link on screen; if no photo would be left the hero keeps today's height and the link scrolls (2.0×). Create account has no "Already have an account? Sign in" link, so Continue stays its must-see control (unchanged). Activity unchanged (owner waits for own photos). Flag off unchanged. Render: `mockups/built/sign-in-link-after.png`.
+- **1.3×:** Sign in shows 49px of clear photo at 390×844 with Continue and the Create account link on screen; Create account shows 56–123px with Continue on screen; Choose role keeps today's height (its tiles grow faster than the photo can give way). **2.0×:** today's heights everywhere except Profile (80px clear photo).
+- **Not changed, with the reasons:** *Activity:* the switcher-at-~460 rule leaves room for at most ~5px of clear photo with iPhone insets (52px without), and the Challenges crop can't go taller without a face. *PIN keypad:* the keypad wins. *Bands:* the trainer photo can't go taller without showing a face, and the other band photos would be shown well beyond their pixels. Owner choices pending (see the PR).
+- **Photos:** `hero_role` re-cut 1080×1100 (0,700,1080,1800: still below the logo screens and left of the lettered machine). `hero_profile` re-cut 1000×1000 (500,0,1500,1000) from the same sources, nothing upscaled. Hero assets total 1,352,632 B (≤ 1.6 MB). Sign in and Create account keep their 4:5 files, already the full source height; at 2× they are shown about 1.1× enlarged.
 
 ### 5.1 Assumed worst case
 - **Guarantee basis:** a pure-white photo pixel (relative luminance **1.0**) anywhere under text. This covers window glare, white walls and flash highlights.
@@ -1135,6 +1172,21 @@ Back behaviour: unchanged. `/member/trainers` is a root tab route (`handleRootBa
 
 **Purpose:** a quiet branded full stop at the bottom of long pages, so the end of the scroll feels designed rather than abrupt. It carries no information and no action except "Back to top" on the three long lists.
 
+> **[DECISION 2026-10-20, Owner] Brand lockup and sharp photos (feedback on preview 3; supersedes the wordmark, the sign-off line and the footer pool below where they differ).**
+> - **Content:** no sign-off line; `footer.endLine` ("That's all for now." / "Hiyo ndiyo yote kwa sasa.") is deleted. The band now shows a centred **brand lockup**: the FitFlex mark (`assets/brand/fitflex-icon.png`, the navy pin with the runner) drawn at **48 logical px, full opacity, on a 60px light round plate** (`heroText` `#F1F5F9`) so the navy pin stays clearly visible on the 0.80 scrim (canon: never on a busy photo without a scrim); 12px; **"FitFlex Africa"** (Inter 900, 22/27.5, `heroText`); 4px; **"Fitness Without Limits"** (Inter 500, 15/21, `heroTextBody`). Keys `footer.brand` / `footer.tagline`; the owner chose these brand words untranslated, so English and Swahili show the same text. "Back to top" / "Rudi juu" stays on Gyms, Trainers and Shop, 12px under the tagline.
+> - **Semantics:** the plate and mark are decorative (excluded); name and tagline are one text node, "FitFlex Africa, Fitness Without Limits"; then the Back to top button. Fits on one line each in Swahili at 1.3x on a 360 phone.
+> - **Height:** the lockup is about 168px with padding, so the band is taller than the 160 minimum at 1.0 (about 228 with Back to top); the content sets the height as before.
+> - **Sharp-photo rule:** footer photos must be sharp: in-focus subjects, no bokeh, mist or blurred scenes; delivered at **1080x472 at 2x and 540x236 at 1x (16:7)**, from source crops at least as large as the output (never upscaled). People-free preferred (otherwise backs/hands/unclear faces only, no face in frame); no other gym's logo or brand. Pool replaced: `footerStudio` (pexels-4716814), `footerGymFloor` (pexels-29526371), `footerRack` (pexels-3916766), `footerShelves` (pexels-9545914, scene-tubarones-9545). `pexels-12250460` is not usable: it shows another gym's "smart fit" logo. Per-file caps 60 KB at 2x, 25 KB at 1x.
+> - **Page table (replaces the footer column of §33.6):** Home `footerStudio`; Activity `footerGymFloor`; Profile `footerRack`; Upgrade `footerRack`; Gyms `footerStudio`; Trainers `footerGymFloor`; Shop `footerShelves`; gym detail `footerRack`; trainer detail `footerStudio`; trainer home `footerShelves`; vendor Products `footerRack`; owner home `footerStudio`. Every footer differs in scene from its page's top photo, and pages one step apart (member tabs Home, Activity, Gyms, Shop, Profile in nav order; Gyms to Trainers and gym detail; Trainers and gym detail to trainer detail; Home to Upgrade and Shop) never share a footer.
+
+> **[DECISION 2026-10-20, Owner] Full-width footer (preview 5; supersedes §33.2 anatomy, height, inset, corners and scrim, and the 1080x472 photo size above).**
+> - **Layout:** edge to edge like the top hero: no side inset, no rounded corners, no width cap (also on Shop and wide screens).
+> - **Height:** 48% of the viewport height, clamped to **320–440** logical px; larger text makes the lockup zone taller (the photo keeps at least 140px clear). Safe-area and vendor-FAB room are added *inside* the dark zone, under the lockup, so the band reaches the page bottom and the lockup clears the FAB (24 + 88px).
+> - **Scrim:** the page ground fades into the photo over the top 40px; the photo is clear; then the hero ramp (48px lead-in to 0.40, then 0.40 → 0.86 over 24px) into the lockup zone, **≥ 0.86** from the mark down, 0.92 at the bottom edge. The lockup (icon on its light plate, "FitFlex Africa", "Fitness Without Limits") and "Back to top" (Gyms, Trainers, Shop) sit in that zone.
+> - **Short-page rule unchanged:** a page shows the footer only if its content plus the *old* band size (160 / 140 / up to 200; 220 wide) passes the viewport, so the taller band does not make short pages scroll. Still hidden while loading/empty/error, different scene from the top hero, lazy decode, reduced motion, semantics as before.
+> - **Photos:** same four scenes, re-cropped taller at 1080 wide (2x): studio 1080x1000, gym floor 1080x1080, rack 1080x972, shelves 1080x1000 (the landscape sources are 972–1000px tall, so about 1:1 rather than 4:5; nothing upscaled); 1x half that; caps raised to 90 KB (2x) / 35 KB (1x). Footer pool 418,854 B; all hero assets 1,296,958 B (≤ 1.6 MB). Page table (§33.6 decision above) unchanged.
+> - Activity "Today" keeps its stand-in until the owner's own photos arrive (owner 2026-10-20).
+
 ### 33.1 New component (nothing existing fits)
 `lib/shared/components/ff_photo_footer.dart`, and `lib/shared/photo_footer_flag.dart` (`PHOTO_FOOTER_UI`, build-time, same pattern as `photo_hero_flag.dart`, with a `debugPhotoFooterUiOverride` for tests; effective value = `photoHeroUi && kPhotoFooterUi`). `FFPhotoHero` cannot be reused as-is: the footer has a uniform scrim, centred content, no eyebrow/headline semantics, and a show/hide rule that depends on the content above it. It reuses `FFWordmark`, `FFButton(onPhoto)`, `heroImageProvider`, the `_HeroPhotoLayer` fade and the hero tokens.
 
@@ -1590,3 +1642,731 @@ Checked on Flutter web built from RC at 360×640, 390×844 and 430×932, and 128
 | O-33 | Gyms band showing one recognisable partner gym: allowed (it could read as promotion)? | Not allowed by default (§35.1); the owner can decide per photo. |
 
 Known gaps still in view: legal texts remain drafts pending Tanzanian counsel; vendor settlement exists but has not been tried by hand; `PHOTO_HERO_UI`, `PHOTO_FOOTER_UI` and every photo-manager flag stay off; all Swahili here awaits native review; real-phone rendering, high contrast and camera scanning are **[device]** checks; the stand-in photos are not Tanzanian.
+
+---
+
+# Addendum 3 (2026-10-29): partner home photo and logo
+
+## 39. Scope, owner decisions and what changed vs the plan
+
+**Status:** Draft for owner review · **Date:** 2026-10-29 · **Author:** design-agent · **Plan:** `docs/plans/partner-hero-media-plan.md` (Slice 0). Where the plan and this addendum differ, **this addendum wins**: it records the owner's answers.
+
+**Purpose:** a gym owner, trainer or vendor can put their own photo and logo on the band at the top of **their own home** in the app (§25), and FitFlex can take one down afterwards. Nothing changes for members in v1.
+
+> **[DECISION 2026-10-29, Owner] Partner photos (override the plan §1, §2 and §6 where they differ):**
+> - **D-1 Storage and reach:** photos and logos are stored in our own database (`bytea`), so removing one really deletes it. v1 shows them **only on the partner's own home**: owner Home (per gym), trainer Home, vendor Products tab. Member-facing use is a later slice (plan slice 5).
+> - **D-3 CHANGED, show now and review afterwards (post-moderation):** an upload goes live as soon as the server has cleaned it. There is **no pending or approval state and no 14-day expiry**. FitFlex admins see a "Partner photos" queue of recent uploads and can **take one down at any time, with a reason code**; the partner is notified. "Replace" (the newest live one replaces the old one) and the partner's own "Remove" stay.
+> - **D-5 CHANGED, people and faces allowed:** only the partner and their team see their own home in v1, so partner photos may show people and faces. **There is no people choice and no no-faces confirmation for partner uploads.** The rights confirmation stays, and so does the own-logo confirmation for logos.
+>   - **[NOTE 2026-10-29] Revisit before any member-facing use (slice 5):** before any member sees a partner photo, the people rule must be decided again: re-ask the partner, re-review, or block photos with people. That review must also cover Q-31 and counsel's view on consent. No v1 photo can be reused member-facing without it.
+> - **Defaults kept:**
+>   - **D-2:** own home first.
+>   - **D-4:** `moderation_decide` takes down; `brand_media` sets a photo or logo directly for a partner, live straight away and audit-logged.
+>   - **D-7:** an owner (for their own gyms), gym staff with the `gyms` scope **at that gym**, the trainer (own profile), the vendor, and vendor staff with `vendorRole = admin` may upload.
+>   - **D-8:** the vendor's existing storefront `banner` / `logo` (base64, unreviewed) stays as it is until slice 5.
+> - **D-6 dropped:** there is no pending queue, so there is no "usually within 2 working days" notice.
+
+**What changed vs the plan (summary for builders; contract detail in §44.4):**
+
+| Plan | This addendum |
+|---|---|
+| Statuses `pending_review`, `live`, `rejected`, `withdrawn`, `expired`, `removed`, `replaced` | `live`, `replaced`, `removed` (by the partner), `taken_down` (by FitFlex). Review is a separate flag on live items: `to_review` or `reviewed`. |
+| Approve / reject before anything shows | Live at once. Admins mark an item **Looks fine** (it leaves the queue) or **Take down** (reason required). |
+| Partner withdraws a pending upload | Gone (nothing is pending). The partner can **Remove** a live item. |
+| 14-day expiry job, `PARTNER_MEDIA_PENDING_DAYS` | Gone. |
+| People choice (`none` / `hands_backs`) + people confirmation, reason `people` | Gone for partner uploads. New reason codes (§43.3) include `person_request` (someone in the photo asked for it to be removed). |
+| Notifications approved / rejected / removed / expired | `partner_media.taken_down` and `partner_media.set_by_fitflex` only. |
+| Portal tabs Pending / Live / Decided | **To review · Live · Taken down.** |
+| Logo plate always white | Light or dark plate, chosen automatically from the logo and changeable by the uploader, so a white logo doesn't vanish (§40.2). |
+| `GET /partner/media` only for those who can upload | Readable by **everyone who sees that home**: all staff of that gym, all vendor staff. It carries `canEdit`, so staff without upload rights still see the gym's photo on the home they share. |
+
+**Not in scope:**
+- member-facing pages: gym detail, trainer detail and the storefront, all unchanged;
+- the vendor storefront logo and banner (D-8);
+- the global photo manager (§36, still off);
+- the footer, which keeps the bundled pool: a partner photo never becomes a footer;
+- analytics.
+
+**Reuse first (new parts only where nothing fits):**
+- **Home:** `FFHeroBand` already takes a `networkImage` with the bundled photo as fallback (§25, events). It gains a `logo` input (§40). There is no new hero widget.
+- **Settings page:** built from `FFActionTile`, `FFCard`, `FFAlert`, `FFButton`, `FFSkeleton`, `FFErrorState`, `FFEmptyState`, `showFFConfirmDialog`, `showFFSheet`, `FFChoiceTile` (gym chooser), `FFSegmented` (plate tone), `FFSnack`.
+- **Pickers and confirmations:** the image picker follows `pickBannerImageFromGallery` / `PickedBannerImage` in `lib/screens/vendor/merch/banner_form_page.dart`. It sends the original bytes over multipart and never downscales (the `FFPhotoPickerField` 800 px output is too small). The confirmation checkboxes follow the banner form, which already shows server-versioned texts.
+- **Portal:** `PageHeader`, `Segmented`, `Card`, `Badge`, `Button`, `Select`, `Input`, `Radio`, `Textarea`, `Alert`, `EmptyState`, `ErrorState`, `Skeleton*`, `Dialog` / `ConfirmDialog`, toasts. The previews reuse `HeroPreview` and `FocalPointPicker` from `hero-image-manager.tsx`.
+- **New, and why:**
+  - mobile `FFLogoPlate`: no widget draws a partner logo on a contrast plate;
+  - mobile `FFFocalPointPicker`: no 2-D picker exists in the app, and the portal one is React;
+  - portal `PartnerMediaReview` and `PartnerMediaSetDialog`: these are new screens.
+
+---
+
+## 40. Band anatomy with the logo plate (all three homes)
+
+### 40.1 What the band shows (precedence)
+
+| Layer | Source, in order of precedence | Never |
+|---|---|---|
+| Photo | The **live partner photo** for this subject: the picked gym for owners and gym staff, own `TrainerProfile` for trainers, the vendor for vendors and vendor staff. Then the photo manager's global role slot (`trainer` / `vendor` / `owner`; only when `HERO_IMAGES_REMOTE` and `HERO_IMAGES_CMS` are on, both off today). Then the bundled `FFHeroPhoto.owner` / `.trainer` / `.vendor`. | A partner photo in a footer, on another partner's home or on any member page |
+| Logo plate | The **live partner logo** for the same subject. With no live logo, there is no plate, and nothing replaces it (no FitFlex mark in its place). | On any member page; on the band of another subject |
+| Text and actions | Unchanged from §25.1–§25.3: eyebrow, headline, owner Check-in, trainer Scan / Show QR, vendor Add product | Anything partner-written (v1 has no partner headline) |
+
+**Timing:** the bundled photo shows on the first frame; there is no network request before it.
+- The partner photo and logo are fetched after the first frame (`GET /partner/media`) and saved (`HeroImageStore` mechanics, plan §1 "App fetch").
+- **The band never swaps while it is on screen.** It reads the saved copy when the home is built and again **each time the home comes back into view**: a pushed route popped (the settings page closes), a tab switch back to Home / Products, or a gym switch.
+- So after a successful upload, Replace, Remove or takedown, the partner sees the change as soon as they go back to the home.
+- On a gym switch, the owner home uses the new gym's saved copy, or the bundled photo if there is none, and fetches that gym's media in the background.
+- **Offline:** the last saved copy, then the bundled photo.
+- **A removed or taken-down item:** the next `GET /partner/media` returns no live item → the saved copy is cleared → the bundled photo (or no plate) shows the next time the home comes into view.
+
+### 40.2 Logo plate (`FFLogoPlate`, new)
+
+| Property | Phone (< 840) | Wide (≥ 840, the `panel` banner) |
+|---|---|---|
+| Position | **Top-left**, 16 px from the band's top and left edges (inside the 24 px band corner) | **Top-right**, 24 px from the top and right edges, on the photo side (the text column is the left half) |
+| Plate | Height 40, width = logo width + 12 (6 px padding each side), **max width 120**, min width 40; radius 8 (`radiusSm`) | Same |
+| Logo inside | Fit inside 108 × 28 logical px, aspect kept, centred; decode `logo128` at 1×, `logo256` at ≥ 2× (`cacheWidth` = drawn width × device pixel ratio) | Same |
+| Light plate (default for dark or coloured logos) | Fill `#FFFFFF`, 1 px border `#020617` at 12% | Same |
+| Dark plate (for light or white logos) | Fill `heroPlaceholder` `#0B192C`, 1 px border `#F1F5F9` at 40% (≈ 3.2:1 against the navy fill) | Same |
+| Which plate | `plate` from the server: `auto` picks dark when the alpha-weighted mean luminance of the logo's opaque pixels is > 0.6, otherwise light. The uploader can override it in the sheet (§42.3). | Same |
+| Semantics | `ExcludeSemantics`: the eyebrow already names the business (vendor) or greets (owner, trainer). The plate is not tappable. | Same |
+| Motion | Fades in with the photo (250 ms; instant under reduced motion) | Same |
+
+**Room for the plate (phones):** the band keeps at least **68 px** (16 + 40 + 12) between its top edge and the top of the eyebrow while a plate shows.
+- The ramp may sit under the plate: the plate is opaque and is not counted as text for the scrim.
+- If the band's clear photo (§25, `heroBandClearPhoto` capped by `maxHeightAt844`) already gives that much room, the band does not grow. The owner (90) and vendor (84) bands at 390 × 844 already do.
+- Otherwise the band grows by the difference. Examples: the trainer band in English (50 px of clear photo) or Swahili (0), phones under 760 tall, text at 1.3×.
+- This reserve is **not** clear photo, so the 55% control cap cannot take it away. With a plate, the first control may move down by at most **68 px** compared with no plate. AC-P6 measures it.
+
+**Wide (≥ 840):** the plate goes in the top-right photo zone (scrim 0.15). The banner keeps its 220 px height, and the text column is unchanged.
+
+### 40.3 Themes and high contrast
+
+- **Light and dark theme:** the band is the "always-dark island" in both (DD-1), so the plate and the text look the same in both themes. The solid content below follows the theme as today.
+- **High contrast** (`MediaQuery.highContrastOf`): no photo (navy `heroPlaceholder` ground, as today), **even when the partner has a photo**. The plate still shows:
+  - the light plate on navy needs no border;
+  - the dark plate gets a **full-opacity** 1 px `#F1F5F9` border so its edge stays ≥ 3:1 on the navy ground.
+- **Contrast of the text** is unchanged and does not depend on the photo (DD-9: computed against a pure-white pixel under the ≥ 0.86 zone). A partner photo cannot weaken it.
+
+### 40.4 Per-home notes
+
+| Home | Subject | Who sees this band | Notes |
+|---|---|---|---|
+| Owner Home (`/owner/home`, §25.3) | The gym picked in the app bar (`OwnerDataScope.activeGymId`) | The owner and every gym-staff persona of that gym | With no approved gym (`ownerGyms` empty) the band keeps the welcome text and bundled photo; there is no plate (no subject yet). |
+| Trainer Home (`/trainer/home`, §25.1) | Own `TrainerProfile` | The trainer | Unverified trainer: same band; `PartnerNotVerifiedNotice` stays under it. |
+| Vendor Products (`/vendor/home`, §25.2) | The vendor (`Vendor.id`) | The vendor and vendor staff who have the Products tab | The hero rules of §25.2 are unchanged: no band when staff are disabled or have no Products access, and exactly one `vendor-add-product` key. Pending approval: the band shows the partner photo too (pending vendors can already work on products). |
+
+**Partner photo guidance** is in the settings page rules card (§41.4) and is the same for all three roles.
+
+---
+
+## 41. Settings: "Home photo and logo" page
+
+### 41.1 Entry point per role (behind `PARTNER_MEDIA_UI`; no entry when off)
+
+| Role | Where | Tile | Shown when |
+|---|---|---|---|
+| Gym owner | Owner Profile (`owner_profile_page.dart`), "Account settings" list, **directly after "Edit details"** | `FFActionTile` key `owner-brand-media`, icon `Icons.add_photo_alternate_outlined`, title "Home photo and logo", subtitle "Shows at the top of your home" (one gym) or "For {gym name}" (two or more gyms; the gym picked in the app bar) | `ownerGyms` is not empty |
+| Gym staff | Same page and position | Same | `canAccess('gyms')` is true **and** `GET /partner/media` returned `canEdit: true` for that gym. Until the answer arrives the tile is hidden (no flicker into a disabled state). |
+| Trainer | Trainer Profile tab (`_profileTab` in `trainer_home_page.dart`), **directly after "Edit profile"** (`trainer-tile-professional`) | Key `trainer-brand-media`, same icon, title and subtitle "Shows at the top of your home" | Always (own profile) |
+| Vendor | Business tab (`_businessTab` in `vendor_home_page.dart`), **directly under the business card**, before the areas nudge | Key `vendor-brand-media`, same icon and title, subtitle "Shows on your Products tab" | The vendor; vendor staff with `vendorRole = admin`. **Builder check:** if admin staff don't get the Business tab (`_sections` shows it only with the `staff` permission or for non-staff users), they reach the page only by deep link or notification; report it, don't widen the tab. |
+
+**Routes:** `/owner/brand-media?gymId=<id>`, `/trainer/brand-media`, `/vendor/brand-media` (one shared page, `partner_media_page.dart`).
+- **Deep links:** the `partner_media.*` notifications open these routes; the owner route carries `gymId`. A deep link to a gym the user can't edit opens the page in its "no access" state (§41.3). It never silently switches gym.
+- **Back:** pops to where the user came from (Profile / Profile tab / Business tab). From a cold-start notification it goes to the role's home shell; the owner shell also selects that `gymId` as the active gym.
+- **After completion:** the user stays on the page, which shows the new live state, and gets a snack (§44.1). Going back shows the new photo on the home (§40.1).
+
+### 41.2 Layout
+
+**Phone (≈ 375 wide):** a `Scaffold` with a solid app bar: back, title "Home photo and logo". The body is a `ListView` with 24 px padding:
+1. **Gym row (owners with two or more gyms only).** An `FFActionTile`, "Gym: {name}" with a chevron. It opens a sheet of `FFChoiceTile`s, one per gym; picking one reloads the page for that gym. It does **not** change the app bar's active gym.
+2. **Preview card.** The label "Preview of your home" (`FFSectionTitle`), then the real `FFHeroBand` at the page width with the role's real eyebrow and headline (§25), the current photo and the plate. Its actions are drawn but **inert**: excluded from semantics and focus, wrapped in `IgnorePointer`. One line under it: "Only you and your team see this for now." (owner, vendor) or "Only you see this for now." (trainer).
+3. **"Home photo" card** (`FFCard`): a 96 × 64 thumbnail (radius 8, `BoxFit.cover` at the focal point), status line(s), actions.
+4. **"Logo" card** (`FFCard`): the logo on its plate at the real size (40 tall), status line(s), actions.
+5. **Review note** (`FFAlert`, info tone): "It shows on your home straight away. FitFlex checks new photos and may take one down if it breaks the rules below. We'll tell you why."
+6. **Rules card** (§41.4).
+7. **Vendors only:** an info line: "Members see your shop logo and banner from {editProfile}. This photo and logo show on your own home only." with `{editProfile}` = `vendor.editProfile` ("Edit business profile" / "Hariri wasifu wa biashara"), so vendors don't confuse the two (D-8).
+
+**Flutter web desktop (≥ 840):** the same content in one centred column, max 720 wide. The preview card shows the wide `panel` banner (220 tall, plate top-right), so the partner sees what their wide home shows. The phone look is in the upload sheet (§42.2). The photo and logo cards sit side by side at ≥ 1024 (two columns, 16 px gap), stacked below that.
+
+**Touch targets:** every button ≥ 48 tall (`FFButton` md; sm keeps its 48 hit area); tiles ≥ 56. Each card's actions wrap onto a second line in Swahili at 1.3× rather than shrinking.
+
+### 41.3 States (photo card; the logo card mirrors each, with logo wording)
+
+| State | Photo card shows | Actions | Preview |
+|---|---|---|---|
+| **Loading** | `FFSkeleton` thumbnail + two `FFSkeletonLine`s | None | Band with the bundled photo (or the saved copy), no plate |
+| **Empty / default** (no live item, no recent takedown) | Thumbnail of the bundled photo with the caption "Using the FitFlex photo" (logo: an empty dashed 40 × 40 plate outline, "No logo yet") | **Upload photo** (primary) / **Upload logo** | Bundled photo, no plate |
+| **Uploading** | The picked image's thumbnail, a determinate progress bar "Uploading… {n}%" (`Semantics` value), then an indeterminate "Preparing your photo…" while the server cleans it (it can take a few seconds) | **Cancel** (aborts the request; nothing changes) | Unchanged until success |
+| **Live** (`origin: partner`) | Thumbnail; "Showing on your home"; "Added {d MMM yyyy}"; if `bright`: "Bright photo: it looks a little darker behind your text." | **Replace** (secondary) · **Remove** (ghost, error-tone label) | Live photo and plate |
+| **Live, set by FitFlex** (`origin: fitflex`) | Same, but "Added by FitFlex on {date}" | Same (the partner may replace or remove it) | Same |
+| **Taken down** (no live item; the latest event is a FitFlex takedown) | `FFAlert` error tone: "FitFlex took down your home photo." / "Reason: {reason text}" / "Note from FitFlex: {note}" (only when there is a note) / "Your home uses the FitFlex photo until you upload a new one." No thumbnail: the file is deleted. | **Upload a new photo** (primary) | Bundled photo |
+| **Error loading** (5xx / unknown) | `FFErrorState`: "We couldn't load your photo and logo." + **Try again**. It replaces both cards; the preview shows the saved copy or the bundled photo. | Try again | Saved or bundled |
+| **Offline** (network error; the saved copy is known) | The last known state from the saved copy, with an `FFAlert` (warning tone) at the top of the page: "You're offline. You can change your photo when you're back online." | Upload, Replace and Remove disabled, with the alert as their `aria-describedby`-style hint (`Semantics(hint:)`) | Saved copy |
+| **Upload failed** | The card returns to its previous state; the error text (§44.1, by code) shows under the card's actions in error colour and is announced (live region). The sheet stays open if the error is about the file (§42.4). | As before | Unchanged |
+| **Staff without access** (deep link, or `canEdit: false`, `acl_forbidden`, `not_your_gym`) | Whole body: `FFEmptyState`, icon `lock_outline`, "Only the gym owner, or staff allowed to edit the gym profile, can change this." (gym) / "Only the business owner or a staff admin can change this." (vendor) | **Back** | Not shown |
+| **Owner with no gym yet** (deep link only; the tile is hidden) | `FFEmptyState`: "Add a gym first. You can set its photo and logo here once it's approved." | Back | Not shown |
+| **Feature off** (`404 feature_disabled`, deep link with the build flag on) | `FFEmptyState`: "This isn't available yet." | Back | Not shown |
+| **Unverified partner / pending vendor** | **No change**: uploads are allowed (it is their own home); the KYC notices stay where they are on the home | — | — |
+
+**Remove** opens `showFFConfirmDialog`:
+- Title: "Remove your home photo?"
+- Body: "Your home will show the FitFlex photo again. The photo is deleted from FitFlex."
+- Buttons: **Remove** (destructive) / Cancel.
+- Logo: "Remove your logo?" / "Your logo is deleted from FitFlex and no longer shows on your home."
+- Success: snack "Removed."; the card goes to its empty state.
+
+**Replace** opens the same sheet as Upload. Its sheet says "The new one replaces the current one straight away, and the old one is deleted."
+
+### 41.4 Rules card (photo guidance for partners)
+
+Title "Photo rules". Photo bullets:
+1. "Use a photo you took or have the right to use."
+2. "People are fine. Ask anyone who can be recognised before you use their photo."
+3. "No other brands' logos or signs. Your own is fine."
+4. "Keep text out of the photo; your home already shows your name."
+5. "Nothing unsuitable: no nudity, violence or offensive content."
+6. "At least 1080 pixels wide. Landscape photos work best."
+
+Logo line: "PNG, JPEG or WebP, at least 256 pixels on the short side, up to 2 MB. Your own business's logo only."
+
+Bullet 2 is guidance, not a confirmation (D-5). Like the confirmation texts, it is marked for Tanzanian counsel.
+
+### 41.5 Focus order and semantics
+
+1. App bar: back, title (header).
+2. Gym row, when shown ("Gym: Mazoezi Arena, button").
+3. Preview: one node, "Preview of your home: your photo, your logo" (or "FitFlex photo, no logo"); the band's inert buttons are excluded.
+4. The "only you see this" line.
+5. Photo card: title (header), status text as one node ("Showing on your home. Added 29 Oct 2026."), Replace, Remove.
+6. Logo card in the same pattern.
+7. The review note, the rules card, and the vendor note.
+
+Thumbnails carry the labels "Your current home photo" / "Your current logo". The bundled thumbnail is excluded; its caption says it. The taken-down alert is announced when the page opens (`liveRegion`).
+
+---
+
+## 42. Upload sheet (photo and logo)
+
+### 42.1 Flow
+
+1. **Choose.**
+   - **Phone:** tapping Upload, Replace or "Upload a new photo" opens a small `showFFSheet` with "Choose from gallery" and "Take a photo" (camera: **[device]**).
+   - **Flutter web:** the browser's file chooser opens directly ("Choose a file").
+   - Cancelling the picker changes nothing.
+2. **Local check before any request.** The app reads the type, bytes and pixel size and shows the error in the sheet straight away. It doesn't upload. The server checks again.
+   - Photo: JPEG, PNG or WebP; ≤ 15 MB; ≥ 1080 px wide.
+   - Logo: PNG, JPEG or WebP; ≤ 2 MB; ≥ 256 px on the short side.
+   - SVG is refused with its own message.
+   - The limits come from `limits` in `GET /partner/media`, not constants in the app.
+3. **Preview and adjust:** the full-screen sheet (§42.2 photo / §42.3 logo).
+4. **Confirm:** the confirmation checkboxes, with the server's texts (§42.5).
+5. **Use this photo / Use this logo:** the upload starts; the sheet shows progress, then "Preparing your photo…". On success the sheet closes; the card shows Live; snack "Your new home photo is live." / "Your logo is live."
+
+### 42.2 Photo sheet: crop preview at band ratio and focal point
+
+Phone layout: the app bar shows Close (×) and the title "New home photo". It scrolls:
+- **"On a phone"**: the real `FFHeroBand` (phone variant) at the sheet width minus 48, using the picked image as a local `MemoryImage`, with the role's real eyebrow and headline and the live logo plate, if any.
+- **"On a wide screen"**: the real banner (panel variant) at 3.6 : 1 (the 220-tall banner at ≈ 792 wide), scaled to the sheet width, plate top-right.
+- **Focus point**: the whole picked image, fit to the width (max 640), with a crosshair: a 28 px ring, 2 px white plus 2 px `#020617` outline, and a centre dot. Tap or drag moves it; both previews follow live (`Alignment(x, y)`, −1…1). Hint: "Tap the part of the photo that must stay in view."
+- **Position buttons** (the non-gesture way, for keyboards and screen readers): a 3 × 3 grid of 48 × 48 buttons labelled Top left … Bottom right. The selected one carries a check and `selected: true`. A change is announced as "Focus point: Centre". The default is Centre (0, 0).
+- **Confirmations** (§42.5).
+- **Use this photo** (primary, full width, disabled until every box is ticked) and **Choose another** (secondary).
+
+**≥ 840:** a centred dialog, max 720 wide (`showFFSheet` dialog mode). The two previews sit side by side, phone 342 wide on the left and the wide banner scaled to the rest; the focal picker and the grid sit below.
+
+**Not offered in v1:** free crop, zoom, rotate, filters. The server keeps the whole image and the focal point decides the crop on each surface (as the photo manager does).
+
+### 42.3 Logo sheet
+
+The title is "New logo". It contains:
+- **Previews:** the logo on its plate inside the phone band preview and the wide banner preview, as §42.2, with the live photo or the bundled one. Below them, the plate alone at 2× size (80 tall) on a white swatch and on a navy swatch, so the partner can judge both.
+- **"Logo background":** `FFSegmented` with **Automatic** (selected by default, and showing what it chose: "Automatic (light)"), **Light** and **Dark**. Sent as `plate`: `auto`, `light` or `dark`. "Automatic" is worked out on the device for the preview with the same rule as the server (§40.2); the server's answer wins.
+- **Confirmations** (§42.5); **Use this logo**; **Choose another**.
+
+There is no focal point for logos.
+
+### 42.4 Sheet states and errors
+
+| State | What shows |
+|---|---|
+| File refused locally | The previews are replaced by an `FFAlert` (error tone) with the message for the code (§44.1) and **Choose another**. Nothing is sent. |
+| Uploading | All inputs disabled; the primary button becomes a progress row "Uploading… {n}%" with **Cancel**, then "Preparing your photo…" (no Cancel: the server is cleaning it). Closing the sheet is blocked while preparing. |
+| Server refused the file (`image_too_small`, `unsupported_file_type`, `svg_not_allowed`, `file_too_large`, `variant_over_budget`, `image_taken_down_before`) | The sheet stays open with the error alert and **Choose another**; the ticks stay. |
+| `confirmation_version_mismatch` | The sheet reloads the texts from `GET /partner/media`, **unticks every box**, and shows "The wording below has changed. Please read it and tick again." above them. |
+| Permission (`not_your_gym`, `acl_forbidden`) | The sheet closes; the page switches to its "no access" state (§41.3). |
+| `rate_limited` | Alert "Too many uploads. Wait a minute and try again."; the ticks stay. |
+| Network lost during upload | Alert "You're offline. You can change your photo when you're back online."; **Try again** resends the same file. |
+| `image_save_failed` / unknown | Alert with the message, or "Something went wrong ({code})."; **Try again**. |
+
+### 42.5 Confirmations, exactly as the server sends them
+
+The texts come from `GET /partner/media` → `confirmation`. The app renders `rights[lang]` and `ownLogo[lang]` **verbatim**: no app-side copy, no trimming, no reformatting, with the server's line breaks kept. It sends `confirmationVersion` back with the upload.
+
+| Sheet | Checkboxes (each a `CheckboxListTile`-style row, unticked, ≥ 48 tall, the whole row tappable) |
+|---|---|
+| Photo | `rights` only |
+| Logo | `rights`, then `ownLogo` |
+
+- There is **no people choice and no people or faces checkbox** (D-5).
+- A box left unticked shows "Tick this box to confirm." (reused `merch.confirmRequired`) when the user tries the disabled button by keyboard (Enter on the focused button).
+- Proposed server wording is in §44.3; it is marked `draft_pending_counsel`.
+
+### 42.6 Focus order and semantics (sheet)
+
+1. Close, title.
+2. The phone preview (one node: "Preview on a phone").
+3. The wide preview ("Preview on a wide screen").
+4. Focal image (one node: "Photo. Focus point: Centre. Tap to move it."), then the 3 × 3 grid in reading order.
+5. Logo: Logo background.
+6. The checkboxes.
+7. Use this photo, Choose another.
+
+Focus starts on the title when the sheet opens. When it closes, focus returns to the button that opened it.
+
+---
+
+## 43. Portal: Partner photos review, takedown, and "Set photo for this partner"
+
+### 43.1 Where it lives
+
+- **Route:** `/admin/partner-media` (`app/admin/partner-media/page.tsx`).
+- **Nav:** "Partner photos" (`admin.nav.partnerMedia`), icon `ImageUp` (lucide), group `nav.group.promotion` directly after Moderation, `aclScope: 'moderation'`, `aclAny: ['moderation_decide']` (as the Moderation item). Shown only when `NEXT_PUBLIC_PARTNER_MEDIA_ADMIN` is on.
+- **Server:** every `/admin/partner-media*` call 404s while `PARTNER_MEDIA` is off.
+- **Permissions:**
+  - `moderation` views;
+  - `moderation_decide` adds **Looks fine** and **Take down**;
+  - `brand_media` adds **Set photo for this partner** (§43.5).
+  - Without `moderation_decide`, the actions show disabled with the hint "You can view these. Taking one down or marking it reviewed needs the 'Moderation: decide' permission."
+
+### 43.2 Queue layout
+
+- **Header:** `PageHeader`, title "Partner photos", subtitle "Photos and logos partners put on their own home in the app. They show at once; check new ones here and take down any that break the rules."
+- **Info alert** (always): "Only the partner and their team see these for now. Members don't."
+- **Tabs and filters:** a `Segmented` with **To review** (count from the list total) · **Live** · **Taken down**. Below it, the filters: partner type `Select` (All partners / Gyms / Trainers / Vendors), kind `Select` (Photos and logos / Photos / Logos), and a search `Input` "Search by name" (debounced 300 ms).
+
+**Order:**
+- **To review:** oldest upload first, so nothing waits forever. It holds live partner uploads not yet marked reviewed; items set by FitFlex (`origin: fitflex`) never enter it.
+- **Live:** newest first.
+- **Taken down:** newest takedown first.
+
+**Cards** (grid: 3 columns ≥ 1280, 2 ≥ 768, 1 below):
+- **Preview** (authenticated blob, §43.6):
+  - photo items: the phone-band preview at 342 × 240 with the real scrim, sample eyebrow (the partner's name, uppercased) and headline (that role's §25 headline), and the partner's live plate;
+  - logo items: the logo on both plates, light and dark, at 2×, plus a small band preview.
+- **Name line:** the partner name (link to that partner's admin page) plus a type `Badge` (Gym / Trainer / Vendor) and a kind `Badge` (Home photo / Logo).
+- **Meta:** "Uploaded {dd MMM yyyy, HH:mm} by {name} ({role})" (Africa/Dar_es_Salaam), or "Set by FitFlex, {date}, {name}". A "Bright" badge when `bright`. On Live: "Reviewed by {name}, {date}" when reviewed.
+- **Actions:** To review shows **Looks fine** (secondary) and **Take down** (destructive). Live shows **Take down**. Taken down has no actions: it shows the reason text, the note, "Taken down by {name}, {date}", and a "File deleted" placeholder instead of the preview.
+- **Open:** the card title opens a **detail dialog**. It shows:
+  - both previews at full size: phone band 390 wide, wide banner 960 × 220, plate as on the device;
+  - pixel size; confirmation version and "Rights confirmed by {name}, {date}" (and own logo for logos);
+  - the same actions.
+
+**Phone (< 768):** one column; actions full width; the detail dialog becomes a full-height sheet.
+
+**States:**
+
+| State | What shows |
+|---|---|
+| Loading | `SkeletonCard` × 6 |
+| Feature off (404 `feature_disabled`) | `EmptyState` "Partner photos are switched off" / "This feature is turned off on the server." |
+| No access | Nav hidden; a direct visit shows the existing no-access page |
+| Load failed | `ErrorState` "Couldn't load partner photos." + Try again |
+| Empty | To review: "Nothing to review. New uploads appear here." · Live: "No partner photos yet." · Taken down: "Nothing has been taken down." |
+| Stale (409 `stale_revision`) | Toast "This item changed since you opened it. We've reloaded it."; the card reloads (it may have been replaced or removed by the partner meanwhile) |
+| Gone (404: the partner removed or replaced it) | Toast "The partner has already removed or replaced this."; the card leaves the list |
+| Own upload (403 `own_upload` on Looks fine) | Looks fine is disabled on items this admin uploaded, with the hint "You set this one, so someone else should review it." (only reachable if they uploaded as a partner) |
+
+**Looks fine:** one click with no dialog, sending `{ revision }`. Toast "Marked as reviewed." The card leaves To review and stays in Live.
+
+### 43.3 Takedown dialog
+
+- **Title:** "Take down this photo?" / "Take down this logo?"
+- **Body:** "It disappears from {name}'s home at once and the file is deleted. {name} is told the reason."
+- **Reason** (`Radio` group, required, no default). Each option has a portal label (admin wording) and shows the partner-facing text (§44.1) as its hint:
+
+| Code | Admin label | For |
+|---|---|---|
+| `inappropriate` | Not suitable | photo, logo |
+| `rights` | Rights unclear | photo, logo |
+| `other_brand` | Another brand's logo or sign | photo |
+| `not_own_logo` | Not their own logo | logo |
+| `person_request` | Someone in it asked for removal | photo |
+| `quality` | Poor quality | photo, logo |
+| `other` | Another reason | photo, logo (note required) |
+
+- **Note to the partner** (`Textarea`, ≤ 500 characters, counter): hint "The partner sees this note. Required for 'Another reason'."
+- **Buttons:** **Take down** (destructive, disabled until a reason is chosen, and a note when `other`) and Cancel.
+- **On submit:** `{ revision, reason, note? }`. Success: toast "Taken down. {name} has been told." The card moves to Taken down.
+- **Errors:** `reason_required` / `note_required` show as field errors; `stale_revision` as §43.2.
+
+### 43.4 Focus order and semantics (queue)
+
+1. Header.
+2. The info alert.
+3. Tabs.
+4. Filters.
+5. Cards in reading order: title link, then Looks fine, then Take down.
+
+- **Dialogs** trap focus. Focus starts on the dialog title; Escape closes; focus returns to the button that opened it.
+- **Headings:** one `<h1>`, and the card titles are `<h3>` under a visually hidden `<h2>` for the tab.
+- **Preview images** have `alt` = "{kind} for {name}". Badges carry text, not colour alone. Every control is ≥ 44 px.
+
+### 43.5 "Set photo for this partner" (brand_media)
+
+**Entry points** (shown when the admin has `brand_media`, `moderation` or `moderation_decide`, and `NEXT_PUBLIC_PARTNER_MEDIA_ADMIN` is on):
+- `app/admin/gyms/page.tsx`: a row action icon button (`ImageUp`, `aria-label` and `title` "Home photo and logo"); and in the gym **detail** dialog, a "Home photo and logo" section with the live thumbnails and a **Manage** button.
+- `app/admin/trainers/page.tsx` and `app/admin/vendors/page.tsx`: the same row action. The vendors page also gets a hint under the dialog title: "This is not the shop logo or banner members see."
+
+**`PartnerMediaSetDialog`** (size lg):
+- **Title:** "Home photo and logo: {name}"
+- **Note:** "What you set here shows on this partner's home at once, and they are told."
+- **Two sections, Home photo and Logo**, each with:
+  - the current live item (preview as §43.2) or "Using the FitFlex photo" / "No logo";
+  - **Set photo for this partner** / **Set logo for this partner** (`brand_media`; without it the button is hidden and the hint "Setting a photo needs the 'Brand media' permission." shows);
+  - **Take down** on a live item (`moderation_decide`; opens §43.3).
+- **Set form** (inside the dialog):
+  - **File:** a drop zone plus "Choose a file". Hints: "JPEG, PNG or WebP, up to 15 MB, at least 1080 pixels wide." / logo "PNG, JPEG or WebP, up to 2 MB, at least 256 pixels on the short side. No SVG." Checked in the browser first, with no downscale or re-encode (as §36.4).
+  - **Photo:** `FocalPointPicker` and the two previews (phone band 342 × 240, wide 960 × 220 scaled), reused from §36.5.
+  - **Logo:** the plate `Segmented` (Automatic / Light / Dark) and plate previews.
+  - **Confirmations:** the server's **admin** texts (`adminConfirmation.rights` and, for logos, `.partnerLogo`), unticked and required.
+  - **Buttons:** **Save and show** (primary) / Cancel.
+- **Success:** toast "Live on {name}'s home." The partner gets `partner_media.set_by_fitflex`. The item never enters To review.
+- **Errors:** as §44.2.
+
+### 43.6 Privacy in the portal
+
+- Previews are fetched as blobs with the admin's token (`GET /admin/partner-media/:id/preview?w=`) and shown as object URLs, revoked on unmount.
+- No `/media/p/…` URL is put in the DOM.
+- Lazy, one request at a time, cached for the session.
+
+---
+
+## 44. Copy, server texts, backend fields, flags
+
+All Swahili below is **draft for native review**. It follows the glossary (gym = "gym", Trainer = "Trainer"/"ma-trainer", PIN = "PIN"; the portal uses "bonyeza"). Swahili runs about 25% longer here. Every row was checked at 360 wide, 1.3×: tile titles fit on two lines, buttons grow in height (never truncate), and the 3 × 3 focal buttons are icons with labels in semantics only.
+
+### 44.1 Mobile (`partnerMedia.*`)
+
+| Key | English | Swahili (native review) |
+|---|---|---|
+| `entry` / `title` | Home photo and logo | Picha ya mwanzo na nembo |
+| `entry.hint` | Shows at the top of your home | Inaonekana juu ya ukurasa wako wa mwanzo |
+| `entry.hintVendor` | Shows on your Products tab | Inaonekana kwenye kichupo chako cha Bidhaa |
+| `entry.forGym` | For {gym} | Kwa {gym} |
+| `gym` | Gym: {gym} | Gym: {gym} |
+| `preview` | Preview of your home | Mwonekano wa ukurasa wako wa mwanzo |
+| `onlyYou.team` | Only you and your team see this for now. | Kwa sasa ni wewe na timu yako tu mnaoiona. |
+| `onlyYou.self` | Only you see this for now. | Kwa sasa ni wewe tu unayeiona. |
+| `hero` / `logo` | Home photo / Logo | Picha ya mwanzo / Nembo |
+| `default` | Using the FitFlex photo | Inatumia picha ya FitFlex |
+| `noLogo` | No logo yet | Bado hakuna nembo |
+| `live` | Showing on your home | Inaonekana kwenye ukurasa wako wa mwanzo |
+| `addedOn` | Added {date} | Imeongezwa {date} |
+| `addedByFitflex` | Added by FitFlex on {date} | Imeongezwa na FitFlex {date} |
+| `bright` | Bright photo: it looks a little darker behind your text. | Picha ina mwanga mwingi: inaonekana nyeusi kidogo nyuma ya maandishi yako. |
+| `upload` / `uploadLogo` | Upload photo / Upload logo | Pakia picha / Pakia nembo |
+| `uploadNew` / `uploadNewLogo` | Upload a new photo / Upload a new logo | Pakia picha mpya / Pakia nembo mpya |
+| `replace` / `remove` | Replace / Remove | Badilisha / Ondoa |
+| `remove.heroTitle` / `.heroBody` | Remove your home photo? / Your home will show the FitFlex photo again. The photo is deleted from FitFlex. | Uondoe picha yako ya mwanzo? / Ukurasa wako wa mwanzo utaonyesha tena picha ya FitFlex. Picha itafutwa kutoka FitFlex. |
+| `remove.logoTitle` / `.logoBody` | Remove your logo? / Your logo is deleted from FitFlex and no longer shows on your home. | Uondoe nembo yako? / Nembo yako itafutwa kutoka FitFlex na haitaonekana tena kwenye ukurasa wako wa mwanzo. |
+| `removed` | Removed. | Imeondolewa. |
+| `liveNow.hero` / `.logo` | Your new home photo is live. / Your logo is live. | Picha yako mpya ya mwanzo inaonekana sasa. / Nembo yako inaonekana sasa. |
+| `replaceNote` | The new one replaces the current one straight away, and the old one is deleted. | Mpya itachukua nafasi ya iliyopo mara moja, na ya zamani itafutwa. |
+| `reviewNote` | It shows on your home straight away. FitFlex checks new photos and may take one down if it breaks the rules below. We'll tell you why. | Inaonekana kwenye ukurasa wako wa mwanzo mara moja. FitFlex hukagua picha mpya na inaweza kuondoa picha inayovunja kanuni zilizo hapa chini. Tutakueleza sababu. |
+| `vendorNote` | Members see your shop logo and banner from {editProfile}. This photo and logo show on your own home only. | Wanachama wanaona nembo na bango la duka lako kutoka {editProfile}. Picha na nembo hii zinaonekana kwenye ukurasa wako wa mwanzo tu. |
+| `takenDown.hero` / `.logo` | FitFlex took down your home photo. / FitFlex took down your logo. | FitFlex imeondoa picha yako ya mwanzo. / FitFlex imeondoa nembo yako. |
+| `takenDown.reason` | Reason: {reason} | Sababu: {reason} |
+| `takenDown.note` | Note from FitFlex: {note} | Ujumbe kutoka FitFlex: {note} |
+| `takenDown.next` | Your home uses the FitFlex photo until you upload a new one. | Ukurasa wako wa mwanzo unatumia picha ya FitFlex hadi upakie mpya. |
+| `takenDown.nextLogo` | Your home shows no logo until you upload a new one. | Ukurasa wako wa mwanzo hautaonyesha nembo hadi upakie mpya. |
+| `reason.inappropriate` | It isn't suitable, for example nudity, violence or offensive content. | Haifai, kwa mfano uchi, vurugu au maudhui ya kuudhi. |
+| `reason.rights` | It looks like you may not have the right to use it. | Inaonekana huenda huna haki ya kuitumia. |
+| `reason.otherBrand` | It shows another brand's logo or sign. | Inaonyesha nembo au bango la chapa nyingine. |
+| `reason.notOwnLogo` | It doesn't look like your business's own logo. | Haionekani kuwa nembo ya biashara yako. |
+| `reason.personRequest` | Someone in the photo asked for it to be removed. | Mtu aliye kwenye picha aliomba iondolewe. |
+| `reason.quality` | It's blurred, stretched or hard to make out. | Haiko wazi, imenyooshwa au ni vigumu kuitambua. |
+| `reason.other` | Another reason (see the note). | Sababu nyingine (tazama ujumbe). |
+| `rules.title` | Photo rules | Kanuni za picha |
+| `rules.own` | Use a photo you took or have the right to use. | Tumia picha uliyopiga au una haki ya kuitumia. |
+| `rules.people` | People are fine. Ask anyone who can be recognised before you use their photo. | Watu wanaruhusiwa. Muulize kwanza mtu yeyote anayetambulika kabla ya kutumia picha yake. |
+| `rules.brands` | No other brands' logos or signs. Your own is fine. | Hakuna nembo wala mabango ya chapa nyingine. Yako mwenyewe inaruhusiwa. |
+| `rules.text` | Keep text out of the photo; your home already shows your name. | Usiweke maandishi kwenye picha; ukurasa wako tayari unaonyesha jina lako. |
+| `rules.suitable` | Nothing unsuitable: no nudity, violence or offensive content. | Hakuna kisichofaa: uchi, vurugu au maudhui ya kuudhi. |
+| `rules.size` | At least 1080 pixels wide. Landscape photos work best. | Upana wa angalau pikseli 1080. Picha za mlalo zinafaa zaidi. |
+| `rules.logo` | PNG, JPEG or WebP, at least 256 pixels on the short side, up to 2 MB. Your own business's logo only. | PNG, JPEG au WebP, angalau pikseli 256 upande mfupi, hadi MB 2. Nembo ya biashara yako tu. |
+| `sheet.titleHero` / `.titleLogo` | New home photo / New logo | Picha mpya ya mwanzo / Nembo mpya |
+| `sheet.gallery` / `.camera` / `.file` | Choose from gallery / Take a photo / Choose a file | Chagua kutoka kwenye picha zako / Piga picha / Chagua faili |
+| `sheet.chooseAnother` | Choose another | Chagua nyingine |
+| `sheet.onPhone` / `.onWide` | On a phone / On a wide screen | Kwenye simu / Kwenye skrini pana |
+| `sheet.focal` / `.focalHint` | Focus point / Tap the part of the photo that must stay in view. | Sehemu kuu / Gusa sehemu ya picha inayopaswa kubaki ikionekana. |
+| `sheet.focalNow` | Focus point: {position} | Sehemu kuu: {position} |
+| `sheet.pos.*` (9) | Top left · Top · Top right · Left · Centre · Right · Bottom left · Bottom · Bottom right | Juu kushoto · Juu · Juu kulia · Kushoto · Katikati · Kulia · Chini kushoto · Chini · Chini kulia |
+| `sheet.plate` | Logo background | Mandharinyuma ya nembo |
+| `sheet.plate.auto` / `.autoIs` / `.light` / `.dark` | Automatic / Automatic ({tone}) / Light / Dark | Otomatiki / Otomatiki ({tone}) / Nyeupe / Nyeusi |
+| `sheet.useHero` / `.useLogo` | Use this photo / Use this logo | Tumia picha hii / Tumia nembo hii |
+| `sheet.uploading` / `.preparing` | Uploading… {n}% / Preparing your photo… | Inapakia… {n}% / Tunaandaa picha yako… |
+| `sheet.confirmChanged` | The wording below has changed. Please read it and tick again. | Maneno yaliyo hapa chini yamebadilika. Tafadhali yasome na uweke alama tena. |
+| `a11y.preview` | Preview of your home: {photo}, {logo} | Mwonekano wa ukurasa wako wa mwanzo: {photo}, {logo} |
+| `a11y.yourPhoto` / `.fitflexPhoto` / `.yourLogo` / `.noLogo` | your photo / FitFlex photo / your logo / no logo | picha yako / picha ya FitFlex / nembo yako / hakuna nembo |
+| `a11y.currentPhoto` / `.currentLogo` | Your current home photo / Your current logo | Picha yako ya sasa ya mwanzo / Nembo yako ya sasa |
+| `a11y.previewPhone` / `.previewWide` | Preview on a phone / Preview on a wide screen | Mwonekano kwenye simu / Mwonekano kwenye skrini pana |
+| `a11y.focalImage` | Photo. Focus point: {position}. Tap to move it. | Picha. Sehemu kuu: {position}. Gusa kuisogeza. |
+| `restricted.gym` | Only the gym owner, or staff allowed to edit the gym profile, can change this. | Ni mmiliki wa gym tu, au wafanyakazi wenye ruhusa ya kuhariri wasifu wa gym, wanaoweza kubadilisha hili. |
+| `restricted.vendor` | Only the business owner or a staff admin can change this. | Ni mmiliki wa biashara tu au msimamizi wa wafanyakazi anayeweza kubadilisha hili. |
+| `noGym` | Add a gym first. You can set its photo and logo here once it's approved. | Ongeza gym kwanza. Utaweza kuweka picha na nembo yake hapa ikishaidhinishwa. |
+| `off` | This isn't available yet. | Huduma hii bado haipatikani. |
+| `loadError` | We couldn't load your photo and logo. | Hatukuweza kupakia picha na nembo yako. |
+| `offline` | You're offline. You can change your photo when you're back online. | Huna mtandao. Utaweza kubadilisha picha yako ukirudi mtandaoni. |
+| `error.not_your_gym` | You can't change photos for this gym. | Huwezi kubadilisha picha za gym hii. |
+| `error.acl_forbidden` | You don't have permission to change this. | Huna ruhusa ya kubadilisha hili. |
+| `error.subject_not_found` | We couldn't find this profile. Go back and try again. | Hatukupata wasifu huu. Rudi nyuma ujaribu tena. |
+| `error.rate_limited` | Too many uploads. Wait a minute and try again. | Upakiaji mwingi mno. Subiri dakika moja ujaribu tena. |
+| `error.image_too_small` (photo) | This photo is too small. Use one at least {minWidth} pixels wide. | Picha hii ni ndogo mno. Tumia yenye upana wa angalau pikseli {minWidth}. |
+| `error.image_too_small` (logo) | This logo is too small. Use one at least {minSide} pixels on the short side. | Nembo hii ni ndogo mno. Tumia yenye angalau pikseli {minSide} upande mfupi. |
+| `error.unsupported_file_type` | This file type isn't supported. Use JPEG, PNG or WebP. | Aina hii ya faili haikubaliki. Tumia JPEG, PNG au WebP. |
+| `error.svg_not_allowed` | SVG files can't be used. Save your logo as PNG and try again. | Faili za SVG haziwezi kutumika. Hifadhi nembo yako kama PNG ujaribu tena. |
+| `error.file_too_large` | This file is too large. The limit is {maxMb} MB. | Faili hili ni kubwa mno. Kikomo ni MB {maxMb}. |
+| `error.variant_over_budget` | We couldn't make this photo small enough. Try a different photo. | Hatukuweza kuifanya picha hii iwe ndogo vya kutosha. Jaribu picha nyingine. |
+| `error.invalid_focal` | Something went wrong with the focus point. Set it again. | Kuna hitilafu kwenye sehemu kuu. Iweke tena. |
+| `error.not_editable` | This was changed a moment ago. We've reloaded it. | Hili limebadilishwa sasa hivi. Tumelipakia upya. |
+| `error.image_save_failed` | We couldn't save your photo. Try again. | Hatukuweza kuhifadhi picha yako. Jaribu tena. |
+| `error.image_taken_down_before` (O-P2) | FitFlex took this exact photo down before. Choose a different one. | FitFlex iliondoa picha hii hii awali. Chagua nyingine. |
+| `error.unknown` | Something went wrong ({code}). | Kuna hitilafu ({code}). |
+
+**Reused (no new translation):**
+- `merch.confirmRequired` ("Tick this box to confirm.");
+- `common.cancel`, `common.retry`, `common.close`;
+- `vendor.editProfile` (as `{editProfile}`);
+- the §25 hero keys (`hero.owner.*`, `hero.trainer.*`, `hero.vendor.*`, greetings) in the previews.
+
+**Words for the native reviewer:**
+- "Picha ya mwanzo": home photo. "Ukurasa wa mwanzo" is the app's home page; confirm it reads naturally for "home".
+- "Mandharinyuma": background.
+- "Otomatiki": automatic.
+- "Nyeupe / Nyeusi" are literally white / black for Light / Dark; "Angavu / Giza" is the alternative.
+- "imenyooshwa": stretched.
+
+### 44.2 Portal (`partnerMedia.*`, plus `admin.nav.partnerMedia`)
+
+| Key | English | Swahili (native review) |
+|---|---|---|
+| `admin.nav.partnerMedia` / `title` | Partner photos | Picha za washirika |
+| `subtitle` | Photos and logos partners put on their own home in the app. They show at once; check new ones here and take down any that break the rules. | Picha na nembo ambazo washirika huweka kwenye ukurasa wao wa mwanzo kwenye app. Zinaonekana mara moja; kagua mpya hapa na uondoe zinazovunja kanuni. |
+| `scopeNote` | Only the partner and their team see these for now. Members don't. | Kwa sasa ni mshirika na timu yake tu wanaoziona. Wanachama hawazioni. |
+| `tab.toReview` / `.live` / `.takenDown` | To review / Live / Taken down | Za kukagua / Zinazoonekana / Zilizoondolewa |
+| `filter.type.*` | All partners / Gyms / Trainers / Vendors | Washirika wote / Gym / Ma-trainer / Wauzaji |
+| `filter.kind.*` | Photos and logos / Photos / Logos | Picha na nembo / Picha / Nembo |
+| `search` | Search by name | Tafuta kwa jina |
+| `type.gym` / `.trainer` / `.vendor` | Gym / Trainer / Vendor | Gym / Trainer / Muuzaji |
+| `kind.hero` / `.logo` | Home photo / Logo | Picha ya mwanzo / Nembo |
+| `uploadedBy` | Uploaded {time} by {name} ({role}) | Imepakiwa {time} na {name} ({role}) |
+| `setByFitflex` | Set by FitFlex, {time}, {name} | Imewekwa na FitFlex, {time}, {name} |
+| `reviewedBy` | Reviewed by {name}, {time} | Imekaguliwa na {name}, {time} |
+| `takenDownBy` | Taken down by {name}, {time} | Imeondolewa na {name}, {time} |
+| `bright` | Bright | Ina mwanga mwingi |
+| `fileDeleted` | File deleted | Faili limefutwa |
+| `rightsConfirmed` / `ownLogoConfirmed` | Rights confirmed by {name}, {time} / Own logo confirmed by {name}, {time} | Haki zimethibitishwa na {name}, {time} / Nembo yao imethibitishwa na {name}, {time} |
+| `confirmationVersion` | Wording version {v} | Toleo la maneno {v} |
+| `looksFine` / `.done` | Looks fine / Marked as reviewed. | Iko sawa / Imewekwa kama imekaguliwa. |
+| `takeDown` | Take down | Iondoe |
+| `takeDown.titleHero` / `.titleLogo` | Take down this photo? / Take down this logo? | Uondoe picha hii? / Uondoe nembo hii? |
+| `takeDown.body` | It disappears from {name}'s home at once and the file is deleted. {name} is told the reason. | Itatoweka kwenye ukurasa wa mwanzo wa {name} mara moja na faili litafutwa. {name} ataelezwa sababu. |
+| `takeDown.reason` | Reason | Sababu |
+| `takeDown.note` / `.noteHint` | Note to the partner / The partner sees this note. Required for "Another reason". | Ujumbe kwa mshirika / Mshirika ataona ujumbe huu. Ni lazima kwa "Sababu nyingine". |
+| `takeDown.done` | Taken down. {name} has been told. | Imeondolewa. {name} amejulishwa. |
+| `reason.inappropriate` … `.other` (admin labels) | Not suitable / Rights unclear / Another brand's logo or sign / Not their own logo / Someone in it asked for removal / Poor quality / Another reason | Haifai / Haki haziko wazi / Nembo au bango la chapa nyingine / Si nembo yao / Mtu aliye ndani aliomba iondolewe / Ubora duni / Sababu nyingine |
+| `noDecide` | You can view these. Taking one down or marking it reviewed needs the "Moderation: decide" permission. | Unaweza kuziona. Kuondoa au kuweka kama imekaguliwa kunahitaji ruhusa ya "Moderation: decide". |
+| `ownUpload` | You set this one, so someone else should review it. | Uliweka hiki wewe, hivyo mtu mwingine akikague. |
+| `empty.toReview` / `.live` / `.takenDown` | Nothing to review. New uploads appear here. / No partner photos yet. / Nothing has been taken down. | Hakuna cha kukagua. Upakiaji mpya utaonekana hapa. / Bado hakuna picha za washirika. / Hakuna kilichoondolewa. |
+| `off.title` / `.body` | Partner photos are switched off / This feature is turned off on the server. | Picha za washirika zimezimwa / Huduma hii imezimwa kwenye seva. |
+| `loadError` | Couldn't load partner photos. | Hatukuweza kupakia picha za washirika. |
+| `stale` | This item changed since you opened it. We've reloaded it. | Kipengele hiki kimebadilika tangu ulipokifungua. Tumekipakia upya. |
+| `gone` | The partner has already removed or replaced this. | Mshirika ameshaiondoa au kuibadilisha. |
+| `preview.phone` / `.wide` / `.alt` | Phone / Wide screen / {kind} for {name} | Simu / Skrini pana / {kind} ya {name} |
+| `rowAction` | Home photo and logo | Picha ya mwanzo na nembo |
+| `setDialog.title` | Home photo and logo: {name} | Picha ya mwanzo na nembo: {name} |
+| `setDialog.note` | What you set here shows on this partner's home at once, and they are told. | Unachoweka hapa kinaonekana kwenye ukurasa wa mwanzo wa mshirika huyu mara moja, na wanajulishwa. |
+| `setDialog.vendorHint` | This is not the shop logo or banner members see. | Hii si nembo wala bango la duka ambalo wanachama wanaona. |
+| `setPhoto` / `setLogo` | Set photo for this partner / Set logo for this partner | Weka picha kwa mshirika huyu / Weka nembo kwa mshirika huyu |
+| `manage` | Manage | Simamia |
+| `none.hero` / `.logo` | Using the FitFlex photo / No logo | Inatumia picha ya FitFlex / Hakuna nembo |
+| `file.hintHero` | JPEG, PNG or WebP, up to 15 MB, at least 1080 pixels wide. | JPEG, PNG au WebP, hadi MB 15, upana wa angalau pikseli 1080. |
+| `file.hintLogo` | PNG, JPEG or WebP, up to 2 MB, at least 256 pixels on the short side. No SVG. | PNG, JPEG au WebP, hadi MB 2, angalau pikseli 256 upande mfupi. Hakuna SVG. |
+| `plate` / `.auto` / `.light` / `.dark` | Logo background / Automatic / Light / Dark | Mandharinyuma ya nembo / Otomatiki / Nyeupe / Nyeusi |
+| `saveAndShow` / `.done` | Save and show / Live on {name}'s home. | Hifadhi na uonyeshe / Inaonekana kwenye ukurasa wa mwanzo wa {name}. |
+| `noBrandMedia` | Setting a photo needs the "Brand media" permission. | Kuweka picha kunahitaji ruhusa ya "Brand media". |
+| `error.*` | the §44.1 file and permission errors, plus `stale_revision` (= `stale`), `own_upload` (= `ownUpload`), `reason_required` "Choose a reason.", `note_required` "Add a note for 'Another reason'." | … "Chagua sababu.", "Ongeza ujumbe kwa 'Sababu nyingine'." |
+| `error.unknown` | Something went wrong ({code}). | Kuna hitilafu ({code}). |
+
+### 44.3 Server-sent texts (backend owns these; proposed wording, `draft_pending_counsel`)
+
+| Text | English | Swahili (native review) |
+|---|---|---|
+| `confirmation.rights` (partner) | I took this photo or have the right to use it, and FitFlex may show it on my home in the FitFlex app. | Nilipiga picha hii au nina haki ya kuitumia, na FitFlex inaweza kuionyesha kwenye ukurasa wangu wa mwanzo kwenye app ya FitFlex. |
+| `confirmation.ownLogo` (partner) | This is my own business's logo, not another brand's. | Hii ni nembo ya biashara yangu mwenyewe, si ya chapa nyingine. |
+| `adminConfirmation.rights` | FitFlex has the right to use this image, and it may show on this partner's home in the app. | FitFlex ina haki ya kutumia picha hii, na inaweza kuonyeshwa kwenye ukurasa wa mwanzo wa mshirika huyu kwenye app. |
+| `adminConfirmation.partnerLogo` | This is this partner's own logo, and they have agreed to its use. | Hii ni nembo ya mshirika huyu mwenyewe, na amekubali itumike. |
+| Push / inbox `partner_media.taken_down` (photo) | Title "Your home photo was taken down" · Body "{reason text} Tap to upload another." | "Picha yako ya mwanzo imeondolewa" · "{reason text} Gusa kupakia nyingine." |
+| Same (logo) | "Your logo was taken down" · "{reason text} Tap to upload another." | "Nembo yako imeondolewa" · "{reason text} Gusa kupakia nyingine." |
+| Push / inbox `partner_media.set_by_fitflex` | "FitFlex added a photo to your home" (logo: "FitFlex added your logo to your home") · "Open to see it or change it." | "FitFlex imeongeza picha kwenye ukurasa wako wa mwanzo" ("FitFlex imeongeza nembo yako kwenye ukurasa wako wa mwanzo") · "Fungua uione au uibadilishe." |
+
+- **Push reason text:** the `{reason text}` in a push is the §44.1 `reason.*` line.
+- **The note:** never in the push (it may be long or sensitive); it is shown on the page.
+- **Deep link:** each notification opens `/owner/brand-media?gymId=…`, `/trainer/brand-media` or `/vendor/brand-media`.
+- **Audience:** gym notifications go to the owner and to gym staff with `gyms` at that gym; vendor notifications to the vendor and vendor admin staff.
+
+### 44.4 Backend fields and contract changes (for `fitflex-planner` / `contract-checker` to confirm)
+
+These are **contract changes from the plan's §2, caused by D-3 and D-5**. The plan file has been updated to match.
+
+1. **`MediaItem`:**
+   - `status`: `live` | `replaced` | `removed` | `taken_down`.
+   - **Drop:** `pending_review`, `rejected`, `withdrawn`, `expired`, `expiresAt`, `people`.
+   - **Add:**
+     - `review: { state: 'to_review' | 'reviewed', by?, byName?, at? }` (`origin: fitflex` items are created `reviewed`, with by = the setter);
+     - `takedown: { reason, note?, by, byName, at } | null`;
+     - `plate: 'light' | 'dark'` (logos: the resolved value) and `plateChoice: 'auto' | 'light' | 'dark'`;
+     - `uploadedBy`, `uploadedByName`, `uploadedByRole`;
+     - `rightsConfirmedBy/At/ByName`, `ownLogoConfirmedBy/At/ByName`, `confirmationVersion`.
+   - **Keep:** `id`, `kind`, `subject{type, id, name}`, `origin`, `width`, `height`, `focal`, `bright`, `files`, `bytes`, `revision`, `createdAt`, `updatedAt`.
+2. **`GET /partner/media?gymId=`:**
+   - **Readable by everyone who sees that home:** owner; **any** gym staff of that gym; trainer; vendor; **any** vendor staff. The answer carries `canEdit` (D-7 rules) so the app shows or hides the entry.
+   - Answer: `{ subject{type, id, name}, canEdit, hero: { live, lastTakedown }, logo: { live, lastTakedown }, confirmation: { version, status, rights{en,sw}, ownLogo{en,sw} }, limits: { hero{minWidth, maxBytes, types[]}, logo{minSide, maxBytes, types[]} } }`.
+   - `lastTakedown` is the newest `taken_down` item of that kind **only when there is no live item newer than it**; otherwise null.
+   - ETag / 304 as planned.
+3. **`POST /partner/media/hero`:**
+   - **Drop** `people` and `peopleConfirmed`. Keep `file`, `rightsConfirmed`, `confirmationVersion`, `focalX`, `focalY`, `gymId`.
+   - Answers `201 { item }` with `status: live`, `review.state: to_review`.
+   - **In the same transaction**, the previous live item becomes `replaced` and its file rows (bytes) are deleted.
+4. **`POST /partner/media/logo`:** adds `plate` (`auto` default). Same replace rule.
+5. **Withdraw:** `POST /partner/media/:id/withdraw` **is removed**.
+6. **`DELETE /partner/media/:id`:**
+   - Only a live item. Status becomes `removed`; the bytes are deleted.
+   - The metadata row stays for audit; `sha256` is cleared for partner removals.
+7. **Takedown storage:**
+   - Bytes are deleted at once; the metadata row keeps `reason`, `note`, `by`, `at` and `sha256` (for O-P2).
+   - `/media/p/:fileId` (or its v1 replacement, O-P1) answers 404 immediately.
+8. **Admin endpoints:**
+   - `GET /admin/partner-media?tab=to_review|live|taken_down&type=&kind=&q=&subjectType=&subjectId=&cursor=` returns `{ items[], total, next }`. To review is sorted oldest first.
+   - `POST /admin/partner-media/:id/reviewed { revision }` (`moderation_decide`; `403 own_upload`; `409 stale_revision`).
+   - `POST /admin/partner-media/:id/take-down { revision, reason, note? }` (`moderation_decide`; `reason_required`, `note_required`, `invalid_reason`; works on `origin: fitflex` items too).
+   - **Removed:** `approve` and `reject`.
+   - `POST /admin/partner-media` (`brand_media`): **drop** `people`; send `rightsConfirmed`, plus `partnerLogoConfirmed` for logos, `adminConfirmationVersion` and `plate`.
+   - **Admin texts:** `GET /admin/partner-media/confirmation` → `adminConfirmation{version, status, rights, partnerLogo}`.
+   - `PATCH /admin/partner-media/:id { focal?, plate? }` (`brand_media`).
+9. **Reason codes** (replace `image`, `people`, `logo_brand`, `text_in_image`, `other`): `inappropriate`, `rights`, `other_brand`, `not_own_logo`, `person_request`, `quality`, `other` (note required).
+10. **Errors:**
+    - **Drop:** `people_confirmation_required`, `invalid_people`.
+    - **Add:** `image_taken_down_before` (409, O-P2), `reason_required`, `note_required`, `invalid_reason`.
+    - **Keep:** the rest of plan §2.
+11. **Notifications:** `partner_media.taken_down`, `partner_media.set_by_fitflex`. **Drop** approved, rejected, removed and expired.
+12. **Jobs and env:** **no** lifecycle job and **no** `PARTNER_MEDIA_PENDING_DAYS`.
+13. **Migration:**
+    - **Drop** `expiresAt`, `people`, `peopleConfirmedBy/At` from the plan's `PartnerMedia`.
+    - **Add** `reviewState`, `reviewedBy`, `reviewedAt`, `plate`, `plateChoice`, `ownLogoConfirmedBy/At`.
+    - The partial unique index covers only one `live` per (`subjectType`, `subjectId`, `kind`). The index on (`status`, `reviewState`, `createdAt`) serves the queue.
+
+### 44.5 Flags
+
+| Flag | Where | Default | Gates |
+|---|---|---|---|
+| `PARTNER_MEDIA` | server env (new) | off | every `/partner/media*`, `/admin/partner-media*` and serving route (404 `feature_disabled` when off) |
+| `NEXT_PUBLIC_PARTNER_MEDIA_ADMIN` | portal build (new) | off | §43 nav item, queue page, row actions and set dialog |
+| `PARTNER_MEDIA_UI` | mobile build (new; needs `PHOTO_HERO_UI`, which is on) | off | §40 plate and partner photo on the homes, §41 entry tiles and routes, §42 sheet. Off: no request, no store, no tile, the routes absent. Add a `partner_media` input to `distribute-android.yml` (manual runs only). |
+
+---
+
+## 45. Acceptance criteria (addendum 3) and open questions
+
+**How to check:**
+- **Flutter web:** built from RC at 360 × 640, 390 × 844 and 430 × 932, and at 1280 × 800.
+- **Portal:** at 375, 768 and 1280.
+- **Variations:** light and dark; English and Swahili; text scale 1.0 and 1.3.
+- **Backend:** an isolated backend and DB with fixture partners: an owner with two gyms; gym staff with and without `gyms`, plus one with `gyms` at another gym only; a trainer; a vendor with admin and non-admin staff.
+- **Admins:** one each with `moderation`, `moderation_decide` and `brand_media`.
+- **[device]** = needs a real phone.
+
+**P-A. Band and logo plate (homes)**
+- AC-P1 With `PARTNER_MEDIA_UI` off: the owner, trainer and vendor homes and the three settings lists are exactly as on RC before this change; no `/partner/media` request is made; there is no tile; the `brand-media` routes are absent. Existing tests pass.
+- AC-P2 Flag on, no live media: each home shows its bundled band photo and **no plate**. The first frame makes no network request for the band.
+- AC-P3 Flag on, live photo and logo: after leaving the home and coming back (or restarting), the band shows the partner photo cropped at its focal point and the plate. The band **never changes while on screen** (widget test: a store update during view does not rebuild the image).
+- AC-P4 Owner with two gyms, each with its own photo: switching gyms in the app bar shows that gym's saved photo (or the bundled one) and never the other gym's. Gym staff of that gym see the same photo and plate as the owner, **including staff without `gyms`**.
+- AC-P5 Plate geometry:
+  - **Phone:** top-left, 16 px inset, 40 tall, width ≤ 120, radius 8, logo within 108 × 28 with aspect kept.
+  - **≥ 840:** top-right, 24 px inset, banner height stays 220.
+  - Checked with a square, a 4 : 1 and a 1 : 3 logo.
+- AC-P6 With a plate on phones there are ≥ 68 px from the band top to the eyebrow top, in English and Swahili at 1.0 and 1.3, at all three phone sizes. The first control moves down by **≤ 68 px** compared with the same band without a plate. With no plate the band is exactly as on RC.
+- AC-P7 A white logo with `plate: auto` gets the dark plate; a dark logo gets the light plate. An explicit `light` or `dark` choice wins.
+- AC-P8 High contrast (widget test override, and **[device]**): no photo even when the partner has one; the plate shows; the dark plate has a full-opacity `#F1F5F9` border.
+- AC-P9 Screen reader: the plate is not announced; the band's single header node and actions are as in §25 (AC unchanged).
+- AC-P10 Text contrast is unchanged: with the partner photo replaced by a pure-white image, the eyebrow and headline measure as in AC-H3, at ≥ 0.86 scrim under all text, in both themes.
+- AC-P11 Removed or taken-down item: after the next `GET /partner/media`, the saved copy is deleted from disk (io) or not used (web), and the next view of the home shows the bundled photo or no plate. Offline: the last saved copy shows. An oversize (> 200 KB photo / > 64 KB logo) or corrupt file is never shown; the bundled photo is.
+- AC-P12 The vendor storefront (member view), gym detail and trainer detail are unchanged. No partner photo appears in any footer (`FFPhotoFooter` pool unchanged).
+
+**P-B. Settings page**
+- AC-P13 Entry tiles:
+  - **Owner:** after "Edit details", only when the owner has ≥ 1 gym.
+  - **Trainer:** after "Edit profile".
+  - **Vendor:** under the business card, for the vendor and admin staff.
+  - **Hidden** for gym staff without `gyms`, for gym staff whose `canEdit` is false, and for non-admin vendor staff.
+  - The subtitle names the gym when the owner has ≥ 2 gyms.
+- AC-P14 Every state in §41.3 renders as written: loading, empty, uploading, live, live set by FitFlex, taken down with reason and note, error, offline, upload failed, staff without access, no gym, feature off. Checked with mocked answers; taken down also end to end.
+- AC-P15 Taken-down state: shows the reason text for each of the 7 codes (§44.1) and the note when present; there is no thumbnail; "Upload a new photo" opens the sheet. After a new upload goes live the taken-down alert disappears.
+- AC-P16 Remove opens the confirm dialog; on confirm the card shows its empty state with "Removed."; `GET /partner/media` returns no live item; the old `/media/p/…` (or O-P1 replacement) answers 404.
+- AC-P17 Replace: the new upload is live at once, the old item becomes `replaced`, and its file answers 404. There is never a moment with two live photos (backend spec), and never one with none during the replace.
+- AC-P18 There is no "pending", "waiting for review", "approved", "expires" or "withdraw" text anywhere on the page, the sheet or in notifications (string search in both languages).
+- AC-P19 An owner with two gyms: the gym row switches the page between gyms without changing the app bar's active gym. A deep link with a `gymId` the user can't edit shows the "no access" state and does not switch gym.
+- AC-P20 Offline: Upload, Replace and Remove are disabled and the offline alert explains why; nothing is queued.
+- AC-P21 Focus order matches §41.5; every control is ≥ 48 tall; the preview's band buttons are not focusable or announced.
+- AC-P22 Vendors see the D-8 note naming "Edit business profile" / "Hariri wasifu wa biashara"; owners and trainers don't.
+
+**P-C. Upload sheet**
+- AC-P23 A 900 px-wide photo, a 200 px logo, an SVG, a GIF, a 16 MB photo and a 3 MB logo are each refused **before any request**, with the §44.1 message. The limits come from `limits` in the GET answer (test: a changed limit changes the check).
+- AC-P24 The photo sheet shows the phone band preview and the wide banner preview, with the role's real eyebrow and headline and the live plate. Tapping or dragging the focal image moves both previews' crop. The 3 × 3 buttons do the same, announce "Focus point: {position}" and expose `selected`.
+- AC-P25 The checkboxes are exactly the server's texts, rendered verbatim in the current language: photo has `rights` only, logo has `rights` and `ownLogo`. There is **no people choice and no faces checkbox** (widget test: none of the old people keys or texts exist). The primary button stays disabled until all boxes are ticked.
+- AC-P26 `confirmation_version_mismatch` reloads the texts, unticks every box and shows the "wording has changed" line.
+- AC-P27 The upload sends the original bytes over multipart (no downscale or re-encode: request body size ≈ file size). Progress shows "Uploading… n%", then "Preparing your photo…". Cancel during upload aborts it and nothing changes.
+- AC-P28 Every error code in §44.1 maps to its English and Swahili text; an unknown code shows "Something went wrong ({code})."; permission errors close the sheet into the no-access state.
+- AC-P29 Logo sheet: "Logo background" offers Automatic / Light / Dark; Automatic shows what it picked; the choice is sent as `plate`.
+- AC-P30 Camera capture and iPhone HEIC from the gallery **[device]**.
+
+**P-D. Portal queue and takedown**
+- AC-P31 With `NEXT_PUBLIC_PARTNER_MEDIA_ADMIN` off: no nav item and no row actions; `/admin/partner-media` shows not-found or no-access. With the flag on: the nav item shows under Promotion after Moderation, for `moderation` or `moderation_decide` only.
+- AC-P32 With `PARTNER_MEDIA` off (API 404), the page shows "Partner photos are switched off" and no actions.
+- AC-P33 Tabs:
+  - **To review:** live partner uploads not yet reviewed, oldest first. `origin: fitflex` items never appear there.
+  - **Live:** every live item, newest first.
+  - **Taken down:** items with reason, note, who and when, and "File deleted" instead of a preview.
+  - Filters and search narrow every tab.
+- AC-P34 With `moderation` only: Looks fine and Take down are disabled with the hint. With `moderation_decide`: Looks fine moves the item out of To review (still in Live); Take down opens the dialog.
+- AC-P35 Takedown dialog: the Take down button stays disabled until a reason is chosen; with "Another reason" it also needs a note. It sends `revision`. Success moves the card to Taken down with the toast. 409 shows the stale toast and reloads; 404 shows the "already removed or replaced" toast.
+- AC-P36 After a takedown, the partner (fixture device or web session) gets the `partner_media.taken_down` push or inbox item in their language, without the note. It opens the settings page in the taken-down state, and the home shows the bundled photo on its next view.
+- AC-P37 Previews and thumbnails load as authenticated blobs. No `/media/p/` (or any public image URL) for partner media is in the DOM.
+- AC-P38 Keyboard only: §43.4 order; dialogs trap focus; Escape closes; focus returns to the opener; one `<h1>`; every control ≥ 44 px; the Swahili toggle switches every string, dialogs included.
+
+**P-E. Set photo for this partner**
+- AC-P39 The gyms, trainers and vendors admin tables have a "Home photo and logo" row action (with `aria-label`); the gym detail dialog has the section with **Manage**. They are hidden without `brand_media`, `moderation` and `moderation_decide`, or with the portal flag off.
+- AC-P40 With `brand_media`: Set photo / Set logo enforce the file rules in the browser, offer the focal picker (photo) or the plate choice (logo), and require the server's admin confirmation boxes. Save and show makes the item live at once (`origin: fitflex`, `review.state: reviewed`); it does not enter To review; the partner gets `partner_media.set_by_fitflex`.
+- AC-P41 Without `brand_media` the set buttons are hidden and the hint shows. With `moderation_decide`, Take down works from this dialog as in AC-P35.
+- AC-P42 The vendors dialog shows "This is not the shop logo or banner members see."; the vendor's storefront `logo` / `banner` fields are untouched by any action here (D-8).
+
+**P-F. Copy and i18n**
+- AC-P43 Every string in §44.1 and §44.2 exists in English and Swahili; there is no hardcoded English (i18n auditor). At 360 wide, 1.3× and Swahili: tiles wrap without clipping, buttons grow rather than truncate, and the 3 × 3 grid keeps 48 × 48.
+- AC-P44 Server texts (§44.3) carry `status: draft_pending_counsel`, and the version the uploader accepted is stored on the item.
+
+### 45.1 Open questions (addendum 3)
+
+| # | Question | Default if no answer |
+|---|---|---|
+| O-P1 | Faces are now allowed and only the partner's team sees the photo in v1. Should v1 serve the files **only to signed-in users of that subject** (`GET /partner/media/:id/file?variant=`, `Cache-Control: private, max-age=31536000, immutable`) instead of the plan's public `/media/p/:fileId`? The random id is unguessable, but a public URL can still be forwarded. | **Yes, signed-in only in v1.** The public route waits for slice 5 and the people decision (§39 note). `security-and-privacy-reviewer` to confirm. |
+| O-P2 | Post-moderation lets a partner re-upload a photo that was just taken down. Refuse the exact same file (same `sha256`) for the same subject after a takedown (`409 image_taken_down_before`)? | **Yes.** Only the hash is kept, never the image. |
+| O-P3 | Notify the partner when FitFlex sets a photo or logo for them (`partner_media.set_by_fitflex`)? | **Yes** (their home changes without them acting). |
+| O-P4 | Should a FitFlex takedown keep a private evidence copy for a short time (e.g. a legal complaint), against "removal really deletes"? | **No copy**; reason, note, who, when and hash only. Revisit with counsel if needed. |
+| O-P5 | Upload rate: post-moderation means abuse shows at once to the partner's own team. Is 10 uploads a minute per subject enough, or add a daily cap (e.g. 20 a day)? | 10 a minute per subject, plus 20 a day per subject. |
+
+**Known gaps still in view:**
+- **Legal:** the confirmation texts and the photo rules are drafts pending Tanzanian counsel.
+- **People in photos:** must be revisited before any member-facing use (§39 note, Q-31).
+- **Swahili:** all of it awaits native review.
+- **Flags:** `PARTNER_MEDIA`, `NEXT_PUBLIC_PARTNER_MEDIA_ADMIN` and `PARTNER_MEDIA_UI` are new and off, and the photo-manager flags stay off.
+- **Vendor storefront:** its `logo` / `banner` remain unreviewed base64. The src-check finding in plan §0.4 is a separate fix.
+- **Settlement:** vendor settlement exists but has not been tried by hand.
+- **Devices:** camera, HEIC and high contrast on a phone are **[device]** checks.
