@@ -44,3 +44,12 @@ Items raised in reviews that belong to a later slice. Fixed-in-place items are n
 - L10: no per-organizer cap on staff invitations (same as vendors): an approved organizer can trigger unlimited SMS/email sends. Platform-wide fix with the invitation limits.
 - Legal: organizers sign only the KYC consent; no organizer partner terms exist, and event-level terms/refund policy are organizer free text with no FitFlex baseline. Needs counsel before any public event.
 - Pre-existing English-only server pushes now reaching organizers: KYC status notices and document-expiry reminders (`partner-kyc-service.mjs`). Platform-wide bilingual follow-up.
+
+## From the S3 backend security review (functions#265, 2026-10-27) — carried
+- L3: roster and order lists silently stop at 2,000 rows; paginate in SQL before large events.
+- L5: preview-token redaction via overwriting `req.originalUrl` may be too late if a platform logger runs first; check platform logs for tokens in paths.
+- L6: team join by code inside quote/order skips the lookup limiter (40-bit code, impractical to guess); share the limiter.
+- L10: migration FK `ON DELETE SET NULL ("teamId")` column-list form needs PostgreSQL 15+; CI runs 16; confirm production version before promotion.
+- L11: S3 migration `down` drops consent evidence columns; treat down as dev-only once real registrations exist.
+- Owner decisions taken as defaults 2026-10-27: purchaser sees a masked view after the participant claims (M5); order term is "oda" (glossary), not "agizo".
+- Swahili still needing native review: consent texts, "kituo cha gharama" (cost centre), "namba ya kumbukumbu", "orodha" (roster), server push titles.
