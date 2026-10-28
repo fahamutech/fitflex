@@ -53,3 +53,13 @@ Items raised in reviews that belong to a later slice. Fixed-in-place items are n
 - L11: S3 migration `down` drops consent evidence columns; treat down as dev-only once real registrations exist.
 - Owner decisions taken as defaults 2026-10-27: purchaser sees a masked view after the participant claims (M5); order term is "oda" (glossary), not "agizo".
 - Swahili still needing native review: consent texts, "kituo cha gharama" (cost centre), "namba ya kumbukumbu", "orodha" (roster), server push titles.
+
+## From the S4 reviews (functions#270, portal#161, mobile#240; 2026-10-28) — carried
+- L6: manual-pay holds can hoard inventory (48 h hold with a bogus reference); cap concurrent unpaid places per user.
+- Organizer settlement statements still not built (S4 left the data seam only); payout timing direction D28 awaits owner confirmation.
+- Refunds are paid by hand; provider refunds not built.
+- `EVENT_TICKET_SECRET` (32+ chars), `EVENT_TICKET_KEY_ID`, `EVENT_TICKET_SECRET_PREVIOUS` must be added to `docs/server-env-checklist.md` before payments are enabled.
+- Migration `20270110091100` sorts before an already-merged `20270111...` migration: confirm RC/CI apply it in order.
+- Pre-existing portal helpers `eventDateTime`/`eventTime` used a 24-hour clock in Swahili (fixed in S4 portal round); check other portal helpers.
+- Native Swahili review: "Uthibitisho wa mkono", refund and unfulfilled-payment wording, payment rejection labels.
+- Shop bookkeeping has the same income-booking flaw for shop payment requests (finance-service); out of scope for events.
