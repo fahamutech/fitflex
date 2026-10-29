@@ -1,0 +1,55 @@
+{
+  "title": "reserve 2026-11-W1-B-members instagram 2026-11-04T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-29T14:02:53Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:dde1ecf40a85d56b438e70a3ffabb072",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-11-04T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-B-members/slides/J01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-B-members/slides/J02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-B-members/slides/J03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-B-members/slides/J04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-B-members/slides/J05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-B-members/slides/J06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-B-members/slides/J07.png"
+      ],
+      "mediaAltText": [
+        "Cover slide with a photo (a gym floor); Swahili: Gym nzuri inaonekana kabla hujalipa.; English: A good gym shows itself before you pay.",
+        "UKAGUZI · INSPECTION slide; Swahili: Kila gym inatembelewa kwanza.; English: Every FitFlex gym is visited and scored before it joins: equipment, amenities, facility, staff.",
+        "DARAJA · TIER slide; Swahili: Unaona gym zote za daraja lako kabla ya kulipa.; English: See every active gym in your pass tier before you pay a shilling.",
+        "REVIEWS slide; Swahili: Reviews kutoka kwa waliofanya mazoezi pale.; English: Reviews from members who trained there, under the gym, in the app.",
+        "HIFADHI · SAVED slide; Swahili: Hifadhi gym unazopenda kwa moyo mmoja.; English: Tap the heart to save a gym; filter your list to the ones you saved.",
+        "Checklist slide; Swahili: Kabla hujalipa, angalia hivi.; English: Before you pay any gym, check these.; Rows: Imekaguliwa (inspected and scored), Daraja (which tier it is in), Reviews (what members said), Malipo (pay by M-Pesa or Airtel Money, in the app)",
+        "Call to action; Swahili: Tayari kuchagua? Andika; English: Ready to choose? Comment; Keyword PASS. Tutakutumia DM link ya app. We’ll DM you the app link."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-11-04T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Gym nzuri inaonekana kabla hujalipa. Kila gym ya FitFlex inakaguliwa kwanza, unaona gym zote za daraja lako kabla ya kulipa, na reviews zinatoka kwa waliofanya mazoezi pale.\nAndika PASS tukutumie link ya app.\n\nA good gym shows itself before you pay. Every FitFlex gym is inspected first, you see every gym in your tier before paying, and reviews come from members who trained there. Comment PASS for the app link.\n\n#fitness #mazoezi #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026"
+}

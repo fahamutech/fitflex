@@ -1,6 +1,6 @@
 # 2026-11-W5-A-members — "Desemba inakuja. Weka lengo, si azimio."
 
-State: **brand_checked** (brand review pass 2026-10-29). Planned slot Mon 2026-11-30 17:00 Africa/Dar_es_Salaam (every-other-day cadence; rotation week = v2). Record: `social/data/ideas.jsonl`. Nothing is scheduled until the owner writes an exact-version approval line.
+State: **scheduled** (owner approved 2026-10-29; in the Metricool planner). Planned slot Mon 2026-11-30 17:00 Africa/Dar_es_Salaam (every-other-day cadence; rotation week = v2). Record: `social/data/ideas.jsonl`. Nothing is scheduled until the owner writes an exact-version approval line.
 
 | Field | Value |
 |---|---|

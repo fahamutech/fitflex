@@ -1,6 +1,6 @@
 # 2026-11-W1-A-owners — "Mlango wa gym yako unajua nani ameingia?"
 
-State: **brand_checked** (brand review pass 2026-10-29). Planned slot Mon 2026-11-02 17:00 Africa/Dar_es_Salaam (every-other-day cadence; rotation week = editorial). Record: `social/data/ideas.jsonl`. Nothing is scheduled until the owner writes an exact-version approval line.
+State: **scheduled** (owner approved 2026-10-29; in the Metricool planner). Planned slot Mon 2026-11-02 17:00 Africa/Dar_es_Salaam (every-other-day cadence; rotation week = editorial). Record: `social/data/ideas.jsonl`. Nothing is scheduled until the owner writes an exact-version approval line.
 
 | Field | Value |
 |---|---|

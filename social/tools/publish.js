@@ -114,10 +114,10 @@ function gate(recordId, platform, when, { base, write }) {
         date: `${when}:00${TZ_OFFSET}`,
         info: {
           autoPublish: true, draft: false, descendants: [], firstCommentText: v.firstComment || '', hasNotReadNotes: false,
-          media: urls, mediaAltText: spec.altText || [], providers: [{ network: platform }],
+          media: urls, mediaAltText: (urls.length === 1 && Array.isArray(spec.altText) && spec.altText.length > 1) ? [spec.altText.join(' ')] : (spec.altText || []), /* Metricool wants one alt text per media item; a reel is one file described by all its frames */ providers: [{ network: platform }],
           publicationDate: { dateTime: `${when}:00`, timezone: TZ }, shortener: false, smartLinkData: { ids: [] },
           text: v.text,
-          ...(platform === 'instagram' ? { instagramData: { type: 'POST', isAiGenerated: !!spec.aiGenerated } } : {}),
+          ...(platform === 'instagram' ? { instagramData: { type: (v && v.type) || 'POST', isAiGenerated: !!spec.aiGenerated } } : {}), // REEL for video records
           ...(platform === 'facebook' ? { facebookData: { type: 'POST' } } : {}),
         },
       };

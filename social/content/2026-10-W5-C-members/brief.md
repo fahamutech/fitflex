@@ -1,6 +1,6 @@
 # 2026-10-W5-C-members — "Hatua zako zinahesabika hata nje ya gym."
 
-State: **brand_checked** (brand review pass 2026-10-29). Planned slot Sat 2026-10-31 17:00 Africa/Dar_es_Salaam (every-other-day cadence; rotation week = v3). Record: `social/data/ideas.jsonl`. Nothing is scheduled until the owner writes an exact-version approval line.
+State: **scheduled** (owner approved 2026-10-29; in the Metricool planner). Planned slot Sat 2026-10-31 17:00 Africa/Dar_es_Salaam (every-other-day cadence; rotation week = v3). Record: `social/data/ideas.jsonl`. Nothing is scheduled until the owner writes an exact-version approval line.
 
 | Field | Value |
 |---|---|

@@ -1,6 +1,6 @@
 # 2026-11-W1-B-members — "Gym nzuri inaonekana kabla hujalipa."
 
-State: **brand_checked** (brand review: revise 2026-10-29, fixed, re-check pass). Planned slot Wed 2026-11-04 17:00 Africa/Dar_es_Salaam (every-other-day cadence; rotation week = editorial). Record: `social/data/ideas.jsonl`. Nothing is scheduled until the owner writes an exact-version approval line.
+State: **scheduled** (owner approved 2026-10-29; in the Metricool planner). Planned slot Wed 2026-11-04 17:00 Africa/Dar_es_Salaam (every-other-day cadence; rotation week = editorial). Record: `social/data/ideas.jsonl`. Nothing is scheduled until the owner writes an exact-version approval line.
 
 | Field | Value |
 |---|---|

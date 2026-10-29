@@ -1,0 +1,55 @@
+{
+  "title": "reserve 2026-11-W1-A-owners instagram 2026-11-02T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-29T14:02:48Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:95ea74b307b8d6111ab5b0f0e7163779",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-11-02T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-A-owners/slides/H01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-A-owners/slides/H02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-A-owners/slides/H03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-A-owners/slides/H04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-A-owners/slides/H05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-A-owners/slides/H06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-A-owners/slides/H07.png"
+      ],
+      "mediaAltText": [
+        "Cover slide with a photo (a gym floor with treadmills and lockers); Swahili: Mlango wa gym yako unajua nani ameingia?; English: Does your door know who walked in today?",
+        "QR · CHECK-IN slide; Swahili: QR inayobadilika kila dakika.; English: Members check in with a QR code that refreshes every minute. Nothing to forge, nothing to write down.",
+        "LEO · TODAY slide; Swahili: Unaona nani ameingia leo.; English: Check-ins today, on your phone, as they happen.",
+        "WIKI · WEEKLY slide; Swahili: Ziara kwa wiki, si kwa kumbukumbu.; English: Visit trends by week, instead of a feeling about how busy it was.",
+        "HATARI · AT RISK slide; Swahili: Anayepungua anaonekana mapema.; English: Who is slipping, who is at risk, who has stopped coming, before renewal day.",
+        "Checklist slide; Swahili: Daftari dhidi ya FitFlex.; English: The notebook versus FitFlex.; Rows: Nani ameingia leo (who came today), Nani amepungua (who is slipping), Ujumbe kwa wanaopungua (a message to them, sent from the app), Wageni kutoka mtandaoni (visitors from the FitFlex network)",
+        "Call to action; Swahili: Una gym Dar es Salaam? Andika; English: Own a gym in Dar es Salaam? Comment; Keyword PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. We’ll DM you how FitFlex works."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-11-02T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Mlango wa gym yako unajua nani ameingia leo? Kwa FitFlex wanachama wanaingia kwa QR inayobadilika kila dakika, na wewe unaona ziara za leo, mwenendo wa wiki, na nani anapungua kabla ya siku ya renewal.\nUna gym Dar es Salaam? Andika PARTNER.\n\nDoes your door know who walked in today? With FitFlex, members check in with a QR that refreshes every minute, and you see today’s visits, weekly trends and who is slipping before renewal day. Own a gym in Dar? Comment PARTNER.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026"
+}
