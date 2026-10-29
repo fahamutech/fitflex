@@ -42,5 +42,8 @@
 | D38 | Who may grant `webhooks:manage` | Default applied | 2026-10-29 | Organizer owner only. |
 | D39 | Organizer API pilot allowlist | Default applied | 2026-10-29 | Organizer API access limited to an allowlist of organizers for the pilot (FitFlex admin enables per organizer); not open to every active organizer at launch. |
 | D40 | Bib uniqueness | Default applied | 2026-10-29 | Bib numbers unique across the whole event, not per category. |
+| D41 | API client failure lock | Ruling | 2026-10-30 | Dropped: the 20-failure lock was a persistent denial-of-service vector (counter never reset, anyone who knows a client id could keep it locked). Replaced by per-client failure rate limits plus an audit row and owner notice above N failures per hour; secrets are 256-bit. |
+| D42 | Webhook management | Ruling | 2026-10-30 | Webhook endpoint create/update/rotate/verify and rotating an API client holding `webhooks:manage` are organizer-owner only (D38 enforced in code). Admins may read and test. |
+| D43 | Webhook launch gate | Ruling | 2026-10-30 | `EVENTS_WEBHOOKS` may not be enabled until `event.updated`/`event.cancelled` outbox rows are transactional (or the reconciliation sweep exists), the production Node version supports the pinned lookup with SNI, `docs/api` ships in the deploy, and the platform's forwarded-IP behaviour is confirmed. `EVENTS_KIT_OPS` additionally needs the privacy/retention rule and consent-text update; `EVENTS_ORGANIZER_API` needs owner review of `src/auth/organizer-api-auth.mjs` (D35). |
 
 Defaults marked "Open (default)" are implemented as configuration or flags so they can change without a schema rewrite.

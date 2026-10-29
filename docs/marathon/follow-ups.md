@@ -63,3 +63,15 @@ Items raised in reviews that belong to a later slice. Fixed-in-place items are n
 - Pre-existing portal helpers `eventDateTime`/`eventTime` used a 24-hour clock in Swahili (fixed in S4 portal round); check other portal helpers.
 - Native Swahili review: "Uthibitisho wa mkono", refund and unfulfilled-payment wording, payment rejection labels.
 - Shop bookkeeping has the same income-booking flaw for shop payment requests (finance-service); out of scope for events.
+
+## From the S5 reviews (functions#279, portal#167, mobile#249; 2026-10-30) — carried
+- L2: a slow webhook receiver can delay other organizers' deliveries within a batch; cap deliveries per host per batch and release leases when the budget runs out.
+- L7: if kit collection commits and a later step throws, the idempotency key is released and the retry gets `already_collected` instead of the original answer.
+- L8: claim/event outbox rows are written even with all flags off and never purged (only published rows are retention-deleted); tiny growth.
+- Retention and anonymisation rule for registration data is a launch gate before the roster API/export goes live; consent text (S3) over-states sharing and omits kit status and bib: rewrite and bump `EVENTS_CONSENT_TEXT_VERSION`; API terms of use and cross-border transfer position are unwritten.
+- Admin incident controls (`api-access`, `api-clients/revoke-all`, `webhook-endpoints/disable-all`, `integrations`, rate PATCH) have no portal UI; enabling an organizer for the pilot needs a direct API call or the env allowlist.
+- Redeliver missed events and the admin integrations block are not built.
+- OpenAPI `servers[0].url` is a placeholder unless `PUBLIC_API_URL` is set; confirm `docs/api/*` ships in the bfast deploy.
+- Glossary additions needed: token, secret, signing secret, client ID, bib, export/import, roster, rotate/revoke, kit desk, exception status; "mteja" clash with vendor customers; "Anwani" used for two concepts.
+- Native Swahili review: secret-once dialog, integrations docs strings, kit override/void wording, bib import help, imeshindikana replacements.
+
