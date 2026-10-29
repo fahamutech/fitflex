@@ -1,0 +1,27 @@
+{
+  "record": "2026-11-W4-R-reel-trainers",
+  "version_note": "Template editorial text-motion reel. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "reel/Y.mp4"
+  ],
+  "altText": [
+    "Cover slide with a photo (a man chalking his hands in a gym); Swahili: Mteja anaona nini kwenye profile yako?; English: What a client sees on your profile.",
+    "Point 01 slide; Swahili: Unamsaidia nani.; English: Who you help, in one line.",
+    "Point 02 slide; Swahili: Picha za vipindi halisi.; English: Photos of real sessions.",
+    "Point 03 slide; Swahili: Reviews kutoka kwa waliobook.; English: Reviews from clients who booked.",
+    "Point 04 slide; Swahili: Nafasi zako na bei yako.; English: Your open slots and your price.",
+    "Point 05 slide; Swahili: Kitufe kimoja: Book.; English: One button: book and pay by mobile money.",
+    "Call to action; Swahili: Wewe ni trainer? Andika; English: Are you a trainer? Comment; Keyword TRAINER. Tutakutumia DM jinsi ya kujiunga. We’ll DM you how to join."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "REEL",
+      "text": "What a client sees on your FitFlex profile: who you help, photos of real sessions, reviews from clients who booked, your open slots and your price, and one button to book and pay. Trainers, comment TRAINER.\n\nMteja anaona nini kwenye profile yako ya FitFlex: unamsaidia nani, picha za vipindi halisi, reviews kutoka kwa waliobook, nafasi zako na bei yako, na kitufe kimoja cha kubook na kulipa.\nWewe ni trainer? Andika TRAINER.\n\n#personaltrainer #fitnesscoach #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    }
+  },
+  "keyword": "TRAINER",
+  "reply_path": "the owner replies to TRAINER comments and DMs himself: a short note on the trainer side plus the trainer sign-up link",
+  "planned_slot": "2026-11-28T17:00:00+03:00"
+}

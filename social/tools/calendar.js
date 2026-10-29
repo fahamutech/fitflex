@@ -33,13 +33,13 @@ function render(month) {
   for (const r of rows) {
     const wk = (r.id.match(/-W(\d)-/) || [])[1] || ''; const letter = (r.id.match(/-W\d-([A-Z])-/) || [])[1] || '';
     const mine = pubs.filter(p => p.idea_id === r.id && ['pending', 'scheduled', 'published'].includes(p.status));
-    const sched = mine.map(p => `${p.platform}: ${p.status}${p.scheduled_for ? ' ' + p.scheduled_for.slice(0, 16).replace('T', ' ') : ''}${p.post_url ? ` [post](${p.post_url})` : ''}`).join('<br>') || '';
+    const sched = mine.map(p => `${p.platform}: ${p.status}${p.scheduled_for ? ' ' + p.scheduled_for.slice(0, 16).replace('T', ' ') : ''}${p.post_url ? ` [post](${p.post_url})` : ''}`).join('<br>') || (r.planned_slot ? `planned ${r.planned_slot.slice(0, 16).replace('T', ' ')}` : '');
     const brief = path.join(root, 'social', 'content', r.id, 'brief.md');
     let open = '';
     if (fs.existsSync(brief)) { const n = (fs.readFileSync(brief, 'utf8').match(/^- \[ \] /gm) || []).length; open = n ? `${n} open` : 'none'; }
-    const when = (mine.find(p => p.scheduled_for) || {}).scheduled_for || (pubs.find(p => p.idea_id === r.id && p.published_at) || {}).published_at || null;
+    const when = (mine.find(p => p.scheduled_for) || {}).scheduled_for || (pubs.find(p => p.idea_id === r.id && p.published_at) || {}).published_at || r.planned_slot || null; // planned_slot: drafted records keep their intended slot
     const style = when ? LABEL[styleForDate(when)] : '';
-    let built = ''; try { built = JSON.parse(fs.readFileSync(path.join(root, 'social', 'content', r.id, 'source', 'slides.json'), 'utf8')).style || 'v1'; } catch (e) {}
+    let built = ''; for (const specFile of ['slides.json', 'reel.json']) { try { built = JSON.parse(fs.readFileSync(path.join(root, 'social', 'content', r.id, 'source', specFile), 'utf8')).style || 'v1'; break; } catch (e) {} }
     out.push(`| [${r.id}](../content/${r.id}/brief.md) | W${wk} | ${SLOT[letter] || ''} | ${style}${built ? ` · built ${built}` : ''} | ${r.pillar} | ${r.audience} | ${r.format} | ${r.language_lead} | ${r.state} | ${(r.platforms || []).join(', ')} | ${sched} | ${open} |`);
   }
   out.push('');

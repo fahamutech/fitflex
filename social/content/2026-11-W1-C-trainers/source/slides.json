@@ -1,0 +1,73 @@
+{
+  "record": "2026-11-W1-C-trainers",
+  "style": "editorial",
+  "format": "ig_feed_portrait",
+  "prefix": "K",
+  "handle": "@fitflex.africa",
+  "slides": [
+    {
+      "kind": "cover",
+      "ph": 5878659,
+      "pos": "50% 20%",
+      "h": "Mpango wa mazoezi unaoishi kwenye simu ya <em>mteja.</em>",
+      "en": "A training plan that lives on your client’s phone.",
+      "s": "Mipango · training plans",
+      "size": 92
+    },
+    {
+      "kind": "rule",
+      "chip": "JENGA · BUILD",
+      "h": "Jenga mpango kwa <em>dakika,</em> si kwa karatasi.",
+      "en": "Build a plan from the exercise library or write your own. No more WhatsApp photos of a notebook."
+    },
+    {
+      "kind": "rule",
+      "chip": "TUMA · SEND",
+      "h": "Mteja <em>anakubali</em> kwanza.",
+      "en": "Send it; the client accepts it before it starts. Nothing lands on them unannounced."
+    },
+    {
+      "kind": "rule",
+      "chip": "BADILISHA · EDIT",
+      "h": "Ukibadilisha, <em>anajulishwa.</em>",
+      "en": "Edit a sent plan and the client is notified. One version, always current."
+    },
+    {
+      "kind": "rule",
+      "chip": "FUATILIA · FOLLOW",
+      "h": "Unaona <em>maendeleo</em> bila kuuliza.",
+      "en": "See the workouts they logged in their activity summary. Ask less, coach more."
+    },
+    {
+      "kind": "check",
+      "h": "Trainer kwenye FitFlex anapata <em>hivi.</em>",
+      "en": "What a trainer gets on FitFlex.",
+      "rows": [
+        {
+          "t": "Profile",
+          "en": "who you help, photos, specialties"
+        },
+        {
+          "t": "Booking na malipo",
+          "en": "bookings and payment in one app"
+        },
+        {
+          "t": "Ujumbe ndani ya app",
+          "en": "in-app messaging with clients"
+        },
+        {
+          "t": "Mipango ya mazoezi",
+          "en": "training plans your clients accept"
+        }
+      ]
+    },
+    {
+      "kind": "cta",
+      "h": "Wewe ni trainer? Andika",
+      "en": "Are you a trainer? Comment",
+      "kw": "TRAINER",
+      "cta": "Tutakutumia DM jinsi ya kujiunga.",
+      "ctaEn": "We’ll DM you how to join."
+    }
+  ]
+}

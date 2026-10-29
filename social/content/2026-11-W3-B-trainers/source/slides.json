@@ -1,0 +1,84 @@
+{
+  "record": "2026-11-W3-B-trainers",
+  "style": "v3",
+  "format": "ig_feed_portrait",
+  "prefix": "S",
+  "handle": "@fitflex.africa",
+  "eyebrow": "Kuza biashara · grow your business",
+  "slides": [
+    {
+      "kind": "cover",
+      "ground": "dark",
+      "h": "Booking bila DM. Malipo bila <em>“nitakutumia”.</em>",
+      "en": "Bookings without DMs. Payment without “I’ll send it later”.",
+      "s": "Trainer · bookings",
+      "size": 108
+    },
+    {
+      "kind": "rule",
+      "num": "01",
+      "h": "Mteja anachagua <em>muda</em> kutoka nafasi zako.",
+      "en": "The client picks a slot from your availability. Several sessions in one booking.",
+      "chip": "Booking"
+    },
+    {
+      "kind": "rule",
+      "num": "02",
+      "h": "Malipo <em>kabla</em> ya kipindi.",
+      "en": "Paid in the app before the session, by mobile money. No chasing on the day.",
+      "chip": "Malipo · payment"
+    },
+    {
+      "kind": "rule",
+      "num": "03",
+      "h": "Kughairi kuna <em>sheria.</em>",
+      "en": "Cancellations follow rules both sides can see, with the refund tracked in the app.",
+      "chip": "Kughairi · cancellations"
+    },
+    {
+      "kind": "rule",
+      "num": "04",
+      "h": "Ongea ndani ya <em>app.</em>",
+      "en": "Message clients inside the app. Your number stays yours.",
+      "chip": "Ujumbe · messaging"
+    },
+    {
+      "kind": "rule",
+      "num": "05",
+      "h": "Taarifa ya wiki ya <em>kazi</em> yako.",
+      "en": "A weekly statement of the sessions you delivered, in the app.",
+      "chip": "Taarifa · statements"
+    },
+    {
+      "kind": "check",
+      "h": "Mteja wako anaona <em>hivi.</em>",
+      "en": "What your client sees.",
+      "rows": [
+        {
+          "t": "Profile yako",
+          "en": "who you help, photos, specialties"
+        },
+        {
+          "t": "Nafasi zako",
+          "en": "your open slots"
+        },
+        {
+          "t": "Reviews",
+          "en": "from clients who booked"
+        },
+        {
+          "t": "Bei yako",
+          "en": "your price, set by you"
+        }
+      ]
+    },
+    {
+      "kind": "cta",
+      "h": "Wewe ni trainer? Andika",
+      "en": "Are you a trainer? Comment",
+      "kw": "TRAINER",
+      "cta": "Tutakutumia DM jinsi ya kujiunga.",
+      "ctaEn": "We’ll DM you how to join."
+    }
+  ]
+}

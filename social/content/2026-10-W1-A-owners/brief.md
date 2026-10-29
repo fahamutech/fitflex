@@ -1,6 +1,6 @@
 # 2026-10-W1-A-owners — "You're counting the wrong members."
 
-State: **scheduled** on Instagram for 2026-10-21 17:00 Dar es Salaam (pub_0004; owner approved 2026-10-19). Facebook variant not scheduled. Record: `social/data/ideas.jsonl`.
+State: **published** on Instagram for 2026-10-21 17:00 Dar es Salaam (pub_0004; owner approved 2026-10-19). Facebook variant not scheduled. Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|

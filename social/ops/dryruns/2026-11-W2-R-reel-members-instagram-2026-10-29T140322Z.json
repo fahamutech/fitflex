@@ -1,0 +1,48 @@
+{
+  "title": "reserve 2026-11-W2-R-reel-members instagram 2026-11-14T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-29T14:03:22Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:aeb14215f0a9e16b07a8884eb94cd2b5",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-11-14T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W2-R-reel-members/reel/P.mp4"
+      ],
+      "mediaAltText": [
+        "Cover slide with a photo (a dumbbell rack); text: Kabla hujalipa gym yoyote Dar… Before you pay any gym in Dar…",
+        "Text slide; text: 1. Je, imekaguliwa? Has anyone inspected it? FitFlex visits every gym before it joins.",
+        "Text slide; text: 2. Wanachama wanasema nini? What do members say? Reviews are in the app.",
+        "Text slide; text: 3. Unaweza kulipa kwa simu? Can you pay by phone? M-Pesa or Airtel Money, in the app.",
+        "Text slide; text: Pass moja. Gym nyingi zilizokaguliwa. App moja. One pass. Many vetted gyms. One app.",
+        "Call to action; text: Unataka kuanza? Andika; Keyword PASS. Tutakutumia DM link ya app. · We’ll DM you the app link."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-11-14T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Before you pay any gym in Dar, check three things: has anyone inspected it, what do members say, and can you pay by phone. FitFlex does all three. Comment PASS for the app link.\n\nKabla hujalipa gym yoyote Dar, angalia mambo matatu: imekaguliwa? wanachama wanasema nini? unaweza kulipa kwa simu? FitFlex inafanya yote matatu.\nAndika PASS tukutumie link ya app.\n\n#fitness #mazoezi #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "REEL",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026"
+}

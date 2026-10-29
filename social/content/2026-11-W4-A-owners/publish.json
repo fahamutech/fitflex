@@ -1,0 +1,38 @@
+{
+  "record": "2026-11-W4-A-owners",
+  "version_note": "Template editorial. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/W01.png",
+    "slides/W02.png",
+    "slides/W03.png",
+    "slides/W04.png",
+    "slides/W05.png",
+    "slides/W06.png",
+    "slides/W07.png"
+  ],
+  "altText": [
+    "Cover slide with a photo (gym equipment); Swahili: Wanachama wa gym nyingine wanakuona.; English: Your gym is visible to other gyms’ members.",
+    "MTANDAO · NETWORK slide; Swahili: Pass moja, gym nyingi.; English: A FitFlex member holds one pass for many gyms. When they travel or move, they pick from the network.",
+    "RAMANI · MAP slide; Swahili: Wanakutafuta kwa eneo.; English: They find you by area, tier and what members said. Not by who shouted loudest on Instagram.",
+    "BEJI · BADGE slide; Swahili: Beji ya uthibitisho inajenga imani.; English: A verified badge after KYC, a profile-complete badge for the rest. Members see it before they come.",
+    "ZIARA · VISITS slide; Swahili: Kila ziara ya mgeni inahesabiwa.; English: Every visitor checks in by QR; every visit is on your dashboard.",
+    "Checklist slide; Swahili: Jinsi gym inavyojiunga.; English: How a gym joins.; Rows: Omba (apply in the app), Ukaguzi (an inspection visit and a score), Uthibitisho (KYC documents, given once), Fungua mlango (your gym goes live on the map)",
+    "Call to action; Swahili: Una gym Dar es Salaam? Andika; English: Own a gym in Dar es Salaam? Comment; Keyword PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. We’ll DM you how FitFlex works."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Your gym is visible to other gyms’ members. A FitFlex member holds one pass for many gyms and finds you by area, tier and reviews. A verified badge builds trust, and every visit is counted by QR. Own a gym in Dar? Comment PARTNER.\n\nGym yako inaonekana kwa wanachama wa gym nyingine. Mwanachama wa FitFlex ana pass moja kwa gym nyingi, na anakutafuta kwa eneo, daraja na reviews. Beji ya uthibitisho inajenga imani, na kila ziara inahesabiwa kwa QR.\nUna gym Dar es Salaam? Andika PARTNER.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Your gym is visible to other gyms’ members. A FitFlex member holds one pass for many gyms and finds you by area, tier and reviews. A verified badge builds trust, and every visit is counted by QR. Own a gym in Dar? Comment PARTNER.\n\nGym yako inaonekana kwa wanachama wa gym nyingine. Mwanachama wa FitFlex ana pass moja kwa gym nyingi, na anakutafuta kwa eneo, daraja na reviews. Beji ya uthibitisho inajenga imani, na kila ziara inahesabiwa kwa QR.\nUna gym Dar es Salaam? Andika PARTNER.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PARTNER",
+  "reply_path": "the owner replies to PARTNER comments and DMs himself while traffic is low (decided 2026-10-20): a short note on how FitFlex works for gyms plus the partner sign-up path",
+  "planned_slot": "2026-11-24T17:00:00+03:00"
+}

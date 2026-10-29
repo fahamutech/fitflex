@@ -1,0 +1,38 @@
+{
+  "record": "2026-10-W5-C-members",
+  "version_note": "Template v3. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/G01.png",
+    "slides/G02.png",
+    "slides/G03.png",
+    "slides/G04.png",
+    "slides/G05.png",
+    "slides/G06.png",
+    "slides/G07.png"
+  ],
+  "altText": [
+    "Cover slide on dark slate; Swahili: Hatua zako zinahesabika hata nje ya gym.; English: Your steps count, even outside the gym.",
+    "Point 01 slide; Swahili: Simu yako inahesabu hatua.; English: Turn on step counting and your Android phone’s own counter does the work. Off until you say yes.",
+    "Point 02 slide; Swahili: Rekodi mbio zako kwa GPS.; English: Record a run with GPS: distance, time and route, saved to your activity.",
+    "Point 03 slide; Swahili: Weka lengo. Linda streak.; English: Set a weekly goal and keep the streak going. The app shows the gap before you lose it.",
+    "Point 04 slide; Swahili: Jiunge na changamoto.; English: Join a challenge with friends or your gym. You’re on the leaderboard unless you say no.",
+    "Checklist slide; Swahili: Wewe unaamua nani anaona.; English: You decide who sees what.; Rows: Marafiki (friends), Vikundi (groups), Umma (public is on by default; switch it off any time), Hatua za kila siku (daily steps go to your groups only)",
+    "Call to action; Swahili: Unataka kuanza? Andika; English: Want to start? Comment; Keyword PASS. Tutakutumia DM link ya app. Android kwa sasa. We’ll DM you the app link. Android for now."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Your steps count, even outside the gym. Turn on step counting, record a run with GPS, set a weekly goal and join a challenge with friends. You choose who sees what. Comment PASS for the app link (Android for now).\n\nHatua zako zinahesabika hata nje ya gym. Washa kuhesabu hatua, rekodi mbio kwa GPS, weka lengo la wiki na jiunge na changamoto na marafiki. Wewe unaamua nani anaona nini. Andika PASS tukutumie link ya app (Android kwa sasa).\n\n#fitness #mazoezi #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Your steps count, even outside the gym. Turn on step counting, record a run with GPS, set a weekly goal and join a challenge with friends. You choose who sees what. Comment PASS for the app link (Android for now).\n\nHatua zako zinahesabika hata nje ya gym. Washa kuhesabu hatua, rekodi mbio kwa GPS, weka lengo la wiki na jiunge na changamoto na marafiki. Wewe unaamua nani anaona nini. Andika PASS tukutumie link ya app (Android kwa sasa).",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PASS",
+  "reply_path": "the owner replies to PASS comments and DMs himself: one line on the Pass plus the Android app link; the DM must not promise iOS",
+  "planned_slot": "2026-10-31T17:00:00+03:00"
+}

@@ -1,0 +1,55 @@
+{
+  "title": "reserve 2026-10-W5-C-members instagram 2026-10-31T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-29T14:02:42Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:0cb138765d2e6c7e13e4f71abb113c63",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-10-31T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-10-W5-C-members/slides/G01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-10-W5-C-members/slides/G02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-10-W5-C-members/slides/G03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-10-W5-C-members/slides/G04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-10-W5-C-members/slides/G05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-10-W5-C-members/slides/G06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-10-W5-C-members/slides/G07.png"
+      ],
+      "mediaAltText": [
+        "Cover slide on dark slate; Swahili: Hatua zako zinahesabika hata nje ya gym.; English: Your steps count, even outside the gym.",
+        "Point 01 slide; Swahili: Simu yako inahesabu hatua.; English: Turn on step counting and your Android phone’s own counter does the work. Off until you say yes.",
+        "Point 02 slide; Swahili: Rekodi mbio zako kwa GPS.; English: Record a run with GPS: distance, time and route, saved to your activity.",
+        "Point 03 slide; Swahili: Weka lengo. Linda streak.; English: Set a weekly goal and keep the streak going. The app shows the gap before you lose it.",
+        "Point 04 slide; Swahili: Jiunge na changamoto.; English: Join a challenge with friends or your gym. You’re on the leaderboard unless you say no.",
+        "Checklist slide; Swahili: Wewe unaamua nani anaona.; English: You decide who sees what.; Rows: Marafiki (friends), Vikundi (groups), Umma (public is on by default; switch it off any time), Hatua za kila siku (daily steps go to your groups only)",
+        "Call to action; Swahili: Unataka kuanza? Andika; English: Want to start? Comment; Keyword PASS. Tutakutumia DM link ya app. Android kwa sasa. We’ll DM you the app link. Android for now."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-10-31T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Your steps count, even outside the gym. Turn on step counting, record a run with GPS, set a weekly goal and join a challenge with friends. You choose who sees what. Comment PASS for the app link (Android for now).\n\nHatua zako zinahesabika hata nje ya gym. Washa kuhesabu hatua, rekodi mbio kwa GPS, weka lengo la wiki na jiunge na changamoto na marafiki. Wewe unaamua nani anaona nini. Andika PASS tukutumie link ya app (Android kwa sasa).\n\n#fitness #mazoezi #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026"
+}

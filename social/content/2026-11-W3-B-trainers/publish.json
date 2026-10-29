@@ -1,0 +1,40 @@
+{
+  "record": "2026-11-W3-B-trainers",
+  "version_note": "Template v3. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/S01.png",
+    "slides/S02.png",
+    "slides/S03.png",
+    "slides/S04.png",
+    "slides/S05.png",
+    "slides/S06.png",
+    "slides/S07.png",
+    "slides/S08.png"
+  ],
+  "altText": [
+    "Cover slide on dark slate; Swahili: Booking bila DM. Malipo bila “nitakutumia”.; English: Bookings without DMs. Payment without “I’ll send it later”.",
+    "Point 01 slide; Swahili: Mteja anachagua muda kutoka nafasi zako.; English: The client picks a slot from your availability. Several sessions in one booking.",
+    "Point 02 slide; Swahili: Malipo kabla ya kipindi.; English: Paid in the app before the session, by mobile money. No chasing on the day.",
+    "Point 03 slide; Swahili: Kughairi kuna sheria.; English: Cancellations follow rules both sides can see, with the refund tracked in the app.",
+    "Point 04 slide; Swahili: Ongea ndani ya app.; English: Message clients inside the app. Your number stays yours.",
+    "Point 05 slide; Swahili: Taarifa ya wiki ya kazi yako.; English: A weekly statement of the sessions you delivered, in the app.",
+    "Checklist slide; Swahili: Mteja wako anaona hivi.; English: What your client sees.; Rows: Profile yako (who you help, photos, specialties), Nafasi zako (your open slots), Reviews (from clients who booked), Bei yako (your price, set by you)",
+    "Call to action; Swahili: Wewe ni trainer? Andika; English: Are you a trainer? Comment; Keyword TRAINER. Tutakutumia DM jinsi ya kujiunga. We’ll DM you how to join."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Booking bila DM, malipo bila “nitakutumia”. Kwa FitFlex mteja anachagua muda, analipa ndani ya app kabla ya kipindi, kughairi kuna sheria zinazoonekana, na mnaongea ndani ya app.\nWewe ni trainer? Andika TRAINER.\n\nBookings without DMs, payment without “I’ll send it later”. On FitFlex the client picks a slot, pays in the app before the session, cancellations follow visible rules, and you message inside the app. Trainers, comment TRAINER.\n\n#personaltrainer #fitnesscoach #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Booking bila DM, malipo bila “nitakutumia”. Kwa FitFlex mteja anachagua muda, analipa ndani ya app kabla ya kipindi, kughairi kuna sheria zinazoonekana, na mnaongea ndani ya app.\nWewe ni trainer? Andika TRAINER.\n\nBookings without DMs, payment without “I’ll send it later”. On FitFlex the client picks a slot, pays in the app before the session, cancellations follow visible rules, and you message inside the app. Trainers, comment TRAINER.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "TRAINER",
+  "reply_path": "the owner replies to TRAINER comments and DMs himself: a short note on the trainer side plus the trainer sign-up link",
+  "planned_slot": "2026-11-18T17:00:00+03:00"
+}

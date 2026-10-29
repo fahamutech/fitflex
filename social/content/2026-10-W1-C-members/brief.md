@@ -1,6 +1,6 @@
 # 2026-10-W1-C-members — "One gym. One contract. Stuck."
 
-State: **scheduled** (v2 render swapped into the planner 2026-10-20) on Instagram for 2026-10-25 17:00 Dar es Salaam (pub_0006; owner approved 2026-10-19). Facebook variant not scheduled. Record: `social/data/ideas.jsonl`.
+State: **published** (v2 render swapped into the planner 2026-10-20) on Instagram for 2026-10-25 17:00 Dar es Salaam (pub_0006; owner approved 2026-10-19). Facebook variant not scheduled. Record: `social/data/ideas.jsonl`.
 
 | Field | Value |
 |---|---|

@@ -1,0 +1,40 @@
+{
+  "record": "2026-11-W3-C-members",
+  "version_note": "Template v3. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/U01.png",
+    "slides/U02.png",
+    "slides/U03.png",
+    "slides/U04.png",
+    "slides/U05.png",
+    "slides/U06.png",
+    "slides/U07.png",
+    "slides/U08.png"
+  ],
+  "altText": [
+    "Cover slide on Volt green; Swahili: Leaderboard si ya wanariadha tu.; English: Leaderboards aren’t just for athletes.",
+    "Point 01 slide; Swahili: Alika rafiki kwa link moja.; English: Invite a friend by link, email or number. Train apart, count together.",
+    "Point 02 slide; Swahili: Kikundi cha wenzako.; English: Make a group: your office, your estate, your Sunday crew. New activities post to the group.",
+    "Point 03 slide; Swahili: Jiunge na changamoto, leaderboard ya kweli.; English: Join a challenge and you’re on its leaderboard: first name, last initial, progress. Say no if you’d rather not.",
+    "Point 04 slide; Swahili: Hatua za kila siku zinaenda kwa kikundi tu.; English: Daily steps go to your groups only, never public.",
+    "Point 05 slide; Swahili: Gym yako nayo ina changamoto.; English: Gyms and trainers run challenges too, not just FitFlex.",
+    "Checklist slide; Swahili: Jinsi ya kuanza.; English: How to start.; Rows: Washa shughuli (turn on activity), Alika rafiki mmoja (invite one friend), Changamoto moja (join one challenge), Leaderboard Jumapili (check the board on Sunday)",
+    "Call to action; Swahili: Unataka kuanza? Andika; English: Want to start? Comment; Keyword PASS. Tutakutumia DM link ya app. We’ll DM you the app link."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Leaderboard si ya wanariadha tu. Alika rafiki kwa link moja, tengeneza kikundi, jiunge na changamoto na uone jina lako kwenye leaderboard. Hatua za kila siku zinabaki kwenye kikundi chako.\nAndika PASS tukutumie link ya app.\n\nLeaderboards aren’t just for athletes. Invite a friend by link, make a group, join a challenge and see your name on the board. Daily steps stay inside your groups. Comment PASS for the app link.\n\n#fitness #mazoezi #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Leaderboard si ya wanariadha tu. Alika rafiki kwa link moja, tengeneza kikundi, jiunge na changamoto na uone jina lako kwenye leaderboard. Hatua za kila siku zinabaki kwenye kikundi chako.\nAndika PASS tukutumie link ya app.\n\nLeaderboards aren’t just for athletes. Invite a friend by link, make a group, join a challenge and see your name on the board. Daily steps stay inside your groups. Comment PASS for the app link.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PASS",
+  "reply_path": "the owner replies to PASS comments and DMs himself: one line on the Pass plus the Android app link; the DM must not promise iOS",
+  "planned_slot": "2026-11-20T17:00:00+03:00"
+}
