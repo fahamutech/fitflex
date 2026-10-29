@@ -855,7 +855,7 @@ Needs a real device (not checkable on Flutter web): Android/iOS OS location prom
 | Q-5 | Location ask: invite card in the near-you slot opening the rationale sheet (DD-P2-7), rather than a sheet that pops up on first shop visit? | Invite card. |
 | Q-6 | Under-18 members: gender/age are never used (decided). Should purchase history and area also be off for them? | Yes, treat under-18 as personalisation off (safer; counsel to confirm). |
 | Q-7 | Vendor "Based in"/"Delivers to" and product "Made for"/"Age group" are **app-only** (the portal's products page says "edit in app"; there is no portal vendor profile form). OK for now? | Yes; add to the portal with the vendor-profile work later. |
-| Q-8 | When staff create a flash sale on a vendor's product, does the vendor need to agree first (they pay the discount)? | Yes: staff-created sales go to the **vendor** to accept, then to a second admin. Until decided, staff can create banners only. |
+| Q-8 | When staff create a flash sale on a vendor's product, does the vendor need to agree first (they pay the discount)? | **Decided 2026-10-20 (owner): no vendor consent.** Staff-created sales go to a second admin only. **2026-10-29 (owner):** the vendor can end a FitFlex-made sale on their product. |
 | Q-9 | Age bands: 18–29 / 30–44 / 45–59 / 60+? Should vendors be able to mark kids' products (which would never be personalised)? | These four; no kids band now. |
 | Q-10 | Who in a vendor business may propose: owner + staff with `products` permission? | Yes. |
 | Q-11 | "Personalised shop" Swahili: "Duka kwa ajili yako"? | Native review to confirm. |
@@ -876,4 +876,12 @@ Needs a real device (not checkable on Flutter web): Android/iOS OS location prom
 - **Vendor CTA** is chosen from the fixed list (`ctaKey`); staff may write their own.
 - **Text rules (server):** no prices, percentages, any number of 4+ digits (years included), discount words (punguzo, bure, nusu bei, discount), links, @handles or phone numbers.
 - **Swahili:** bango takes li-/ya- agreement ("yanasubiri", "halijatumwa"); "End" = Sitisha; see the provisional glossary rows of 2026-10-20.
+
+## 18. As-built notes (Slice 4, 2026-10-29)
+- **14-day rules:** a sale is refused if the product's **regular price** was raised in the 14 days before it starts (standing-discount changes are not counted, owner 2026-10-29), and a new or duplicated product needs **14 days of price history** first. Existing products get a baseline row when the migration runs, so no sale is possible until 14 days after the backend deploy.
+- **"Was" price** = the regular price (owner 2026-10-29).
+- **Minimum discount 5%, no maximum**; 1 h–7 d; one approved sale per product; the product price is locked while a sale is scheduled or live.
+- **Vendors may end FitFlex-made sales** on their own products; staff sales need no vendor consent.
+- **Older app builds** don't receive sale fields or the flash-sale rail (capability header `X-FF-Shop-Caps: flash_sale`) but are charged the lower price.
+- **Swahili** for sales uses *ofa* (I-/Zi-) agreement, never the *bango* (Li-) forms; End = Sitisha.
 
