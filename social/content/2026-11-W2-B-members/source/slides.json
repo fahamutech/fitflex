@@ -1,0 +1,78 @@
+{
+  "record": "2026-11-W2-B-members",
+  "style": "v2",
+  "format": "ig_feed_portrait",
+  "prefix": "N",
+  "handle": "@fitflex.africa",
+  "eyebrow": "Find & train · Tafuta",
+  "slides": [
+    {
+      "kind": "photo",
+      "ph": 4720565,
+      "pos": "50% 30%",
+      "h": "Umeikua <em>gym</em> yako?",
+      "s": "Panda daraja la pass. Tarehe zako zibaki.",
+      "en": "Outgrown your gym? Upgrade the pass. Keep your dates."
+    },
+    {
+      "kind": "type",
+      "h": "Madaraja kuanzia gym za kila siku hadi <em>executive.</em>",
+      "s": "Tiers from everyday gyms to executive. Pick the doors you want to walk through."
+    },
+    {
+      "kind": "type",
+      "h": "Unaona gym zote za daraja <em>kabla</em> ya kulipa.",
+      "s": "See every active gym in a tier before you pay."
+    },
+    {
+      "kind": "list",
+      "h": "Kupanda daraja <em>bila kuanza upya</em> maana yake:",
+      "rows": [
+        {
+          "t": "Pay only the difference",
+          "tag": "once",
+          "tone": "volt"
+        },
+        {
+          "t": "Same end date",
+          "tag": "kept",
+          "tone": "volt"
+        },
+        {
+          "t": "Visits used carry over",
+          "tag": "kept",
+          "tone": "muted"
+        },
+        {
+          "t": "New gyms open up",
+          "tag": "after approval",
+          "tone": "fuel"
+        }
+      ],
+      "note": "My passes · FitFlex app"
+    },
+    {
+      "kind": "photo",
+      "ph": 9545914,
+      "pos": "50% 50%",
+      "h": "App ile ile. QR ile ile. <em>Milango zaidi.</em>",
+      "s": "Same app. Same QR. More doors."
+    },
+    {
+      "kind": "type",
+      "h": "Lipa kwa M-Pesa au Airtel Money, <em>ndani ya app.</em>",
+      "s": "Pay by M-Pesa or Airtel Money, in the app."
+    },
+    {
+      "kind": "type",
+      "h": "Hakuna mkataba mpya. Hakuna <em>kuanza upya.</em>",
+      "s": "No new contract. No starting over."
+    },
+    {
+      "kind": "cta",
+      "h": "Unataka kuanza? Andika",
+      "kw": "PASS",
+      "cta": "Tutakutumia DM link ya app. · We’ll DM you the app link."
+    }
+  ]
+}

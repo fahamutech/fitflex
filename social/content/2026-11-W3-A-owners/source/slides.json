@@ -1,0 +1,85 @@
+{
+  "record": "2026-11-W3-A-owners",
+  "style": "v3",
+  "format": "ig_feed_portrait",
+  "prefix": "Q",
+  "handle": "@fitflex.africa",
+  "eyebrow": "Gym bora · run a better gym",
+  "slides": [
+    {
+      "kind": "cover",
+      "h": "Ujumbe mmoja unamrudisha mwanachama. <em>Ukitumwa kwa wakati.</em>",
+      "en": "One message brings a member back. If it’s sent in time.",
+      "s": "Mawasiliano · communication",
+      "size": 108
+    },
+    {
+      "kind": "rule",
+      "num": "01",
+      "h": "Anayepungua anaonekana <em>kabla</em> hajaondoka.",
+      "en": "Slipping, at risk, stopped coming: the app sorts your members before renewal day.",
+      "chip": "Ishara · the signal"
+    },
+    {
+      "kind": "rule",
+      "num": "02",
+      "h": "Tuma kutoka kwenye <em>app,</em> si namba yako binafsi.",
+      "en": "Send from the app, not your personal number: in-app, push or SMS, to your own members.",
+      "chip": "Njia · channels",
+      "size": 92
+    },
+    {
+      "kind": "rule",
+      "num": "03",
+      "h": "Chagua <em>nani</em> apate ujumbe.",
+      "en": "Pick the audience: everyone, the ones slipping, or the ones due to renew this week.",
+      "chip": "Hadhira · audience"
+    },
+    {
+      "kind": "rule",
+      "num": "04",
+      "h": "Vikumbusho vya <em>renewal</em> vinajituma.",
+      "en": "Renewal reminders go out on their own: three days before, one day before, on the day.",
+      "chip": "Renewal"
+    },
+    {
+      "kind": "rule",
+      "num": "05",
+      "h": "Unaona nani <em>alifungua</em> na nani alirudi.",
+      "en": "Results show deliveries, opens, taps and who renewed after the message.",
+      "chip": "Matokeo · results"
+    },
+    {
+      "kind": "check",
+      "h": "Kabla ya kutuma, <em>jiulize.</em>",
+      "en": "Before you send, ask.",
+      "top": 560,
+      "rows": [
+        {
+          "t": "Ujumbe mmoja, kazi moja",
+          "en": "one message, one job"
+        },
+        {
+          "t": "Jina lake, si “Ndugu”",
+          "en": "their name, not “Dear member”"
+        },
+        {
+          "t": "Lugha anayoisoma",
+          "en": "Swahili or English, whichever they read"
+        },
+        {
+          "t": "Si zaidi ya mbili kwa wiki",
+          "en": "two marketing sends a week at most"
+        }
+      ]
+    },
+    {
+      "kind": "cta",
+      "h": "Una gym Dar es Salaam? Andika",
+      "en": "Own a gym in Dar es Salaam? Comment",
+      "kw": "PARTNER",
+      "cta": "Tutakutumia DM jinsi FitFlex inavyofanya kazi.",
+      "ctaEn": "We’ll DM you how FitFlex works."
+    }
+  ]
+}

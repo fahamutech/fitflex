@@ -1,0 +1,60 @@
+{
+  "record": "2026-11-W3-R-reel-owners",
+  "style": "v3",
+  "format": "ig_feed_portrait",
+  "prefix": "V",
+  "handle": "@fitflex.africa",
+  "eyebrow": "Gym bora · run a better gym",
+  "noSwipe": true,
+  "slides": [
+    {
+      "kind": "cover",
+      "ground": "dark",
+      "h": "Ishara 3 kwamba mwanachama <em>anaondoka.</em>",
+      "en": "3 signs a member is about to leave.",
+      "s": "Retention",
+      "dur": 2.5
+    },
+    {
+      "kind": "rule",
+      "num": "01",
+      "h": "Ziara <em>zinapungua.</em>",
+      "en": "Fewer visits than before. The first sign, and the one most owners miss.",
+      "chip": "Ishara ya kwanza · first sign",
+      "dur": 3.2
+    },
+    {
+      "kind": "rule",
+      "num": "02",
+      "h": "Hajaingia kwa <em>wiki.</em>",
+      "en": "No check-in for weeks. The app marks them at risk.",
+      "chip": "Ishara ya pili · second sign",
+      "dur": 3.2
+    },
+    {
+      "kind": "rule",
+      "num": "03",
+      "h": "Renewal <em>imepita</em> kimya.",
+      "en": "Renewal day passes with no payment and no goodbye.",
+      "chip": "Ishara ya tatu · third sign",
+      "dur": 3.2
+    },
+    {
+      "kind": "rule",
+      "num": "04",
+      "h": "Unaona zote <em>kwenye app.</em>",
+      "en": "FitFlex shows all three before it’s too late, and lets you message them from the app.",
+      "chip": "FitFlex",
+      "dur": 3.2
+    },
+    {
+      "kind": "cta",
+      "h": "Una gym Dar es Salaam? Andika",
+      "en": "Own a gym in Dar es Salaam? Comment",
+      "kw": "PARTNER",
+      "cta": "Tutakutumia DM jinsi FitFlex inavyofanya kazi.",
+      "ctaEn": "We’ll DM you how FitFlex works.",
+      "dur": 4
+    }
+  ]
+}

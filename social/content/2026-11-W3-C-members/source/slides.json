@@ -1,0 +1,85 @@
+{
+  "record": "2026-11-W3-C-members",
+  "style": "v3",
+  "format": "ig_feed_portrait",
+  "prefix": "U",
+  "handle": "@fitflex.africa",
+  "eyebrow": "Jumuiya · community",
+  "slides": [
+    {
+      "kind": "cover",
+      "h": "Leaderboard si ya <em>wanariadha</em> tu.",
+      "en": "Leaderboards aren’t just for athletes.",
+      "s": "Marafiki · friends"
+    },
+    {
+      "kind": "rule",
+      "num": "01",
+      "h": "Alika rafiki kwa <em>link</em> moja.",
+      "en": "Invite a friend by link, email or number. Train apart, count together.",
+      "chip": "Marafiki · friends"
+    },
+    {
+      "kind": "rule",
+      "num": "02",
+      "h": "Kikundi cha <em>wenzako.</em>",
+      "en": "Make a group: your office, your estate, your Sunday crew. New activities post to the group.",
+      "chip": "Vikundi · groups"
+    },
+    {
+      "kind": "rule",
+      "num": "03",
+      "h": "Jiunge na changamoto, <em>leaderboard</em> ya kweli.",
+      "en": "Join a challenge and you’re on its leaderboard: first name, last initial, progress. Say no if you’d rather not.",
+      "chip": "Changamoto · challenges",
+      "size": 92
+    },
+    {
+      "kind": "rule",
+      "num": "04",
+      "h": "Hatua za kila siku zinaenda kwa <em>kikundi</em> tu.",
+      "en": "Daily steps go to your groups only, never public.",
+      "chip": "Faragha · privacy",
+      "size": 92
+    },
+    {
+      "kind": "rule",
+      "num": "05",
+      "h": "Gym yako nayo ina <em>changamoto.</em>",
+      "en": "Gyms and trainers run challenges too, not just FitFlex.",
+      "chip": "Gym"
+    },
+    {
+      "kind": "check",
+      "h": "Jinsi ya <em>kuanza.</em>",
+      "en": "How to start.",
+      "top": 560,
+      "rows": [
+        {
+          "t": "Washa shughuli",
+          "en": "turn on activity"
+        },
+        {
+          "t": "Alika rafiki mmoja",
+          "en": "invite one friend"
+        },
+        {
+          "t": "Changamoto moja",
+          "en": "join one challenge"
+        },
+        {
+          "t": "Leaderboard Jumapili",
+          "en": "check the board on Sunday"
+        }
+      ]
+    },
+    {
+      "kind": "cta",
+      "h": "Unataka kuanza? Andika",
+      "en": "Want to start? Comment",
+      "kw": "PASS",
+      "cta": "Tutakutumia DM link ya app.",
+      "ctaEn": "We’ll DM you the app link."
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "record": "2026-11-W1-B-members",
+  "style": "editorial",
+  "format": "ig_feed_portrait",
+  "prefix": "J",
+  "handle": "@fitflex.africa",
+  "slides": [
+    {
+      "kind": "cover",
+      "ph": 29526371,
+      "pos": "50% 50%",
+      "h": "Gym nzuri inaonekana kabla <em>hujalipa.</em>",
+      "en": "A good gym shows itself before you pay.",
+      "s": "Vetted · imekaguliwa"
+    },
+    {
+      "kind": "rule",
+      "chip": "UKAGUZI · INSPECTION",
+      "h": "Kila gym <em>inatembelewa</em> kwanza.",
+      "en": "Every FitFlex gym is visited and scored before it joins: equipment, amenities, facility, staff."
+    },
+    {
+      "kind": "rule",
+      "chip": "DARAJA · TIER",
+      "h": "Unaona gym zote za daraja lako <em>kabla</em> ya kulipa.",
+      "en": "See every active gym in your pass tier before you pay a shilling.",
+      "size": 92
+    },
+    {
+      "kind": "rule",
+      "chip": "REVIEWS",
+      "h": "Reviews kutoka kwa waliofanya mazoezi <em>pale.</em>",
+      "en": "Reviews from members who trained there, under the gym, in the app.",
+      "size": 92
+    },
+    {
+      "kind": "rule",
+      "chip": "HIFADHI · SAVED",
+      "h": "Hifadhi gym unazopenda kwa <em>moyo</em> mmoja.",
+      "en": "Tap the heart to save a gym; filter your list to the ones you saved."
+    },
+    {
+      "kind": "check",
+      "h": "Kabla hujalipa, angalia <em>hivi.</em>",
+      "en": "Before you pay any gym, check these.",
+      "rows": [
+        {
+          "t": "Imekaguliwa",
+          "en": "inspected and scored"
+        },
+        {
+          "t": "Daraja",
+          "en": "which tier it is in"
+        },
+        {
+          "t": "Reviews",
+          "en": "what members said"
+        },
+        {
+          "t": "Malipo",
+          "en": "pay by M-Pesa or Airtel Money, in the app"
+        }
+      ]
+    },
+    {
+      "kind": "cta",
+      "h": "Tayari kuchagua? Andika",
+      "en": "Ready to choose? Comment",
+      "kw": "PASS",
+      "cta": "Tutakutumia DM link ya app.",
+      "ctaEn": "We’ll DM you the app link."
+    }
+  ]
+}

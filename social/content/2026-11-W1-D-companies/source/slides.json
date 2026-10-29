@@ -1,0 +1,73 @@
+{
+  "record": "2026-11-W1-D-companies",
+  "style": "editorial",
+  "format": "ig_feed_portrait",
+  "prefix": "L",
+  "handle": "@fitflex.africa",
+  "slides": [
+    {
+      "kind": "cover",
+      "ph": 10376250,
+      "pos": "50% 30%",
+      "h": "Wellness ya ofisi si <em>t-shirt</em> ya marathon.",
+      "en": "Office wellness isn’t a marathon T-shirt.",
+      "s": "Kampuni · companies",
+      "size": 96
+    },
+    {
+      "kind": "rule",
+      "chip": "FAIDA · BENEFIT",
+      "h": "Lipia gym ya wafanyakazi, <em>si ahadi.</em>",
+      "en": "Sponsor gym access for your team: a pass they can use any day, paid by the company."
+    },
+    {
+      "kind": "rule",
+      "chip": "CHAGUA · CHOOSE",
+      "h": "Wewe unaamua <em>nani</em> na kiasi gani.",
+      "en": "Pick who is eligible, by department or by name, and how much the company covers."
+    },
+    {
+      "kind": "rule",
+      "chip": "TIMU · TEAM",
+      "h": "Changamoto na vikundi vya <em>kampuni.</em>",
+      "en": "Company challenges and groups, with a leaderboard the team can see."
+    },
+    {
+      "kind": "rule",
+      "chip": "RIPOTI · INSIGHTS",
+      "h": "Unaona <em>matumizi,</em> si tu bili.",
+      "en": "Insights show participation, the gyms and trainers used, and billing by month."
+    },
+    {
+      "kind": "check",
+      "h": "Ni nini kinaingia kwenye <em>mpango.</em>",
+      "en": "What a programme can include.",
+      "rows": [
+        {
+          "t": "Gym access",
+          "en": "the sponsored pass"
+        },
+        {
+          "t": "Vipindi vya trainer",
+          "en": "trainer sessions"
+        },
+        {
+          "t": "Changamoto za kampuni",
+          "en": "company challenges and groups"
+        },
+        {
+          "t": "Ripoti za kila mwezi",
+          "en": "monthly insights and a CSV download"
+        }
+      ]
+    },
+    {
+      "kind": "cta",
+      "h": "Una timu Dar es Salaam? Andika",
+      "en": "Run a team in Dar es Salaam? Comment",
+      "kw": "TEAM",
+      "cta": "Tutakutumia DM jinsi programu ya kampuni inavyofanya kazi.",
+      "ctaEn": "We’ll DM you how company programmes work."
+    }
+  ]
+}

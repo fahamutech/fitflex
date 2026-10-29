@@ -23,6 +23,12 @@ node social/tools/render-carousel.js social/content/<record-id> --png
 ```
 
 ```bash
+node social/tools/render-reel.js social/content/<record-id>
+```
+
+The reel tool reads `source/reel.json` (same slide spec as a carousel, optional `dur` seconds per frame), renders the frames with the week's template, pads them to 1080×1920 on their own ground colour, adds a slow push-in and fades, and writes `reel/<prefix>.mp4` (silent, H.264, 30 fps) plus a cover PNG. Needs `ffmpeg` on the PATH. No music until a licence is recorded in the record's `licences.md`.
+
+```bash
 node social/tools/check-records.js --phase 2
 ```
 

@@ -1,0 +1,40 @@
+{
+  "record": "2026-11-W2-A-owners",
+  "version_note": "Template v2. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/M01.png",
+    "slides/M02.png",
+    "slides/M03.png",
+    "slides/M04.png",
+    "slides/M05.png",
+    "slides/M06.png",
+    "slides/M07.png",
+    "slides/M08.png"
+  ],
+  "altText": [
+    "Cover slide with a photo (a manager texting on a phone); text: Reviews za gym yako tayari zinaandikwa. Si mahali unapoweza kuzisoma. Your gym’s reviews are already being written. Just not where you can read them.",
+    "Text slide; text: WhatsApp. Bajaji. Chumba cha kubadilishia. WhatsApp groups, taxi rides, the changing room. That’s where members review you today.",
+    "Text slide; text: Kwa FitFlex, waliofanya mazoezi kwako wanatoa review ndani ya app. On FitFlex, members who trained at your gym review it in the app.",
+    "Checklist slide; text: Mwanachama anaona hivi kabla ya kukuchagua.; Rows: Verified badge and tier (FitFlex), Member reviews (in app), Check-in by QR (60 s), Pay by mobile money (M-Pesa · Airtel)",
+    "Photo slide with a photo (a smiling man with crossed arms in a gym); text: Anayefuata anasoma reviews zako kabla ya kukuchagua. The next member reads your reviews before choosing you. A bad one tells you what to fix this week.",
+    "Text slide; text: Unasoma kila review kama mmiliki. Unajulishwa inapoingia. You read every review as the owner. You’re told when one lands.",
+    "Text slide; text: Sifa ilikuwa bahati. Sasa ni data. Reputation used to be luck. Now it’s data.",
+    "Call to action; text: Una gym Dar es Salaam? Andika; Keyword PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. · We’ll DM you how FitFlex works."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Your gym’s reviews are already being written, in WhatsApp groups and taxi rides. On FitFlex, members who trained at your gym review it in the app, the next member reads them before choosing you, and you read every one as the owner. Own a gym in Dar? Comment PARTNER.\n\nReviews za gym yako tayari zinaandikwa, kwenye WhatsApp na kwenye bajaji. Kwa FitFlex, wanachama waliofanya mazoezi kwako wanatoa review ndani ya app, na wewe unasoma kila moja kama mmiliki.\nUna gym Dar? Andika PARTNER.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Your gym’s reviews are already being written, in WhatsApp groups and taxi rides. On FitFlex, members who trained at your gym review it in the app, the next member reads them before choosing you, and you read every one as the owner. Own a gym in Dar? Comment PARTNER.\n\nReviews za gym yako tayari zinaandikwa, kwenye WhatsApp na kwenye bajaji. Kwa FitFlex, wanachama waliofanya mazoezi kwako wanatoa review ndani ya app, na wewe unasoma kila moja kama mmiliki.\nUna gym Dar? Andika PARTNER.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PARTNER",
+  "reply_path": "the owner replies to PARTNER comments and DMs himself while traffic is low (decided 2026-10-20): a short note on how FitFlex works for gyms plus the partner sign-up path",
+  "planned_slot": "2026-11-10T17:00:00+03:00"
+}

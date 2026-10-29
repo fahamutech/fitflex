@@ -21,11 +21,14 @@ const themes = tokens.slideThemes;
 
 const contentDir = path.resolve(process.argv[2] || '');
 const wantPng = process.argv.includes('--png');
-if (!contentDir || !fs.existsSync(path.join(contentDir, 'source', 'slides.json'))) {
-  console.error('usage: node social/tools/render-carousel.js social/content/<id> [--png]');
+const argOf = (k, d) => { const i = process.argv.indexOf(k); return i > -1 && process.argv[i + 1] ? process.argv[i + 1] : d; };
+const specName = argOf('--spec', 'slides.json'); // reels render from source/reel.json
+const outName = argOf('--out', 'slides');
+if (!contentDir || !fs.existsSync(path.join(contentDir, 'source', specName))) {
+  console.error('usage: node social/tools/render-carousel.js social/content/<id> [--png] [--spec slides.json] [--out slides]');
   process.exit(2);
 }
-const spec = JSON.parse(fs.readFileSync(path.join(contentDir, 'source', 'slides.json'), 'utf8'));
+const spec = JSON.parse(fs.readFileSync(path.join(contentDir, 'source', specName), 'utf8'));
 const slides = spec.slides;
 const [W, H] = tokens.formats[spec.format || 'ig_feed_portrait'];
 const FONTS = `file://${path.join(brandDir, 'fonts')}`;
@@ -126,13 +129,13 @@ function htmlV2(i, sl) {
  .foot{position:absolute;left:72px;bottom:112px;font-family:Mono;font-size:22px;letter-spacing:.1em;color:${V2.quiet};text-transform:uppercase}
  </style></head><body>`;
   let body = '';
-  if (kind === 'photo') body = `<div class="ph"></div><div class="scrim"></div><div class="eyebrow">${eyebrow}</div>${logo}<h1 style="position:absolute;left:72px;right:72px;bottom:${sl.s ? (sl.s.replace(/<[^>]+>/g, '').length > 44 ? 240 : 190) : 150}px;font-size:${Math.min(hsize, 128)}px">${sl.h}</h1>${sl.s ? `<div class="sub" style="position:absolute;left:72px;right:72px;bottom:110px">${sl.s}${sl.en ? `<div style="margin-top:10px;font-size:30px;color:${V2.muted}">${sl.en}</div>` : ''}</div>` : (sl.en ? `<div class="sub" style="position:absolute;left:72px;right:72px;bottom:110px;color:${V2.muted};font-size:32px">${sl.en}</div>` : '')}`;
+  if (kind === 'photo') body = `<div class="ph"></div><div class="scrim"></div><div class="eyebrow">${eyebrow}</div>${logo}<h1 style="position:absolute;left:72px;right:72px;bottom:${(sl.s ? (sl.s.replace(/<[^>]+>/g, '').length > 44 ? 240 : 190) : 150) + (sl.en ? 80 : 0)}px;font-size:${Math.min(hsize, 128)}px">${sl.h}</h1>${sl.s ? `<div class="sub" style="position:absolute;left:72px;right:72px;bottom:110px">${sl.s}${sl.en ? `<div style="margin-top:10px;font-size:30px;color:${V2.muted}">${sl.en}</div>` : ''}</div>` : (sl.en ? `<div class="sub" style="position:absolute;left:72px;right:72px;bottom:110px;color:${V2.muted};font-size:32px">${sl.en}</div>` : '')}`;
   else if (kind === 'list') { const tone = t => t === 'volt' ? V2.volt : t === 'fuel' ? V2.fuel : '#334155'; const rows = (sl.rows || []).map(r => `<div class="row"><div class="bar" style="background:${tone(r.tone)}"></div><div class="t" style="color:${r.tone === 'fuel' ? V2.fuel : r.tone === 'muted' ? V2.body : V2.ink}">${r.t}</div>${r.tag ? `<div class="tag">${r.tag}</div>` : ''}</div>`).join('');
     body = `<div class="glow" style="top:-500px;left:400px"></div><div class="eyebrow">${eyebrow}</div>${logo}<h1 style="position:absolute;left:72px;right:72px;top:170px;font-size:${Math.min(hsize, 100)}px">${sl.h}</h1><div style="position:absolute;left:72px;right:72px;top:${sl.top || 540}px">${rows}</div>${sl.note ? `<div class="foot">${sl.note}</div>` : ''}`; }
   else if (kind === 'cta') body = `<div class="glow" style="top:300px;left:100px"></div><div class="eyebrow">${eyebrow}</div>${logo}<div style="position:absolute;left:72px;right:72px;top:300px;font-size:64px;font-weight:800;color:${V2.body};letter-spacing:-2px;line-height:1.1">${sl.h}<br>Comment</div><div style="position:absolute;left:60px;right:40px;top:540px;font-weight:900;font-size:${sl.kwSize || 210}px;letter-spacing:-.05em;color:${V2.volt};line-height:1">${sl.kw}</div><div class="sub" style="position:absolute;left:72px;right:72px;bottom:200px;color:${V2.ink}">${sl.cta || ''}</div>`;
   // type-only slides: the sub sits directly under the headline (owner 2026-10-20), not at the foot of the slide
   else body = `<div class="glow" style="top:650px;left:-250px"></div><div class="eyebrow">${eyebrow}</div>${logo}<div style="position:absolute;left:72px;right:72px;top:300px"><h1 style="font-size:${hsize}px">${sl.h}</h1>${sl.s ? `<div class="sub" style="margin-top:44px;max-width:860px">${sl.s}</div>` : ''}${sl.en ? `<div class="sub" style="margin-top:${sl.s ? 18 : 44}px;max-width:860px;color:${V2.muted};font-size:32px">${sl.en}</div>` : ''}</div>`;
-  const swipe = i < n - 1 ? `<div style="position:absolute;bottom:60px;left:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${V2.quiet}">swipe →</div>` : '';
+  const swipe = (i < n - 1 && !spec.noSwipe) ? `<div style="position:absolute;bottom:60px;left:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${V2.quiet}">swipe →</div>` : '';
   return head + body + swipe + `<div class="handle">${handle}</div></body></html>`;
 }
 
@@ -168,7 +171,7 @@ function htmlV3(i, sl) {
     body = `<div class="eyebrow">${eyebrow}</div>${logo}<div class="bar"></div><div style="position:absolute;left:72px;right:72px;top:200px"><h1 style="font-size:${sl.size || 92}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:28px">${sl.en}</div>` : ''}</div><div style="position:absolute;left:72px;right:72px;top:${sl.top || 600}px">${rows}</div>`; }
   else if (kind === 'quote') body = `<div class="eyebrow">${eyebrow}</div>${logo}<div class="card"><div style="font-weight:900;font-size:140px;line-height:.6;color:${volt};margin-bottom:40px">“</div><h1 style="font-size:${sl.size || 88}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:40px">${sl.en}</div>` : ''}${sl.by ? `<div style="margin-top:48px;font-family:Mono;font-size:24px;letter-spacing:.12em;text-transform:uppercase;color:${V2.muted}">${sl.by}</div>` : ''}</div>`;
   else if (kind === 'cta') body = `<div class="eyebrow">${eyebrow}</div>${logo}<div style="position:absolute;left:72px;right:72px;top:280px"><h1 style="font-size:${sl.size || 80}px;color:${V2.ink}">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:24px">${sl.en}</div>` : ''}</div><div style="position:absolute;left:60px;right:40px;top:${sl.kwTop || 640}px;font-weight:900;font-size:${sl.kwSize || 210}px;letter-spacing:-.05em;color:${volt};line-height:1">${sl.kw}</div><div class="en" style="position:absolute;left:72px;right:72px;bottom:190px;color:${V2.ink}">${sl.cta || ''}${sl.ctaEn ? `<div style="margin-top:12px;font-size:30px;color:${V2.muted}">${sl.ctaEn}</div>` : ''}</div>`;
-  const swipe = i < n - 1 ? `<div class="swipe">swipe →</div>` : '';
+  const swipe = (i < n - 1 && !spec.noSwipe) ? `<div class="swipe">swipe →</div>` : '';
   return head + body + swipe + `<div class="handle">${handle}</div></body></html>`;
 }
 
@@ -192,7 +195,7 @@ function htmlED(i, sl) {
  .en{font-size:36px;font-weight:700;line-height:1.25;color:${muted}}
  .cap{position:absolute;left:72px;bottom:110px;font-family:Mono;font-size:22px;letter-spacing:.12em;text-transform:uppercase;color:${muted}}
  .handle{position:absolute;bottom:60px;right:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${muted}}.swipe{position:absolute;bottom:60px;left:72px;font-family:Mono;font-weight:500;font-size:24px;letter-spacing:.06em;color:${muted}}
- .li{display:flex;gap:30px;align-items:baseline;padding:22px 0;border-bottom:2px solid ${ground === 'cream' ? '#E7DCC6' : ground === 'navy' ? ED.rule : '#2E8B4F'}}.li .k{font-family:Mono;font-size:26px;color:${accent};font-weight:700}.li .t{font-weight:900;font-size:60px;letter-spacing:-2px}.li .t small{display:block;font-weight:700;font-size:26px;letter-spacing:0;color:${muted}}
+ .li{display:flex;gap:30px;align-items:baseline;padding:22px 0;border-bottom:2px solid ${ground === 'cream' ? ED.mutedOnCream : ground === 'navy' ? ED.rule : ED.greenLight}}.li .k{font-family:Mono;font-size:26px;color:${accent};font-weight:700}.li .t{font-weight:900;font-size:60px;letter-spacing:-2px}.li .t small{display:block;font-weight:700;font-size:26px;letter-spacing:0;color:${muted}}
  </style></head><body>`;
   const numBlock = `<div class="num">${num} <span>/ ${String(n).padStart(2, '0')}</span></div><div class="rule"></div>`;
   let body = '';
@@ -201,12 +204,12 @@ function htmlED(i, sl) {
   else if (kind === 'check') { const rows = (sl.rows || []).map((r, k) => `<div class="li"><div class="k">0${k + 1}</div><div class="t">${r.t}${r.en ? `<small>${r.en}</small>` : ''}</div></div>`).join('');
     body = `${numBlock}${logo}<div style="position:absolute;left:72px;right:72px;top:200px"><h1 style="font-size:${sl.size || 88}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:24px">${sl.en}</div>` : ''}</div><div style="position:absolute;left:72px;right:72px;top:${sl.top || 580}px">${rows}</div>`; }
   else if (kind === 'cta') body = `${numBlock}${logo}<div style="position:absolute;left:72px;right:72px;top:260px"><h1 style="font-size:${sl.size || 96}px">${sl.h}</h1>${sl.en ? `<div class="en" style="margin-top:24px">${sl.en}</div>` : ''}</div><div style="position:absolute;left:72px;top:${sl.kwTop || 640}px"><div style="font-family:Mono;font-size:26px;letter-spacing:.14em;margin-bottom:18px;color:${muted}">COMMENT · ANDIKA</div><div style="display:inline-block;background:${ED.navy};color:${ED.cream};font-weight:900;font-size:110px;letter-spacing:-3px;padding:14px 48px;border-radius:28px">${sl.kw}</div><div class="en" style="margin-top:26px;color:${ink}">${sl.cta || ''}${sl.ctaEn ? `<div style="font-size:28px;color:${muted};margin-top:8px">${sl.ctaEn}</div>` : ''}</div></div>`;
-  const swipe = i < n - 1 ? `<div class="swipe">swipe →</div>` : '';
+  const swipe = (i < n - 1 && !spec.noSwipe) ? `<div class="swipe">swipe →</div>` : '';
   return head + body + swipe + `<div class="handle">${handle}</div></body></html>`;
 }
 
 const srcDir = path.join(contentDir, 'source');
-const outDir = path.join(contentDir, 'slides');
+const outDir = path.join(contentDir, outName);
 fs.mkdirSync(outDir, { recursive: true });
 const chrome = process.env.CHROME_BIN || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 slides.forEach((sl, i) => {
