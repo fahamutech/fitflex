@@ -2017,7 +2017,7 @@ Focus starts on the title when the sheet opens. When it closes, focus returns to
 
 **`PartnerMediaSetDialog`** (size lg):
 - **Title:** "Home photo and logo: {name}"
-- **Note:** "What you set here shows on this partner's home at once, and they are told."
+- **Note:** "What you set here shows on this partner's home at once."
 - **Two sections, Home photo and Logo**, each with:
   - the current live item (preview as §43.2) or "Using the FitFlex photo" / "No logo";
   - **Set photo for this partner** / **Set logo for this partner** (`brand_media`; without it the button is hidden and the hint "Setting a photo needs the 'Brand media' permission." shows);
@@ -2183,7 +2183,7 @@ All Swahili below is **draft for native review**. It follows the glossary (gym =
 | `preview.phone` / `.wide` / `.alt` | Phone / Wide screen / {kind} for {name} | Simu / Skrini pana / {kind} ya {name} |
 | `rowAction` | Home photo and logo | Picha ya mwanzo na nembo |
 | `setDialog.title` | Home photo and logo: {name} | Picha ya mwanzo na nembo: {name} |
-| `setDialog.note` | What you set here shows on this partner's home at once, and they are told. | Unachoweka hapa kinaonekana kwenye ukurasa wa mwanzo wa mshirika huyu mara moja, na wanajulishwa. |
+| `setDialog.note` | What you set here shows on this partner's home at once. | Unachoweka hapa kinaonekana kwenye ukurasa wa mwanzo wa mshirika huyu mara moja. |
 | `setDialog.vendorHint` | This is not the shop logo or banner members see. | Hii si nembo wala bango la duka ambalo wanachama wanaona. |
 | `setPhoto` / `setLogo` | Set photo for this partner / Set logo for this partner | Weka picha kwa mshirika huyu / Weka nembo kwa mshirika huyu |
 | `manage` | Manage | Simamia |
