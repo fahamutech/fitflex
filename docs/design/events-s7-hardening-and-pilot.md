@@ -1,12 +1,12 @@
 # Events S7: hardening and pilot (offline kit scanning, waitlist, analytics, go-live gates, runbooks, pilot). Design spec
 
-**Status:** Draft for owner review · **Date:** 2026-10-30 · **Author:** design-agent
+**Status:** Owner decisions D63 to D85 accepted 2026-11-02 (all recommended defaults, except **D66, changed**: offline bib recording is allowed, from per-desk bib blocks, §3.15) · **Date:** 2026-10-30, revised 2026-11-02 · **Author:** design-agent
 **Module:** Marathon & Running Events, Slice 7 of `docs/marathon/reuse-map.md` §9 (PRD §16 Phase 7)
 **Repos:** `fitflex-functions` (offline kit sync, waitlist, analytics, hardening fixes; §3 to §6), `fitflex-portal` (offline kit desk, waitlist counts, admin health and incident controls, results follow-ups; §3.14, §4.10, §5.5, §6.3, §6.4), `fitflexmobile` (waitlist, analytics wiring, offline ticket checks; §4.10, §5.4)
 **Ships:** dormant behind three new server flags: `EVENTS_KIT_OFFLINE` (needs `EVENTS_KIT_OPS`), `EVENTS_WAITLIST`, `EVENTS_ANALYTICS` (each also needs `EVENTS_MODULE` and `EVENTS_REGISTRATION`). The hardening fixes in §6 ride on the flags of the feature they fix (no new flag). With all three flags off, S6 behaviour is unchanged. See §7.1.
 **Binding inputs:** `docs/marathon/decisions.md` D1 to D62 (D5 error envelope, D7 offline scanning deferred to S7 "behind its own flag", D16 hold length, D20 duplicate policy, D26 hold while a manual payment waits, D29 to D32 refunds and fail-closed manual payments, D33 payout schedule, D35 owner reviews rule 6 areas, D36 and D37 no contact data or emergency contact to organizers, D38 and D42 webhook management owner only, D39 API pilot allowlist, D40 bib unique across the event, D43 launch gates, D46 results authority, D47 medals at official release, D48 public results consent, D54 medal art, D56 notification classes, D59 dispute authority); PRD §5.4 REG-014 and REG-015, §5.5 KIT-001 to KIT-010, §10, §11, §13 (scenarios 5, 11, 12), §14 (analytics and launch dashboard), §15 (launch gates), §16 Phase 7, §17 item 9; `docs/marathon/reuse-map.md` §3 G6, §4 R9 and §9; `docs/marathon/follow-ups.md` (all sections); `s4-asbuilt.md`, `s5-asbuilt.md`, `s6-asbuilt.md`; design specs S2 to S6 (format template: S5 and S6).
 
-**Rule 6 and the owner.** CLAUDE.md rule 6 applies and §9 lists every file. In short: this slice does **not** touch `src/auth/*`, the payout engine, pricing constants, gym check-in or `payment-product.mjs`. It does: (a) add a second way an event kit handover is written (offline sync) next to the S5 one (event-day entry logic, closest analogue to check-in logic); (b) put credential-adjacent data (ticket-token hashes) on staff devices; (c) reuse the order-creation primitive from a system actor for the waitlist (inventory and money adjacent; the primitive itself is not modified); (d) add an authenticated endpoint that accepts client-reported analytics; (e) add a retention and anonymisation job over registration personal data (shipped unset); (f) add a reward-eligibility switch to the award engine; (g) change existing S5 integration code (webhook delivery caps, redelivery, outbox purge, idempotency after-commit). Per D35 the owner reviews §3 (offline trust model), §4.5 to §4.6 (waitlist and payment interplay), §5.2 (analytics privacy) and §6.2 (retention) personally before anything reaches `main`.
+**Rule 6 and the owner.** CLAUDE.md rule 6 applies and §9 lists every file. In short: this slice does **not** touch `src/auth/*`, the payout engine, pricing constants, gym check-in or `payment-product.mjs`. It does: (a) add a second way an event kit handover is written (offline sync) next to the S5 one (event-day entry logic, closest analogue to check-in logic); (b) put credential-adjacent data (ticket-token hashes) on staff devices; (c) reuse the order-creation primitive from a system actor for the waitlist (inventory and money adjacent; the primitive itself is not modified); (d) add an authenticated endpoint that accepts client-reported analytics; (e) add a retention and anonymisation job over registration personal data (shipped unset); (f) add a reward-eligibility switch to the award engine; (g) change existing S5 integration code (webhook delivery caps, redelivery, outbox purge, idempotency after-commit). Per D35 the owner reviews §3 (offline trust model, including the offline bib path §3.15), §4.5 to §4.6 (waitlist and payment interplay), §5.2 (analytics privacy) and §6.2 (retention) personally before anything reaches `main`.
 
 **Not in scope:** a native staff scanner in the mobile app (stays deferred, D63); offline scanning for API clients; waitlist for groups, teams, guests or corporate orders (D70); SMS offers (D76); organizer-facing analytics (D77); organizer settlement statements and any payment-provider work (D34, still not built, §19); numeric conversion or SLO targets (PRD §14 says set them from pilot evidence, so this spec proposes none); timing hardware; checkpoints and waves (KIT-009, P1); age-group rankings (D61).
 
@@ -73,7 +73,7 @@ An organizer staff member **prepares a desk** (a phone or laptop browser) while 
 | D63 | Web desk first (portal route, works on a phone browser or laptop); native staff scanner stays deferred (S5 §9.2). |
 | D64 | Offline check = SHA-256 lookup of the scanned token in the downloaded list; no secret and no MAC code on the device; the server re-verifies at sync. |
 | D65 | Conflicts: first-sent wins; later duplicates are recorded and queued for a human, never auto-voided. |
-| D66 | No bib assignment offline; bibs should be pre-assigned (S5 bulk and CSV). |
+| D66 (changed) | Offline bib **recording** is allowed: the number read off the physical bib is typed or scanned into the desk, saved as a provisional scan, never generated offline. Each desk has its own bib block set when it is created; the server re-checks event-wide uniqueness (D40) at sync; a conflict becomes an exception for a human and the kit handover stands (§3.15). Pre-assigned bibs (S5 bulk or CSV) still work and are shown, not overwritten. |
 | D67 | Offline manual handover (lost phone) allowed with the same reasons and ID-check checkbox; every one is listed in the post-event review. |
 | D68 | Limits: list valid 36 h, 10 desks per event, 2 per staff user, 2,000 unsent scans per desk, device clock tolerance 5 minutes. |
 | D69 | A ticket not on the desk's list is **refused** offline; there is no "accept unverified" button. |
@@ -87,6 +87,7 @@ A **desk** is one registered browser profile on one phone or laptop for one even
 **Rules**
 - Prepare: owner/admin/ops, event in `published | registration_closed | in_progress` and `kitProvided = true`, organizer not suspended. Max `EVENTS_OFFLINE_MAX_DEVICES` (10) active desks per event and `EVENTS_OFFLINE_MAX_PER_USER` (2) per staff user; over the limit: 409 `device_limit_reached` (owner/admin are told which desks to remove).
 - Expiry: `expiresAt = issuedAt + EVENTS_OFFLINE_SESSION_HOURS` (36), never later than 24 hours after the event end. After `expiresAt` the desk refuses new scans (but still sends unsent ones, §3.11).
+- **Bib block (D66):** owner and admin may set, when creating the desk, `bibPrefix` (0 to 4 of A-Z 0-9 -), `bibPadTo` (0 to 6), `bibRangeStart` and `bibRangeEnd` (integers, `end >= start`, at most `EVENTS_OFFLINE_MAX_BIB_RANGE` (5,000) numbers). The block is **immutable** after creation (bibs may already be on physical bibs and unsent); to change it, remove the desk and create another. Blocks of one event must not overlap, prefix and zero padding considered, **including blocks of removed or expired desks** (their unsent scans may still carry those numbers): 409 `bib_range_overlap { with: deskLabel }`. A range that contains numbers already assigned online is allowed with the warning `range_contains_assigned { count }`. Ops cannot set a block (403 `forbidden_role`); an ops desk, or any desk without a block, records the kit but cannot record bibs. The physical bibs for a desk are handed to that desk from its own box; the block is the way the organizer keeps desks from colliding.
 - Label: free text 1 to 40 characters ("Gate 2", "Phone A"), shown to owners and in review rows; not personal data.
 - The desk reports a **heartbeat** whenever it has a connection (`pending` count, oldest pending time, desk build). Used for the Offline desks panel and the alert "desk has unsent scans" (§5.6).
 - Revocation takes effect at the next contact. A revoked desk that reconnects is told `device_revoked`, **still may send** its unsent scans, and then wipes its list. Items with a device time **after** the revoke time are not auto-collected (`after_revoke`, review). This is the stolen or lost phone case.
@@ -121,11 +122,11 @@ A ticket **bought or claimed after** the list was taken is not on the list (clai
    - Not found: **refuse** `unknown_offline` ("Not on this desk's list"). Nothing stored.
    - Found, `ticket revoked`: **refuse** `revoked` with the reason code and the list time.
    - Found, kit `collected` in the list **or** a local pending scan exists for it on this desk: **refuse** `already_collected` (local repeat shows the earlier time on this desk). **No override offline** (override is owner/admin and online only).
-   - Found, active, not collected: show the **valid card** (name, bib or "No bib yet" warning, category, kit size if the list has it).
+   - Found, active, not collected: show the **valid card** (name, bib or "No bib yet", category, kit size if the list has it). If the registration has **no** bib and the desk has a bib block, a **Bib number** field appears (§3.15).
 5. Staff taps **Hand over kit**. The desk writes a provisional scan to IndexedDB **before** showing success (a crash right after must not lose it). Success text is "Saved, not final", never "Kit recorded".
 6. The local list marks the registration `collected locally` so the same desk cannot scan it twice.
 
-Offline manual handover (D67): the staff member searches the saved list by name, bib or ticket code (masked cards), picks a reason (phone lost, no signal, screen damaged, other), ticks "I checked their photo ID", and the desk stores a `manual` provisional scan with `registrationId` and `manualReason`. No override, no bib assignment, no kit size change beyond what the list already has.
+Offline manual handover (D67): the staff member searches the saved list by name, bib or ticket code (masked cards), picks a reason (phone lost, no signal, screen damaged, other), ticks "I checked their photo ID", and the desk stores a `manual` provisional scan with `registrationId` and `manualReason`. No override, no kit size change beyond what the list already has. The bib field of §3.15 applies to manual handovers in the same way.
 
 The desk never shows a "Valid" word without the qualifier "from saved list" and the list time, so staff cannot mistake it for a live check.
 
@@ -161,6 +162,8 @@ The desk never shows a "Valid" word without the qualifier "from saved list" and 
 | `validation_failed` | bad point, bad reason, bad shape | no | no |
 | `deferred` | not processed (time budget); **not stored**, device retries | no | no |
 
+A **bib exception** (§3.15) is an `accepted` scan whose `bibOutcome` is not `assigned`, `same_already` or empty; it is in `needs_review` although the collection is official.
+
 Review state (`reviewStatus`): `none`, `needs_review` -> `checked` (one action, "Mark as checked", by owner/admin, optional note, required 10 to 300 characters for `revoked_after_scan`). No auto-expiry; an unchecked item blocks nothing but shows on the desk header and in the post-event list.
 
 ### 3.7 Sync rules, conflicts and double scans
@@ -177,7 +180,7 @@ Sync order: the device sends oldest first by device time, batches of at most `EV
 | 6 | Event cancelled, archived or organizer suspended at sync | `event_closed` / `organizer_suspended`, review. |
 | 7 | Collection point id missing or not active | accepted, point stored as null, warning `collection_point_invalid` (the point is not a safety property). |
 | 8 | Kit size in the item differs from the registration | accepted, warning `kit_size_differs` (as S5). |
-| 9 | `bibNumber` in an item | **ignored** with warning `bib_ignored_offline` (D66). |
+| 9 | `bibNumber` in an item | Handled by the bib rules of §3.15 **after** the handover is committed; the handover never depends on the bib (the kit stands whatever happens to the bib). |
 | 10 | Item time outside the window `[snapshotTakenAt - 5 min, receivedAt + 5 min]` after clock correction | accepted, `collectedAt` clamped to the nearest bound, `clock_adjusted` flag on the scan row (not an error; a kit that really changed hands is not refused because a clock was wrong). |
 | 11 | More than 20 `invalid_token` items from one desk in a batch | the whole batch is still processed; an audit row `events.kit_offline_invalid_burst { deviceId, count }` and an owner notice (a desk replaying guessed tokens). |
 
@@ -198,7 +201,7 @@ What review shows: outcome in words, masked name, category, desk label, device t
 
 ### 3.10 What is NOT trusted (builder checklist; each gets a spec)
 
-The device clock; the desk's verdict ("valid from saved list"); `collectionPointId` and `kitSize` and `bibNumber` in an item; any `registrationId` for a `scan` item (only the token is used, the server resolves the registration itself); the staff identity beyond the signed-in user and the registered desk; item order and counts; the desk build string except for the minimum-build gate; the `outcomeOnDevice` field (stored for diagnostics only, never read to decide); `kit` flags in the list on the desk (a desk can be edited by its user). The server trusts only: the staff JWT, the desk registry row, the token MAC and database state.
+The device clock; the desk's verdict ("valid from saved list"); `collectionPointId` and `kitSize` in an item; `bibNumber` in an item (a claim only: format, range, event-wide uniqueness and the registration's bib state are all re-checked, §3.15); any `registrationId` for a `scan` item (only the token is used, the server resolves the registration itself); the staff identity beyond the signed-in user and the registered desk; item order and counts; the desk build string except for the minimum-build gate; the `outcomeOnDevice` field (stored for diagnostics only, never read to decide); `kit` flags in the list on the desk (a desk can be edited by its user). The server trusts only: the staff JWT, the desk registry row, the token MAC and database state.
 
 ### 3.11 Revocation, expiry, end of event
 
@@ -220,12 +223,12 @@ Base `/organizer/events/:id`. Writes need `Idempotency-Key` (8 to 100). Guards a
 
 | Method and path | Roles | Body / query | Success | Errors |
 |---|---|---|---|---|
-| `POST /kit-offline/devices` | owner admin ops | `{ label (1-40), clientKind: 'web', deskBuild }` | 201 `{ device: { id, label, status, issuedAt, expiresAt }, limits: { sessionHours, maxPending, clockToleranceSeconds, syncBatch }, serverTime }` | 409 `device_limit_reached`, 409 `event_not_open`, 409 `kit_not_provided`, 403 `forbidden_role`, 426 `desk_update_required`, 429 |
-| `GET /kit-offline/devices` | owner admin (all); ops (own) | `?status` | `{ items: [{ id, label, status, staffFirstName, issuedAt, expiresAt, lastSyncAt, lastHeartbeatAt, pendingReported, discardedReported, snapshotRows, snapshotSeq, deskBuild }] }` | |
+| `POST /kit-offline/devices` | owner admin ops | `{ label (1-40), clientKind: 'web', deskBuild, bibRange?: { prefix?, padTo?, start, end } }` (`bibRange` owner/admin only) | 201 `{ device: { id, label, status, issuedAt, expiresAt, bibRange: { prefix, padTo, start, end } \| null }, limits: { sessionHours, maxPending, clockToleranceSeconds, syncBatch }, serverTime }` | 409 `device_limit_reached`, 409 `bib_range_overlap`, 422 `bib_range_invalid`, 409 `event_not_open`, 409 `kit_not_provided`, 403 `forbidden_role`, 426 `desk_update_required`, 429 |
+| `GET /kit-offline/devices` | owner admin (all); ops (own) | `?status` | `{ items: [{ id, label, status, bibRange, bibsRecorded, bibExceptions, staffFirstName, issuedAt, expiresAt, lastSyncAt, lastHeartbeatAt, pendingReported, discardedReported, snapshotRows, snapshotSeq, deskBuild }] }` | |
 | `POST /kit-offline/devices/:deviceId/revoke` | owner admin | `{ reason (10-300), reasonSw? (10-300) }` | 200 `{ device }` | 404 `device_not_found`, 409 `already_ended` |
 | `GET /kit-offline/snapshot` | owner admin ops | `?deviceId&cursor&limit(<=1000)&sinceSeq&categoryId` | 200 `{ header: { snapshotSeq, takenAt, serverTime, validUntil, event: { status, timezone, kitProvided }, collectionPoints[], categories[], rowCount }, rows[], removed[], nextCursor }` | 403 `device_not_active`, 404, 413 `snapshot_too_large`, 426, 429 |
 | `POST /kit-offline/heartbeat` | owner admin ops | `{ deviceId, pending, oldestPendingAt, discarded, deskBuild, clockOffsetMs }` | 200 `{ serverTime, deviceStatus: 'active'\|'revoked'\|'expired', minDeskBuild }` | 404, 426, 429 |
-| `POST /kit-offline/sync` | owner admin ops | `{ deviceId, batchId, snapshotSeq, snapshotTakenAt, clockOffsetMs, items: [{ clientRef (uuid), method: 'scan'\|'manual', payload?, registrationId?, manualReason?, collectionPointId?, kitSize?, claimedAt, outcomeOnDevice? }] }` (<= 200 items; `Idempotency-Key` = `batchId`) | 200 `{ results: [{ clientRef, outcome, replayed?, registrationId?, collectionId?, warnings[], reviewId?, card? }], summary: { accepted, duplicate, needsReview, rejected, deferred }, serverTime, deviceStatus, minDeskBuild }` | 400 `invalid_batch`, 404 `device_not_found`, 413 `too_many_items`, 426, 429 `rate_limited` (30 a minute per user) |
+| `POST /kit-offline/sync` | owner admin ops | `{ deviceId, batchId, snapshotSeq, snapshotTakenAt, clockOffsetMs, items: [{ clientRef (uuid), method: 'scan'\|'manual', payload?, registrationId?, manualReason?, collectionPointId?, kitSize?, bibNumber?, claimedAt, outcomeOnDevice? }] }` (<= 200 items; `Idempotency-Key` = `batchId`) | 200 `{ results: [{ clientRef, outcome, replayed?, registrationId?, collectionId?, bib?: { outcome, number? }, warnings[], reviewId?, card? }], summary: { accepted, duplicate, needsReview, bibExceptions, rejected, deferred }, serverTime, deviceStatus, minDeskBuild }` | 400 `invalid_batch`, 404 `device_not_found`, 413 `too_many_items`, 426, 429 `rate_limited` (30 a minute per user) |
 | `GET /kit-offline/review` | owner admin | `?status=needs_review\|checked\|manual&cursor&limit` (`manual` lists accepted offline manual handovers for the post-event review, D67) | `{ items: [{ id, outcome, card (masked), deviceLabel, deviceTime, receivedAt, winner?: { collectedAt, deviceLabel?, method }, reviewStatus, note?, warnings[] }], nextCursor, counts: { needsReview, checked } }` | |
 | `POST /kit-offline/review/:scanId/check` | owner admin | `{ note? (required 10-300 for revoked_after_scan) }` | 200 `{ review }` (audited `events.kit_offline_checked`) | 404, 409 `not_in_review`, 422 `note_required` |
 | `GET /kit/summary` (S5, additive) | owner admin ops | | adds `offline: { desks, pendingReported, needsReview }` | |
@@ -234,7 +237,7 @@ Admin (scope `events`): `GET /admin/events/:id/kit-offline` (devices and review 
 
 Webhooks: **no new type** (the S5 allowlist is closed); `kit.collected` fires once per accepted item at sync time. Notifications: `event_kit_collected` is sent at sync for `accepted` items only (existing copy). Owner notice `organizer_kit_offline_invalid_burst` (essential).
 
-**Audit** (`AuditLog`, actor and requestId, no tokens): `events.kit_offline_device_prepared`, `…_device_revoked`, `…_snapshot`, `…_synced { deviceId, batchId, accepted, duplicate, needsReview, rejected }`, `…_checked`, `…_invalid_burst`. **Analytics:** §5.
+**Audit** (`AuditLog`, actor and requestId, no tokens): `events.kit_offline_device_prepared { bibRange? }`, `events.kit_offline_bib_assigned`, `events.kit_offline_bib_exception { outcome }`, `…_device_revoked`, `…_snapshot`, `…_synced { deviceId, batchId, accepted, duplicate, needsReview, rejected }`, `…_checked`, `…_invalid_burst`. **Analytics:** §5.
 
 ### 3.14 Portal: the offline kit desk (`/organizer/kit-desk?event=<id>`)
 
@@ -248,9 +251,9 @@ Webhooks: **no new type** (the S5 allowlist is closed); `kit.collected` fires on
 
 | State | Behaviour |
 |---|---|
-| Not prepared | Prepare card: desk name `Field`, collection point `Select` (remembered), category `Select` only when `snapshot_too_large`, **Download ticket list**, the "open this page once with internet" hint, desk limits text. Download progress with count; failure keeps the card with Retry. |
+| Not prepared | Prepare card: desk name `Field`, collection point `Select` (remembered), category `Select` only when `snapshot_too_large`, **Bib block** (owner/admin only: prefix, padding, from, to, with a live preview "A0101 to A0150, 50 bibs" and the overlap error in words; ops see "Ask an owner or admin to give this desk a bib block" and can continue without one), **Download ticket list**, the "open this page once with internet" hint, desk limits text. Download progress with count; failure keeps the card with Retry. |
 | Ready, online | Normal S5 behaviour (verify and confirm online) **plus** the list is refreshed by delta in the background. The online path is always preferred when reachable; the offline path is used when a request fails twice within 8 seconds or `navigator.onLine` is false (banner "Weak signal, using saved list", return to online automatically when a heartbeat succeeds). |
-| Offline | Sticky warning banner (`role="status"`), provisional wording on every result, pending counter, no override, no bib field. |
+| Offline | Sticky warning banner (`role="status"`), provisional wording on every result, pending counter, no override. The Bib number field appears only when the desk has a bib block and the person has no bib yet. |
 | Sending | Progress "Sending {done} of {total}", the camera keeps working (new scans queue), per-outcome summary at the end ("12 confirmed, 2 need a check"). |
 | Needs review | Chip on the sync bar and the **Offline scans to check** list (owner/admin: Mark as checked; ops: read own, text "Ask an owner or admin"). |
 | List expired | Camera card replaced by the expired message; Send still works. |
@@ -267,9 +270,33 @@ Webhooks: **no new type** (the S5 allowlist is closed); `kit.collected` fires on
 
 **Focus and keys:** as S5 §8.3 (result heading focused and announced, **Hand over kit** autofocus on valid, `Esc` cancels, manual box keeps focus for USB scanners). Pending counter and mode chip are in a `role="status"` region; Send is a real button.
 
-**Desks panel** (event page, owner/admin; ops sees own): `DataTable` with Desk, Staff, Status, Last sent, Unsent (as last reported), List rows, Build; row actions **Remove desk** (`ConfirmDialog` danger, typed desk name, reason `Textarea`). Empty: "No offline desks yet."
+**Desks panel** (event page, owner/admin; ops sees own): `DataTable` with Desk, Staff, Status, Last sent, Unsent (as last reported), List rows, Bib block, Bibs recorded, Bib exceptions, Build; row actions **Remove desk** (`ConfirmDialog` danger, typed desk name, reason `Textarea`). Empty: "No offline desks yet."
 
 **Portal tests (Playwright, mocks):** online load registers the worker; `context.setOffline(true)` then reload still renders; injected decode text for each result; two scans of the same ticket offline; sync partial outcomes and `deferred`; revoked desk; clock guard (stubbed `Date`); sign-out wipes the list but not unsent scans; Swahili at 375 px with no overflow; flag off hides every entry point.
+
+### 3.15 Offline bib recording (D66, changed by the owner 2026-11-02)
+
+**What the owner decided.** Bibs are physically mixed, and a participant gets whichever bib comes up. The desk therefore **records the number read off the physical bib** (typed, or typed by a USB or Bluetooth reader into the field; camera reading of bibs is not built) and saves it with the handover as one provisional scan. The system never generates or proposes a number offline. Each desk has its own **bib block** (§3.3) so two desks cannot hand out the same number by design; the server re-checks everything at sync, and a conflict never takes a kit away.
+
+**On the desk (online or offline, same field).** Shown only when the registration has no bib yet and the desk has a block; if the person already has a bib (pre-assigned, S5) the card shows it and no field appears. Checks on the device, in this order: format as the S5 rule (1 to 12 of A-Z 0-9 -, upper-cased, same as `normaliseBib`); inside the desk's block (else warning `bib.outOfRange` and the only way forward is **Hand over and flag the bib**, which sends the kit without applying the number); not already used by a pending scan on this desk (hard stop `bib.usedHere`, retype); not shown for another participant in the saved list (hard stop `bib.otherPerson`). The success text stays "Saved, not final" with the bib line `bib.savedNote`.
+
+**On the server, per item, after the handover is committed.** The collection is written first exactly as §3.7. Then, in the **same transaction but inside a SAVEPOINT**, the bib step runs; nothing in it can roll back the collection:
+1. No bib in the item: `bibOutcome` empty.
+2. Item not accepted (`duplicate`, `revoked_after_scan`, any non-accepted outcome): `not_applied`; the claimed number is kept on the scan row for the reviewer.
+3. Format invalid: `format_invalid`. Desk has no block: `no_range`. Number outside the desk's block: `out_of_range`.
+4. Registration already has a live bib: same number -> `same_already` (no change); different number -> `registration_has_other` (the existing bib is kept, never replaced offline).
+5. Otherwise insert the `EventBibAssignment` row (`sourceScanId` set) and update the registration's denormalised bib. A unique violation on the event-wide live-bib index (another registration holds it) or on the one-live-bib-per-registration index rolls back **to the savepoint only** and gives `taken` (or `registration_has_other` for the second index). Success gives `assigned`, then after commit one `bib.assigned` outbox row, one `event_bib_assigned` notice and the audit and analytics rows.
+
+Every outcome other than `assigned`, `same_already` and empty puts the scan into review as a **bib exception** (`reviewStatus needs_review`, collection outcome still `accepted`). The summary counts them as `bibExceptions`. The organizer fixes them with the existing S5 bib screens (assign or change, with reason) and marks the item checked; nothing is auto-voided or auto-reassigned.
+
+**What the offline path reuses and what it does not (rule 6 note).**
+- *Reused unchanged:* the format rule `normaliseBib`/`BIB_RE`; the database's two partial unique indexes on live bibs as the only arbiters of uniqueness (D40); the `EventBibAssignment` row shape and history; the `bib.assigned` outbox projector; the `event_bib_assigned` notice; the `events.bib_assigned` audit action; the registration row lock already held for the collection.
+- *Not reused:* `assignBibTx`. It raises `bib_taken`, `bib_already_assigned` and `reason_required` as thrown refusals inside the caller's transaction, which here would roll back a kit handover that must stand, and it applies the online role and replacement rules. The offline path has its own small writer (proposed name `assignOfflineBibTx`) that never replaces a bib, never releases one, never takes a reason, and catches only the two unique violations.
+- *Authority:* the staff role rule is the S5 one (ops may record a bib only for a person without one); the desk's block is an additional, stricter limit, not a replacement of D40.
+
+**Cross-checks that make collisions unlikely and harmless.** Non-overlapping blocks (§3.3); local duplicate and list checks; an organizer can see per desk `bibsRecorded` and `bibExceptions` on the Desks panel while desks send; a collision that still happens (a physical bib in the wrong box) shows up as `taken` for the later-processed scan, the participant keeps the kit, and a human decides which of the two people holds the number.
+
+**Privacy.** The claimed number is a bib, not personal data; no contact data is involved. The bib block and counts are visible to owner and admin only.
 
 ---
 
@@ -442,7 +469,7 @@ Today server events are `analytics.<name>` rows in `AuditLog` (S3 to S6) and mob
 | `reward_duplicate_blocked` | server | `where` (ledger, redemption, award) | new: the PRD "duplicate-prevention incidents" counter |
 | `webhook_delivery_failed`, `webhook_delivery_gave_up` | server | `class` (timeout, dns, tls, blocked, http_4xx, http_5xx) | new (PRD list item); **no URL, host or endpoint id** |
 | `waitlist_joined`, `waitlist_offer_made`, `waitlist_offer_converted`, `waitlist_offer_expired`, `waitlist_left`, `waitlist_closed` | server | `reason` for closed (sale_closed, event_cancelled, organizer_closed, admin, other) | new |
-| `kit_offline_device_prepared`, `kit_offline_accepted`, `kit_offline_duplicate`, `kit_offline_review`, `kit_offline_rejected`, `kit_offline_invalid_burst` | server | `n` is the increment | new |
+| `kit_offline_bib_assigned`, `kit_offline_bib_exception` (dimension `reason`: format_invalid, out_of_range, no_range, taken, registration_has_other, not_applied), `kit_offline_device_prepared`, `kit_offline_accepted`, `kit_offline_duplicate`, `kit_offline_review`, `kit_offline_rejected`, `kit_offline_invalid_burst` | server | `n` is the increment | new |
 | `api_error` | server | `group` (registration, payment, kit, results, rewards, webhook, admin, other), `class` (5xx, 429, 4xx_unexpected) | new counter in the shared route wrapper (**confirmation 10**) |
 
 ### 5.4 Mobile wiring
@@ -572,7 +599,7 @@ All three need `EVENTS_MODULE` and `EVENTS_REGISTRATION`; `EVENTS_KIT_OFFLINE` a
 
 ### 7.2 Environment (add all to `docs/server-env-checklist.md` before enabling; defaults in parentheses)
 
-Offline: `EVENTS_OFFLINE_SESSION_HOURS` (36), `EVENTS_OFFLINE_MAX_DEVICES` (10), `EVENTS_OFFLINE_MAX_PER_USER` (2), `EVENTS_OFFLINE_MAX_ROWS` (20000), `EVENTS_OFFLINE_SYNC_BATCH` (200), `EVENTS_OFFLINE_MAX_PENDING` (2000, sent to the desk in `limits`), `EVENTS_OFFLINE_CLOCK_TOLERANCE_SECONDS` (300), `EVENTS_OFFLINE_MIN_DESK_BUILD` (unset), `EVENTS_OFFLINE_SCAN_KEEP_DAYS` (180).
+Offline: `EVENTS_OFFLINE_SESSION_HOURS` (36), `EVENTS_OFFLINE_MAX_DEVICES` (10), `EVENTS_OFFLINE_MAX_PER_USER` (2), `EVENTS_OFFLINE_MAX_ROWS` (20000), `EVENTS_OFFLINE_SYNC_BATCH` (200), `EVENTS_OFFLINE_MAX_PENDING` (2000, sent to the desk in `limits`), `EVENTS_OFFLINE_CLOCK_TOLERANCE_SECONDS` (300), `EVENTS_OFFLINE_MIN_DESK_BUILD` (unset), `EVENTS_OFFLINE_SCAN_KEEP_DAYS` (180), `EVENTS_OFFLINE_MAX_BIB_RANGE` (5000).
 Waitlist: `EVENTS_WAITLIST_OFFER_HOURS` (12), `EVENTS_WAITLIST_MIN_OFFER_MINUTES` (120), `EVENTS_WAITLIST_MAX_ACTIVE_PER_USER` (5), `EVENTS_WAITLIST_MAX_QUEUE` (500), `EVENTS_WAITLIST_MAX_LAPSES` (2), `EVENTS_WAITLIST_QUIET_HOURS` (`21-7`, event timezone; `off` disables), `EVENTS_WAITLIST_KEEP_DAYS` (90).
 Analytics and alerts: `EVENTS_ANALYTICS_KEEP_DAYS` (730), `EVENTS_ALERT_RULES` (optional JSON overrides), existing `OPS_ALERT_EMAILS`.
 Hardening: `EVENTS_WEBHOOK_PER_HOST_BATCH` (5), `EVENTS_MAX_UNPAID_PLACES_PER_USER` (4), `EVENTS_RETENTION_MONTHS` (unset), `EVENTS_DELETED_USER_ANONYMISE_DAYS` (unset).
@@ -581,9 +608,10 @@ Existing and required for the pilot: `EVENT_TICKET_SECRET`, `EVENT_TICKET_KEY_ID
 ### 7.3 Migrations (additive; sort after the highest existing timestamp at branch time, currently `20270131090200`; all with `down` that **fails closed once S7 data exists**; dry-run on a fresh isolated database and take a backup before production; confirmation 14)
 
 1. `20270201090000-events-kit-offline-s7.cjs`
-   - `EventKitOfflineDevice`: `id` (`ekd_` + 16 hex), `eventId`, `organizerId`, `staffUserId` (FK User RESTRICT), `label text CHECK char_length 1..40`, `clientKind text CHECK IN ('web')`, `status text CHECK IN ('active','revoked','expired')`, `issuedAt`, `expiresAt`, `revokedAt`, `revokedBy`, `revokeReason`, `lastSyncAt`, `lastHeartbeatAt`, `pendingReported int`, `discardedReported int`, `snapshotSeq bigint`, `snapshotTakenAt`, `snapshotRows int`, `deskBuild text`, `createdAt/updatedAt`; composite FK `(eventId, organizerId)` to `Event`; index `(eventId, status)`; partial index `(staffUserId, eventId) WHERE status = 'active'`; CHECK `(status = 'revoked') = (revokedAt IS NOT NULL)`.
-   - `EventKitOfflineScan`: `id` (`eks_`), `eventId`, `deviceId` (FK RESTRICT), `clientRef text` (uuid), `batchId text`, `method text CHECK IN ('scan','manual')`, `registrationId text NULL` (composite FK to `EventRegistration (id, eventId)`), `outcome text CHECK` (the §3.6 set), `collectionId text NULL` (FK `EventKitCollection`), `winnerCollectionId text NULL`, `manualReason`, `claimedAt`, `correctedAt`, `receivedAt`, `clockOffsetMs int`, `flags jsonb` (`clock_adjusted`, warnings), `outcomeOnDevice text`, `reviewStatus text CHECK IN ('none','needs_review','checked')`, `checkedBy`, `checkedAt`, `note text CHECK <= 300`; **unique `(deviceId, clientRef)`**; indexes `(eventId, reviewStatus)`, `(registrationId)`. No token, no hash, no payload text is stored (the payload is resolved and discarded).
+   - `EventKitOfflineDevice`: `id` (`ekd_` + 16 hex), `eventId`, `organizerId`, `staffUserId` (FK User RESTRICT), `label text CHECK char_length 1..40`, `clientKind text CHECK IN ('web')`, `status text CHECK IN ('active','revoked','expired')`, `issuedAt`, `expiresAt`, `revokedAt`, `revokedBy`, `revokeReason`, `lastSyncAt`, `lastHeartbeatAt`, `pendingReported int`, `discardedReported int`, `snapshotSeq bigint`, `snapshotTakenAt`, `snapshotRows int`, `deskBuild text`, `bibPrefix text NULL CHECK char_length <= 4 AND ~ '^[A-Z0-9-]*$'`, `bibPadTo smallint NULL CHECK 0..6`, `bibRangeStart int NULL`, `bibRangeEnd int NULL` (CHECK all-or-none, `end >= start`, size <= 5000), `createdAt/updatedAt`; composite FK `(eventId, organizerId)` to `Event`; index `(eventId, status)`; partial index `(staffUserId, eventId) WHERE status = 'active'`; CHECK `(status = 'revoked') = (revokedAt IS NOT NULL)`.
+   - `EventKitOfflineScan`: `id` (`eks_`), `eventId`, `deviceId` (FK RESTRICT), `clientRef text` (uuid), `batchId text`, `method text CHECK IN ('scan','manual')`, `registrationId text NULL` (composite FK to `EventRegistration (id, eventId)`), `outcome text CHECK` (the §3.6 set), `collectionId text NULL` (FK `EventKitCollection`), `winnerCollectionId text NULL`, `manualReason`, `claimedAt`, `correctedAt`, `receivedAt`, `clockOffsetMs int`, `flags jsonb` (`clock_adjusted`, warnings), `bibClaimed text NULL` (normalised number as read, kept even when not applied), `bibOutcome text NULL CHECK IN ('assigned','same_already','not_applied','format_invalid','out_of_range','no_range','taken','registration_has_other')`, `bibAssignmentId text NULL`, `outcomeOnDevice text`, `reviewStatus text CHECK IN ('none','needs_review','checked')`, `checkedBy`, `checkedAt`, `note text CHECK <= 300`; **unique `(deviceId, clientRef)`**; indexes `(eventId, reviewStatus)`, `(registrationId)`. No token, no hash, no payload text is stored (the payload is resolved and discarded).
    - `EventKitCollection`: widen `eventkitcollection_method_check` to `scan | manual | api | offline`; the S5 `manual` CHECK is unchanged; `offlineBatchId` (exists) is set for offline rows.
+   - `EventBibAssignment`: `sourceScanId text NULL` (FK `EventKitOfflineScan`, ON DELETE SET NULL) so a bib written by the offline path can be traced to its scan; no change to the two live-bib unique indexes, which are the arbiters.
 2. `20270201090100-events-waitlist-s7.cjs`: `Event.waitlistEnabled boolean NOT NULL DEFAULT true`, `Event.waitlistClosedAt`; `EventWaitlistEntry` (PRD §7 fields, made concrete): `id` (`ewl_`), `eventId`, `categoryId`, `ticketTypeId` (composite FK `(ticketTypeId, eventId)`), `userId` (FK User **ON DELETE CASCADE**), `seq bigint GENERATED ALWAYS AS IDENTITY`, `status CHECK` (§4.3 set), `quantity smallint NOT NULL DEFAULT 1 CHECK (quantity = 1)`, `intent jsonb NULL`, `consentTextVersion`, `contactKey text` (sha256 of normalised phone or email), `blockedReason CHECK IS NULL OR = 'reconsent'`, `skipCount smallint DEFAULT 0`, `joinedAt`, `offeredAt`, `offerExpiresAt`, `remindedAt`, `orderId` (FK `EventOrder` ON DELETE SET NULL), `endedAt`, `endedReason CHECK` closed set, `createdAt/updatedAt`; **partial unique `(userId, ticketTypeId) WHERE status IN ('waiting','offered')`**, **partial unique `(ticketTypeId, contactKey) WHERE status IN ('waiting','offered')`**, index `(ticketTypeId, status, seq)`, CHECKs `(status = 'offered') = (offeredAt IS NOT NULL AND orderId IS NOT NULL)` while offered, `endedAt` set iff final.
 3. `20270201090200-events-analytics-s7.cjs`: `EventAnalyticsDaily` (`day date`, `name text`, `eventId text NULL`, `dimsKey text`, `dims jsonb`, `count bigint CHECK >= 0`; unique on `(day, name, COALESCE(eventId,''), dimsKey)`; index `(name, day)`); `AnalyticsRollupCursor` (`name` primary, `lastAt`, `lastId`).
 4. `20270201090300-events-hardening-s7.cjs`: `Event.rewardsEligible boolean NOT NULL DEFAULT false`; `OutboxEvent (createdAt)` index for the purge if absent; no other change.
@@ -594,7 +622,7 @@ Existing and required for the pilot: `EVENT_TICKET_SECRET`, `EVENT_TICKET_KEY_ID
 
 ### 7.5 Audit events (`AuditLog`, actor and requestId, no tokens, no contact data, no payloads)
 
-`events.kit_offline_device_prepared`, `…_device_revoked`, `…_snapshot`, `…_synced`, `…_checked`, `…_invalid_burst`; `events.waitlist_joined`, `…_offered`, `…_left`, `…_removed`, `…_closed`, `…_organizer_toggled`; `events.admin_registration_state_changed`, `events.rewards_eligible_changed`, `events.webhook_redelivery_requested`, `events.organizer_status_corrected`, `events.registration_anonymised { events, rows }`, `events.alerts_sent`.
+`events.kit_offline_device_prepared { bibRange? }`, `events.kit_offline_bib_assigned`, `events.kit_offline_bib_exception { outcome }`, `…_device_revoked`, `…_snapshot`, `…_synced`, `…_checked`, `…_invalid_burst`; `events.waitlist_joined`, `…_offered`, `…_left`, `…_removed`, `…_closed`, `…_organizer_toggled`; `events.admin_registration_state_changed`, `events.rewards_eligible_changed`, `events.webhook_redelivery_requested`, `events.organizer_status_corrected`, `events.registration_anonymised { events, rows }`, `events.alerts_sent`.
 
 ---
 
@@ -615,7 +643,7 @@ Existing and required for the pilot: `EVENT_TICKET_SECRET`, `EVENT_TICKET_KEY_ID
 
 | # | Area | What and why it is rule 6 | Files (proposed) |
 |---|---|---|---|
-| 1 | Event-day entry logic | A second writer of `EventKitCollection` (method `offline`) with its own trust model; reviewer reads §3.9, §3.10 and §3.7 against the code. | `src/services/events-kit-offline-service.mjs`, `functions/events-kit-offline.mjs`, migration 1, `src/services/events-ops-service.mjs` (H2 only) |
+| 1 | Event-day entry logic | A second writer of `EventKitCollection` (method `offline`) **and, per D66 as changed, a second writer of `EventBibAssignment`** (the offline bib path, §3.15) with its own trust model; reviewer reads §3.9, §3.10 and §3.7 against the code. | `src/services/events-kit-offline-service.mjs`, `functions/events-kit-offline.mjs`, migration 1, `src/services/events-ops-service.mjs` (H2 only) |
 | 2 | Credential-adjacent data on devices | Ticket-token hashes, masked names and bibs downloaded to staff devices; encryption at rest; wipe rules. | snapshot builder in the same service; portal `kit-desk-offline/*` |
 | 3 | Order creation by a system actor (inventory and money adjacent) | The promoter calls the registration service's create-order function; the gate adds a 409 to existing order creation for queued ticket types; per-member unpaid cap. No store primitive, payment code or ledger rule changes. | `src/services/events-registration-service.mjs`, `events-waitlist-service.mjs`, `src/shared/events-document.mjs` (availability), `events-discovery-service.mjs` |
 | 4 | Payment hold behaviour for waitlist orders | Default: unchanged (D26 extension applies). **Only if D73 alternative is chosen** does `extendHold` in `event-money-store-pg.mjs` change (a lower cap for waitlist-origin orders) and the payment-code review (S4 area) is repeated. | none by default |
@@ -682,7 +710,28 @@ Rules: every string goes through `t()` (portal, both maps in `src/lib/i18n.ts` o
 | `result.already` | Kit already collected ({time}) | Vifaa vya mbio vimeshachukuliwa ({time}) |
 | `result.alreadyHere` | Already scanned on this desk at {time} | Imeshaskaniwa kwenye dawati hili saa {time} |
 | `result.noOverride` | Overrides need internet. Ask an owner or admin. | Kubatilisha kunahitaji intaneti. Mwombe mmiliki au msimamizi. |
-| `result.noBib` | No bib yet. Give the kit; the bib is added later. | Bado hakuna namba ya mbio. Mpe vifaa; namba itaongezwa baadaye. |
+| `result.noBib` | No bib yet. Type the number on the bib you hand over. | Bado hakuna namba ya mbio. Andika namba iliyo kwenye namba ya mbio unayomkabidhi. |
+| `bib.field` | Bib number | Namba ya mbio |
+| `bib.hint` | Type or scan the number printed on the bib you are handing over. Your block: {from} to {to}. | Andika au skani namba iliyochapishwa kwenye namba ya mbio unayomkabidhi. Kundi lako la namba: {from} hadi {to}. |
+| `bib.assigned` | Already has bib {bib}. | Tayari ana namba ya mbio {bib}. |
+| `bib.outOfRange` | {bib} is not in this desk's block ({from} to {to}). Check the bib. | {bib} haimo kwenye kundi la namba la dawati hili ({from} hadi {to}). Angalia namba ya mbio. |
+| `bib.outOfRange.flag` | Hand over and flag the bib | Kabidhi vifaa na weka alama kwenye namba ya mbio |
+| `bib.usedHere` | {bib} was already used on this desk at {time}. | {bib} ilishatumika kwenye dawati hili saa {time}. |
+| `bib.otherPerson` | {bib} belongs to another participant on the list. | {bib} ni ya mshiriki mwingine kwenye orodha. |
+| `bib.invalid` | Use 1 to 12 letters, digits or dashes. | Tumia herufi, tarakimu au vistari 1 hadi 12. |
+| `bib.noBlock` | This desk has no bib block, so it cannot record bibs. Ask an owner or admin. | Dawati hili halina kundi la namba, kwa hivyo haliwezi kurekodi namba za mbio. Mwombe mmiliki au msimamizi. |
+| `bib.savedNote` | Bib {bib} saved with the handover, not final. | Namba ya mbio {bib} imehifadhiwa pamoja na ukabidhi, si ya mwisho. |
+| `prepare.bibBlock` | Bib block for this desk | Kundi la namba za mbio za dawati hili |
+| `prepare.bibPrefix` / `bibPad` / `bibFrom` / `bibTo` | Prefix (optional) / Digits (zero padding) / From / To | Kiambishi (si lazima) / Tarakimu (sufuri mbele) / Kuanzia / Hadi |
+| `prepare.bibPreview` | {first} to {last}, {count} bibs | {first} hadi {last}, namba {count} |
+| `prepare.bibOverlap` | This block overlaps desk "{desk}". Choose different numbers. | Kundi hili linaingiliana na dawati "{desk}". Chagua namba tofauti. |
+| `prepare.bibNone` | Ask an owner or admin to give this desk a bib block. You can continue without one. | Mwombe mmiliki au msimamizi alipe dawati hili kundi la namba. Unaweza kuendelea bila kundi. |
+| `devices.col.bibBlock` / `bibsRecorded` / `bibExceptions` | Bib block / Bibs recorded / Bib exceptions | Kundi la namba / Namba zilizorekodiwa / Tofauti za namba |
+| `review.bib.taken` | Bib {bib} is already held by another participant. The kit stands; fix the bib. | Namba {bib} tayari ni ya mshiriki mwingine. Vifaa vimetolewa; rekebisha namba. |
+| `review.bib.outOfRange` | Bib {bib} was outside this desk's block and was not recorded. The kit stands. | Namba {bib} ilikuwa nje ya kundi la dawati hili na haikurekodiwa. Vifaa vimetolewa. |
+| `review.bib.hasOther` | This person already has bib {bib}; the number read at the desk was different. The kit stands. | Mtu huyu tayari ana namba {bib}; namba iliyosomwa dawati ilikuwa tofauti. Vifaa vimetolewa. |
+| `review.bib.other` | The bib could not be recorded ({reason}). The kit stands. | Namba ya mbio haikuweza kurekodiwa ({reason}). Vifaa vimetolewa. |
+| `review.bib.fix` | Assign the bib | Weka namba ya mbio |
 | `manual.title` | Hand over without a ticket code | Toa bila msimbo wa tiketi |
 | `manual.search` | Find a participant in the saved list | Tafuta mshiriki kwenye orodha iliyohifadhiwa |
 | `manual.idCheck` | I checked their photo ID | Nimekagua kitambulisho chenye picha |
@@ -913,69 +962,76 @@ Parallel work is possible once the B1 and B2 contracts are merged (portal and mo
 24. AC-O24: A FitFlex admin can read desks and review counts and remove a desk with a reason (optional Swahili reason); the organizer is told.
 
 **Waitlist (flag `EVENTS_WAITLIST`)**
-25. AC-W1: With the flag off, ticket types carry no `waitlist` field, the sold-out CTA is unchanged, and every waitlist route returns 404.
-26. AC-W2: Joining works only while the ticket type is sold out; otherwise 409 `not_sold_out` and the app offers Register; a priced ticket cannot be joined while event payments are unavailable.
-27. AC-W3: Joining needs a verified phone or email; a second entry for the same ticket type, an entry on another account with the same normalised phone or email, a 6th live entry, a 501st entry in a ticket type and the 11th join in an hour are refused with the named errors.
-28. AC-W4: Joining changes no capacity: `held`, `sold`, orders and payments are untouched and no money is requested.
-29. AC-W5: When a place frees (cancellation, hold expiry, capacity increase), within about one minute the first eligible entry gets an order in `awaiting_payment` whose hold equals the offer window; `held` rises by one; the entry is `offered` with `orderId`; the member gets the essential notice; later entries are untouched.
-30. AC-W6: With five waiting and three places free, entries 1 to 3 (by join order) are offered, entry 4 and 5 stay waiting, and positions update; a blocked or skipped entry never loses its place in line.
-31. AC-W7: While any entry is waiting or offered for a ticket type, a new order for that type (member, corporate coordinator or admin) is refused 409 `waitlist_active`; the app shows the waitlist button; an old app build shows "Sold out" (availability is `sold_out`), never "Open".
-32. AC-W8: With the queue non-empty and one place free, two buyers racing for it both get `waitlist_active` and exactly one order exists: the promoter's.
-33. AC-W9: An unpaid offer ends when its hold lapses: the order is `expired`, the entry `expired`, the next entry is offered, the member is told; two expired offers on one event block joining that event (`waitlist_lapse_limit`) but never block normal registration while tickets are on sale.
-34. AC-W10: Paying an offer uses the unchanged manual path: the admin types the amount, a second approver where required, the order confirms, tickets are issued and the entry becomes `converted`.
-35. AC-W11: After a transaction id is sent the existing hold extension applies (entry stays `offered`); a rejected payment resets the hold without a further extension; a late payment after the offer ended is re-reserved only if a place is free, otherwise refunded in full, with no priority over the line, and the notice says so.
-36. AC-W12: Leaving while waiting shifts positions; leaving while offered cancels the unpaid order and gives the place to the next entry; leaving is refused 409 `payment_pending` while a payment waits for confirmation.
-37. AC-W13: No offer is made between 21:00 and 07:00 in the event timezone unless registration closes before the offer would end; the offer window is never under 2 hours and never past registration close; no offer is made with fewer than 120 minutes to close; at registration close entries end as `closed` with a notice.
-38. AC-W14: Cancelling the event closes every entry with a notice; offered orders follow the S4 event-cancel refund batch.
-39. AC-W15: The organizer sees counts only (no names, no positions, no promote or reorder controls); owner and admin can stop new sign-ups; closing needs the typed word and tells everyone waiting; ops cannot close; timing and finance cannot change anything.
-40. AC-W16: A FitFlex admin can remove an entry with a reason (optional Swahili reason); the person is told in their language; an unpaid offered order is cancelled.
-41. AC-W17: When the consent text version changes, waiting entries are skipped without losing their place until the member reconfirms in the app, then promotion resumes.
-42. AC-W18: Stored registration details are cleared within 24 hours of an entry ending; ended entries are deleted after `EVENTS_WAITLIST_KEEP_DAYS`; deleting the account removes the member's entries.
-43. AC-W19: With event payments off (D32) priced entries wait and no order is created; a free ticket type is still offered.
-44. AC-W20: Two promoter runs at once create at most one order per entry (idempotency key `wl:<entryId>`, `SKIP LOCKED`).
-45. AC-W21: A member who already holds a place in the category when their turn comes has the entry closed (`registered_elsewhere`) and the next entry is offered.
-46. AC-W22: Mobile: the join flow has no payment step and shows the price today, the three rules and the position afterwards; the offer card shows the deadline in the event timezone and **Pay now** opens the existing payment page; offline shows the saved copy and disables join and leave with the offline message; all strings fit in Swahili; every control has a `Semantics` label.
+25. AC-O25: An owner or admin can create a desk with a bib block and sees the block preview; overlapping blocks (including blocks of removed or expired desks) are refused 409 `bib_range_overlap`; ops cannot set a block (403) and a desk without a block shows no Bib number field; the block cannot be edited after creation.
+26. AC-O26: Offline, a person without a bib gets the Bib number field; a number in the block is saved with the handover as "saved, not final"; the desk never proposes or generates a number; a number already used on this desk or shown for another participant on the list is refused or warned as specified, and an out-of-block number can be handed over only through "Hand over and flag the bib".
+27. AC-O27: On sync a valid, in-block, free bib is assigned in the same step as the collection (one `EventBibAssignment` row with `sourceScanId`, the registration's bib updated, one `bib.assigned` outbox row, one `event_bib_assigned` notice, one audit row) and the event-wide uniqueness of D40 holds.
+28. AC-O28: Duplicate bib across two desks: both desks record the same number; after both send, exactly one registration holds the bib; the other kit handover **stands** (the collection exists and the participant was not turned away); that scan is `accepted` with `bibOutcome = taken`, is listed in review as a bib exception naming the other desk, and nothing is voided automatically.
+29. AC-O29: Out-of-range bib: a number outside the desk's block (typed by mistake or sent through "Hand over and flag") is never assigned; the kit stands; review shows `out_of_range` with the claimed number; a desk with no block yields `no_range`.
+30. AC-O30: Bib already assigned online after the list was taken: if another registration holds the number the result is `taken`; if this registration got a different bib online the online bib is kept and the result is `registration_has_other`; if it got the same number the result is `same_already` and nothing changes; in every case the kit stands and the review item explains.
+31. AC-O31: The offline bib path writes only after the collection insert, inside a savepoint, and relies on the event-wide live-bib unique and the one-bib-per-registration unique; a forced unique violation leaves the collection row in place (spec); a bib on a `duplicate`, `revoked_after_scan` or any non-accepted item is never applied (`not_applied`) and is shown in review.
+32. AC-W1: With the flag off, ticket types carry no `waitlist` field, the sold-out CTA is unchanged, and every waitlist route returns 404.
+33. AC-W2: Joining works only while the ticket type is sold out; otherwise 409 `not_sold_out` and the app offers Register; a priced ticket cannot be joined while event payments are unavailable.
+34. AC-W3: Joining needs a verified phone or email; a second entry for the same ticket type, an entry on another account with the same normalised phone or email, a 6th live entry, a 501st entry in a ticket type and the 11th join in an hour are refused with the named errors.
+35. AC-W4: Joining changes no capacity: `held`, `sold`, orders and payments are untouched and no money is requested.
+36. AC-W5: When a place frees (cancellation, hold expiry, capacity increase), within about one minute the first eligible entry gets an order in `awaiting_payment` whose hold equals the offer window; `held` rises by one; the entry is `offered` with `orderId`; the member gets the essential notice; later entries are untouched.
+37. AC-W6: With five waiting and three places free, entries 1 to 3 (by join order) are offered, entry 4 and 5 stay waiting, and positions update; a blocked or skipped entry never loses its place in line.
+38. AC-W7: While any entry is waiting or offered for a ticket type, a new order for that type (member, corporate coordinator or admin) is refused 409 `waitlist_active`; the app shows the waitlist button; an old app build shows "Sold out" (availability is `sold_out`), never "Open".
+39. AC-W8: With the queue non-empty and one place free, two buyers racing for it both get `waitlist_active` and exactly one order exists: the promoter's.
+40. AC-W9: An unpaid offer ends when its hold lapses: the order is `expired`, the entry `expired`, the next entry is offered, the member is told; two expired offers on one event block joining that event (`waitlist_lapse_limit`) but never block normal registration while tickets are on sale.
+41. AC-W10: Paying an offer uses the unchanged manual path: the admin types the amount, a second approver where required, the order confirms, tickets are issued and the entry becomes `converted`.
+42. AC-W11: After a transaction id is sent the existing hold extension applies (entry stays `offered`); a rejected payment resets the hold without a further extension; a late payment after the offer ended is re-reserved only if a place is free, otherwise refunded in full, with no priority over the line, and the notice says so.
+43. AC-W12: Leaving while waiting shifts positions; leaving while offered cancels the unpaid order and gives the place to the next entry; leaving is refused 409 `payment_pending` while a payment waits for confirmation.
+44. AC-W13: No offer is made between 21:00 and 07:00 in the event timezone unless registration closes before the offer would end; the offer window is never under 2 hours and never past registration close; no offer is made with fewer than 120 minutes to close; at registration close entries end as `closed` with a notice.
+45. AC-W14: Cancelling the event closes every entry with a notice; offered orders follow the S4 event-cancel refund batch.
+46. AC-W15: The organizer sees counts only (no names, no positions, no promote or reorder controls); owner and admin can stop new sign-ups; closing needs the typed word and tells everyone waiting; ops cannot close; timing and finance cannot change anything.
+47. AC-W16: A FitFlex admin can remove an entry with a reason (optional Swahili reason); the person is told in their language; an unpaid offered order is cancelled.
+48. AC-W17: When the consent text version changes, waiting entries are skipped without losing their place until the member reconfirms in the app, then promotion resumes.
+49. AC-W18: Stored registration details are cleared within 24 hours of an entry ending; ended entries are deleted after `EVENTS_WAITLIST_KEEP_DAYS`; deleting the account removes the member's entries.
+50. AC-W19: With event payments off (D32) priced entries wait and no order is created; a free ticket type is still offered.
+51. AC-W20: Two promoter runs at once create at most one order per entry (idempotency key `wl:<entryId>`, `SKIP LOCKED`).
+52. AC-W21: A member who already holds a place in the category when their turn comes has the entry closed (`registered_elsewhere`) and the next entry is offered.
+53. AC-W22: Mobile: the join flow has no payment step and shows the price today, the three rules and the position afterwards; the offer card shows the deadline in the event timezone and **Pay now** opens the existing payment page; offline shows the saved copy and disables join and leave with the offline message; all strings fit in Swahili; every control has a `Semantics` label.
 
 **Analytics, health and alerts (flag `EVENTS_ANALYTICS`)**
-47. AC-N1: With the flag off, `POST /events/analytics` returns 404, the app sends nothing and the roll-up does nothing.
-48. AC-N2: The endpoint keeps only allowlisted names and dimensions, turns values outside the closed set into `other`, stores no user, session, device or IP data (inspect the table), and answers 202 with `accepted` and `dropped`.
-49. AC-N3: Mobile payloads never contain order id, registration id, amounts or names; the queue is memory-only; events recorded offline are dropped; analytics never blocks or delays a screen.
-50. AC-N4: Running the roll-up twice gives the same counters; S3 to S6 `analytics.*` audit rows are counted under the PRD names.
-51. AC-N5: No counter has `categoryId`, age, gender or any minor marker; a minor's registration produces the same dimensions as an adult's.
-52. AC-N6: The Health tab renders every group with seed data; payment cards are hidden without the `payments` scope; one failing group shows its own error while the rest render; each number equals a direct count from the tables for the sample period; the "counts of events, not people" note is visible.
-53. AC-N7: Each alert rule A1 to A13 fires in a test when its threshold is crossed and not before, once per 6 hours per subject; with `OPS_ALERT_EMAILS` unset nothing is emailed and the Health tab shows the banner; emails contain counts and ids only.
+54. AC-N1: With the flag off, `POST /events/analytics` returns 404, the app sends nothing and the roll-up does nothing.
+55. AC-N2: The endpoint keeps only allowlisted names and dimensions, turns values outside the closed set into `other`, stores no user, session, device or IP data (inspect the table), and answers 202 with `accepted` and `dropped`.
+56. AC-N3: Mobile payloads never contain order id, registration id, amounts or names; the queue is memory-only; events recorded offline are dropped; analytics never blocks or delays a screen.
+57. AC-N4: Running the roll-up twice gives the same counters; S3 to S6 `analytics.*` audit rows are counted under the PRD names.
+58. AC-N5: No counter has `categoryId`, age, gender or any minor marker; a minor's registration produces the same dimensions as an adult's.
+59. AC-N6: The Health tab renders every group with seed data; payment cards are hidden without the `payments` scope; one failing group shows its own error while the rest render; each number equals a direct count from the tables for the sample period; the "counts of events, not people" note is visible.
+60. AC-N7: Each alert rule A1 to A13 fires in a test when its threshold is crossed and not before, once per 6 hours per subject; with `OPS_ALERT_EMAILS` unset nothing is emailed and the Health tab shows the banner; emails contain counts and ids only.
 
 **Hardening and admin tools**
-54. AC-H1: One slow webhook receiver does not delay deliveries to other organizers' endpoints beyond the per-host cap.
-55. AC-H2: If a notice throws after a kit handover commits, retrying with the same `Idempotency-Key` returns the original 201 with `replayed`, never `already_collected`.
-56. AC-H3: The outbox retention removes rows older than 90 days (published or not) and leaves newer ones; the change feed cursor stays valid.
-57. AC-H4: Redelivery is owner only, limited to 7 days and 5,000 rows, rate limited, audited, and never touches another organizer's rows.
-58. AC-H5: A member with 4 unpaid places cannot create a 5th (409 `unpaid_places_limit`); organisation orders are exempt.
-59. AC-H6: A new event is `rewardsEligible = false`; with it false medals are awarded and no reward is earned; an admin can switch it with a reason; the change is audited and the organizer is told in EN and SW.
-60. AC-H7: A failed KYC-to-organizer hook is corrected by the hourly sweep, audited, and visible on the Health tab.
-61. AC-H8: Submit refuses an event timezone not in `options.timezones` with a field error.
-62. AC-H9: Team join by code inside quote and order shares the lookup limiter.
-63. AC-H10: The admin disputes tab lists open questions with age and the **May resolve** badge (after 7 days, or organizer suspended or inactive), filters work, and resolving uses the existing resolve route with a reason and notice.
-64. AC-H11: Recent redemptions list shows reward, masked person, state and times; no code appears.
-65. AC-H12: The correction dialog's preview shows rank change, number shifted and medals affected without names; Confirm stays disabled until the preview matches the current revision.
-66. AC-H13: After a take-down the organizer sees the danger banner with the reason in their language until a new design is uploaded; the built-in design shows to members.
-67. AC-H14: The payments-off banner names the cause (`second_approver_off`, `no_ticket_secret`, `flag_off`) in EN and SW, only to organizer finance/owner/admin roles and FitFlex admins.
-68. AC-H15: The ops job list hides event jobs while `EVENTS_MODULE` is off.
-69. AC-H16: Pause registrations moves a published event to registration closed, new orders get 409 `event_not_open`, paid places are unaffected, resume reverses it, both write audit rows and notify the organizer (essential, EN and SW, with the optional Swahili reason).
-70. AC-H17: The Operations tab finds organizers by name; Enable and Disable API access, Revoke all clients, Turn off all webhooks and Change rate each need a reason, the dangerous ones need the typed organizer name, each shows the resulting count, each writes an audit row, and an action whose flag is off says "Not available because {feature} is off".
-71. AC-H18: Per race settings save per-race time basis, cut-off and tolerance through the existing route; after the first official release they disable with the explanation; "Same for all races" still sets every race.
-72. AC-H19: With `EVENTS_RETENTION_MONTHS` unset the anonymise job changes nothing and the Health tab says "Not configured"; with a test value on an isolated database it clears only phone, email, date of birth, gender, emergency contact and claim data of events older than that, keeps first name, last initial, bib and results, and writes one audit row with counts.
+61. AC-H1: One slow webhook receiver does not delay deliveries to other organizers' endpoints beyond the per-host cap.
+62. AC-H2: If a notice throws after a kit handover commits, retrying with the same `Idempotency-Key` returns the original 201 with `replayed`, never `already_collected`.
+63. AC-H3: The outbox retention removes rows older than 90 days (published or not) and leaves newer ones; the change feed cursor stays valid.
+64. AC-H4: Redelivery is owner only, limited to 7 days and 5,000 rows, rate limited, audited, and never touches another organizer's rows.
+65. AC-H5: A member with 4 unpaid places cannot create a 5th (409 `unpaid_places_limit`); organisation orders are exempt.
+66. AC-H6: A new event is `rewardsEligible = false`; with it false medals are awarded and no reward is earned; an admin can switch it with a reason; the change is audited and the organizer is told in EN and SW.
+67. AC-H7: A failed KYC-to-organizer hook is corrected by the hourly sweep, audited, and visible on the Health tab.
+68. AC-H8: Submit refuses an event timezone not in `options.timezones` with a field error.
+69. AC-H9: Team join by code inside quote and order shares the lookup limiter.
+70. AC-H10: The admin disputes tab lists open questions with age and the **May resolve** badge (after 7 days, or organizer suspended or inactive), filters work, and resolving uses the existing resolve route with a reason and notice.
+71. AC-H11: Recent redemptions list shows reward, masked person, state and times; no code appears.
+72. AC-H12: The correction dialog's preview shows rank change, number shifted and medals affected without names; Confirm stays disabled until the preview matches the current revision.
+73. AC-H13: After a take-down the organizer sees the danger banner with the reason in their language until a new design is uploaded; the built-in design shows to members.
+74. AC-H14: The payments-off banner names the cause (`second_approver_off`, `no_ticket_secret`, `flag_off`) in EN and SW, only to organizer finance/owner/admin roles and FitFlex admins.
+75. AC-H15: The ops job list hides event jobs while `EVENTS_MODULE` is off.
+76. AC-H16: Pause registrations moves a published event to registration closed, new orders get 409 `event_not_open`, paid places are unaffected, resume reverses it, both write audit rows and notify the organizer (essential, EN and SW, with the optional Swahili reason).
+77. AC-H17: The Operations tab finds organizers by name; Enable and Disable API access, Revoke all clients, Turn off all webhooks and Change rate each need a reason, the dangerous ones need the typed organizer name, each shows the resulting count, each writes an audit row, and an action whose flag is off says "Not available because {feature} is off".
+78. AC-H18: Per race settings save per-race time basis, cut-off and tolerance through the existing route; after the first official release they disable with the explanation; "Same for all races" still sets every race.
+79. AC-H19: With `EVENTS_RETENTION_MONTHS` unset the anonymise job changes nothing and the Health tab says "Not configured"; with a test value on an isolated database it clears only phone, email, date of birth, gender, emergency contact and claim data of events older than that, keeps first name, last initial, bib and results, and writes one audit row with counts.
 
 **Flags and regression**
-73. AC-F1: With the three new flags off and the S6 flags off, `GET /events/options` reports them false, no new route is reachable, no new UI renders, applied migrations change no behaviour, and the S5 and S6 acceptance criteria still pass.
-74. AC-F2: `EVENTS_KIT_OFFLINE` cannot be on without `EVENTS_KIT_OPS`; all three need `EVENTS_MODULE` and `EVENTS_REGISTRATION`.
-75. AC-F3: An invalid numeric env value falls back to its default and reports only `invalid_config`.
+80. AC-F1: With the three new flags off and the S6 flags off, `GET /events/options` reports them false, no new route is reachable, no new UI renders, applied migrations change no behaviour, and the S5 and S6 acceptance criteria still pass.
+81. AC-F2: `EVENTS_KIT_OFFLINE` cannot be on without `EVENTS_KIT_OPS`; all three need `EVENTS_MODULE` and `EVENTS_REGISTRATION`.
+82. AC-F3: An invalid numeric env value falls back to its default and reports only `invalid_config`.
 
 **Documents and pilot**
-76. AC-D1: `docs/marathon/go-live-checklist.md`, `docs/marathon/runbooks.md`, `docs/marathon/pilot-plan.md` and `docs/marathon/s7-asbuilt.md` exist, built from Appendices A to C; every checklist row has Status PASS, OPEN or N/A and an evidence link; no PASS without evidence.
-77. AC-D2: Every runbook step names a real screen, route or flag; each runbook names an owner role; the incident runbook lists the flag-off order.
-78. AC-D3: `docs/server-env-checklist.md` lists every new variable of §7.2 with its default and whether it is required.
-79. AC-D4: A Stage A pilot report with the scenario matrix and load numbers is attached before Stage B is proposed to the owner.
+83. AC-D1: `docs/marathon/go-live-checklist.md`, `docs/marathon/runbooks.md`, `docs/marathon/pilot-plan.md` and `docs/marathon/s7-asbuilt.md` exist, built from Appendices A to C; every checklist row has Status PASS, OPEN or N/A and an evidence link; no PASS without evidence.
+84. AC-D2: Every runbook step names a real screen, route or flag; each runbook names an owner role; the incident runbook lists the flag-off order.
+85. AC-D3: `docs/server-env-checklist.md` lists every new variable of §7.2 with its default and whether it is required.
+86. AC-D4: A Stage A pilot report with the scenario matrix and load numbers is attached before Stage B is proposed to the owner.
 
 ---
 
@@ -997,7 +1053,7 @@ Parallel work is possible once the B1 and B2 contracts are merged (portal and mo
 14. Migration timestamps relative to the highest on RC at branch time; the fail-closed `down` pattern; a dry run on a fresh database; the `OutboxEvent.seq` table rewrite window from S5 is already behind us on any database that took S5.
 15. Notification sender capacity for hundreds of offers and thousands of event-cancel notices, and essential-notice push behaviour (S4 known gap).
 16. The event end timestamp used for "24 hours after the event end" (desk expiry) and the registration close fields used by the offer window (event and category).
-17. That the S5 partial unique `collected` index also arbitrates offline inserts (same table, same constraint) and that `assignBibTx` is never reached from the offline path.
+17. That the S5 partial unique `collected` index also arbitrates offline inserts (same table, same constraint), and that the new offline bib writer (§3.15) uses the existing event-wide live-bib unique `(eventId, bibNumber) WHERE releasedAt IS NULL` and the one-live-bib-per-registration unique as its arbiters inside a savepoint, and does **not** call `assignBibTx` (which throws inside the transaction and would roll back the handover). Also confirm the exact constraint names to match on.
 18. That `kitStateOf`, `scanningOf`, the S5 verify route and the closed webhook allowlist are unchanged.
 19. S6 follow-up: confirm `EventActivityLink` checks `Activity.userId` equals the participant; account deletion: the waitlist `ON DELETE CASCADE` against `purchaserUserId` RESTRICT behaviour on orders created by the promoter.
 20. i18n file layout for S7 keys (portal pattern `src/lib/i18n-events-s6.ts`, so `i18n-events-s7.ts`; mobile `TODO(sw-review)` markers).
@@ -1007,7 +1063,7 @@ Parallel work is possible once the B1 and B2 contracts are merged (portal and mo
 
 ## 15. UAT journeys for `uat-tester` (isolated backend and DB, seed accounts only; no real money; Firebase production sign-in blocked per the UAT note; R = needs a real device)
 
-1. **Offline desk day.** Two browser profiles act as two desks for seed event E1 (pre-assigned bibs, two collection points). Prepare both online, take the network away, scan ten listed tickets including one on both desks, one unlisted, one cancelled online after the lists were taken, one manual handover; reload one desk mid-way; reconnect; send; read the outcomes; open Offline scans to check; mark as checked; confirm participants see "collected" and one notice each. Expect AC-O4 to O12, O16, O17, O19, O20.
+1. **Offline desk day.** Two browser profiles act as two desks for seed event E1 (some bibs pre-assigned, the rest from two desk bib blocks that do not overlap, two collection points). Prepare both online, take the network away, scan ten listed tickets including one on both desks, one unlisted, one cancelled online after the lists were taken, one manual handover; record bibs from each desk's block for people without one, then force the three bib cases (same number on both desks, a number outside the block, a number assigned online after the list was taken); reload one desk mid-way; reconnect; send; read the outcomes; open Offline scans to check; mark as checked; confirm participants see "collected" and one notice each. Expect AC-O4 to O12, O16, O17, O19, O20, O25 to O31.
 2. **Clock and removal.** Skew one desk's clock (browser emulation), see the block; remove a desk from the panel while it holds unsent scans; reconnect it; its scans after the removal time land in review; list wiped. Expect AC-O13 to O16, O24.
 3. **Waitlist.** Event E3 with capacity 3, all sold. Five seed members join (one without a verified contact is refused). A paid member cancels; within a minute member 1 is offered (R: push); member 1 pays by the manual path; admin confirms; member 2 lets the offer lapse (UAT backend uses the shortest offer window and DB-aged hold); member 3 is offered next. Expect AC-W2 to W12.
 4. **Queue gate and corporate.** While E3 has a queue, a coordinator and a second member try to buy; both are refused and see the waitlist button; the old-build check shows "Sold out". Expect AC-W7, W8.
@@ -1053,7 +1109,7 @@ Rules: Status is **PASS**, **OPEN** or **N/A**. A row is PASS only with a link t
 | C20 | Counsel (Tanzania) review of: organizer terms, event terms and refund policy baseline, claim and consent texts, SLA promises, rights-confirmation text, API terms, cross-border transfer position, results consent clause. All legal text is draft until then | counsel letter or owner's written decision to pilot under disclosed drafts | Owner | OPEN |
 | C21 | Organizer payout process (Runbook R2) agreed; settlement statements are **not built** | signed process, named approvers | Owner | OPEN |
 | C22 | Real-device checks (camera, push, GPS recording, share sheets, offline desk on Android Chrome and iPhone Safari, storage persistence) | device log with model and OS | uat-tester | OPEN |
-| C23 | Load and soak numbers recorded (no targets): 20,000-row ticket list, 5,000-row import, official release to 5,000 results, cancel with 2,000 paid places (notifications and refund batch), promoter with 500 waiting, 2,000 offline scans from 10 desks, analytics at 200 events a minute | measured table in the pilot report | backend-builder | OPEN |
+| C23 | Load and soak numbers recorded (no targets): 20,000-row ticket list, 5,000-row import, official release to 5,000 results, cancel with 2,000 paid places (notifications and refund batch), promoter with 500 waiting, 2,000 offline scans from 10 desks (1,000 carrying bibs from non-overlapping blocks, 50 deliberately colliding), analytics at 200 events a minute | measured table in the pilot report | backend-builder | OPEN |
 | C24 | Client adoption before payments: both client builds with S4 payment screens have reached users (old S3 builds cannot pay and show paid orders as unpaid) | store version stats | Owner | OPEN |
 | C25 | Accessibility and Swahili layout pass on all new screens (design-qa) | design-qa report | design-qa | OPEN |
 | C26 | Support: named owner, hours, escalation path, canned answers (R12) | support rota | Owner | OPEN |
@@ -1102,10 +1158,10 @@ Verify: board and participant views show the corrected result, ledger shows reve
 Never share signing secrets in chat or email; they are shown once.
 
 **R5 Event day with offline desks**
-T-7 to T-3: pre-assign bibs (bulk or CSV); configure collection points and kit instructions; train staff (30 minutes: scan, hand over, offline wording, send, what "Saved, not final" means); decide desk names. T-1: each desk opens `/organizer/kit-desk` **online**, waits for "Works without internet", downloads the list, refreshes by delta in the evening; spare phone or laptop with signal at every point; devices charged; browser data not cleared; staff stay signed in.
+T-7 to T-3: decide which bibs are pre-assigned (bulk or CSV) and which are given out at the desks; for the desk-given ones create each desk with its own bib block and put the matching physical bibs in that desk's box (bibs are mixed inside a block, any number may come up); configure collection points and kit instructions; train staff (30 minutes: scan, hand over, offline wording, send, what "Saved, not final" means); decide desk names. T-1: each desk opens `/organizer/kit-desk` **online**, waits for "Works without internet", downloads the list, refreshes by delta in the evening; spare phone or laptop with signal at every point; devices charged; browser data not cleared; staff stay signed in.
 Day: use the online desk when there is signal; offline mode starts by itself when requests fail; keep the clock correct; never scan a gym QR.
 When a desk shows **No internet**: continue; every handover reads "Saved, not final"; do not override; for a lost phone use manual handover (ID check, reason).
-After: every desk connects and presses **Send now** until pending is 0; owner opens Desks panel (Unsent = 0) and the review list; check or note each item (R8); remove desks; confirm the saved lists are gone.
+After: every desk connects and presses **Send now** until pending is 0; owner opens Desks panel (Unsent = 0) and the review list; check or note each item including bib exceptions (R8); remove desks; confirm the saved lists are gone.
 Problems: dead phone with unsent scans (owner sees last reported count; recover the device or record manual handovers with reason `other` and a note after checking who collected); lost or stolen phone (**Remove desk now**, note the time; scans after that time are held for review; no contact data was on the phone); wrong clock (fix it and scan again); update needed (refresh the page).
 
 **R6 Manual payment backlog (alerts A1, A3)**
@@ -1123,7 +1179,7 @@ Verify: A1 and A3 clear, members' tickets issued.
 4. Tell members the target ("usually within 5 working days") only as the app already says; do not promise dates.
 
 **R8 Kit duplicates and offline conflicts**
-Review list outcomes: `duplicate` (a kit may have been handed out twice: organizer decides, notes stock difference, marks checked); `revoked_after_scan` (kit given to someone whose ticket was cancelled or refunded: organizer notes and marks checked; FitFlex does not require recovery; if a refund was paid for a collected kit, tell the Payments admin); `event_closed`, `organizer_suspended`, `after_revoke` (note and mark checked). Wrong online handover: owner or admin **Void handover** from the registration drawer with a reason. Invalid-token burst: check who used the desk; remove it if suspicious.
+Review list outcomes: **bib exceptions** (`taken`, `out_of_range`, `no_range`, `registration_has_other`, `format_invalid`, `not_applied`: the kit stands and the participant keeps it; the organizer decides who holds the number, fixes it on the Bib numbers screen with a reason, and marks the item checked; if two people hold the same physical number, find out which bib was in the wrong box and swap one); `duplicate` (a kit may have been handed out twice: organizer decides, notes stock difference, marks checked); `revoked_after_scan` (kit given to someone whose ticket was cancelled or refunded: organizer notes and marks checked; FitFlex does not require recovery; if a refund was paid for a collected kit, tell the Payments admin); `event_closed`, `organizer_suspended`, `after_revoke` (note and mark checked). Wrong online handover: owner or admin **Void handover** from the registration drawer with a reason. Invalid-token burst: check who used the desk; remove it if suspicious.
 
 **R9 Awards and rewards**
 Failed award task: admin desk Award tasks, **Retry** after reading the reason. Duplicate-prevention incident (A11): the guard worked; check the ledger shows one entry per award; investigate how a duplicate attempt arose. Wrong reward: organizer corrects the result (reversal entries); never edit the ledger. Stop: owner switches `EVENTS_REWARDS` off (jobs no-op, nothing is lost). Perk redemption at the admin desk: look up by code, verify, redeem or cancel with reason.
@@ -1161,7 +1217,7 @@ Two stages. **Stage A** is a rehearsal on release-candidate builds against an is
 - Organizer "Pilot Runners" (KYC approved) with staff: owner, admin, ops (two), timing, finance; a second organizer "Other Org" for isolation tests.
 - FitFlex admins: two with `events`, two with `payments`.
 - 40 verified seed members, one unverified member, one minor registration, one corporate coordinator with a 25-row roster file (3 deliberate errors).
-- Events: **E1** in person, 10K (capacity 30) and 5K (capacity 20), kit provided, two collection points, 60 % of bibs pre-assigned; **E2** virtual run; **E3** one race of capacity 3 (waitlist); **E4** published with 15 paid registrations then cancelled by an admin.
+- Events: **E1** in person, 10K (capacity 30) and 5K (capacity 20), kit provided, two collection points, 30 bibs pre-assigned (1 to 30), the other 20 given out at two desks with blocks 101 to 125 and 126 to 150; **E2** virtual run; **E3** one race of capacity 3 (waitlist); **E4** published with 15 paid registrations then cancelled by an admin.
 
 **Schedule (5 working days).** Day 1 setup and smoke; Day 2 registration, payments and waitlist; Day 3 event day (offline desks, two real devices); Day 4 results, medals, rewards, disputes; Day 5 incident drills, load tests, report.
 
@@ -1181,6 +1237,7 @@ Two stages. **Stage A** is a rehearsal on release-candidate builds against an is
 | 10 | Event cancelled with paid registrations | UAT on E4 | refund batch, notices, totals |
 | 11 | QR replay, repeated kit collection | UAT online desk | already_collected, override audit |
 | 12 | Offline scan syncs and detects duplicate | UAT journey 1 | review list |
+| 12b | Offline bib recording: two desks, same bib number; out-of-range bib; bib assigned online after the list | UAT journey 1, AC-O25 to O31 | review list showing the exceptions, kit collected in every case |
 | 13 | Webhook endpoint times out then recovers | spec + local stub receiver | delivery log, per-host cap |
 | 14 | Webhook invalid or replayed signature | spec | receiver rejects |
 | 15 | Duplicate result import | UAT | no-op message |
@@ -1221,18 +1278,18 @@ Two stages. **Stage A** is a rehearsal on release-candidate builds against an is
 - **Stored in the database after account deletion:** registration personal data persists until the retention job is configured (§6.2); the deletion path for ledger and organizer ownership is as S6.
 - **Waitlist stall risk:** one bogus manual transaction id can hold a place for up to 48 hours (D26); mitigated by the unpaid-places cap, not eliminated (D73).
 - **Shared `fitflex_ci` database is dirty:** use a fresh isolated database per run.
-- **Not built in S7:** offline bib assignment, waitlist for groups, SMS offers, organizer analytics, per-event SLO targets, staff phone app, results age-group rankings, provider refunds.
+- **Not built in S7:** generating bib numbers offline (never allowed), camera barcode reading of bibs, waitlist for groups, SMS offers, organizer analytics, per-event SLO targets, staff phone app, results age-group rankings, provider refunds.
 
 ---
 
-## 20. Open decisions D63 and up (owner; each has a recommended default; none is applied until accepted)
+## 20. Decisions D63 to D85 (accepted by the owner 2026-11-02: all recommended defaults, except D66 changed)
 
-| # | Decision | Recommended default | Effect if changed |
+| # | Decision | Accepted | Effect if changed |
 |---|---|---|---|
 | **D63** | Where does offline kit scanning live? | A web desk route in the portal (works on a phone browser or laptop); the native staff scanner stays deferred. | A native scanner needs an organizer persona in the mobile app, `mobile_scanner` and an on-device queue; a second implementation of §3. |
 | **D64** | How is a ticket verified offline? | SHA-256 lookup in a list the server provides; no secret or MAC code on any device; the server re-verifies at sync. | Public-key signed tickets would verify offline but need a token format v2 and reissued QR codes. |
 | **D65** | Conflict rule for two offline scans of one ticket | First item processed wins; later ones are kept as duplicates for a human; nothing is auto-voided. | Earliest device time winning would trust device clocks. |
-| **D66** | Bib assignment offline | Not allowed; bibs are pre-assigned. | Allowing it needs global bib uniqueness at sync and a conflict path. |
+| **D66 (changed)** | Bib recording offline | **Allowed**, as recording the number read off the physical bib (typed or scanned), saved as a provisional scan; never generated offline. Each desk gets its own bib block set at creation (immutable, non-overlapping); the server re-checks D40 uniqueness at sync; a conflict (taken, out of range, other bib already held) becomes an exception for a human and the kit handover stands, no auto-void. Written only through a savepoint-guarded path (§3.15). Recommended default was: not allowed, bibs pre-assigned. | Forbidding it sends mixed-bib events to an online desk; allowing it without blocks would let desks collide. |
 | **D67** | Manual handover offline (lost phone) | Allowed with reason and ID-check tick; listed in the post-event review. | Forbidding it sends every lost-phone case to an online desk. |
 | **D68** | Offline limits | List valid 36 h; 10 desks per event; 2 per staff user; 2,000 unsent scans per desk; clock tolerance 5 minutes. | Longer lists and more desks widen exposure of masked data. |
 | **D69** | Ticket not on the desk's list (bought after the list) | Refused offline; no "accept unverified". | An unverified accept would let a forged code take a kit until sync. |

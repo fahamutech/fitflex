@@ -64,5 +64,28 @@
 | D60 | Four-eyes on official release | **Approved** | 2026-10-29 | Not enforced in S6. The typed result count and the non-withdrawable official release are the guard. |
 | D61 | Age-group and gender rankings | **Approved** | 2026-10-29 | Out of scope. Overall and category ranks only; the demographic API scope is not extended to results. |
 | D62 | Personal-best rule | **Approved** | 2026-10-29 | PB chip only for official results at the same category distance and route type; labelled "Personal best at this distance", never "course record". |
+| D63 | Offline kit scanning surface | **Approved** | 2026-11-02 | Web desk route in the portal (phone browser or laptop); native staff scanner stays deferred. Spec `docs/design/events-s7-hardening-and-pilot.md` §3. |
+| D64 | Offline ticket verification | **Approved** | 2026-11-02 | SHA-256 lookup in a server-provided list; no secret or MAC code on any device; the server re-verifies at sync. |
+| D65 | Offline conflict rule | **Approved** | 2026-11-02 | First item processed wins; later duplicates are kept for a human, never auto-voided. |
+| D66 | Offline bib recording | **Approved (changed)** | 2026-11-02 | Changed from the recommended default (not allowed, bibs pre-assigned). Bibs are physically mixed, so the offline desk records the number read off the physical bib (typed or scanned), saved as a provisional scan, never generated offline. Each desk gets its own immutable, non-overlapping bib block set at creation; the server re-checks D40 uniqueness at sync through a savepoint-guarded writer (not `assignBibTx`); a conflict or out-of-range number becomes an exception for a human and the kit handover stands, no auto-void. Spec §3.15. |
+| D67 | Offline manual handover | **Approved** | 2026-11-02 | Allowed with reason and ID-check tick; listed in the post-event review. |
+| D68 | Offline limits | **Approved** | 2026-11-02 | List valid 36 h; 10 desks per event; 2 per staff user; 2,000 unsent scans per desk; clock tolerance 5 minutes. |
+| D69 | Ticket not on the desk's list | **Approved** | 2026-11-02 | Refused offline; no accept-unverified. |
+| D70 | Waitlist scope | **Approved** | 2026-11-02 | Signed-in verified member, one place, self only; no groups, guests, teams or corporate. |
+| D71 | Waitlist mechanism | **Approved** | 2026-11-02 | An offer is a real order created by a system actor from stored registration details; strict first-in-first-out per ticket type; queue gate stops new buyers taking places. |
+| D72 | Offer window and timing | **Approved** | 2026-11-02 | 12 h, shortened to a quarter of the time left before registration closes (minimum 2 h); no offers in the last 2 h before close; none 21:00 to 07:00 event time. |
+| D73 | Waitlist payment interplay and hoarding | **Approved** | 2026-11-02 | Follow D26 as is; cap unpaid places per member at 4. The shorter-cap alternative (payment hold code) is not adopted. |
+| D74 | Waitlist abuse limits | **Approved** | 2026-11-02 | 5 live entries per member, 500 per ticket type, 10 joins an hour, 2 lapses end joining for that event, one entry per normalised phone or email per ticket type. |
+| D75 | Organizer waitlist controls | **Approved** | 2026-11-02 | Counts only; stop new sign-ups; close with notice; no names, reordering or manual promotion. |
+| D76 | Waitlist offer channel | **Approved** | 2026-11-02 | Push and in-app only; no SMS (revisit after the pilot). |
+| D77 | Analytics model | **Approved** | 2026-11-02 | Aggregate daily counters, closed allowlist, no user, session or device ids, admin-only dashboard; no organizer-facing analytics. |
+| D78 | Alert thresholds | **Approved** | 2026-11-02 | Tied to existing promises (24 h confirmation, 5 working day refunds, job cadence); email to `OPS_ALERT_EMAILS`; no invented targets. |
+| D79 | Retention and consent | **Approved** | 2026-11-02 | Anonymisation job ships unset; counsel and owner set the months; consent text rewritten and version bumped before `EVENTS_KIT_OPS` or `EVENTS_KIT_OFFLINE` go on in production. |
+| D80 | Reward farming guard | **Approved** | 2026-11-02 | Per-event `rewardsEligible`, default false, set by a FitFlex admin; medals unaffected. |
+| D81 | Pilot structure | **Approved** | 2026-11-02 | Stage A rehearsal on RC with seed data, then Stage B live pilot of at most 150 places with one friendly organizer, after promotion and the owner's go-ahead. |
+| D82 | Organizer payout during the pilot | **Approved** | 2026-11-02 | Manual two-person payout per Runbook R2 with a signed sheet (no system record). |
+| D83 | Offline scanning for API clients | **Approved** | 2026-11-02 | No; portal desk only. |
+| D84 | Admin incident controls | **Approved** | 2026-11-02 | Reason required; typed confirmation for revoke-all and disable-all; no second person; Swahili reason optional. |
+| D85 | Admin pause of an event's registrations | **Approved** | 2026-11-02 | Added (`published <-> registration_closed`, reason, organizer notified, audited). |
 
 Defaults marked "Open (default)" are implemented as configuration or flags so they can change without a schema rewrite.
