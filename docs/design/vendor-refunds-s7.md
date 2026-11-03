@@ -52,7 +52,7 @@ Out of scope: marketplace orders (D-6); amount-only refunds with no item (Q-2); 
 - `refundsOn` = `tools.walkInSales === true && tools.refunds === true` (the server computes `refunds` from VENDOR_TOOLS + VENDOR_REFUNDS; the client also requires `walkInSales`, because refunds live on walk-in sales).
 - Off, missing or options failed: no Refund button, no undo, no refund routes. Deep links go to the sale detail (or the vendor home if sales are off) with no message. Never show "feature off".
 - **Refunds already made stay visible when the flag goes off.** The sale read keeps returning `refunds[]` and the refund counters (pure bookkeeping, plan §1), so a sale never looks bigger than it is. The rows are read-only: refund detail opens, Share and Undo are hidden. Report totals always include existing refunds. The Refunds report view shows when `tools.refunds` **or** the period has refund rows (same rule as the S6 walk-in channel).
-- Server: `POST /vendor/sales/:id/refunds`, `POST /vendor/refunds/:id/revert`, `GET /vendor/refunds`, `GET /vendor/refunds/:id`, `POST /vendor/refunds/:id/share` → 404 `feature_disabled` when any of the three flags is off.
+- Server (as built, functions#318 after security review L1): `POST /vendor/sales/:id/refunds`, `POST /vendor/refunds/:id/revert`, `GET /vendor/refunds` (list) and `POST /vendor/refunds/:id/share` → 404 `feature_disabled` when any of the three flags is off. `GET /vendor/refunds/:id` and credit-note documents need only VENDOR_TOOLS + VENDOR_WALKIN_SALES (documents also VENDOR_DOCUMENTS), so existing refunds open read-only (AC-2). `tools.refunds` already includes VENDOR_WALKIN_SALES.
 
 ### 0.3 Permissions
 
@@ -301,7 +301,7 @@ Lock order everywhere: **customer → sale → products** (products in the fixed
 - `vendor_sale_refunded {saleId, refundId, number, saleNumber, amountTzs, createdByName, reason}`
 - `vendor_refund_reverted {saleId, refundId, number, amountTzs, revertedByName, reason}`
 
-Templates EN/SW in §8.8. Tap → `/vendor/refunds/:refundId` (mobile); the portal list shows them as today. Nothing ever goes to the customer.
+As built, push `data` carries `saleId, refundId, number, saleNumber` (+ title/body); amount, actor name and reason are only in the message text. Templates EN/SW in §8.8. Tap → `/vendor/refunds/:refundId` (mobile); the portal list shows them as today. Nothing ever goes to the customer.
 
 ### 2.11 Reports (S6) — changes to `facts` and sections
 - **`facts` gains walk-in refund rows** from `VendorSaleRefundLine` × refund × sale line, for refunds whose `createdAt` falls in the period:
