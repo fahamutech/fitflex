@@ -1,6 +1,6 @@
 # Partial and revertible refunds on walk-in sales (S7): design spec
 
-Status: DRAFT for review. Date: 2026-11-03. Author: design-agent.
+Status: APPROVED 2026-11-03 — owner accepted all recommendations (Q-1..Q-6). Date: 2026-11-03. Author: design-agent.
 Plan: `docs/plans/vendor-business-tools-plan.md` §1 (flags `VENDOR_TOOLS` + `VENDOR_REFUNDS`, `/vendor/tools/options.refunds`, permission `sales`, integer TZS, EAT), S7, §4, §5 (**O-6** CN- numbers continuous per vendor, no yearly reset; **O-8** no customer credit balance; **O-14** staff with `sales` may act, audited, no approval step), §7. **D-6 stands: no partial refunds on marketplace orders.** Marketplace orders are out of scope.
 Builds on: `vendor-walkin-sales-s3.md` (sale, lines, payments, void), `vendor-customers-s4.md` (credit sales, balances, allocations, aging), `vendor-documents-s5.md` (renderer, share sheet, VAT per line, §4.3 credit-note layout), `vendor-reports-s6.md` (§1 definitions, §8.2 Q-5, §8.5 Refunds view). Components, states and strings from those specs are reused. This spec overrides them only where it says so.
 
@@ -797,7 +797,7 @@ CSV: `refundsCsv` gains a "Type / Aina" column.
 
 ---
 
-## Open questions (each with a recommendation)
+## Open questions — owner accepted every recommendation on 2026-11-03
 
 - **Q-1 Who may refund and undo.** Rec: the same rule security review M2 set for voids. The owner and admin-role staff can refund any completed sale. Other `sales` staff can refund only a sale they recorded, on its EAT sale day, and can undo only their own refund on the day they made it. Staff refunds and undos notify the owner. Why: a cash refund is the same fraud risk as a void (money out of the till). Alt: any `sales` staff may refund any sale up to 30 days old, with the owner notified. Returns are easier at the counter, but the risk is higher.
 - **Q-2 Amount-only refunds (no item back, e.g. a goodwill discount after the sale).** Rec: not in v1. The amount is always computed from returned units (M-2), so it can never exceed what was paid and needs no approval. Ask after vendors use it.
