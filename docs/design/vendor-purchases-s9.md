@@ -1,6 +1,6 @@
 # Suppliers, receive stock and payables with instalments (S9): design spec
 
-Status: DRAFT for review. Date: 2026-11-04. Author: design-agent.
+Status: APPROVED 2026-11-04 — owner accepted all recommendations (Q-1..Q-7). Date: 2026-11-04. Author: design-agent.
 Plan: `docs/plans/vendor-business-tools-plan.md` §1 (flags `VENDOR_TOOLS` + `VENDOR_PURCHASES`, `/vendor/tools/options.purchases`, new permission `purchases` backfilled onto `vendorRole='admin'` staff, integer TZS, EAT), S9, §4 (Msambazaji, Pokea Stock), §5 (**O-6** GRN- numbers continuous per vendor, no yearly reset; **O-8** no credit balance, mirrored here for suppliers; **O-9** stock-in sets the cost price to the last purchase cost), §7. **FitFlex moves no money for payables. They are tracked only.**
 Builds on: `vendor-stock-ledger-s1.md` (ledger, `ProductPrivate`, variant invariant O-1, low-stock crossing), `vendor-portal-s2.md`, `vendor-walkin-sales-s3.md` (numbering, void pattern, M2 staff rule, payment methods, clientRef), `vendor-customers-s4.md` (aging buckets in EAT, archive rule, payment sheet), `vendor-documents-s5.md`, `vendor-reports-s6.md` (stock value, profit cost basis, payment methods), `vendor-refunds-s7.md` (format, money rules). Components, states and strings from those specs are reused. This spec overrides them only where it says so.
 
@@ -890,7 +890,7 @@ CSV headers (purchases, payables) in the chosen language with "(TZS)", S6 rules.
 
 ---
 
-## Open questions (each with a recommendation)
+## Open questions — owner accepted every recommendation on 2026-11-04
 
 - **Q-1 Who sees purchase costs.** Receiving stock means typing unit costs, and by O-9 the last unit cost **is** the cost price. Rec: `purchases` lets staff see costs on purchase records and the last purchase cost per product (they need them to fill in a delivery), but `canSeeCost` stays as it is (owner and admin staff). So staff with `purchases` only still don't see profit, stock value at cost, or the "from" figure when the cost price changes. Alt: make `purchases` imply `canSeeCost` (simpler, wider exposure).
 - **Q-2 Backfill scope.** Rec: as the plan says, add `purchases` to `vendorRole=admin` staff only (plus their memberships and pending invitations). `inventory_manager` staff get it only when the owner ticks it, because it carries money records and costs. Alt: also backfill `inventory_manager`.
