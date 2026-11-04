@@ -308,6 +308,7 @@ Body `{reason}` → 200 `{ purchase, costRestored:[{productId, variant, name}], 
 |---|---|---|
 | 404 | `purchase_not_found` | |
 | 403 | `void_not_allowed` | `reason: not_own \| too_old` (checked first, as S3) |
+| 409 | `void_not_allowed` | `reason: has_others_payments` — as built (security review L-2): staff without voidsAny can't void a purchase with active payments recorded by someone else; clients hide Void in that case |
 | 409 | `already_voided` | `voidedAt` |
 | 409 | `insufficient_stock` | `lines:[{productId, variant, name, receivedQty, available}]` (nothing changes) |
 | 400 | `reason_required {min}`, `reason_too_long {max}` | |
@@ -315,7 +316,7 @@ No clientRef: a repeat answers `already_voided` (the client treats it as done).
 
 ### 2.6 Payments and the plan (new; **rule 6**)
 - `POST /vendor/purchases/:id/payments {clientRef, amountTzs, paidOn?, method, reference?, note?}` → 201 `{ purchase, payment, covered:[{seq, dueDate, amountTzs}] }`; replay 200. Errors: 404 `purchase_not_found`; 409 `purchase_voided`, `nothing_owed`, `overpayment {balanceTzs}`, `client_ref_reused`; 400 `invalid_amount`, `invalid_method`, `reference_required {method}`, `reference_too_long`, `note_too_long`, `paid_on_out_of_range {earliest, latest}`, `invalid_client_ref`.
-- `POST /vendor/purchases/:id/payments/:paymentId/void {reason}` → 200 `{ purchase }`. Errors: 404 `payment_not_found`; 403 `void_not_allowed {reason}` (on the payment's recordedBy/createdAt); 409 `already_voided`, `purchase_voided`, `supplier_required`; 400 reason.
+- `POST /vendor/purchases/:id/payments/:paymentId/void {reason}` → 200 `{ purchase }`. Errors: 404 `payment_not_found`; 403 `void_not_allowed {reason}` (on the payment's recordedBy/createdAt); 409 `already_voided`, `purchase_voided`, `supplier_required`, `supplier_archived {supplierId}` (as built: an archived supplier can owe nothing); 400 reason. Later payments: a `clientRef` ending in `:paid` → 400 `invalid_client_ref` (as built, L-5).
 - `PUT /vendor/purchases/:id/instalments {schedule:[{dueDate, amountTzs}]}` → 200 `{ purchase }`. Errors: 409 `purchase_voided`, `nothing_owed`; 400 `invalid_schedule`, `schedule_mismatch {expectedTzs: balanceTzs, scheduledTzs}`, `due_date_out_of_range`.
 - (The plan's `/instalments` and `/instalments/:iid/pay` become these three routes; Q-3.)
 
