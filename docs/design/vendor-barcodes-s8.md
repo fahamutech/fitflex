@@ -191,7 +191,7 @@ Guard unchanged (`products`). Two new optional body fields, **mutually exclusive
 - `barcodes: [{ code, variant? }]`: the product's **whole set** after the save. `[]` clears it. The form sends this.
 - `addBarcodes: [{ code, variant? }]`: add to the set. A code already on this product and variant is a no-op. "Add this code to a product" and the portal quick-add send this, so a stale list cannot remove someone else's new code.
 - `variant` left out, `null` or `''` = whole product.
-- Shape: an array of ≤ 20 objects with a string `code` → else 400 `invalid_field {field: 'barcodes' | 'addBarcodes'}`.
+- Shape: an array of objects with a string `code` → else 400 `invalid_field {field: 'barcodes' | 'addBarcodes'}`. More than 20 codes → 400 `too_many_barcodes {max: 20}` (as built, matching AC-7).
 
 Processing:
 1. Parse and validate every code (B-1, B-3) and duplicates in the body (B-4) **before** anything is written.
@@ -205,7 +205,7 @@ Processing:
 3. The unique index is the authority. A concurrent save that took the code first makes this save fail with 409 `barcode_in_use`, and the whole save rolls back (fields, stock rows and codes together).
 4. The response product gains `barcodes` as in §2.2.
 
-Errors (new): 400 `invalid_barcode {code, reason}`, `invalid_check_digit {code}`, `duplicate_barcode {code}`, `too_many_barcodes {max}`, `barcode_variant_not_found {code, variant}`, `barcodes_conflict`, `invalid_field {field}`; 409 `barcode_in_use {code, productId, name, variant}`. Existing errors unchanged. Body codes are processed in order and the first failing code is reported.
+Errors (new): 400 `invalid_barcode {code, reason}`, `invalid_check_digit {code}`, `duplicate_barcode {code}`, `too_many_barcodes {max}`, `barcode_variant_not_found {code, variant}`, `barcodes_conflict`, `invalid_field {field}`; 409 `barcode_in_use {code, productId, name, variant}` (as built: `productId`/`name`/`code` may be null after a failed deadlock retry → clients show "This barcode is in use. Try again."); 409 `save_conflict` when a save with no codes loses the same race. Every S8 error carries `message {en, sw}`. Existing errors unchanged. Body codes are processed in order and the first failing code is reported.
 
 `DELETE /vendor/products/:id` (changed behaviour, same signature): after the soft delete, the product's codes are deleted (audit `product_deleted`). If that fails, B-7 still frees them.
 
@@ -621,6 +621,22 @@ Same keys in `lib/shared/i18n.dart` and `src/lib/i18n.ts` (portal uses the `vend
 | vendor.scan.camera.unsupported | This device can't scan here. Type the code or use a USB scanner. | Kifaa hiki hakiwezi kuskani hapa. Andika msimbo au tumia skana ya USB. |
 | vendor.scan.camera.insecure | The camera works only on a secure (https) page. Type the code instead. | Kamera inafanya kazi kwenye ukurasa salama (https) tu. Andika msimbo badala yake. |
 | vendor.scan.camera.error | The camera couldn't start. Try again, or type the code. | Kamera imeshindwa kuwaka. Jaribu tena, au andika msimbo. |
+
+### 10.4b Strings added during build (as built 2026-11-09; SW drafts for native review)
+
+| Key | EN | SW |
+|---|---|---|
+| vendor.barcodes.err.inUseRetry | This barcode is in use. Try again. | Msimbopau huu unatumika. Jaribu tena. |
+| vendor.barcodes.err.unavailable | Barcodes aren't available right now. | Misimbopau haipatikani kwa sasa. |
+| save_conflict (server) | Someone else saved this at the same time. Try again. | Mtu mwingine amehifadhi hii wakati huo huo. Jaribu tena. |
+| vendor.barcodes.countOne | 1 barcode | Msimbopau 1 |
+| vendor.barcodes.removedWithVariantOne | 1 barcode was removed with the variant. | Msimbopau 1 umeondolewa pamoja na chaguo. |
+| vendor.scan.countedOne | 1 counted | 1 imehesabiwa |
+| vendor.scan.addedLineOne | {name} added · 1 received | {name} imeongezwa · 1 imepokelewa |
+| vendor.scan.archivedBadge | Archived | Imewekwa kando |
+| vendor.barcodes.save / listLabel / openFor / err.server | (portal dialog labels and failure text) | (follow §10.1; failures use "Imeshindikana … Jaribu tena.") |
+
+Wording rules applied after the Swahili audit: checking a code uses "Angalia" (the glossary keeps "Hakiki" for Preview); failures follow "Imeshindikana … Jaribu tena."; "Mwombe" not "Muombe"; English says "variant", not "option".
 
 ### 10.5 Swahili overflow
 - Longest SW: `notFoundOffline` (~105), `camera.denied` (~95), `camera.insecure` (~85). All of them are in `FFAlert`s or error views and wrap.
