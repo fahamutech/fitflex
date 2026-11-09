@@ -1,6 +1,6 @@
 # Barcode scanning (S8): design spec
 
-Status: DRAFT 2026-11-05. Waiting for the owner's answers to Q-1..Q-5. Author: design-agent.
+Status: APPROVED 2026-11-09 — owner accepted all recommendations (Q-1..Q-5).
 Plan: `docs/plans/vendor-business-tools-plan.md` §1 (flags `VENDOR_TOOLS` + `VENDOR_BARCODES`, `/vendor/tools/options.barcodes`, permissions, EAT), S8 (`ProductCode` vendorId, productId, variant, code; unique vendorId + code; `PUT /vendor/products/:id` accepts `barcodes` (additive); `GET /vendor/products/lookup?code=` → `{ productId, variant, name, priceTzs, stock }`; scan in the POS cart, stock count and stock-in; `mobile_scanner` already a dependency; on Flutter web the camera needs a real device), §6 (Flutter web UAT cannot cover the camera), §7.
 Builds on: `vendor-stock-ledger-s1.md` (product form §1, variants, adjust sheet §2), `vendor-walkin-sales-s3.md` (POS §2, the reserved scan slot in the search field, Enter-in-search for USB scanners §2.2, offline cache and queue §6), `vendor-purchases-s9.md` (Receive stock §4.2–4.3, which left scanning to S8; format and Q-n style), `vendor-refunds-s7.md`. Components, states and strings from those specs are reused. This spec overrides them only where it says so.
 
@@ -668,7 +668,7 @@ Nothing in this spec reads a field the backend does not have or is not asked to 
 
 ---
 
-## Open questions (each with a recommendation)
+## Open questions — owner accepted every recommendation on 2026-11-09
 
 - **Q-1 SKU fallback in the lookup (B-9).** Rec: yes. When no barcode matches, an exact SKU match counts too (barcode matches first; several SKU matches show a chooser). Vendors who already typed the EAN as the SKU, and smart imports whose "barcode" column became the SKU, can scan from day one. Alt: barcodes only (stricter, but every vendor must enter codes again).
 - **Q-2 Reject wrong GTIN check digits (B-3).** Rec: reject 12-, 13- and 14-digit codes that fail the check, on the server and inline. A scanner never returns such a code, so a stored one can only be a typo that will never match. Eight-digit codes are not checked (UPC-E). Alt: warn but allow (handles odd in-store labels printed as 13 digits, at the cost of dead codes).
