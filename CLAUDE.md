@@ -27,6 +27,14 @@
 
 UAT rule: Flutter web UAT runs against a backend on an isolated DB with seed/fixture test accounts only; camera, push, step counting and native payments are "needs a real device".
 
+## Social Studio (`social/`)
+- `social/` in this repo is the system of record for social media: `data/*.jsonl` records, `content/<id>/` briefs and slides, `brand/` tokens and assets, `tools/` renderer. Read `social/README.md` first.
+- Nothing is scheduled or published without a line in `social/data/approvals.jsonl` with `actor = owner` and `to_state = approved`. Scheduled tasks produce drafts and reports only.
+- Brand source of truth is `canon/04-marketing/design-system.md`; primary green is `#1F7A3A` (decided 2026-10-16). Regenerate `social/brand/brand-tokens.json` with `node social/tools/gen-brand-tokens.js` after a canon change.
+- Numbers (prices, visit caps, payouts) come from the glossary with their FACT/ASSUMPTION tag; no fabricated testimonials; stock-photo people are never presented as FitFlex members or partners.
+- Every caption is bilingual (English + Swahili); Swahili drafts are marked for native review.
+- No tokens or credentials in `social/`; Metricool, Meta and Figma credentials live in claude.ai Connectors or the backend secret store.
+
 ## Subagents (`.claude/agents/`)
 | Agent | Role |
 |---|---|
