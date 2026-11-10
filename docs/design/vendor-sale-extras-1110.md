@@ -1,6 +1,6 @@
 # Walk-in sale extras: any-method reference, customer details, receipt as image/PDF — design spec
 
-Status: DRAFT for owner review (Q-1..Q-13 open, each with a recommendation). Date: 2026-11-10. Author: design-agent.
+Status: APPROVED 2026-11-10 — owner accepted all recommendations Q-1..Q-13 ("accept all your recommendations, start the backend"). Author: design-agent.
 Owner request 2026-11-10 (verbatim):
 1. "On sales flow, make transaction reference appear both when the sale is done both through cash or other means (mobile money or banks) - but shouldn't be mandatory"
 2. "During recording a sale, Add a section to input customer details (however not mandatory) with name, mobile, and type/category of customer (new, online, walk-in, returning etc)"
