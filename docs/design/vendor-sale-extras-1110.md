@@ -407,7 +407,7 @@ Seed: vendor owner; staff with `sales` only; staff with `sales` + `customers`; a
 - **AC-24** Documents off, receipt page Share → sheet with Image, PDF (web: "Download image", "Open PDF") and Share as text.
 - **AC-25** Web: Image downloads `receipt-R-xxxxxx.png`, 1080 px wide, white background in dark mode too, content matching the on-screen receipt, ending "This is not a TRA fiscal receipt."
 - **AC-26** Web: PDF opens in a new tab, 80 mm wide, text selectable, Inter font, same content; in Swahili when the receipt toggle is Swahili.
-- **AC-27** A queued sale (offline): Image and PDF both work and show the provisional heading; file name `receipt-pending-….`
+- **AC-27** A queued sale (offline): Image and PDF both work and show the same queued heading as the on-screen receipt ("Receipt", "Waiting to sync", temporary ref; changed after UAT D5, 2026-11-10); file name `receipt-pending-….`
 - **AC-28** A sale with a customer shows the customer name in image and PDF and never the phone.
 - **AC-29** A 100-line sale: Image row disabled with "This receipt is too long for an image. Use PDF."; PDF works.
 - **AC-30** Documents on: the S5 sheet has an Image row; offline its PDF row produces the on-device PDF instead of being disabled.
