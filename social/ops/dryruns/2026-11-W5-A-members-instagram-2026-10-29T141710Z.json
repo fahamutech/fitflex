@@ -1,0 +1,59 @@
+{
+  "title": "dry-run 2026-11-W5-A-members instagram 2026-11-30T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-29T14:17:10Z",
+  "ok": false,
+  "problems": [
+    "duplicate: pub_0039 already scheduled for this record, platform and version"
+  ],
+  "content_hash": "sha256:38db4ece20d51fa4efe5a8f924947229",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-11-30T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W5-A-members/slides/Z01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W5-A-members/slides/Z02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W5-A-members/slides/Z03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W5-A-members/slides/Z04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W5-A-members/slides/Z05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W5-A-members/slides/Z06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W5-A-members/slides/Z07.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W5-A-members/slides/Z08.png"
+      ],
+      "mediaAltText": [
+        "Cover slide with a photo (a woman using battle ropes, black and white); text: Desemba inakuja. Weka lengo, si azimio. December is coming. Set a goal, not a resolution.",
+        "Text slide; text: Azimio ni la Januari 1. Lengo lina wiki hii. A resolution belongs to 1 January. A goal has this week in it.",
+        "Text slide; text: Ziara mbili kwa wiki. Mbio moja Jumamosi. Two visits a week. One run on Saturday. Write it in the app.",
+        "Checklist slide; text: App inakuonyesha pengo kabla hujalikosa.; Rows: Lengo la wiki (goal), Streak (keep it), Hatua za simu (Android), Mbio kwa GPS (Android)",
+        "Photo slide with a photo (a woman in a gym); text: Pass moja. Gym zote za daraja lako. One pass. Every gym in your tier. Nowhere to hide from your own goal.",
+        "Text slide; text: Shiriki na marafiki, au ficha. Wewe unaamua. Share with friends, or keep it private. Your call.",
+        "Text slide; text: Anza Novemba 30, si Januari 1. Start on 30 November, not 1 January.",
+        "Call to action; text: Tayari? Andika; Keyword PASS. Tutakutumia DM link ya app. · We’ll DM you the app link."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-11-30T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Desemba inakuja. Weka lengo, si azimio. Ziara mbili kwa wiki, mbio moja Jumamosi, andika kwenye app na iwe inakuonyesha pengo kabla hujalikosa. Pass moja, gym zote za daraja lako.\nTayari? Andika PASS tukutumie link ya app.\n\nDecember is coming. Set a goal, not a resolution. Two visits a week, one run on Saturday, written in the app so it shows you the gap before you miss it. One pass, every gym in your tier. Ready? Comment PASS for the app link.\n\n#fitness #mazoezi #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026"
+}

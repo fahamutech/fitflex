@@ -1,0 +1,73 @@
+{
+  "record": "2026-11-W4-A-owners",
+  "style": "editorial",
+  "format": "ig_feed_portrait",
+  "prefix": "W",
+  "handle": "@fitflex.africa",
+  "slides": [
+    {
+      "kind": "cover",
+      "ph": 9545909,
+      "pos": "50% 50%",
+      "h": "Wanachama wa gym nyingine <em>wanakuona.</em>",
+      "en": "Your gym is visible to other gyms’ members.",
+      "s": "Mtandao · the network",
+      "size": 96
+    },
+    {
+      "kind": "rule",
+      "chip": "MTANDAO · NETWORK",
+      "h": "Pass moja, gym <em>nyingi.</em>",
+      "en": "A FitFlex member holds one pass for many gyms. When they travel or move, they pick from the network."
+    },
+    {
+      "kind": "rule",
+      "chip": "RAMANI · MAP",
+      "h": "Wanakutafuta kwa <em>eneo.</em>",
+      "en": "They find you by area, tier and what members said. Not by who shouted loudest on Instagram."
+    },
+    {
+      "kind": "rule",
+      "chip": "BEJI · BADGE",
+      "h": "Beji ya <em>uthibitisho</em> inajenga imani.",
+      "en": "A verified badge after KYC, a profile-complete badge for the rest. Members see it before they come."
+    },
+    {
+      "kind": "rule",
+      "chip": "ZIARA · VISITS",
+      "h": "Kila ziara ya mgeni <em>inahesabiwa.</em>",
+      "en": "Every visitor checks in by QR; every visit is on your dashboard."
+    },
+    {
+      "kind": "check",
+      "h": "Jinsi gym <em>inavyojiunga.</em>",
+      "en": "How a gym joins.",
+      "rows": [
+        {
+          "t": "Omba",
+          "en": "apply in the app"
+        },
+        {
+          "t": "Ukaguzi",
+          "en": "an inspection visit and a score"
+        },
+        {
+          "t": "Uthibitisho",
+          "en": "KYC documents, given once"
+        },
+        {
+          "t": "Fungua mlango",
+          "en": "your gym goes live on the map"
+        }
+      ]
+    },
+    {
+      "kind": "cta",
+      "h": "Una gym Dar es Salaam? Andika",
+      "en": "Own a gym in Dar es Salaam? Comment",
+      "kw": "PARTNER",
+      "cta": "Tutakutumia DM jinsi FitFlex inavyofanya kazi.",
+      "ctaEn": "We’ll DM you how FitFlex works."
+    }
+  ]
+}

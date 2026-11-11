@@ -1,0 +1,73 @@
+{
+  "record": "2026-11-W4-B-vendors",
+  "style": "editorial",
+  "format": "ig_feed_portrait",
+  "prefix": "X",
+  "handle": "@fitflex.africa",
+  "slides": [
+    {
+      "kind": "cover",
+      "ph": 5312212,
+      "pos": "50% 50%",
+      "h": "Unauza vifaa vya gym? Wateja wako tayari wako <em>app moja.</em>",
+      "en": "Sell gym gear or supplements? Your buyers are already in one app.",
+      "s": "Marketplace · soko",
+      "size": 88
+    },
+    {
+      "kind": "rule",
+      "chip": "DUKA · LISTING",
+      "h": "Orodhesha bidhaa zako na <em>picha.</em>",
+      "en": "List products with photos and categories, from your phone."
+    },
+    {
+      "kind": "rule",
+      "chip": "WATEJA · BUYERS",
+      "h": "Wanunuzi ni wanachama wanaofanya <em>mazoezi.</em>",
+      "en": "Buyers are FitFlex members already training. Your shop sits next to their pass."
+    },
+    {
+      "kind": "rule",
+      "chip": "ODA · ORDERS",
+      "h": "Oda zinakuja kwenye <em>app,</em> si kwenye DM.",
+      "en": "Orders arrive in the app with a notification. Confirm, prepare, deliver."
+    },
+    {
+      "kind": "rule",
+      "chip": "UTHIBITISHO · VERIFICATION",
+      "h": "Wauzaji <em>waliothibitishwa</em> tu.",
+      "en": "Vendors are verified before they sell. Members see who is verified before they buy."
+    },
+    {
+      "kind": "check",
+      "h": "Unahitaji <em>nini</em> kuanza.",
+      "en": "What you need to start.",
+      "rows": [
+        {
+          "t": "Jina la biashara",
+          "en": "business name and details"
+        },
+        {
+          "t": "Kitambulisho",
+          "en": "ID or registration, given once"
+        },
+        {
+          "t": "Bidhaa",
+          "en": "your first products with photos"
+        },
+        {
+          "t": "Simu",
+          "en": "a phone; the app does the rest"
+        }
+      ]
+    },
+    {
+      "kind": "cta",
+      "h": "Unauza? Andika",
+      "en": "Do you sell? Comment",
+      "kw": "VENDOR",
+      "cta": "Tutakutumia DM jinsi ya kujiunga kama muuzaji.",
+      "ctaEn": "We’ll DM you how to join as a vendor."
+    }
+  ]
+}

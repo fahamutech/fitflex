@@ -1,0 +1,57 @@
+{
+  "title": "reserve 2026-11-W3-C-members instagram 2026-11-20T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-29T14:03:44Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:9ba927aa0e3c69284e80a8f8920f6d9a",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-11-20T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W3-C-members/slides/U01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W3-C-members/slides/U02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W3-C-members/slides/U03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W3-C-members/slides/U04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W3-C-members/slides/U05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W3-C-members/slides/U06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W3-C-members/slides/U07.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W3-C-members/slides/U08.png"
+      ],
+      "mediaAltText": [
+        "Cover slide on Volt green; Swahili: Leaderboard si ya wanariadha tu.; English: Leaderboards aren’t just for athletes.",
+        "Point 01 slide; Swahili: Alika rafiki kwa link moja.; English: Invite a friend by link, email or number. Train apart, count together.",
+        "Point 02 slide; Swahili: Kikundi cha wenzako.; English: Make a group: your office, your estate, your Sunday crew. New activities post to the group.",
+        "Point 03 slide; Swahili: Jiunge na changamoto, leaderboard ya kweli.; English: Join a challenge and you’re on its leaderboard: first name, last initial, progress. Say no if you’d rather not.",
+        "Point 04 slide; Swahili: Hatua za kila siku zinaenda kwa kikundi tu.; English: Daily steps go to your groups only, never public.",
+        "Point 05 slide; Swahili: Gym yako nayo ina changamoto.; English: Gyms and trainers run challenges too, not just FitFlex.",
+        "Checklist slide; Swahili: Jinsi ya kuanza.; English: How to start.; Rows: Washa shughuli (turn on activity), Alika rafiki mmoja (invite one friend), Changamoto moja (join one challenge), Leaderboard Jumapili (check the board on Sunday)",
+        "Call to action; Swahili: Unataka kuanza? Andika; English: Want to start? Comment; Keyword PASS. Tutakutumia DM link ya app. We’ll DM you the app link."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-11-20T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Leaderboard si ya wanariadha tu. Alika rafiki kwa link moja, tengeneza kikundi, jiunge na changamoto na uone jina lako kwenye leaderboard. Hatua za kila siku zinabaki kwenye kikundi chako.\nAndika PASS tukutumie link ya app.\n\nLeaderboards aren’t just for athletes. Invite a friend by link, make a group, join a challenge and see your name on the board. Daily steps stay inside your groups. Comment PASS for the app link.\n\n#fitness #mazoezi #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026"
+}

@@ -1,0 +1,63 @@
+{
+  "record": "2026-11-W4-R-reel-trainers",
+  "style": "editorial",
+  "format": "ig_feed_portrait",
+  "prefix": "Y",
+  "handle": "@fitflex.africa",
+  "noSwipe": true,
+  "slides": [
+    {
+      "kind": "cover",
+      "ph": 4720518,
+      "pos": "50% 20%",
+      "h": "Mteja anaona nini kwenye <em>profile</em> yako?",
+      "en": "What a client sees on your profile.",
+      "s": "Trainer",
+      "dur": 2.5
+    },
+    {
+      "kind": "rule",
+      "chip": "01",
+      "h": "Unamsaidia <em>nani.</em>",
+      "en": "Who you help, in one line.",
+      "dur": 3
+    },
+    {
+      "kind": "rule",
+      "chip": "02",
+      "h": "Picha za <em>vipindi</em> halisi.",
+      "en": "Photos of real sessions.",
+      "dur": 3
+    },
+    {
+      "kind": "rule",
+      "chip": "03",
+      "h": "Reviews kutoka kwa <em>waliobook.</em>",
+      "en": "Reviews from clients who booked.",
+      "dur": 3
+    },
+    {
+      "kind": "rule",
+      "chip": "04",
+      "h": "Nafasi zako na <em>bei</em> yako.",
+      "en": "Your open slots and your price.",
+      "dur": 3
+    },
+    {
+      "kind": "rule",
+      "chip": "05",
+      "h": "Kitufe kimoja: <em>Book.</em>",
+      "en": "One button: book and pay by mobile money.",
+      "dur": 3
+    },
+    {
+      "kind": "cta",
+      "h": "Wewe ni trainer? Andika",
+      "en": "Are you a trainer? Comment",
+      "kw": "TRAINER",
+      "cta": "Tutakutumia DM jinsi ya kujiunga.",
+      "ctaEn": "We’ll DM you how to join.",
+      "dur": 4
+    }
+  ]
+}

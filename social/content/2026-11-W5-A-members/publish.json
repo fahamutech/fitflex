@@ -1,0 +1,40 @@
+{
+  "record": "2026-11-W5-A-members",
+  "version_note": "Template v2. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/Z01.png",
+    "slides/Z02.png",
+    "slides/Z03.png",
+    "slides/Z04.png",
+    "slides/Z05.png",
+    "slides/Z06.png",
+    "slides/Z07.png",
+    "slides/Z08.png"
+  ],
+  "altText": [
+    "Cover slide with a photo (a woman using battle ropes, black and white); text: Desemba inakuja. Weka lengo, si azimio. December is coming. Set a goal, not a resolution.",
+    "Text slide; text: Azimio ni la Januari 1. Lengo lina wiki hii. A resolution belongs to 1 January. A goal has this week in it.",
+    "Text slide; text: Ziara mbili kwa wiki. Mbio moja Jumamosi. Two visits a week. One run on Saturday. Write it in the app.",
+    "Checklist slide; text: App inakuonyesha pengo kabla hujalikosa.; Rows: Lengo la wiki (goal), Streak (keep it), Hatua za simu (Android), Mbio kwa GPS (Android)",
+    "Photo slide with a photo (a woman in a gym); text: Pass moja. Gym zote za daraja lako. One pass. Every gym in your tier. Nowhere to hide from your own goal.",
+    "Text slide; text: Shiriki na marafiki, au ficha. Wewe unaamua. Share with friends, or keep it private. Your call.",
+    "Text slide; text: Anza Novemba 30, si Januari 1. Start on 30 November, not 1 January.",
+    "Call to action; text: Tayari? Andika; Keyword PASS. Tutakutumia DM link ya app. · We’ll DM you the app link."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Desemba inakuja. Weka lengo, si azimio. Ziara mbili kwa wiki, mbio moja Jumamosi, andika kwenye app na iwe inakuonyesha pengo kabla hujalikosa. Pass moja, gym zote za daraja lako.\nTayari? Andika PASS tukutumie link ya app.\n\nDecember is coming. Set a goal, not a resolution. Two visits a week, one run on Saturday, written in the app so it shows you the gap before you miss it. One pass, every gym in your tier. Ready? Comment PASS for the app link.\n\n#fitness #mazoezi #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Desemba inakuja. Weka lengo, si azimio. Ziara mbili kwa wiki, mbio moja Jumamosi, andika kwenye app na iwe inakuonyesha pengo kabla hujalikosa. Pass moja, gym zote za daraja lako.\nTayari? Andika PASS tukutumie link ya app.\n\nDecember is coming. Set a goal, not a resolution. Two visits a week, one run on Saturday, written in the app so it shows you the gap before you miss it. One pass, every gym in your tier. Ready? Comment PASS for the app link.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PASS",
+  "reply_path": "the owner replies to PASS comments and DMs himself: one line on the Pass plus the Android app link; the DM must not promise iOS",
+  "planned_slot": "2026-11-30T17:00:00+03:00"
+}

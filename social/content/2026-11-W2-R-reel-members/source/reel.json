@@ -1,0 +1,50 @@
+{
+  "record": "2026-11-W2-R-reel-members",
+  "style": "v2",
+  "format": "ig_feed_portrait",
+  "prefix": "P",
+  "handle": "@fitflex.africa",
+  "eyebrow": "Find & train · Tafuta",
+  "noSwipe": true,
+  "slides": [
+    {
+      "kind": "photo",
+      "ph": 3916766,
+      "pos": "50% 50%",
+      "h": "Kabla hujalipa gym <em>yoyote</em> Dar…",
+      "s": "Before you pay any gym in Dar…",
+      "dur": 2.5
+    },
+    {
+      "kind": "type",
+      "h": "1. Je, <em>imekaguliwa?</em>",
+      "s": "Has anyone inspected it? FitFlex visits every gym before it joins.",
+      "dur": 3.2
+    },
+    {
+      "kind": "type",
+      "h": "2. Wanachama <em>wanasema nini?</em>",
+      "s": "What do members say? Reviews are in the app.",
+      "dur": 3.2
+    },
+    {
+      "kind": "type",
+      "h": "3. Unaweza kulipa kwa <em>simu?</em>",
+      "s": "Can you pay by phone? M-Pesa or Airtel Money, in the app.",
+      "dur": 3.2
+    },
+    {
+      "kind": "type",
+      "h": "Pass moja. Gym nyingi zilizokaguliwa. <em>App moja.</em>",
+      "s": "One pass. Many vetted gyms. One app.",
+      "dur": 3
+    },
+    {
+      "kind": "cta",
+      "h": "Unataka kuanza? Andika",
+      "kw": "PASS",
+      "cta": "Tutakutumia DM link ya app. · We’ll DM you the app link.",
+      "dur": 4
+    }
+  ]
+}

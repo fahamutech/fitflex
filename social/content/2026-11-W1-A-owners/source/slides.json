@@ -1,0 +1,72 @@
+{
+  "record": "2026-11-W1-A-owners",
+  "style": "editorial",
+  "format": "ig_feed_portrait",
+  "prefix": "H",
+  "handle": "@fitflex.africa",
+  "slides": [
+    {
+      "kind": "cover",
+      "ph": 4716814,
+      "pos": "50% 50%",
+      "h": "Mlango wa gym yako unajua nani <em>ameingia?</em>",
+      "en": "Does your door know who walked in today?",
+      "s": "Check-in · access"
+    },
+    {
+      "kind": "rule",
+      "chip": "QR · CHECK-IN",
+      "h": "QR inayobadilika kila <em>dakika.</em>",
+      "en": "Members check in with a QR code that refreshes every minute. Nothing to forge, nothing to write down."
+    },
+    {
+      "kind": "rule",
+      "chip": "LEO · TODAY",
+      "h": "Unaona nani <em>ameingia leo.</em>",
+      "en": "Check-ins today, on your phone, as they happen."
+    },
+    {
+      "kind": "rule",
+      "chip": "WIKI · WEEKLY",
+      "h": "Ziara kwa <em>wiki,</em> si kwa kumbukumbu.",
+      "en": "Visit trends by week, instead of a feeling about how busy it was."
+    },
+    {
+      "kind": "rule",
+      "chip": "HATARI · AT RISK",
+      "h": "Anayepungua anaonekana <em>mapema.</em>",
+      "en": "Who is slipping, who is at risk, who has stopped coming, before renewal day."
+    },
+    {
+      "kind": "check",
+      "h": "Daftari dhidi ya <em>FitFlex.</em>",
+      "en": "The notebook versus FitFlex.",
+      "rows": [
+        {
+          "t": "Nani ameingia leo",
+          "en": "who came today"
+        },
+        {
+          "t": "Nani amepungua",
+          "en": "who is slipping"
+        },
+        {
+          "t": "Ujumbe kwa wanaopungua",
+          "en": "a message to them, sent from the app"
+        },
+        {
+          "t": "Wageni kutoka mtandaoni",
+          "en": "visitors from the FitFlex network"
+        }
+      ]
+    },
+    {
+      "kind": "cta",
+      "h": "Una gym Dar es Salaam? Andika",
+      "en": "Own a gym in Dar es Salaam? Comment",
+      "kw": "PARTNER",
+      "cta": "Tutakutumia DM jinsi FitFlex inavyofanya kazi.",
+      "ctaEn": "We’ll DM you how FitFlex works."
+    }
+  ]
+}

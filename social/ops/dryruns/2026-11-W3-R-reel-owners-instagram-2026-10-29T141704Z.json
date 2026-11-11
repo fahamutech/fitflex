@@ -1,0 +1,43 @@
+{
+  "title": "reserve 2026-11-W3-R-reel-owners instagram 2026-11-22T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-29T14:17:04Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:9e9cf26ba8d749879df5ebd57e1fd8e5",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-11-22T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W3-R-reel-owners/reel/V.mp4"
+      ],
+      "mediaAltText": [
+        "Cover slide on dark slate; Swahili: Ishara 3 kwamba mwanachama anaondoka.; English: 3 signs a member is about to leave. Point 01 slide; Swahili: Ziara zinapungua.; English: Fewer visits than before. The first sign, and the one most owners miss. Point 02 slide; Swahili: Hajaingia kwa wiki.; English: No check-in for weeks. The app marks them at risk. Point 03 slide; Swahili: Renewal imepita kimya.; English: Renewal day passes with no payment and no goodbye. Point 04 slide; Swahili: Unaona zote kwenye app.; English: FitFlex shows all three before it’s too late, and lets you message them from the app. Call to action; Swahili: Una gym Dar es Salaam? Andika; English: Own a gym in Dar es Salaam? Comment; Keyword PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. We’ll DM you how FitFlex works."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-11-22T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Ishara tatu kwamba mwanachama anaondoka: ziara zinapungua, hajaingia kwa wiki, renewal imepita kimya. FitFlex inakuonyesha zote tatu kabla hajaondoka, na unaweza kumtumia ujumbe kutoka kwenye app.\nUna gym Dar es Salaam? Andika PARTNER.\n\nThree signs a member is about to leave: fewer visits, no check-in for weeks, a renewal that passes quietly. FitFlex shows all three before it’s too late. Own a gym in Dar? Comment PARTNER.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "REEL",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026"
+}

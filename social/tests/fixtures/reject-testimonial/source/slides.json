@@ -1,0 +1,4 @@
+{ "record": "TEST-reject-testimonial", "format": "ig_feed_portrait", "prefix": "T", "slides": [
+ { "t": "navy", "h": "“I’ve trained at six gyms this month and <em>paid once.</em>”", "s": "Amina, Kinondoni, FitFlex member", "ph": 36510739 },
+ { "t": "cream", "h": "Members who switch train <em>40% more.</em>" },
+ { "t": "green", "h": "Want in?", "kw": "PASS", "cta": "We’ll DM you the link.", "ph": 6496099 } ] }

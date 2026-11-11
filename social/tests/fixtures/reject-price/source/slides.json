@@ -1,0 +1,5 @@
+{ "record": "TEST-reject-price", "format": "ig_feed_portrait", "prefix": "T", "slides": [
+ { "t": "navy", "h": "Train anywhere for <em>60,000 TZS</em> a month.", "ph": 5878659 },
+ { "t": "cream", "h": "Pro 150,000 · Premium 250,000 · Executive 400,000" },
+ { "t": "green", "h": "Cheaper than <em>two memberships.</em>" },
+ { "t": "orange", "h": "Want in?", "kw": "PASS", "cta": "We’ll DM you the link.", "ph": 6496099 } ] }

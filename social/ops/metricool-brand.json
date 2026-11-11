@@ -1,0 +1,25 @@
+{
+  "note": "Identifiers only (no secrets). Read from the Metricool connector getBrandSettings on 2026-10-16; credentials live in claude.ai Connectors.",
+  "brandId": "7458423",
+  "label": "FitFlex Africa",
+  "timezone": "Africa/Dar_es_Salaam",
+  "networks": {
+    "instagram": {
+      "handle": "fitflex.africa",
+      "connected": true
+    },
+    "facebook": {
+      "pageId": "1368079233061761",
+      "pageUrl": "https://www.facebook.com/profile.php?id=61595529537350",
+      "connected": true
+    }
+  },
+  "firstConnection": "2026-10-16",
+  "publishingNetworks": [
+    "instagram",
+    "facebook"
+  ],
+  "decision": "Owner 2026-10-16: Instagram and Facebook are the first publishing networks; TikTok and LinkedIn not yet.",
+  "mediaBase": "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate",
+  "mediaBaseNote": "Public raw URLs of slide PNGs on the release-candidate ref (merged 2026-10-17). publish.js refuses media that does not answer 200. Move to main once the parent repo is promoted."
+}
