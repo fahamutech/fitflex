@@ -1,0 +1,69 @@
+{
+  "record": "2026-10-W1-C-members",
+  "style": "v2",
+  "format": "ig_feed_portrait",
+  "prefix": "C",
+  "handle": "@fitflex.africa",
+  "eyebrow": "Find & train",
+  "slides": [
+    {
+      "kind": "photo",
+      "h": "One gym. One contract. <em>Stuck.</em>",
+      "s": "There’s a better way.",
+      "ph": 6388369,
+      "pos": "50% 40%"
+    },
+    {
+      "kind": "list",
+      "h": "Pay once with <em>mobile money.</em>",
+      "rows": [
+        {
+          "t": "M-Pesa",
+          "tag": "accepted",
+          "tone": "volt"
+        },
+        {
+          "t": "Airtel Money",
+          "tag": "accepted",
+          "tone": "volt"
+        },
+        {
+          "t": "Tigo Pesa",
+          "tag": "accepted",
+          "tone": "volt"
+        }
+      ],
+      "note": "One payment · many gyms"
+    },
+    {
+      "kind": "photo",
+      "h": "Train at gyms across the <em>network.</em>",
+      "ph": 29526371,
+      "pos": "50% 50%"
+    },
+    {
+      "kind": "type",
+      "h": "Every gym is visited and <em>scored</em> before it joins."
+    },
+    {
+      "kind": "photo",
+      "h": "Travelling for work? Your pass <em>goes with you.</em>",
+      "ph": 4173217,
+      "pos": "50% 30%"
+    },
+    {
+      "kind": "type",
+      "h": "Check in with a QR that <em>refreshes</em> every minute."
+    },
+    {
+      "kind": "type",
+      "h": "Book a trainer and buy gear in <em>one app.</em>"
+    },
+    {
+      "kind": "cta",
+      "h": "Want in?",
+      "kw": "PASS",
+      "cta": "We’ll DM you the link."
+    }
+  ]
+}

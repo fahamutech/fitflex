@@ -1,0 +1,57 @@
+{
+  "title": "reserve 2026-10-W3-A-owners instagram 2026-10-19T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-19T06:43:20Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:e466c670d8b5acc5a19559899315d337",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-10-19T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W3-A-owners/slides/R01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W3-A-owners/slides/R02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W3-A-owners/slides/R03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W3-A-owners/slides/R04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W3-A-owners/slides/R05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W3-A-owners/slides/R06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W3-A-owners/slides/R07.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W3-A-owners/slides/R08.png"
+      ],
+      "mediaAltText": [
+        "Gym owner in a dark gym; headline: Your members don't quit loudly",
+        "Empty gym floor; text: They just stop coming. No message, no goodbye",
+        "Gym reception; text: By renewal day they've already left",
+        "Two men in a gym with a dashboard card showing bars and ticks; text: See who's slipping before they're gone. Active, slipping, at risk, lapsed",
+        "Person using a phone in a gym; text: Message them from the app. In-app, push or SMS",
+        "Group training; text: Give them a reason to come back, a challenge",
+        "Gym at night; text: Community keeps members, data tells you when to act",
+        "Smiling woman with a speech bubble: Comment PARTNER. We'll DM you how FitFlex works"
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-10-19T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Wanachama hawaachi kwa kelele. Wanaacha kuja tu.\nFitFlex inakuonyesha nani anapungua kabla hajaondoka, na unaweza kumtumia ujumbe moja kwa moja kutoka kwenye app.\nUna gym Dar es Salaam? Andika PARTNER kwenye comments tukutumie maelezo.\n\nMembers don't quit loudly. They just stop coming. FitFlex shows you who's slipping and lets you message them before they're gone. Own a gym in Dar? Comment PARTNER.\n\n#gymowner #memberretention #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate"
+}

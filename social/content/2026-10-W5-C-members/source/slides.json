@@ -1,0 +1,76 @@
+{
+  "record": "2026-10-W5-C-members",
+  "style": "v3",
+  "format": "ig_feed_portrait",
+  "prefix": "G",
+  "handle": "@fitflex.africa",
+  "eyebrow": "Tafuta · find & train",
+  "slides": [
+    {
+      "kind": "cover",
+      "ground": "dark",
+      "h": "Hatua zako zinahesabika hata <em>nje ya gym.</em>",
+      "en": "Your steps count, even outside the gym.",
+      "s": "Activity · Android"
+    },
+    {
+      "kind": "rule",
+      "num": "01",
+      "h": "Simu yako inahesabu <em>hatua.</em>",
+      "en": "Turn on step counting and your Android phone’s own counter does the work. Off until you say yes.",
+      "chip": "Hatua · steps"
+    },
+    {
+      "kind": "rule",
+      "num": "02",
+      "h": "Rekodi mbio zako kwa <em>GPS.</em>",
+      "en": "Record a run with GPS: distance, time and route, saved to your activity.",
+      "chip": "Mbio · runs"
+    },
+    {
+      "kind": "rule",
+      "num": "03",
+      "h": "Weka lengo. Linda <em>streak.</em>",
+      "en": "Set a weekly goal and keep the streak going. The app shows the gap before you lose it.",
+      "chip": "Malengo · goals"
+    },
+    {
+      "kind": "rule",
+      "num": "04",
+      "h": "Jiunge na <em>changamoto.</em>",
+      "en": "Join a challenge with friends or your gym. You’re on the leaderboard unless you say no.",
+      "chip": "Changamoto · challenges"
+    },
+    {
+      "kind": "check",
+      "h": "Wewe unaamua nani <em>anaona.</em>",
+      "en": "You decide who sees what.",
+      "rows": [
+        {
+          "t": "Marafiki",
+          "en": "friends"
+        },
+        {
+          "t": "Vikundi",
+          "en": "groups"
+        },
+        {
+          "t": "Umma",
+          "en": "public is on by default; switch it off any time"
+        },
+        {
+          "t": "Hatua za kila siku",
+          "en": "daily steps go to your groups only"
+        }
+      ]
+    },
+    {
+      "kind": "cta",
+      "h": "Unataka kuanza? Andika",
+      "en": "Want to start? Comment",
+      "kw": "PASS",
+      "cta": "Tutakutumia DM link ya app. Android kwa sasa.",
+      "ctaEn": "We’ll DM you the app link. Android for now."
+    }
+  ]
+}

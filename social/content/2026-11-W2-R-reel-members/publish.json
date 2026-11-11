@@ -1,0 +1,26 @@
+{
+  "record": "2026-11-W2-R-reel-members",
+  "version_note": "Template v2 text-motion reel. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "reel/P.mp4"
+  ],
+  "altText": [
+    "Cover slide with a photo (a dumbbell rack); text: Kabla hujalipa gym yoyote Dar… Before you pay any gym in Dar…",
+    "Text slide; text: 1. Je, imekaguliwa? Has anyone inspected it? FitFlex visits every gym before it joins.",
+    "Text slide; text: 2. Wanachama wanasema nini? What do members say? Reviews are in the app.",
+    "Text slide; text: 3. Unaweza kulipa kwa simu? Can you pay by phone? M-Pesa or Airtel Money, in the app.",
+    "Text slide; text: Pass moja. Gym nyingi zilizokaguliwa. App moja. One pass. Many vetted gyms. One app.",
+    "Call to action; text: Unataka kuanza? Andika; Keyword PASS. Tutakutumia DM link ya app. · We’ll DM you the app link."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "REEL",
+      "text": "Before you pay any gym in Dar, check three things: has anyone inspected it, what do members say, and can you pay by phone. FitFlex does all three. Comment PASS for the app link.\n\nKabla hujalipa gym yoyote Dar, angalia mambo matatu: imekaguliwa? wanachama wanasema nini? unaweza kulipa kwa simu? FitFlex inafanya yote matatu.\nAndika PASS tukutumie link ya app.\n\n#fitness #mazoezi #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PASS",
+  "reply_path": "the owner replies to PASS comments and DMs himself: one line on the Pass plus the Android app link; the DM must not promise iOS",
+  "planned_slot": "2026-11-14T17:00:00+03:00"
+}

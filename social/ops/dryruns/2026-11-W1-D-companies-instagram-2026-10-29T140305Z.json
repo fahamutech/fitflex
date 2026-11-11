@@ -1,0 +1,55 @@
+{
+  "title": "reserve 2026-11-W1-D-companies instagram 2026-11-08T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-29T14:03:05Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:88da5d82d5353d0f7098abef56c182ce",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-11-08T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-D-companies/slides/L01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-D-companies/slides/L02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-D-companies/slides/L03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-D-companies/slides/L04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-D-companies/slides/L05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-D-companies/slides/L06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W1-D-companies/slides/L07.png"
+      ],
+      "mediaAltText": [
+        "Cover slide with a photo (a man at an office desk); Swahili: Wellness ya ofisi si t-shirt ya marathon.; English: Office wellness isn’t a marathon T-shirt.",
+        "FAIDA · BENEFIT slide; Swahili: Lipia gym ya wafanyakazi, si ahadi.; English: Sponsor gym access for your team: a pass they can use any day, paid by the company.",
+        "CHAGUA · CHOOSE slide; Swahili: Wewe unaamua nani na kiasi gani.; English: Pick who is eligible, by department or by name, and how much the company covers.",
+        "TIMU · TEAM slide; Swahili: Changamoto na vikundi vya kampuni.; English: Company challenges and groups, with a leaderboard the team can see.",
+        "RIPOTI · INSIGHTS slide; Swahili: Unaona matumizi, si tu bili.; English: Insights show participation, the gyms and trainers used, and billing by month.",
+        "Checklist slide; Swahili: Ni nini kinaingia kwenye mpango.; English: What a programme can include.; Rows: Gym access (the sponsored pass), Vipindi vya trainer (trainer sessions), Changamoto za kampuni (company challenges and groups), Ripoti za kila mwezi (monthly insights and a CSV download)",
+        "Call to action; Swahili: Una timu Dar es Salaam? Andika; English: Run a team in Dar es Salaam? Comment; Keyword TEAM. Tutakutumia DM jinsi programu ya kampuni inavyofanya kazi. We’ll DM you how company programmes work."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-11-08T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Wellness ya ofisi si t-shirt ya marathon. Lipia gym ya wafanyakazi wako kupitia FitFlex, chagua nani na kiasi gani, weka changamoto za kampuni, na uone matumizi kila mwezi.\nUna timu Dar es Salaam? Andika TEAM.\n\nOffice wellness isn’t a marathon T-shirt. Sponsor gym access for your team through FitFlex, choose who and how much, run company challenges, and see participation every month. Run a team in Dar? Comment TEAM.\n\n#corporatewellness #hr #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026"
+}

@@ -1,0 +1,57 @@
+{
+  "title": "reserve 2026-10-W1-B-trainers instagram 2026-10-23T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-19T20:19:32Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:eb98ba66d15d6f424eb72648c7a0feda",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-10-23T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-B-trainers/slides/B01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-B-trainers/slides/B02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-B-trainers/slides/B03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-B-trainers/slides/B04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-B-trainers/slides/B05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-B-trainers/slides/B06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-B-trainers/slides/B07.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate/social/content/2026-10-W1-B-trainers/slides/B08.png"
+      ],
+      "mediaAltText": [
+        "Gym trainer in a modern fitness centre; headline: Why clients don't book you, it's not your price",
+        "Man in a black jacket; text: They can't tell what you actually help with",
+        "Woman in a gym pose with chat bubbles; text: Personal trainer says nothing, say who you help and why",
+        "Woman using battle ropes with photo, stars and review cards; text: They can't see proof",
+        "Man using a phone; text: Booking and paying is hard, cash, DMs and later kill sales",
+        "Man with a medicine ball and three ticked cards: clear offer, visible proof, easy booking",
+        "Young man with a phone showing a profile mock; text: A profile, bookings and payment in one app",
+        "Man in a blue tank top with a speech bubble: Comment TRAINER. We'll DM you how to join"
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-10-23T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Kwa nini wateja hawakubuki? Mara nyingi si bei.\nSema unamsaidia nani na tatizo gani, onyesha ushahidi, na wape njia rahisi ya kulipa.\nMkufunzi? Andika TRAINER kwenye comments tukutumie jinsi ya kujiunga.\n\nSay who you help, show proof, make paying easy. Trainers, comment TRAINER to learn how to join.\n\n#personaltrainer #fitnesscoach #tanzania #daressalaam #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/release-candidate"
+}

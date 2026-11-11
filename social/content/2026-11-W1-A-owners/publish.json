@@ -1,0 +1,38 @@
+{
+  "record": "2026-11-W1-A-owners",
+  "version_note": "Template editorial. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/H01.png",
+    "slides/H02.png",
+    "slides/H03.png",
+    "slides/H04.png",
+    "slides/H05.png",
+    "slides/H06.png",
+    "slides/H07.png"
+  ],
+  "altText": [
+    "Cover slide with a photo (a gym floor with treadmills and lockers); Swahili: Mlango wa gym yako unajua nani ameingia?; English: Does your door know who walked in today?",
+    "QR · CHECK-IN slide; Swahili: QR inayobadilika kila dakika.; English: Members check in with a QR code that refreshes every minute. Nothing to forge, nothing to write down.",
+    "LEO · TODAY slide; Swahili: Unaona nani ameingia leo.; English: Check-ins today, on your phone, as they happen.",
+    "WIKI · WEEKLY slide; Swahili: Ziara kwa wiki, si kwa kumbukumbu.; English: Visit trends by week, instead of a feeling about how busy it was.",
+    "HATARI · AT RISK slide; Swahili: Anayepungua anaonekana mapema.; English: Who is slipping, who is at risk, who has stopped coming, before renewal day.",
+    "Checklist slide; Swahili: Daftari dhidi ya FitFlex.; English: The notebook versus FitFlex.; Rows: Nani ameingia leo (who came today), Nani amepungua (who is slipping), Ujumbe kwa wanaopungua (a message to them, sent from the app), Wageni kutoka mtandaoni (visitors from the FitFlex network)",
+    "Call to action; Swahili: Una gym Dar es Salaam? Andika; English: Own a gym in Dar es Salaam? Comment; Keyword PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. We’ll DM you how FitFlex works."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Mlango wa gym yako unajua nani ameingia leo? Kwa FitFlex wanachama wanaingia kwa QR inayobadilika kila dakika, na wewe unaona ziara za leo, mwenendo wa wiki, na nani anapungua kabla ya siku ya renewal.\nUna gym Dar es Salaam? Andika PARTNER.\n\nDoes your door know who walked in today? With FitFlex, members check in with a QR that refreshes every minute, and you see today’s visits, weekly trends and who is slipping before renewal day. Own a gym in Dar? Comment PARTNER.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Mlango wa gym yako unajua nani ameingia leo? Kwa FitFlex wanachama wanaingia kwa QR inayobadilika kila dakika, na wewe unaona ziara za leo, mwenendo wa wiki, na nani anapungua kabla ya siku ya renewal.\nUna gym Dar es Salaam? Andika PARTNER.\n\nDoes your door know who walked in today? With FitFlex, members check in with a QR that refreshes every minute, and you see today’s visits, weekly trends and who is slipping before renewal day. Own a gym in Dar? Comment PARTNER.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PARTNER",
+  "reply_path": "the owner replies to PARTNER comments and DMs himself while traffic is low (decided 2026-10-20): a short note on how FitFlex works for gyms plus the partner sign-up path",
+  "planned_slot": "2026-11-02T17:00:00+03:00"
+}

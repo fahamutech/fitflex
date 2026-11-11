@@ -1,0 +1,55 @@
+{
+  "title": "reserve 2026-11-W4-A-owners instagram 2026-11-24T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-29T14:03:51Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:04c4d796174fb8d2ba74c1fc24141e6b",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-11-24T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W4-A-owners/slides/W01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W4-A-owners/slides/W02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W4-A-owners/slides/W03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W4-A-owners/slides/W04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W4-A-owners/slides/W05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W4-A-owners/slides/W06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W4-A-owners/slides/W07.png"
+      ],
+      "mediaAltText": [
+        "Cover slide with a photo (gym equipment); Swahili: Wanachama wa gym nyingine wanakuona.; English: Your gym is visible to other gyms’ members.",
+        "MTANDAO · NETWORK slide; Swahili: Pass moja, gym nyingi.; English: A FitFlex member holds one pass for many gyms. When they travel or move, they pick from the network.",
+        "RAMANI · MAP slide; Swahili: Wanakutafuta kwa eneo.; English: They find you by area, tier and what members said. Not by who shouted loudest on Instagram.",
+        "BEJI · BADGE slide; Swahili: Beji ya uthibitisho inajenga imani.; English: A verified badge after KYC, a profile-complete badge for the rest. Members see it before they come.",
+        "ZIARA · VISITS slide; Swahili: Kila ziara ya mgeni inahesabiwa.; English: Every visitor checks in by QR; every visit is on your dashboard.",
+        "Checklist slide; Swahili: Jinsi gym inavyojiunga.; English: How a gym joins.; Rows: Omba (apply in the app), Ukaguzi (an inspection visit and a score), Uthibitisho (KYC documents, given once), Fungua mlango (your gym goes live on the map)",
+        "Call to action; Swahili: Una gym Dar es Salaam? Andika; English: Own a gym in Dar es Salaam? Comment; Keyword PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. We’ll DM you how FitFlex works."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-11-24T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Your gym is visible to other gyms’ members. A FitFlex member holds one pass for many gyms and finds you by area, tier and reviews. A verified badge builds trust, and every visit is counted by QR. Own a gym in Dar? Comment PARTNER.\n\nGym yako inaonekana kwa wanachama wa gym nyingine. Mwanachama wa FitFlex ana pass moja kwa gym nyingi, na anakutafuta kwa eneo, daraja na reviews. Beji ya uthibitisho inajenga imani, na kila ziara inahesabiwa kwa QR.\nUna gym Dar es Salaam? Andika PARTNER.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026"
+}

@@ -1,0 +1,66 @@
+{
+  "record": "2026-10-W1-B-trainers",
+  "format": "ig_feed_portrait",
+  "prefix": "B",
+  "handle": "@fitflex.africa",
+  "slides": [
+    {
+      "t": "navy",
+      "h": "Why clients don’t book you.",
+      "s": "(It’s not your <em>price.</em>)",
+      "ph": 36510744,
+      "pos": "50% 40%"
+    },
+    {
+      "t": "cream",
+      "h": "1. They can’t tell what you actually <em>help</em> with.",
+      "ph": 5878659,
+      "pos": "50% 25%"
+    },
+    {
+      "t": "green",
+      "h": "“Personal trainer” says nothing.",
+      "s": "Say <b>who you help</b> and why.",
+      "ph": 33832204,
+      "pos": "50% 30%",
+      "ov": "chat"
+    },
+    {
+      "t": "navy",
+      "h": "2. They can’t see <em>proof.</em>",
+      "s": "Photos, clips and honest reviews build trust.",
+      "ph": 6388387,
+      "pos": "50% 50%",
+      "ov": "proof"
+    },
+    {
+      "t": "orange",
+      "h": "3. Booking and paying is <em>hard.</em>",
+      "s": "Cash, DMs and “later” kill sales.",
+      "ph": 7432872,
+      "pos": "50% 40%"
+    },
+    {
+      "t": "cream",
+      "h": "Fix all <em>three.</em>",
+      "ph": 4720565,
+      "pos": "50% 50%",
+      "ov": "three"
+    },
+    {
+      "t": "navy",
+      "h": "A profile, bookings and payment — <em>in one app.</em>",
+      "ph": 5592605,
+      "pos": "50% 30%",
+      "ov": "profile"
+    },
+    {
+      "t": "green",
+      "h": "Are you a <em>trainer?</em>",
+      "kw": "TRAINER",
+      "cta": "We’ll DM you how to join.",
+      "ph": 4720518,
+      "pos": "50% 35%"
+    }
+  ]
+}

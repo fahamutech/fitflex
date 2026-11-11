@@ -1,0 +1,79 @@
+{
+  "record": "2026-11-W2-A-owners",
+  "style": "v2",
+  "format": "ig_feed_portrait",
+  "prefix": "M",
+  "handle": "@fitflex.africa",
+  "eyebrow": "Run a better gym · Gym bora",
+  "slides": [
+    {
+      "kind": "photo",
+      "ph": 5647574,
+      "pos": "50% 20%",
+      "h": "Reviews za gym yako tayari <em>zinaandikwa.</em>",
+      "s": "Si mahali unapoweza kuzisoma.",
+      "en": "Your gym’s reviews are already being written. Just not where you can read them."
+    },
+    {
+      "kind": "type",
+      "h": "WhatsApp. Bajaji. Chumba cha <em>kubadilishia.</em>",
+      "s": "WhatsApp groups, taxi rides, the changing room. That’s where members review you today."
+    },
+    {
+      "kind": "type",
+      "h": "Kwa FitFlex, waliofanya mazoezi kwako wanatoa review <em>ndani ya app.</em>",
+      "s": "On FitFlex, members who trained at your gym review it in the app."
+    },
+    {
+      "kind": "list",
+      "h": "Mwanachama anaona hivi kabla ya <em>kukuchagua.</em>",
+      "rows": [
+        {
+          "t": "Verified badge and tier",
+          "tag": "FitFlex",
+          "tone": "volt"
+        },
+        {
+          "t": "Member reviews",
+          "tag": "in app",
+          "tone": "volt"
+        },
+        {
+          "t": "Check-in by QR",
+          "tag": "60 s",
+          "tone": "muted"
+        },
+        {
+          "t": "Pay by mobile money",
+          "tag": "M-Pesa · Airtel",
+          "tone": "muted"
+        }
+      ],
+      "note": "The gym page · FitFlex app"
+    },
+    {
+      "kind": "photo",
+      "ph": 8612491,
+      "pos": "50% 20%",
+      "h": "Anayefuata anasoma reviews zako <em>kabla</em> ya kukuchagua.",
+      "s": "The next member reads your reviews before choosing you.",
+      "en": "A bad one tells you what to fix this week."
+    },
+    {
+      "kind": "type",
+      "h": "Unasoma kila review kama <em>mmiliki.</em> Unajulishwa inapoingia.",
+      "s": "You read every review as the owner. You’re told when one lands."
+    },
+    {
+      "kind": "type",
+      "h": "Sifa ilikuwa <em>bahati.</em> Sasa ni data.",
+      "s": "Reputation used to be luck. Now it’s data."
+    },
+    {
+      "kind": "cta",
+      "h": "Una gym Dar es Salaam? Andika",
+      "kw": "PARTNER",
+      "cta": "Tutakutumia DM jinsi FitFlex inavyofanya kazi. · We’ll DM you how FitFlex works."
+    }
+  ]
+}

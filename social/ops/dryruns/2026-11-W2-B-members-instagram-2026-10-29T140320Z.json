@@ -1,0 +1,57 @@
+{
+  "title": "reserve 2026-11-W2-B-members instagram 2026-11-12T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-29T14:03:20Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:a58e56785cbe32be8a97a885539892bc",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-11-12T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W2-B-members/slides/N01.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W2-B-members/slides/N02.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W2-B-members/slides/N03.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W2-B-members/slides/N04.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W2-B-members/slides/N05.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W2-B-members/slides/N06.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W2-B-members/slides/N07.png",
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W2-B-members/slides/N08.png"
+      ],
+      "mediaAltText": [
+        "Cover slide with a photo (a man lifting a medicine ball); text: Umeikua gym yako? Panda daraja la pass. Tarehe zako zibaki. Outgrown your gym? Upgrade the pass. Keep your dates.",
+        "Text slide; text: Madaraja kuanzia gym za kila siku hadi executive. Tiers from everyday gyms to executive. Pick the doors you want to walk through.",
+        "Text slide; text: Unaona gym zote za daraja kabla ya kulipa. See every active gym in a tier before you pay.",
+        "Checklist slide; text: Kupanda daraja bila kuanza upya maana yake:; Rows: Pay only the difference (once), Same end date (kept), Visits used carry over (kept), New gyms open up (after approval)",
+        "Photo slide with a photo (gym equipment); text: App ile ile. QR ile ile. Milango zaidi. Same app. Same QR. More doors.",
+        "Text slide; text: Lipa kwa M-Pesa au Airtel Money, ndani ya app. Pay by M-Pesa or Airtel Money, in the app.",
+        "Text slide; text: Hakuna mkataba mpya. Hakuna kuanza upya. No new contract. No starting over.",
+        "Call to action; text: Unataka kuanza? Andika; Keyword PASS. Tutakutumia DM link ya app. · We’ll DM you the app link."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-11-12T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "Outgrown your gym? Upgrade your FitFlex pass in place: pay only the difference, keep your end date, keep the visits you used, and new gyms open up once the payment is approved. Comment PASS for the app link.\n\nUmeikua gym yako? Panda daraja la pass yako ya FitFlex bila kuanza upya: lipa tofauti tu, tarehe ya mwisho inabaki, ziara ulizotumia zinabaki, na gym mpya zinafunguka malipo yakithibitishwa.\nAndika PASS tukutumie link ya app.\n\n#fitness #mazoezi #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "POST",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026"
+}

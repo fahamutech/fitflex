@@ -1,0 +1,40 @@
+{
+  "record": "2026-11-W2-B-members",
+  "version_note": "Template v2. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/N01.png",
+    "slides/N02.png",
+    "slides/N03.png",
+    "slides/N04.png",
+    "slides/N05.png",
+    "slides/N06.png",
+    "slides/N07.png",
+    "slides/N08.png"
+  ],
+  "altText": [
+    "Cover slide with a photo (a man lifting a medicine ball); text: Umeikua gym yako? Panda daraja la pass. Tarehe zako zibaki. Outgrown your gym? Upgrade the pass. Keep your dates.",
+    "Text slide; text: Madaraja kuanzia gym za kila siku hadi executive. Tiers from everyday gyms to executive. Pick the doors you want to walk through.",
+    "Text slide; text: Unaona gym zote za daraja kabla ya kulipa. See every active gym in a tier before you pay.",
+    "Checklist slide; text: Kupanda daraja bila kuanza upya maana yake:; Rows: Pay only the difference (once), Same end date (kept), Visits used carry over (kept), New gyms open up (after approval)",
+    "Photo slide with a photo (gym equipment); text: App ile ile. QR ile ile. Milango zaidi. Same app. Same QR. More doors.",
+    "Text slide; text: Lipa kwa M-Pesa au Airtel Money, ndani ya app. Pay by M-Pesa or Airtel Money, in the app.",
+    "Text slide; text: Hakuna mkataba mpya. Hakuna kuanza upya. No new contract. No starting over.",
+    "Call to action; text: Unataka kuanza? Andika; Keyword PASS. Tutakutumia DM link ya app. · We’ll DM you the app link."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Outgrown your gym? Upgrade your FitFlex pass in place: pay only the difference, keep your end date, keep the visits you used, and new gyms open up once the payment is approved. Comment PASS for the app link.\n\nUmeikua gym yako? Panda daraja la pass yako ya FitFlex bila kuanza upya: lipa tofauti tu, tarehe ya mwisho inabaki, ziara ulizotumia zinabaki, na gym mpya zinafunguka malipo yakithibitishwa.\nAndika PASS tukutumie link ya app.\n\n#fitness #mazoezi #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Outgrown your gym? Upgrade your FitFlex pass in place: pay only the difference, keep your end date, keep the visits you used, and new gyms open up once the payment is approved. Comment PASS for the app link.\n\nUmeikua gym yako? Panda daraja la pass yako ya FitFlex bila kuanza upya: lipa tofauti tu, tarehe ya mwisho inabaki, ziara ulizotumia zinabaki, na gym mpya zinafunguka malipo yakithibitishwa.\nAndika PASS tukutumie link ya app.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PASS",
+  "reply_path": "the owner replies to PASS comments and DMs himself: one line on the Pass plus the Android app link; the DM must not promise iOS",
+  "planned_slot": "2026-11-12T17:00:00+03:00"
+}

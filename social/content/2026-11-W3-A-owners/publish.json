@@ -1,0 +1,40 @@
+{
+  "record": "2026-11-W3-A-owners",
+  "version_note": "Template v3. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/Q01.png",
+    "slides/Q02.png",
+    "slides/Q03.png",
+    "slides/Q04.png",
+    "slides/Q05.png",
+    "slides/Q06.png",
+    "slides/Q07.png",
+    "slides/Q08.png"
+  ],
+  "altText": [
+    "Cover slide on Volt green; Swahili: Ujumbe mmoja unamrudisha mwanachama. Ukitumwa kwa wakati.; English: One message brings a member back. If it’s sent in time.",
+    "Point 01 slide; Swahili: Anayepungua anaonekana kabla hajaondoka.; English: Slipping, at risk, stopped coming: the app sorts your members before renewal day.",
+    "Point 02 slide; Swahili: Tuma kutoka kwenye app, si namba yako binafsi.; English: Send from the app, not your personal number: in-app, push or SMS, to your own members.",
+    "Point 03 slide; Swahili: Chagua nani apate ujumbe.; English: Pick the audience: everyone, the ones slipping, or the ones due to renew this week.",
+    "Point 04 slide; Swahili: Vikumbusho vya renewal vinajituma.; English: Renewal reminders go out on their own: three days before, one day before, on the day.",
+    "Point 05 slide; Swahili: Unaona nani alifungua na nani alirudi.; English: Results show deliveries, opens, taps and who renewed after the message.",
+    "Checklist slide; Swahili: Kabla ya kutuma, jiulize.; English: Before you send, ask.; Rows: Ujumbe mmoja, kazi moja (one message, one job), Jina lake, si “Ndugu” (their name, not “Dear member”), Lugha anayoisoma (Swahili or English, whichever they read), Si zaidi ya mbili kwa wiki (two marketing sends a week at most)",
+    "Call to action; Swahili: Una gym Dar es Salaam? Andika; English: Own a gym in Dar es Salaam? Comment; Keyword PARTNER. Tutakutumia DM jinsi FitFlex inavyofanya kazi. We’ll DM you how FitFlex works."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Ujumbe mmoja unamrudisha mwanachama, ukitumwa kwa wakati. FitFlex inakuonyesha nani anapungua, unatuma kutoka kwenye app (si namba yako binafsi), vikumbusho vya renewal vinajituma, na unaona nani alifungua na nani alirudi.\nUna gym Dar es Salaam? Andika PARTNER.\n\nOne message brings a member back, if it’s sent in time. FitFlex shows you who is slipping, you send from the app (not your personal number), renewal reminders go out on their own, and you see who opened and who came back. Own a gym in Dar? Comment PARTNER.\n\n#gymowner #fitnessbusiness #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Ujumbe mmoja unamrudisha mwanachama, ukitumwa kwa wakati. FitFlex inakuonyesha nani anapungua, unatuma kutoka kwenye app (si namba yako binafsi), vikumbusho vya renewal vinajituma, na unaona nani alifungua na nani alirudi.\nUna gym Dar es Salaam? Andika PARTNER.\n\nOne message brings a member back, if it’s sent in time. FitFlex shows you who is slipping, you send from the app (not your personal number), renewal reminders go out on their own, and you see who opened and who came back. Own a gym in Dar? Comment PARTNER.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PARTNER",
+  "reply_path": "the owner replies to PARTNER comments and DMs himself while traffic is low (decided 2026-10-20): a short note on how FitFlex works for gyms plus the partner sign-up path",
+  "planned_slot": "2026-11-16T17:00:00+03:00"
+}

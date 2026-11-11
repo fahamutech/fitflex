@@ -1,0 +1,38 @@
+{
+  "record": "2026-11-W4-B-vendors",
+  "version_note": "Template editorial. Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/X01.png",
+    "slides/X02.png",
+    "slides/X03.png",
+    "slides/X04.png",
+    "slides/X05.png",
+    "slides/X06.png",
+    "slides/X07.png"
+  ],
+  "altText": [
+    "Cover slide with a photo (a row of coloured dumbbells); Swahili: Unauza vifaa vya gym? Wateja wako tayari wako app moja.; English: Sell gym gear or supplements? Your buyers are already in one app.",
+    "DUKA · LISTING slide; Swahili: Orodhesha bidhaa zako na picha.; English: List products with photos and categories, from your phone.",
+    "WATEJA · BUYERS slide; Swahili: Wanunuzi ni wanachama wanaofanya mazoezi.; English: Buyers are FitFlex members already training. Your shop sits next to their pass.",
+    "ODA · ORDERS slide; Swahili: Oda zinakuja kwenye app, si kwenye DM.; English: Orders arrive in the app with a notification. Confirm, prepare, deliver.",
+    "UTHIBITISHO · VERIFICATION slide; Swahili: Wauzaji waliothibitishwa tu.; English: Vendors are verified before they sell. Members see who is verified before they buy.",
+    "Checklist slide; Swahili: Unahitaji nini kuanza.; English: What you need to start.; Rows: Jina la biashara (business name and details), Kitambulisho (ID or registration, given once), Bidhaa (your first products with photos), Simu (a phone; the app does the rest)",
+    "Call to action; Swahili: Unauza? Andika; English: Do you sell? Comment; Keyword VENDOR. Tutakutumia DM jinsi ya kujiunga kama muuzaji. We’ll DM you how to join as a vendor."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Sell gym gear or supplements in Dar? Your buyers are already in one app. List products with photos, get orders in the app, and sell as a verified vendor to members who are already training. Comment VENDOR to learn how to join.\n\nUnauza vifaa vya gym au virutubisho Dar? Wateja wako tayari wako kwenye app moja. Orodhesha bidhaa na picha, pokea oda ndani ya app, na uuze kama muuzaji aliyethibitishwa kwa wanachama wanaofanya mazoezi.\nAndika VENDOR tukutumie jinsi ya kujiunga.\n\n#fitnessbusiness #gymgear #daressalaam #tanzania #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "Sell gym gear or supplements in Dar? Your buyers are already in one app. List products with photos, get orders in the app, and sell as a verified vendor to members who are already training. Comment VENDOR to learn how to join.\n\nUnauza vifaa vya gym au virutubisho Dar? Wateja wako tayari wako kwenye app moja. Orodhesha bidhaa na picha, pokea oda ndani ya app, na uuze kama muuzaji aliyethibitishwa kwa wanachama wanaofanya mazoezi.\nAndika VENDOR tukutumie jinsi ya kujiunga.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "VENDOR",
+  "reply_path": "the owner replies to VENDOR comments and DMs himself: one line on the marketplace plus the vendor sign-up path in the app; no commission figure in the DM",
+  "planned_slot": "2026-11-26T17:00:00+03:00"
+}

@@ -1,0 +1,43 @@
+{
+  "title": "reserve 2026-11-W4-R-reel-trainers instagram 2026-11-28T17:00 Africa/Dar_es_Salaam",
+  "at": "2026-10-29T14:17:04Z",
+  "ok": true,
+  "problems": [],
+  "content_hash": "sha256:db2ca611ea6e5f81a7b0ea80e65fa847",
+  "payload": {
+    "blogId": "7458423",
+    "date": "2026-11-28T17:00:00+03:00",
+    "info": {
+      "autoPublish": true,
+      "draft": false,
+      "descendants": [],
+      "firstCommentText": "",
+      "hasNotReadNotes": false,
+      "media": [
+        "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026/social/content/2026-11-W4-R-reel-trainers/reel/Y.mp4"
+      ],
+      "mediaAltText": [
+        "Cover slide with a photo (a man chalking his hands in a gym); Swahili: Mteja anaona nini kwenye profile yako?; English: What a client sees on your profile. Point 01 slide; Swahili: Unamsaidia nani.; English: Who you help, in one line. Point 02 slide; Swahili: Picha za vipindi halisi.; English: Photos of real sessions. Point 03 slide; Swahili: Reviews kutoka kwa waliobook.; English: Reviews from clients who booked. Point 04 slide; Swahili: Nafasi zako na bei yako.; English: Your open slots and your price. Point 05 slide; Swahili: Kitufe kimoja: Book.; English: One button: book and pay by mobile money. Call to action; Swahili: Wewe ni trainer? Andika; English: Are you a trainer? Comment; Keyword TRAINER. Tutakutumia DM jinsi ya kujiunga. We’ll DM you how to join."
+      ],
+      "providers": [
+        {
+          "network": "instagram"
+        }
+      ],
+      "publicationDate": {
+        "dateTime": "2026-11-28T17:00:00",
+        "timezone": "Africa/Dar_es_Salaam"
+      },
+      "shortener": false,
+      "smartLinkData": {
+        "ids": []
+      },
+      "text": "What a client sees on your FitFlex profile: who you help, photos of real sessions, reviews from clients who booked, your open slots and your price, and one button to book and pay. Trainers, comment TRAINER.\n\nMteja anaona nini kwenye profile yako ya FitFlex: unamsaidia nani, picha za vipindi halisi, reviews kutoka kwa waliobook, nafasi zako na bei yako, na kitufe kimoja cha kubook na kulipa.\nWewe ni trainer? Andika TRAINER.\n\n#personaltrainer #fitnesscoach #daressalaam #tanzania #fitflexafrica",
+      "instagramData": {
+        "type": "REEL",
+        "isAiGenerated": false
+      }
+    }
+  },
+  "base": "https://raw.githubusercontent.com/fahamutech/fitflex/feat/social-november-2026"
+}

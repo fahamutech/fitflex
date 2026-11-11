@@ -1,0 +1,77 @@
+{
+  "record": "2026-11-W5-A-members",
+  "style": "v2",
+  "format": "ig_feed_portrait",
+  "prefix": "Z",
+  "handle": "@fitflex.africa",
+  "eyebrow": "Tafuta · find & train",
+  "slides": [
+    {
+      "kind": "photo",
+      "ph": 6388387,
+      "pos": "50% 40%",
+      "h": "Desemba inakuja. Weka <em>lengo,</em> si azimio.",
+      "s": "December is coming. Set a goal, not a resolution."
+    },
+    {
+      "kind": "type",
+      "h": "Azimio ni la Januari 1. Lengo lina <em>wiki hii.</em>",
+      "s": "A resolution belongs to 1 January. A goal has this week in it."
+    },
+    {
+      "kind": "type",
+      "h": "Ziara mbili kwa wiki. Mbio moja <em>Jumamosi.</em>",
+      "s": "Two visits a week. One run on Saturday. Write it in the app."
+    },
+    {
+      "kind": "list",
+      "h": "App inakuonyesha <em>pengo</em> kabla hujalikosa.",
+      "rows": [
+        {
+          "t": "Lengo la wiki",
+          "tag": "goal",
+          "tone": "volt"
+        },
+        {
+          "t": "Streak",
+          "tag": "keep it",
+          "tone": "volt"
+        },
+        {
+          "t": "Hatua za simu",
+          "tag": "Android",
+          "tone": "muted"
+        },
+        {
+          "t": "Mbio kwa GPS",
+          "tag": "Android",
+          "tone": "muted"
+        }
+      ],
+      "note": "Activity tab · FitFlex app"
+    },
+    {
+      "kind": "photo",
+      "ph": 33832204,
+      "pos": "50% 20%",
+      "h": "Pass moja. Gym <em>zote</em> za daraja lako.",
+      "s": "One pass. Every gym in your tier. Nowhere to hide from your own goal."
+    },
+    {
+      "kind": "type",
+      "h": "Shiriki na marafiki, au <em>ficha.</em> Wewe unaamua.",
+      "s": "Share with friends, or keep it private. Your call."
+    },
+    {
+      "kind": "type",
+      "h": "Anza Novemba 30, si <em>Januari 1.</em>",
+      "s": "Start on 30 November, not 1 January."
+    },
+    {
+      "kind": "cta",
+      "h": "Tayari? Andika",
+      "kw": "PASS",
+      "cta": "Tutakutumia DM link ya app. · We’ll DM you the app link."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "record": "2026-10-W1-C-members",
+  "version_note": "Template v2 (2026-10-20). Exact text and media as they will be sent. Any change here changes the content hash and needs a fresh owner approval.",
+  "media": [
+    "slides/C01.png",
+    "slides/C02.png",
+    "slides/C03.png",
+    "slides/C04.png",
+    "slides/C05.png",
+    "slides/C06.png",
+    "slides/C07.png",
+    "slides/C08.png"
+  ],
+  "altText": [
+    "Photo slide; text: One gym. One contract. Stuck.",
+    "Text slide; Pay once with mobile money. Rows: M-Pesa, Airtel Money, Tigo Pesa",
+    "Photo slide; text: Train at gyms across the network.",
+    "Text slide; Every gym is visited and scored before it joins.",
+    "Photo slide; text: Travelling for work? Your pass goes with you.",
+    "Text slide; Check in with a QR that refreshes every minute.",
+    "Text slide; Book a trainer and buy gear in one app.",
+    "Text slide; Want in? Comment PASS. We'll DM you the link."
+  ],
+  "aiGenerated": false,
+  "variants": {
+    "instagram": {
+      "type": "POST",
+      "text": "Gym moja, mkataba mmoja, umekwama? Kuna njia bora. 💪\nLipa mara moja kwa M-Pesa, Airtel Money au Tigo Pesa, na ufanye mazoezi kwenye gym tofauti zilizokaguliwa na FitFlex.\nAndika PASS kwenye comments tukutumie link.\n\nOne mobile-money pass, many vetted gyms. Comment PASS for the link.\n\n#gym #daressalaam #mpesa #fitness #fitflexafrica",
+      "firstComment": ""
+    },
+    "facebook": {
+      "type": "POST",
+      "text": "One mobile-money pass, many vetted gyms. Comment PASS for the link.\n\nGym moja, mkataba mmoja, umekwama? Kuna njia bora. 💪\nLipa mara moja kwa M-Pesa, Airtel Money au Tigo Pesa, na ufanye mazoezi kwenye gym tofauti zilizokaguliwa na FitFlex.\nAndika PASS kwenye comments tukutumie link.",
+      "firstComment": ""
+    }
+  },
+  "keyword": "PASS",
+  "reply_path": "the owner replies to keyword comments and DMs himself while traffic is low (2026-10-20); comment-to-DM module later"
+}
