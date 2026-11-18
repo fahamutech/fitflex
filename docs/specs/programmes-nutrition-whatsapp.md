@@ -2,11 +2,22 @@
 
 | | |
 |---|---|
-| Version | 0.2 (repo export, 17 Nov 2026) |
+| Version | 0.3 (owner decisions, 17 Nov 2026) |
 | Owner | Nassor (FitFlex Africa) |
-| Status | Draft: open questions in §9 need owner answers before Phase 1 build |
+| Status | Draft: owner decisions D-01..D-08 recorded in §9; the remaining open questions there block only the slices they affect |
 | Branch model | Work PRs into `release-candidate`; never `main` (see `CLAUDE.md`) |
 | Working copy | Claude Doc "FitFlex Africa — Feature Spec" (v0.1). This file supersedes it. |
+
+**Changes from v0.2**
+- Owner answered the six §9 questions plus KPI targets and pilot size (17 Nov 2026); see the decision log in §9.
+- Inbound WhatsApp runs on the **Meta Cloud API**.
+- A programme can be sold on its own, included with chosen higher Passes, or both (FR-P07, FR-P11).
+- Trainer programme income has its **own revenue split**, separate from the session commission (FR-P08).
+- Gym/partner referral bonuses are paid **separately** from visit-based payouts (FR-W09).
+- Seasonal programmes are a general tag, not Ramadhan only (FR-P12).
+- **The bot handles everything**: no human handoff inbox (FR-W06 and US-13 removed).
+- KPI targets lowered and made admin-editable in the portal (§3, FR-K01).
+- The pilot isn't fixed to a set number of gyms (§8).
 
 **Changes from v0.1**
 - Payments use **AzamPay** (already built in `fitflex-functions`, dormant behind `AZAMPAY_PAYMENTS`), not an undecided aggregator.
@@ -45,7 +56,7 @@ Read this before planning. Most of the Programmes foundation already exists.
 | Progress | `shared/member-progress.mjs` streaks (EAT, UTC+3); workouts feed Activity, goals, challenges | A gym day of a programme is completed by a check-in |
 | Check-in | `check-in-rules.mjs`, `check-in-service`, QR tokens (`qr-token` specs); gym QR promoted 16 Nov | Hook: check-in marks today's programme gym day done |
 | Payments | AzamPay MNO checkout `POST /me/payments/:id/mobile-money`, webhook `/webhooks/azampay`; `AZAMPAY_TRAINER_PRODUCTS` | Programme purchase as a new payable product; the bot reuses the same endpoint |
-| WhatsApp | `whatsapp-service.mjs` (Africa's Talking direct sends: OTP, bookings); `whatsapp-channel-service.mjs` (Communications, consent, kill switch, **no provider yet**) | An **inbound** conversational flow; needs the provider decision in §9 |
+| WhatsApp | `whatsapp-service.mjs` (Africa's Talking direct sends: OTP, bookings); `whatsapp-channel-service.mjs` (Communications, consent, kill switch, **no provider yet**) | An **inbound** conversational flow on the Meta Cloud API (D-01) |
 | Onboarding | `onboarding-service.mjs`, fitness goals in `training-taxonomy.mjs` | Same goals and IDs reused in the bot; no second list |
 | Nutrition | Nothing (activity has `calories` burned only) | Everything in §5 |
 
@@ -65,23 +76,32 @@ The main goal is more app-active days per paying member, up to at least 22 days 
 - Video streaming infrastructure (short clips on a CDN)
 - Kenya and Uganda food data (Tanzania first)
 
-**KPIs.** Baselines come from current analytics; targets are 90 days after launch and are starting assumptions for the owner to confirm.
+**KPIs.** Baselines come from current analytics. Targets are 90 days after launch. The owner asked for conservative targets (D-07), so v0.2's figures are kept for reference and the lower v0.3 figures are the starting targets. Both are ASSUMPTIONS, not facts. Admins can change the targets in the portal (FR-K01). The 400-food goal is a data-coverage goal, not a performance target, so it is unchanged.
 
-| KPI | Baseline | Target |
+| KPI | Baseline | v0.2 draft | Target (v0.3, ASSUMPTION) |
+|---|---|---|---|
+| App-active days per paying member, per month | To measure | +30% | +20% |
+| Active Pass holders who start a programme | 0 | 35% | 25% |
+| Programme day-7 completion rate | n/a | 50% | 40% |
+| Members logging a meal at least 3 days a week | 0 | 20% | 12% |
+| Foods in the Tanzanian database | 0 | 400 | 400 |
+| WhatsApp conversations that reach a Pass offer | n/a | 40% | 30% |
+| WhatsApp offer-to-paid conversion | n/a | 8% | 5% |
+| Cost per paid acquisition, WhatsApp vs paid social | To measure | 40% lower | 25% lower |
+| Month-2 Pass renewal rate | To measure | +10 points | +5 points |
+
+| ID | Requirement | Priority |
 |---|---|---|
-| App-active days per paying member, per month | To measure | +30% |
-| Active Pass holders who start a programme | 0 | 35% |
-| Programme day-7 completion rate | n/a | 50% |
-| Members logging a meal at least 3 days a week | 0 | 20% |
-| Foods in the Tanzanian database | 0 | 400 |
-| WhatsApp conversations that reach a Pass offer | n/a | 40% |
-| WhatsApp offer-to-paid conversion | n/a | 8% |
-| Cost per paid acquisition, WhatsApp vs paid social | To measure | 40% lower |
-| Month-2 Pass renewal rate | To measure | +10 points |
+| FR-K01 | Admin portal screen to view and edit each KPI target; changes are logged with who and when | Med |
 
 ## 4. Feature 1: FitFlex Programmes
 
-A programme is a published, fixed-length plan, such as "21-day home strength" or "30-day Ramadhan-friendly cardio". It is followed one day at a time and mixes gym days, home days and rest days. FitFlex publishes free starter programmes. Verified trainers publish paid ones and earn a revenue share.
+A programme is a published, fixed-length plan, such as "21-day home strength" or a seasonal plan like "30-day Ramadhan-friendly cardio". It is followed one day at a time and mixes gym days, home days and rest days. FitFlex publishes free starter programmes. Verified trainers publish paid ones and earn their own revenue share (D-03).
+
+**How a paid programme is sold (D-02).** Each paid programme can be:
+- sold on its own to any member, through AzamPay;
+- included free with the Pass tiers the author or admin chooses (for example `pro` and `premium` from `PASS_TIERS`); or
+- both: included for the chosen tiers and sold to everyone else.
 
 **Implementation note.** A programme day is an existing `Workout` definition. Enrolling creates the member's plan and workouts the same way `training-plan-service` does, so Activity, streaks, goals and challenges need nothing new.
 
@@ -102,10 +122,12 @@ A programme is a published, fixed-length plan, such as "21-day home strength" or
 | FR-P04 | Streaks, weekly ring and an end-of-programme summary, built on `member-progress` | High |
 | FR-P05 | Exercise library extended with clip URLs; body-map grouping in the app | High |
 | FR-P06 | Trainer portal: build a programme from library exercises and saved workouts, set price, submit for review | Med |
-| FR-P07 | Paid programmes bought through AzamPay, or included with higher Passes (see §9) | Med |
-| FR-P08 | Trainer revenue share per completed enrolment, paid with trainer settlements | Med |
+| FR-P07 | Paid programmes can be bought individually through AzamPay, included with chosen Pass tiers, or both (D-02) | Med |
+| FR-P08 | Trainer revenue share per paid enrolment, paid with trainer settlements. The programme split is its own setting, separate from `TRAINER_COMMISSION_PCT` for sessions (D-03); the value is still open (§9) | Med |
 | FR-P09 | Day content downloadable for offline use | High |
 | FR-P10 | Push and WhatsApp reminders at the member's chosen time, through Communications consent rules | Med |
+| FR-P11 | Per programme: price, a "sold individually" switch and the list of Pass tiers it is included with; a member with an included tier enrols without paying | Med |
+| FR-P12 | Optional season tag on a programme (any season or event, e.g. Ramadhan, new year), with an optional availability window; the catalogue can filter by it. No seasonal programme is required at launch (D-05) | Low |
 | NFR-P01 | A day's clips under 15 MB in total; low-data mode serves stills | High |
 
 **User stories**
@@ -173,7 +195,7 @@ flowchart LR
   D --> E{Pays via AzamPay?}
   E -- yes --> F[Account + app link]
   E -- no --> G[One reminder in 24h]
-  G --> H[Agent follows up]
+  G --> H[Bot resumes where they stopped]
 ```
 
 Entry points: click-to-WhatsApp ads, the gym QR codes already in production, and member referral links.
@@ -183,7 +205,7 @@ Entry points: click-to-WhatsApp ads, the gym QR codes already in production, and
 - Swahili by default; switch to English at any time
 - BMI is a neutral starting point, never a judgement; the recommendation follows the stated goal and budget
 - Existing members can use the same number: "Pass yangu" (visits left), "Gym karibu" (nearby gyms), today's workout, renewal
-- "wakala" or "agent" hands over to a human in a shared inbox
+- The bot handles every conversation; there is no human handoff (D-06). When it doesn't understand, it shows the menu of options again instead of a dead end
 
 **Requirements**
 
@@ -194,9 +216,10 @@ Entry points: click-to-WhatsApp ads, the gym QR codes already in production, and
 | FR-W03 | Account created or matched against the WhatsApp number using existing identity rules; app deep link signs the member in | High |
 | FR-W04 | Entry source tagging (ad, gym QR, referral) for attribution | High |
 | FR-W05 | One reminder after 24h for unpaid prospects, through Communications consent and template rules | Med |
-| FR-W06 | Human handoff to a shared inbox with the transcript | Med |
+| FR-W06 | ~~Human handoff to a shared inbox~~ Removed (D-06): the bot handles everything. Unrecognised input re-shows the current step's options; failed or pending payments can be retried from the chat | Med |
 | FR-W07 | Member self-service: visits left, nearby gyms, today's workout, renewal (early renewal starts when the current Pass ends) | Med |
 | FR-W08 | Referral code per member; reward after the referred member's first paid Pass | Low |
+| FR-W09 | A gym or partner whose QR or link brings in a paying member earns a referral bonus, recorded and paid **separately** from visit-based payouts and gym settlements (D-04); amount and rules still open (§9) | Low |
 | NFR-W01 | Opt-in recorded before any outbound template; STOP opts out (same as existing WhatsApp rules) | High |
 | NFR-W02 | Scripted replies under 2 seconds | Med |
 
@@ -207,7 +230,7 @@ Entry points: click-to-WhatsApp ads, the gym QR codes already in production, and
 | US-10 | As a prospect who saw an ad, I want to join and pay in WhatsApp without installing anything first. | Must |
 | US-11 | As a gym owner, I want my front-desk QR code to bring members in and credit my gym. | Should |
 | US-12 | As a member, I want to check visits left by sending one word. | Should |
-| US-13 | As an ops agent, I want stuck chats handed to me with the full history. | Should |
+| ~~US-13~~ | Removed (D-06): no human handoff. | n/a |
 
 **Acceptance (US-10).** Given a new number messages the FitFlex line, when the prospect completes the flow and approves the AzamPay prompt, then a member account and an active Pass exist, and the chat shows a confirmation and an app link that signs them in.
 
@@ -228,7 +251,7 @@ Everything runs on the current stack: `fitflex-functions` (Node, Postgres via kn
 
 | Table | Holds | Links |
 |---|---|---|
-| `programmes` | Title (en/sw), goal, level, length, environment, price, author, status draft/review/live | trainers |
+| `programmes` | Title (en/sw), goal, level, length, environment, price, sold-individually switch, included Pass tiers, revenue split, season tag and window, author, status draft/review/live | trainers |
 | `programme_days` | Day number, type gym/home/rest, workout definition | programmes |
 | `programme_enrolments` | Member, programme, start date, current day, status | users, programmes, training plan |
 | `programme_day_completions` | Day, source check-in/workout, timestamp | enrolments, check-ins, workouts |
@@ -238,16 +261,18 @@ Everything runs on the current stack: `fitflex-functions` (Node, Postgres via kn
 | `food_reports` | Flagged value, note, review status | foods |
 | `wa_conversations` | Number, flow step, answers, source tag, opt-in time | users (after sign-up) |
 | `referrals` | Code, referrer, referred, reward status | users |
+| `partner_referral_bonuses` | Gym/partner, referred member, source, amount, status, payout reference (kept apart from gym settlements) | gyms, users, wa_conversations |
+| `kpi_targets` | KPI key, target value, changed by, changed at | users (admin) |
 
 Exercise clip URLs are a field on existing exercise entries, not a new table.
 
 **Backend pieces**
-- Inbound WhatsApp webhook and flow state machine, behind the Communications module's consent and kill switch
+- Inbound WhatsApp webhook on the Meta Cloud API (D-01) and flow state machine, behind the Communications module's consent and kill switch; Meta credentials in the backend secret store
 - Check-in hook: an accepted (non-voided) check-in completes today's programme gym day
 - Meal parser: LLM call server-side, TFD lookup, global API fallback
 - Programme purchase as an AzamPay payable product, approved through the same `adminPaymentService.decide` path
 
-Changes to call out in PRs (per `CONTRIBUTING.md`): the check-in hook touches check-in logic; paid programmes touch pricing and trainer settlements.
+Changes to call out in PRs (per `CONTRIBUTING.md`): the check-in hook touches check-in logic; paid programmes touch pricing and trainer settlements; partner referral bonuses touch payouts.
 
 ## 8. Phasing and rollout
 
@@ -259,7 +284,7 @@ The WhatsApp funnel and free programmes ship first, because they bring in member
 | 2. Daily habit | 7–12 | Text meal logging (sw/en); TFD 400 verified; offline days and reminders; member self-service in chat | Food values verified; day-7 completion on track |
 | 3. Trainer economy | 13–18 | Trainer portal paid programmes; revenue share in settlements; photo logging; meal suggestions; referrals | Owner decision |
 
-Each phase follows the standard flow in `CLAUDE.md`: planner → design-agent → builders → reviewers → RC → UAT → owner go-ahead. Phase 1 can pilot at 3–5 partner gyms in Dar es Salaam.
+Each phase follows the standard flow in `CLAUDE.md`: planner → design-agent → builders → reviewers → RC → UAT → owner go-ahead. Phase 1 can pilot with any number of partner gyms (D-08); which gyms, and how many, are not confirmed yet.
 
 ## 9. Risks, dependencies and open questions
 
@@ -273,18 +298,30 @@ Each phase follows the standard flow in `CLAUDE.md`: planner → design-agent �
 | R-06 | Mobile data cost | Wi-Fi download, low-data stills, short clips |
 | R-07 | AI meal parsing mislabels local dishes | Member always confirms; corrections kept for improvement |
 | R-08 | A sandbox AzamPay payment activates a real Pass | Keep `AZAMPAY_SANDBOX_SETTLES` on test servers only |
+| R-09 | With no human handoff (D-06), a prospect the bot can't help drops out | Menu always reachable, payment retry in chat, failed-flow reporting in the admin portal so gaps are fixed in the script |
 
 **Dependencies**
-- DEP-01: Inbound WhatsApp provider chosen and number verified with approved templates
+- DEP-01: Meta Cloud API (the "FitFlex AF" app) set up for inbound messages; number verified with approved templates
 - DEP-02: AzamPay merchant KYC approved and production hosts issued; sandbox until then
 - DEP-03: Contracted nutritionist and East African food composition data
 - DEP-04: Partner trainers to film exercise clips
 - DEP-05: Check-in events exposed to the programme hook
 
-**Open questions for the owner**
-- [ ] Inbound WhatsApp provider: Meta Cloud API (the "FitFlex AF" app) or Africa's Talking (already used for direct sends)?
-- [ ] Are paid programmes included with Pro and higher Passes, sold separately, or both?
-- [ ] Trainer revenue share (e.g. 60/40 or 70/30)?
-- [ ] Do gyms whose QR brings in a member get a bonus on top of visit-based payouts?
-- [ ] Do Phase 1 programmes need Ramadhan or other seasonal variants at launch?
-- [ ] Who runs the human-handoff inbox, and during what hours?
+**Owner decisions (17 Nov 2026)**
+
+| ID | Question | Decision |
+|---|---|---|
+| D-01 | Inbound WhatsApp provider | Meta Cloud API |
+| D-02 | Paid programmes: included with higher Passes, sold separately, or both? | Both: any programme can be sold individually and/or included with higher Passes |
+| D-03 | Trainer revenue share | Programmes have their own split, separate from the session commission |
+| D-04 | Bonus for gyms whose QR brings in a member | Yes; bonuses to gyms/partners are paid separately from visit-based payouts |
+| D-05 | Seasonal variants at launch | Any seasonal programme is allowed (not only Ramadhan); none is required at launch |
+| D-06 | Human-handoff inbox | None: the bot handles everything |
+| D-07 | KPI targets | Keep, but more conservative, and editable in the portal |
+| D-08 | Pilot gyms | Any number of gyms; not confirmed yet |
+
+**Still open**
+- [ ] Programme revenue split: the actual percentage, and whether it is one platform-wide value or set per trainer/programme (D-03)
+- [ ] Partner referral bonus: amount (fixed or percentage), whether it is one-off or recurring, and who qualifies (gyms only or all partners) (D-04)
+- [ ] Conservative KPI targets in §3 are a proposal; confirm them or edit them in the portal once FR-K01 ships (D-07)
+- [ ] Which gyms take part in the pilot (D-08)
