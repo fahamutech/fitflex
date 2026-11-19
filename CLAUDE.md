@@ -64,14 +64,15 @@ planner → design-agent
   → docs-and-tracker-sync
 ```
 
-## Active spec: Programmes, Nutrition, WhatsApp onboarding
-- Spec: `docs/specs/programmes-nutrition-whatsapp.md`. Read §2 (fit with the current codebase) before planning any slice.
-- Build one phase at a time (§8). Phase 1 only until the owner says Gate 1 has passed.
+## Active specs: WhatsApp onboarding; Programmes & Nutrition
+- Two independent specs: `docs/specs/whatsapp-onboarding.md` (flag `WHATSAPP_ONBOARDING_BOT`) and `docs/specs/programmes-nutrition.md` (flags `PROGRAMMES_CATALOGUE`, `PROGRAMMES_PAID`, `NUTRITION_LOGGING`). Read each one's §2 (fit with the current codebase) before planning a slice.
+- Each spec has its own phases (W1–W3, P1–P3). Build one phase at a time and stop at each gate until the owner says it has passed. Which spec goes first is the owner's call.
+- Neither spec may require the other: the bot's programme suggestion and "today's workout" only show when `PROGRAMMES_CATALOGUE` is on; WhatsApp programme reminders wait for the Communications WhatsApp channel to have a provider.
 - Extend, don't duplicate: programmes reuse `services/training/*`, `exercise-library.mjs`, `workout-service` and `member-progress`; payments reuse the AzamPay flow; outbound WhatsApp goes through the Communications module's consent and kill switch.
-- New flags ship dormant: `PROGRAMMES_CATALOGUE`, `PROGRAMMES_PAID`, `NUTRITION_LOGGING`, `WHATSAPP_ONBOARDING_BOT`.
+- All four flags ship dormant.
 - Visit caps and Pass prices come from `fitflex-functions/src/shared/constants.mjs`, never from the spec or copy.
 - Nutrition health inputs are sensitive personal data (PDPA 2022): consent, encryption, and coverage by account deletion/anonymisation are part of done.
-- Open questions in spec §9 block the slices they affect; ask the owner rather than guessing.
+- Open items in each spec's §8 block the slices they affect; ask the owner rather than guessing.
 
 ## Running RC locally
 Check out `release-candidate` in a worktree per repo. Backend: `npm test` with the CI DB env, then start against a local DB. Portal: `npm run dev`. Mobile: `flutter run -d chrome` (or `-d web-server --web-port 7357` for UAT) with `--dart-define=API_BASE=<url>` and a `.env` containing `API_BASE`. Flags stay dormant unless the PR says otherwise.
