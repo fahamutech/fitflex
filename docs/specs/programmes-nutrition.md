@@ -74,7 +74,7 @@ The main goal is more app-active days per paying member, up to at least 22 days 
 
 | ID | Requirement | Priority |
 |---|---|---|
-| FR-K01 | Admin portal screen to view and edit each KPI target (including the WhatsApp funnel KPIs); changes are logged with who and when. Built by whichever of the two specs ships first | Med |
+| FR-K01 | Admin portal screen to view and edit each KPI target (including the WhatsApp funnel KPIs); changes are logged with who and when. Built as part of this spec, which ships first (D-09) | Med |
 
 ## 4. Feature 1: FitFlex Programmes
 
@@ -202,7 +202,7 @@ Changes to call out in PRs (per `CONTRIBUTING.md`): the check-in hook touches ch
 
 ## 7. Phasing and rollout
 
-Free programmes come first. Nutrition follows once TFD is verified. Paid trainer programmes come last. This spec can run in parallel with, before or after the WhatsApp onboarding bot; the order is the owner's call (§8).
+Free programmes come first. Nutrition follows once TFD is verified. Paid trainer programmes come last. This spec ships first; the WhatsApp onboarding bot follows (D-09).
 
 | Phase | Weeks | Scope | Gate to next phase |
 |---|---|---|---|
@@ -230,7 +230,7 @@ Each phase follows the standard flow in `CLAUDE.md`: planner → design-agent �
 - DEP-04: Partner trainers to film exercise clips
 - DEP-05: Check-in events exposed to the programme hook
 
-**Owner decisions (17 Nov 2026)** that apply to this spec. IDs match the combined v0.3 spec.
+**Owner decisions (17 Nov 2026, D-09 on 20 Nov 2026)** that apply to this spec. D-01..D-08 match the combined v0.3 spec.
 
 | ID | Question | Decision |
 |---|---|---|
@@ -239,9 +239,9 @@ Each phase follows the standard flow in `CLAUDE.md`: planner → design-agent �
 | D-05 | Seasonal variants at launch | Any seasonal programme is allowed (not only Ramadhan); none is required at launch |
 | D-07 | KPI targets | Keep, but more conservative, and editable in the portal |
 | D-08 | Pilot gyms | Any number of gyms; not confirmed yet |
+| D-09 | Order of the two specs (20 Nov 2026) | Programmes & Nutrition first; the WhatsApp onboarding bot follows |
 
 **Still open**
 - [ ] Programme revenue split: the actual percentage, and whether it is one platform-wide value or set per trainer/programme (D-03)
 - [ ] Conservative KPI targets in §3 are a proposal; confirm them or edit them in the portal once FR-K01 ships (D-07)
 - [ ] Which gyms take part in the pilot (D-08)
-- [ ] Order of the two specs: bot first, Programmes & Nutrition first, or both in parallel
