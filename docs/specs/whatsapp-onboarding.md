@@ -43,7 +43,7 @@ The ideas come from a review of [Open-Code-Crafters/FitFlex](https://github.com/
 **Non-goals for v1**
 - Human handoff or a shared agent inbox (D-06)
 
-**KPIs.** Baselines come from current analytics. Targets are 90 days after launch and are ASSUMPTIONS, set conservatively at the owner's request (D-07). Admins can change them in the portal (FR-K01, specified in [`programmes-nutrition.md`](programmes-nutrition.md) §3; whichever spec ships first builds it).
+**KPIs.** Baselines come from current analytics. Targets are 90 days after launch and are ASSUMPTIONS, set conservatively at the owner's request (D-07). Admins can change them in the portal (FR-K01, specified in [`programmes-nutrition.md`](programmes-nutrition.md) §3; built with Programmes & Nutrition, which ships first per D-09).
 
 | KPI | Baseline | v0.2 draft | Target (v0.3, ASSUMPTION) |
 |---|---|---|---|
@@ -126,7 +126,7 @@ Changes to call out in PRs (per `CONTRIBUTING.md`): partner referral bonuses tou
 
 ## 6. Phasing and rollout
 
-This spec ships on its own. It can run in parallel with, before or after Programmes & Nutrition; the order is the owner's call (§8).
+This spec ships on its own, after Programmes & Nutrition (D-09). It still must not require Programmes to be on.
 
 | Phase | Weeks | Scope | Gate to next phase |
 |---|---|---|---|
@@ -150,7 +150,7 @@ Each phase follows the standard flow in `CLAUDE.md`: planner → design-agent �
 
 ## 8. Decisions and open questions
 
-**Owner decisions (17 Nov 2026)** that apply to this spec. IDs match the combined v0.3 spec.
+**Owner decisions (17 Nov 2026, D-09 on 20 Nov 2026)** that apply to this spec. D-01..D-08 match the combined v0.3 spec.
 
 | ID | Question | Decision |
 |---|---|---|
@@ -159,9 +159,9 @@ Each phase follows the standard flow in `CLAUDE.md`: planner → design-agent �
 | D-06 | Human-handoff inbox | None: the bot handles everything |
 | D-07 | KPI targets | Keep, but more conservative, and editable in the portal |
 | D-08 | Pilot gyms | Any number of gyms; not confirmed yet |
+| D-09 | Order of the two specs (20 Nov 2026) | Programmes & Nutrition first; the WhatsApp onboarding bot follows |
 
 **Still open**
 - [ ] Partner referral bonus: amount (fixed or percentage), whether it is one-off or recurring, and who qualifies (gyms only or all partners) (D-04)
 - [ ] Conservative KPI targets in §3 are a proposal; confirm them or edit them in the portal once FR-K01 ships (D-07)
 - [ ] Which gyms take part in the pilot (D-08)
-- [ ] Order of the two specs: bot first, Programmes & Nutrition first, or both in parallel

@@ -66,7 +66,7 @@ planner → design-agent
 
 ## Active specs: WhatsApp onboarding; Programmes & Nutrition
 - Two independent specs: `docs/specs/whatsapp-onboarding.md` (flag `WHATSAPP_ONBOARDING_BOT`) and `docs/specs/programmes-nutrition.md` (flags `PROGRAMMES_CATALOGUE`, `PROGRAMMES_PAID`, `NUTRITION_LOGGING`). Read each one's §2 (fit with the current codebase) before planning a slice.
-- Each spec has its own phases (W1–W3, P1–P3). Build one phase at a time and stop at each gate until the owner says it has passed. Which spec goes first is the owner's call.
+- Each spec has its own phases (W1–W3, P1–P3). Build one phase at a time and stop at each gate until the owner says it has passed. Programmes & Nutrition goes first, then the bot (owner decision D-09, 20 Nov 2026).
 - Neither spec may require the other: the bot's programme suggestion and "today's workout" only show when `PROGRAMMES_CATALOGUE` is on; WhatsApp programme reminders wait for the Communications WhatsApp channel to have a provider.
 - Extend, don't duplicate: programmes reuse `services/training/*`, `exercise-library.mjs`, `workout-service` and `member-progress`; payments reuse the AzamPay flow; outbound WhatsApp goes through the Communications module's consent and kill switch.
 - All four flags ship dormant.
